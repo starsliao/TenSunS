@@ -20,7 +20,7 @@
 - 新增分页功能
 
 ```
-docker-compose pull && docker-compose up -d
+更新：docker-compose pull && docker-compose up -d
 ```
 
 ## 截图
@@ -132,16 +132,15 @@ vi prometheus.yml
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9115
-
-  - job_name: 'tcp_connect'
+  - job_name: 'http_4xx'
     metrics_path: /probe
     params:
-      module: [tcp_connect]
+      module: [http_4xx]
     consul_sd_configs:
       - server: 'x.x.x.x:8500'
         token: 'xxx-xxx-xxx-xxx'
         services: ['blackbox_exporter']
-        tags: ['tcp_connect']
+        tags: ['http_4xx']
     relabel_configs:
       - source_labels: ["__meta_consul_service_metadata_instance"]
         target_label: __param_target
@@ -157,16 +156,15 @@ vi prometheus.yml
         target_label: instance
       - target_label: __address__
         replacement: 127.0.0.1:9115
-
-  - job_name: 'http_4xx'
+  - job_name: 'tcp_connect'
     metrics_path: /probe
     params:
-      module: [http_4xx]
+      module: [tcp_connect]
     consul_sd_configs:
       - server: 'x.x.x.x:8500'
         token: 'xxx-xxx-xxx-xxx'
         services: ['blackbox_exporter']
-        tags: ['http_4xx']
+        tags: ['tcp_connect']
     relabel_configs:
       - source_labels: ["__meta_consul_service_metadata_instance"]
         target_label: __param_target
