@@ -138,7 +138,7 @@
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-import { getAllList, getAllInfo, addService, updateService, delService } from '@/api/consul'
+import { getAllList, getAllInfo, addService, updateService, delService } from '@/api/blackbox'
 export default {
   name: 'ComplexTable',
   components: { Pagination },

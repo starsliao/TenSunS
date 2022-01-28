@@ -46,7 +46,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/consul/index',
+    redirect: '/blackbox/index',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -56,12 +56,12 @@ export const constantRoutes = [
   },
 
   {
-    path: '/consul',
+    path: '/blackbox',
     component: Layout,
     children: [{
       path: 'index',
       name: '站点监控',
-      component: () => import('@/views/consul/index'),
+      component: () => import('@/views/blackbox/index'),
       meta: { title: '站点监控', icon: 'tree' }
     }]
   },
