@@ -158,40 +158,15 @@ vi prometheus.yml
       - target_label: __address__
         replacement: 127.0.0.1:9115
 
-  - job_name: 'http200igssl'
+  - job_name: 'http_4xx'
     metrics_path: /probe
     params:
-      module: [http200igssl]
+      module: [http_4xx]
     consul_sd_configs:
       - server: 'x.x.x.x:8500'
         token: 'xxx-xxx-xxx-xxx'
         services: ['blackbox_exporter']
-        tags: ['http200igssl']
-    relabel_configs:
-      - source_labels: ["__meta_consul_service_metadata_instance"]
-        target_label: __param_target
-      - source_labels: ["__meta_consul_service_metadata_company"]
-        target_label: company
-      - source_labels: ["__meta_consul_service_metadata_env"]
-        target_label: env
-      - source_labels: ["__meta_consul_service_metadata_name"]
-        target_label: name
-      - source_labels: ["__meta_consul_service_metadata_project"]
-        target_label: project
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: 127.0.0.1:9115
-
-  - job_name: 'http4xx'
-    metrics_path: /probe
-    params:
-      module: [http4xx]
-    consul_sd_configs:
-      - server: 'x.x.x.x:8500'
-        token: 'xxx-xxx-xxx-xxx'
-        services: ['blackbox_exporter']
-        tags: ['http4xx']
+        tags: ['http_4xx']
     relabel_configs:
       - source_labels: ["__meta_consul_service_metadata_instance"]
         target_label: __param_target
@@ -211,7 +186,7 @@ vi prometheus.yml
 
 ### 配置Blackbox_Exporter
 
-主要是默认的配置，增加了4xx和忽略ssl的模块。
+参考配置，2XX，4XX，TCP类型的监控，注意模块名称不要与已有的重复。
 
 ```
 cat blackbox.yml
@@ -225,36 +200,21 @@ modules:
       - 302
       - 303
       no_follow_redirects: true
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false
 
-  http_post_2xx:
-    prober: http
-    http:
-      method: POST
-  tcp_connect:
-    prober: tcp
-  ssh_banner:
-    prober: tcp
-    tcp:
-      query_response:
-      - expect: "^SSH-2.0-"
-      - send: "SSH-2.0-blackbox-ssh-check"
-  icmp:
-    prober: icmp
-
-  http4xx:
+  http_4xx:
     prober: http
     http:
       valid_status_codes:
       - 401
       - 403
       - 404
-  http200igssl:
-    prober: http
-    http:
-      valid_status_codes:
-      - 200
-      tls_config:
-        insecure_skip_verify: true
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false
+
+  tcp_connect:
+    prober: tcp
 ```
 
 ### 批量导入脚本
@@ -279,5 +239,5 @@ modules:
 所有代码都在里面，抛砖引玉。
 
 ```
-https://github.com/starsliao/Prometheus/tree/master/Blackbox-Manager
+https://github.com/starsliao/ConsulManager
 ```
