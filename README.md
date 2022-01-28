@@ -89,11 +89,9 @@ consul acl bootstrap
 
 - 所有数据存在一个名为`blackbox_exporter`的Services项中，每个监控目标为一个子Service。
 - 每个Service包含一个Tag，会自动配置为meta中的`module`的值，作为Prometheus自动发现的tags。
-- 每个Service使用Meta的kv保存监控目标的明细：
-- `module`，`company`，`project`，`env`，`name`，`instance`
-- 分别表示：监控类型，公司部门，项目，环境，名称，实例url
+- 每个Service使用Meta的kv保存监控目标的明细：`module`，`company`，`project`，`env`，`name`，`instance`，分别表示：监控类型，公司部门，项目，环境，名称，实例url
 - **前5个字段合并即为consul的serviceID，作为唯一监控项标识**
-- **建议监控类型字段：`meta内的module`与`blackbox-exporter配置中的module`及`Prometheus的job名`使用同一命名。**
+- **建议监控类型字段：`meta内的module`，`blackbox-exporter配置中的module`及`Prometheus的job名`使用同一命名。**
 ---
 
 ### 配置Prometheus
