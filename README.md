@@ -105,6 +105,8 @@ consul acl bootstrap
 - 根据每个指标的标签来对监控目标分类，分组，方便管理维护。
 
 **以下配置的同一个job的`job_name`，`module`，`tags`使用同一命名，关联job，module与consul的tags**
+
+参考配置：2XX，4XX，TCP类型的监控，注意JOB名称不要与已有的重复。
 ```yaml
 vi prometheus.yml
 #####blackbox_exporter#####
@@ -184,7 +186,7 @@ vi prometheus.yml
 
 ### 配置Blackbox_Exporter
 
-参考配置，2XX，4XX，TCP类型的监控，注意模块名称不要与已有的重复。
+参考配置：2XX，4XX，TCP类型的监控，注意模块名称不要与已有的重复。
 
 ```
 cat blackbox.yml
