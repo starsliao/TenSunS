@@ -26,7 +26,7 @@
         批量删除
       </el-button>
       <div style="float: right;">
-        名称实例筛选：<el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例" clearable style="width:250px" class="filter-item" @input="inameFilter(iname)" />
+        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:230px" class="filter-item" @input="inameFilter(iname)" />
       </div>
     </div>
 
