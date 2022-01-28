@@ -5,7 +5,7 @@
 
 - 基于Prometheus + Blackbox_Exporter实现站点与接口监控。
 - 基于Consul实现Prometheus监控目标的自动发现。
-- Blackbox Manager：基于Flask + Vue实现的Web管理平台维护监控目标。
+- Blackbox Manager：基于Flask + Vue实现的Web管理平台，可以简单的对监控目标增删改查，便于分类维护管理。
 - 实现了一个脚本可批量导入监控目标到Consul。
 - 更新了一个Blackbox Exporter的Grafana展示看板。
 
@@ -83,23 +83,18 @@ consul acl bootstrap
 - **consul的`token`，consul的`URL`(/v1要保留)，登录Blackbox Manager的`密码`**
 
 - 启动：`docker-compose up -d`
-- 登录：`http://{IP}:1026`
----
+- 访问：`http://{IP}:1026`
 
 ##### Consul字段设计说明
 
-- 所有数据存在一个Services项中，每个监控目标为一个Service。
-- 每个Service存一个Tag：目标属于Prometheus的JOB名称。
-- 每个Service使用Meta的kv存监控目标的明细：
+- 所有数据存在一个名为`blackbox_exporter`的Services项中，每个监控目标为一个子Service。
+- 每个Service包含一个Tag，会自动配置为meta中的`module`的值，作为Prometheus自动发现的tags。
+- 每个Service使用Meta的kv保存监控目标的明细：
 - `module`，`company`，`project`，`env`，`name`，`instance`
-- 分别表示：JOB名称，公司部门，项目，环境，名称，实例url
+- 分别表示：监控类型，公司部门，项目，环境，名称，实例url
 - **前5个字段合并即为consul的serviceID，作为唯一监控项标识**
-
-##### Web使用说明
-
-- 通过Web界面来对Consul数据增删改查，从而实现对监控目标的管理。
-- Web界面可以方便对监控目标分组、分类，方便查询维护。
-
+- **建议监控类型字段：`meta内的module`与`blackbox-exporter配置中的module`及`Prometheus的job名`使用同一命名。
+---
 
 ### 配置Prometheus
 
@@ -107,9 +102,9 @@ consul acl bootstrap
 
 - 根据Consul每个service的tag来把监控目标关联到Prometheus的JOB。
 - 把Consul每个service的Meta的KV关联到Prometheus每个指标的标签。
-- 根据标签来对监控目标分类，分组，方便管理维护。
+- 根据每个指标的标签来对监控目标分类，分组，方便管理维护。
 
-**建议同一个job的`job_name`，`module`，`tags`使用同一命名。**
+**以下配置的同一个job的`job_name`，`module`，`tags`使用同一命名，关联job，module与consul的tags**
 ```yaml
 vi prometheus.yml
 #####blackbox_exporter#####
