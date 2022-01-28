@@ -82,6 +82,7 @@ consul acl bootstrap
 
 - 启动：`docker-compose up -d`
 - 登录：`http://{IP}:1026`
+---
 
 ##### Consul字段设计说明
 
