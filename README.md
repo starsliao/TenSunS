@@ -77,8 +77,8 @@ consul acl bootstrap
 ### 部署Blackbox Manager
 
 ##### 使用docker-compose来部署
-编辑docker-compose.yaml文件，传入3个环境变量：
-- **consul的token，consul的URL，登录Blackbox Manager的密码**
+编辑docker-compose.yaml文件，修改传入的3个环境变量：
+- **consul的`token`，consul的`URL`(/v1要保留)，登录Blackbox Manager的`密码`**
 
 - 启动：`docker-compose up -d`
 - 登录：`http://{IP}:1026`
@@ -89,7 +89,8 @@ consul acl bootstrap
 - 每个Service存一个Tag：目标属于Prometheus的JOB名称。
 - 每个Service使用Meta的kv存监控目标的明细：
 - `module`，`company`，`project`，`env`，`name`，`instance`
-- 分别表示：JOB名称，公司/部门，项目，环境，名称，实例url
+- 分别表示：JOB名称，公司部门，项目，环境，名称，实例url
+- **前5个字段合并即为consul的serviceID，作为唯一监控项标识**
 
 ##### Web使用说明
 
