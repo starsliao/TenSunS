@@ -261,33 +261,9 @@ modules:
 
 ### 批量导入脚本
 
-在文本文件中写入监控目标的信息：JOB名称，公司/部门，项目，环境，名称，实例url，每行一个，空格分隔。
-
-执行导入脚本，即可导入所有监控目标到Consul，并符合Prometheus的自动发现配置。
-
-修改脚本中的consul_token和consul_url，即可导入。
-
-```python
-#!/usr/bin/python3
-import requests,json
-consul_token = 'xxxxxxxxxx'
-consul_url = 'http://x.x.x.x:8500/v1'
-with open('instance.list', 'r') as file:
-  lines = file.readlines()
-  for line in lines:
-    module,company,project,env,name,instance = line.split()
-    headers = {'X-Consul-Token': consul_token}
-    data = {"id": f"{module}/{company}/{project}/{env}@{name}",
-            "name": 'blackbox_exporter',
-            "tags": [module],
-            "Meta": {'module':module,'company':company,'project':project,'env':env,'name':name,'instance':instance}
-           }
-    reg = requests.put(f"{consul_url}/agent/service/register", headers=headers, data=json.dumps(data))
-    if reg.status_code == 200:
-        print({"code": 20000,"data": "增加成功！"})
-    else:
-        print({"code": 50000,"data": f'{reg.status_code}:{reg.text}'})
-```
+在units目录下`instance.list`中写入监控目标的信息：JOB名称，公司/部门，项目，环境，名称，实例url，每行一个，空格分隔。
+**注意：前5个字段组合起来必须唯一，作为一个监控项的ID。**
+修改units目录下导入脚本中的consul_token和consul_url，保存后执行input.py，即可导入所有监控目标到Consul，并符合Prometheus的自动发现配置。
 
 ### 导入Blackbox Exporter Dashboard
 
