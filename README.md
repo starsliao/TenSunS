@@ -11,10 +11,10 @@
 ## 截图
 
 ### Blackbox Manager Web管理界面
-![0](https://raw.githubusercontent.com/starsliao/Prometheus/master/Blackbox-Manager/screenshot/0.png)
+![0](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/0.png)
 
 ### Blackbox Exporter Dashboard 截图
-![1](https://raw.githubusercontent.com/starsliao/Prometheus/master/Blackbox-Manager/screenshot/1.png)![2](https://raw.githubusercontent.com/starsliao/Prometheus/master/Blackbox-Manager/screenshot/2.png)
+![1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/1.png)![2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/2.png)
 
 ## 部署需求
 
@@ -317,4 +317,3 @@ with open('instance.list', 'r') as file:
 ```
 https://github.com/starsliao/Prometheus/tree/master/Blackbox-Manager
 ```
-
