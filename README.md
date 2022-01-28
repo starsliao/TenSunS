@@ -18,6 +18,10 @@
 - 新增批量删除功能
 - 新增分页功能
 
+```
+docker-compose pull && docker-compose up -d
+```
+
 ## 截图
 
 ### Blackbox Manager Web管理界面
@@ -26,7 +30,7 @@
 ### Blackbox Exporter Dashboard 截图
 ![1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/1.png)![2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/2.png)
 
-## 部署需求
+## 部署说明
 
 ### 部署Consul
 
@@ -60,7 +64,7 @@ acl = {
 }
 ```
 
-##### 启动与鉴权
+##### 启动与鉴权配置
 
 ```bash
 systemctl enable consul.service
@@ -71,6 +75,13 @@ consul acl bootstrap
 ```
 
 ### 部署Blackbox Manager
+
+##### 使用docker-compose来部署
+编辑docker-compose.yaml文件，传入3个环境变量：
+- **consul的token，consul的URL，登录Blackbox Manager的密码**
+
+- 启动：`docker-compose up -d`
+- 登录：`http://{IP}:1026`
 
 ##### Consul字段设计说明
 
@@ -85,39 +96,6 @@ consul acl bootstrap
 - 通过Web界面来对Consul数据增删改查，从而实现对监控目标的管理。
 - Web界面可以方便对监控目标分组、分类，方便查询维护。
 
-##### 使用docker-compose来部署
-
-编辑yaml文件，传入3个环境变量：
-
-- consul的token，consul的URL，登录Blackbox Manager的密码
-- 启动：`docker-compose up -d`
-- 登录：`http://{IP}:1026`
-
-```yaml
-cat docker-compose.yml
-version: "3.8"
-services:
-  flask-consul:
-    image: registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
-    container_name: flask-consul
-    hostname: flask-consul
-    restart: always
-    volumes:
-      - /usr/share/zoneinfo/PRC:/etc/localtime
-    environment:
-      consul_token: xxxxx-xxxxx-xxxxx
-      consul_url: http://x.x.x.x:8500/v1
-      admin_passwd: xxxxxxxx
-  nginx-consul:
-    image: registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest
-    container_name: nginx-consul
-    hostname: nginx-consul
-    restart: always
-    ports:
-      - "1026:1026"
-    volumes:
-      - /usr/share/zoneinfo/PRC:/etc/localtime
-```
 
 ### 配置Prometheus
 
@@ -127,6 +105,7 @@ services:
 - 把Consul每个service的Meta的KV关联到Prometheus每个指标的标签。
 - 根据标签来对监控目标分类，分组，方便管理维护。
 
+**建议同一个job的`job_name`，`module`，`tags`使用同一命名。**
 ```yaml
 vi prometheus.yml
 #####blackbox_exporter#####
