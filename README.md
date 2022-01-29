@@ -9,7 +9,7 @@
 - 实现了一个脚本可批量导入监控目标到Consul。
 - 更新了一个Blackbox Exporter的Grafana展示看板。
 
-## [更新记录](https://github.com/starsliao/ConsulManager/releases)
+### [更新记录:https://github.com/starsliao/ConsulManager/releases](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
 
