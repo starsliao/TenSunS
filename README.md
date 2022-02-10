@@ -1,4 +1,4 @@
-# 如何优雅的使用Consul管理站点监控
+# 如何优雅的使用Consul管理Blackbox站点监控
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
 ## 实现功能
