@@ -46,7 +46,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/blackbox/index',
+    redirect: '/dashboard',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -56,14 +56,64 @@ export const constantRoutes = [
   },
 
   {
+    path: '/consul',
+    component: Layout,
+    redirect: '/consul/services',
+    name: 'Consul 管理',
+    meta: { title: 'Consul 管理', icon: 'example' },
+    children: [
+      {
+        path: 'hosts',
+        name: 'Hosts',
+        component: () => import('@/views/consul/hosts'),
+        meta: { title: 'Hosts', icon: 'el-icon-school' }
+      },
+      {
+        path: 'services',
+        name: 'Services',
+        component: () => import('@/views/consul/services'),
+        meta: { title: 'Services', icon: 'el-icon-news' }
+      },
+      {
+        path: 'instances',
+        name: 'Instances',
+        component: () => import('@/views/consul/instances'),
+        meta: { title: 'Instances', icon: 'el-icon-connection' }
+      }
+    ]
+  },
+  {
     path: '/blackbox',
     component: Layout,
     children: [{
       path: 'index',
-      name: '站点监控',
+      name: 'Blackbox 站点监控',
       component: () => import('@/views/blackbox/index'),
-      meta: { title: '站点监控', icon: 'tree' }
+      meta: { title: 'Blackbox 站点监控', icon: 'tree' }
     }]
+  },
+  {
+    path: '友情链接',
+    component: Layout,
+    meta: { title: '友情链接', icon: 'link' },
+    children: [
+      {
+        path: 'https://starsl.cn',
+        meta: { title: 'StarsL.cn', icon: 'el-icon-s-custom' }
+      },
+      {
+        path: 'https://github.com/starsliao?tab=repositories',
+        meta: { title: '我的Github', icon: 'el-icon-star-off' }
+      },
+      {
+        path: 'https://grafana.com/orgs/starsliao/dashboards',
+        meta: { title: '我的Grafana', icon: 'el-icon-odometer' }
+      },
+      {
+        path: 'https://starsl.cn/static/img/qr.png',
+        meta: { title: '我的公众号', icon: 'el-icon-chat-dot-round' }
+      }
+    ]
   },
 
   // 404 page must be placed at the end !!!

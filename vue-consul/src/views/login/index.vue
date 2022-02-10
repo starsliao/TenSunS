@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 style="font-size:35px" class="title">Blackbox Manager</h3>
+        <h3 style="font-size:35px" class="title">Consul Manager</h3>
       </div>
 
       <el-form-item prop="username">
@@ -45,7 +45,7 @@
 
     </el-form>
     <div align="center" class="title-container">
-      <span style="font-size:10px" class="title">v0.1.3</span>
+      <span style="font-size:10px" class="title">v0.3.0</span>
     </div>
   </div>
 </template>

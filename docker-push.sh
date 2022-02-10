@@ -1,6 +1,6 @@
 #!/bin/bash
-vf=0.1.3
-vb=0.2.0
+vf=0.3.0
+vb=0.3.0
 docker login --username=starsliao@163.com registry.cn-shenzhen.aliyuncs.com
 
 docker tag nginx-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest

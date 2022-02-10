@@ -14,6 +14,8 @@ module.exports = {
   // add your custom rules here
   //it is base on https://github.com/vuejs/eslint-config-vue
   rules: {
+    "no-irregular-whitespace": "off",
+    "vue/html-quotes": "off",
     "vue/max-attributes-per-line": [2, {
       "singleline": 10,
       "multiline": {
@@ -96,7 +98,6 @@ module.exports = {
     'no-implied-eval': 2,
     'no-inner-declarations': [2, 'functions'],
     'no-invalid-regexp': 2,
-    'no-irregular-whitespace': 2,
     'no-iterator': 2,
     'no-label-var': 2,
     'no-labels': [2, {

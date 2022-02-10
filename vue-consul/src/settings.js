@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Blackbox Manager',
+  title: 'Consul Manager',
 
   /**
    * @type {boolean} true | false
