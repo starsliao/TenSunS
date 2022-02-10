@@ -2,7 +2,14 @@
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
 ## 实现功能
-
+### Consul Manager
+- 更名Consul Manager
+- 增加Consul Web管理功能
+- 增加Consul服务器的状态查看
+- 支持Consul Services的增删改查
+- 支持批量删除Service功能
+- 优化了对Tags、Meta、健康检查的配置管理
+### Blackbox Manager 
 - 基于Prometheus + Blackbox_Exporter实现站点与接口监控。
 - 基于Consul实现Prometheus监控目标的自动发现。
 - Blackbox Manager：基于Flask + Vue实现的Web管理平台，可以简单的对监控目标增删改查，便于分类维护管理。
@@ -12,7 +19,8 @@
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
-
+### Consul Manager Web管理界面
+![c1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.png)![c2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul2.png)![c3](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.png)![c4](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul4.png)
 ### Blackbox Manager Web管理界面
 ![0](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/0.png)
 
