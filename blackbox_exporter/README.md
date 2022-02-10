@@ -7,5 +7,4 @@
 详细URL：https://grafana.com/grafana/dashboards/9965
 
 
-![1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/1.png)
-![2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/2.png)
+![1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/1.png)![2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/2.png)
