@@ -1,4 +1,7 @@
-
+# 概述
+- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理。
+- 本工具还针对使用Consul+Prometheus+Blackbox_Exporter实现站点与接口监控的应用场景，制作了一个单独的管理页面。
+- 本工具支持使用docker-compose快速部署。
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
 ## 实现功能
@@ -82,7 +85,7 @@ consul acl bootstrap
 - 访问：`http://{IP}:1026`
 ---
 
-# 如何优雅的使用Consul管理Blackbox站点监控
+# 应用场景：如何优雅的使用Consul管理Blackbox站点监控
 ##### Consul字段设计说明
 
 - 所有数据存在一个名为`blackbox_exporter`的Services项中，每个监控目标为一个子Service。
