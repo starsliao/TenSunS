@@ -22,10 +22,10 @@
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
-### Consul Manager Web管理界面
+### Consul Manager 界面
 ![c1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.png)![c2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul2.png)![c3](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.png)
 ![c4](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul4.png)
-### Blackbox Manager Web管理界面
+### Blackbox Manager 界面
 ![0](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/0.png)
 
 ### Blackbox Exporter Dashboard 截图
