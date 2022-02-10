@@ -1,4 +1,4 @@
-# 如何优雅的使用Consul管理Blackbox站点监控
+
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
 ## 实现功能
@@ -73,15 +73,17 @@ consul acl bootstrap
 ```
 ---
 
-### 部署Blackbox Manager
+### 部署Consul Manager
 
 ##### 使用docker-compose来部署
 编辑docker-compose.yaml文件，修改传入的3个环境变量：
-- **consul的`token`，consul的`URL`(/v1要保留)，登录Blackbox Manager的`密码`**
+- **consul的`token`，consul的`URL`(/v1要保留)，登录Consul Manager的`密码`**
 
 - 启动：`docker-compose up -d`
 - 访问：`http://{IP}:1026`
+---
 
+# 如何优雅的使用Consul管理Blackbox站点监控
 ##### Consul字段设计说明
 
 - 所有数据存在一个名为`blackbox_exporter`的Services项中，每个监控目标为一个子Service。
