@@ -81,7 +81,7 @@ consul acl bootstrap
 编辑docker-compose.yaml文件，修改传入的3个环境变量：
 - **consul的`token`，consul的`URL`(/v1要保留)，登录Consul Manager的`密码`**
 
-- 启动：`docker-compose up -d`
+- 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`
 ---
 
