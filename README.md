@@ -1,7 +1,7 @@
 # 概述
-- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理。
-- 本工具还针对使用Consul+Prometheus+Blackbox_Exporter实现站点与接口监控的应用场景，制作了一个单独的管理页面。
-- 本工具支持使用docker-compose快速部署。
+- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。
+- 本工具还针对使用Consul+Prometheus+Blackbox_Exporter实现站点与接口监控的应用场景，制作了一个单独的管理页面，并提供了站点与接口监控的完整方案。
+- 本工具支持使用docker-compose快速部署，并提供批量导入服务到Consul的脚本。
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
 ## 实现功能
@@ -18,7 +18,7 @@
 - Blackbox Manager：基于Flask + Vue实现的Web管理平台，可以简单的对监控目标增删改查，便于分类维护管理。
 - 实现了一个脚本可批量导入监控目标到Consul。
 - 更新了一个Blackbox Exporter的Grafana展示看板。
-
+- 提供了Prometheus站点监控的参考告警规则。
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
@@ -232,7 +232,55 @@ modules:
 导入ID：9965
 详细URL：https://grafana.com/grafana/dashboards/9965
 ```
+### Prometheus 站点监控告警规则
+```
+- name: Domain
+  rules:
+  - alert: 站点可用性
+    expr: probe_success == 0
+    for: 1m
+    labels:
+      alertype: domain
+      severity: critical
+    annotations:
+      description: "{{$labels.env}}_{{ $labels.name }}({{ $labels.project }})：站点无法访问\n> {{ $labels.instance }}"
 
+  - alert: 站点1h可用性低于80%
+    expr: sum_over_time(probe_success[1h])/count_over_time(probe_success[1h]) * 100 < 80
+    for: 3m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{$labels.env}}_{{ $labels.name }}({{ $labels.project }})：站点1h可用性：{{ $value | humanize }}%\n> {{ $labels.instance }}"
+
+  - alert: 站点状态异常
+    expr: (probe_success == 0 and probe_http_status_code > 499) or probe_http_status_code == 0
+    for: 1m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{$labels.env}}_{{ $labels.name }}({{ $labels.project }})：站点状态异常：{{$value}}\n> {{ $labels.instance }}"
+
+  - alert: 站点耗时过高
+    expr: probe_duration_seconds > 0.5
+    for: 2m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{$labels.env}}_{{ $labels.name }}({{ $labels.project }})：当前站点耗时：{{$value | humanize}}s\n> {{ $labels.instance }}"
+
+  - alert: SSL证书有效期
+    expr: (probe_ssl_earliest_cert_expiry-time()) / 3600 / 24 < 15
+    for: 2m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{$labels.env}}_{{ $labels.name }}({{ $labels.project }})：证书有效期剩余{{ $value | humanize }}天\n> {{ $labels.instance }}"
+```
 ### GitHub
 
 所有代码都在里面，抛砖引玉。
