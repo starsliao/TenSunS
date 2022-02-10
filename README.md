@@ -30,7 +30,7 @@
 
 ## 部署说明
 
-### 部署Consul
+### 1. 部署Consul
 
 ##### 安装
 
@@ -71,9 +71,8 @@ systemctl start consul.service
 consul acl bootstrap
 # 记录 SecretID
 ```
----
 
-### 部署Consul Manager
+### 2. 部署Consul Manager
 
 ##### 使用docker-compose来部署
 编辑docker-compose.yaml文件，修改传入的3个环境变量：
