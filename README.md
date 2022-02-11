@@ -93,7 +93,6 @@ consul acl bootstrap
 - 每个Service使用Meta的kv保存监控目标的明细：`module`，`company`，`project`，`env`，`name`，`instance`，分别表示：监控类型，公司部门，项目，环境，名称，实例url
 - **前5个字段合并即为consul的serviceID，作为唯一监控项标识**
 - **建议监控类型字段：`meta内的module`，`blackbox-exporter配置中的module`及`Prometheus的job名`使用同一命名。**
----
 
 ### 配置Prometheus
 
