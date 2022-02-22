@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-alert title="如需管理【blackbox_exporter】的监控实例，建议使用左侧菜单【Blackbox 站点监控】来维护，更加方便直观。" type="success" center close-text="知道了" />
     <el-table
       v-loading="listLoading"
       :data="services"

@@ -112,7 +112,12 @@ export const constantRoutes = [
       {
         path: 'https://starsl.cn/static/img/qr.png',
         meta: { title: '我的公众号', icon: 'el-icon-chat-dot-round' }
+      },
+      {
+        path: 'https://element.eleme.cn',
+        meta: { title: 'Element', icon: 'el-icon-eleme' }
       }
+
     ]
   },
 

@@ -77,6 +77,9 @@ def del_instance(service_id):
         return {"code": 50000, "data": f"{reg.status_code}【{service_id}】{reg.text}"}
 
 def add_instance(instance_dict):
+    sid = instance_dict['ID']
+    if '//' in sid or sid.startswith('/') or sid.endswith('/'):
+        return {"code": 50000, "data": f"服务ID【{sid}】首尾不能包含'/'，并且不能包含两个连续的'/'"}
     isMeta = instance_dict['metaInfo']['isMeta']
     isCheck = instance_dict['checkInfo']['isCheck']
     address = instance_dict['address']
@@ -112,7 +115,6 @@ def add_instance(instance_dict):
     print(instance_dict)
 
     reg = requests.put(f'{consul_url}/agent/service/register', headers=headers, data=json.dumps(instance_dict))
-    sid = instance_dict['ID']
     if reg.status_code == 200:
         return {"code": 20000, "data": f"【{sid}】增加成功！"}
     else:

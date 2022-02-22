@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-alert v-if="services_name === 'blackbox_exporter'" title="如需管理【blackbox_exporter】的监控实例，建议使用左侧菜单【Blackbox 站点监控】来维护，更加方便直观。" type="success" center close-text="知道了" />
     <el-select v-model="services_name" placeholder="请选择 Services" filterable collapse-tags style="width: 250px" class="filter-item" @change="fetchData(services_name)">
       <el-option v-for="item in services_name_list" :key="item" :label="item" :value="item" />
     </el-select>
@@ -194,7 +195,7 @@ export default {
   data() {
     const validateInput = (rule, value, callback) => {
       if (!this.checkSpecialKey(value)) {
-        callback(new Error('不能含有空格或 [ ]`~!#$^&*=|"{}\':;/?'))
+        callback(new Error('不能含有空格或 [ ]`~!#$^&*=|"{}\':;?'))
       } else {
         callback()
       }
@@ -295,7 +296,7 @@ export default {
       this.inputValue = ''
     },
     checkSpecialKey(str) {
-      const specialKey = '[]`~!#$^&*=|{}\'":;/? '
+      const specialKey = '[]`~!#$^&*=|{}\'":;? '
       for (let i = 0; i < str.length; i++) {
         if (specialKey.indexOf(str.substr(i, 1)) !== -1) {
           return false

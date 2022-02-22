@@ -40,6 +40,8 @@ def get_service():
 
 def add_service(module,company,project,env,name,instance):
     sid = f"{module}/{company}/{project}/{env}@{name}"
+    if '//' in sid or sid.startswith('/') or sid.endswith('/'):
+        return {"code": 50000, "data": f"服务ID【{sid}】首尾不能包含'/'，并且不能包含两个连续的'/'"}
     data = {
             "id": sid,
             "name": 'blackbox_exporter',
