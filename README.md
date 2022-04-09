@@ -96,16 +96,13 @@ consul acl bootstrap
 - 访问：`http://{IP}:1026`
 ---
 
+# 应用场景1：如何优雅的使用Consul管理ECS主机监控
+# 应用场景2：如何优雅的使用Consul管理Blackbox站点监控
+
+
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
-![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
+![](https://github.com/starsliao/Prometheus/blob/master/thanks.png)
 
 
-# 应用场景：如何优雅的使用Consul管理Blackbox站点监控
 
-### GitHub
 
-所有代码都在里面，抛砖引玉。
-
-```
-https://github.com/starsliao/ConsulManager
-```
