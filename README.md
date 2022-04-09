@@ -1,23 +1,34 @@
 # 概述
-- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。
-- 本工具还针对使用Consul+Prometheus+Blackbox_Exporter实现站点与接口监控的应用场景，制作了一个单独的管理页面，并提供了站点与接口监控的完整方案。
-- 本工具支持使用docker-compose快速部署，并提供批量导入服务到Consul的脚本。
-### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
-![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
+- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。本工具基于Prometheus自动发现Consul，实现了两个监控管理维护的应用：
+  1. 基于云厂商ECS的自动同步，并接入Prometheus监控。
+  2. 基于Blackbox实现站点与接口监控的方便管理。
+- 本工具支持使用docker-compose快速部署。
+
 ## 实现功能
 ### Consul Web Manager
-- 增加Consul Web管理功能
-- 增加Consul服务器的状态查看
-- 支持Consul Services的增删改查
-- 支持批量删除Service功能
-- 优化了对Tags、Meta、健康检查的配置管理
+- 比官方自带的WEB UI实现了更多的功能。
+- 包含Consul服务器的状态信息。
+- 支持Consul Services的增删改查，可以批量删除Service。
+- 直观的查看每个Services实例的信息，及整体Services的健康状态。
+- 可以方便的对每个Services实例的Tags、Meta、健康检查进行配置。
+
+### ECS Manager
+- 支持同步阿里云，腾讯云，华为云的ECS主机信息到Consul。
+- 基于Consul实现Prometheus监控目标的自动发现。
+- 支持同步各云厂商的分组信息到Consul，用于关联ECS分组。
+- 提供了可查询分组与ECS信息的页面，指标中加入了ECS到期日等信息，可直接监控。
+- 可调整同步的时间间隔。
+- 提供了按需的Prometheus配置生成功能。
+- 提供了一个匹配ECS Manager各字段的node_exporter Grafana展示看板。
+
 ### Blackbox Manager 
 - 基于Prometheus + Blackbox_Exporter实现站点与接口监控。
 - 基于Consul实现Prometheus监控目标的自动发现。
-- Blackbox Manager：基于Flask + Vue实现的Web管理平台，可以简单的对监控目标增删改查，便于分类维护管理。
-- 实现了一个脚本可批量导入监控目标到Consul。
-- 更新了一个Blackbox Exporter的Grafana展示看板。
-- 提供了Prometheus站点监控的参考告警规则。
+- 使用Web操作即可简单的对监控目标增删改查，支持批量删除，以及方便的分类维护管理。
+- 提供了Blackbox的配置，Prometheus的配置以及Prometheus站点监控的告警规则。
+- 提供了一个匹配Blackbox Manager各字段的Blackbox Exporter Grafana展示看板。
+- 提供脚本可批量导入监控目标到Consul。
+
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
@@ -84,6 +95,10 @@ consul acl bootstrap
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`
 ---
+
+### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
+![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
+
 
 # 应用场景：如何优雅的使用Consul管理Blackbox站点监控
 ##### Consul字段设计说明
