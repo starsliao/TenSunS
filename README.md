@@ -115,7 +115,7 @@ consul acl bootstrap
 ### 提供建议
 [@dong9205](https://github.com/dong9205)
 
-[dissipator](https://github.com/dissipator)
+[@dissipator](https://github.com/dissipator)
 
 ---
 
