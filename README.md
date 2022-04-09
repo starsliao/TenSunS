@@ -109,12 +109,15 @@ consul acl bootstrap
 
 ### 提交bug
 @会飞的鱼
+
 ---
 
 ### 提供建议
 [@dong9205](https://github.com/dong9205)
+
 [dissipator](https://github.com/dissipator)
+
 ---
 
-### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
+### 赞赏与关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/ConsulManager/blob/main/thanks.png)
