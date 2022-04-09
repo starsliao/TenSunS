@@ -61,3 +61,149 @@ def del_service(module,company,project,env,name):
         return {"code": 20000, "data": f"【{sid}】删除成功！"}
     else:
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
+
+def get_rules():
+    rules = """
+- name: Domain
+  rules:
+  - alert: 站点可用性
+    expr: probe_success == 0
+    for: 1m
+    labels:
+      alertype: domain
+      severity: critical
+    annotations:
+      description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：站点无法访问\\n> {{ $labels.instance }}"
+
+  - alert: 站点1h可用性低于80%
+    expr: sum_over_time(probe_success[1h])/count_over_time(probe_success[1h]) * 100 < 80
+    for: 3m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：站点1h可用性：{{ $value | humanize }}%\\n> {{ $labels.instance }}"
+
+  - alert: 站点状态异常
+    expr: (probe_success == 0 and probe_http_status_code > 499) or probe_http_status_code == 0
+    for: 1m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：站点状态异常：{{ $value }}\\n> {{ $labels.instance }}"
+
+  - alert: 站点耗时过高
+    expr: probe_duration_seconds > 0.5
+    for: 2m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：当前站点耗时：{{ $value | humanize }}s\\n> {{ $labels.instance }}"
+
+  - alert: SSL证书有效期
+    expr: (probe_ssl_earliest_cert_expiry-time()) / 3600 / 24 < 15
+    for: 2m
+    labels:
+      alertype: domain
+      severity: warning
+    annotations:
+      description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：证书有效期剩余{{ $value | humanize }}天\\n> {{ $labels.instance }}"
+"""
+    return {"code": 20000, "rules": rules}
+
+def get_bconfig():
+    bconfig = """
+modules:
+  http_2xx:
+    prober: http
+    http:
+      valid_status_codes: [200,204]
+      no_follow_redirects: false
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false
+
+  # 用于需要检查SSL证书有效性，但是该域名访问后又会重定向到其它域名的情况，这样检查的证书有效期就是重定向后域名的。
+  # 如果需要检查源域名信息，需要在blackbox中增加禁止重定向参数。
+  httpNoRedirect4ssl:
+    prober: http
+    http:
+      valid_status_codes: [200,204,301,302,303]
+      no_follow_redirects: true
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false
+
+  # 用于忽略SSL证书检查的站点监控。
+  http200igssl:
+    prober: http
+    http:
+      valid_status_codes:
+      - 200
+      tls_config:
+        insecure_skip_verify: true
+
+  http_4xx:
+    prober: http
+    http:
+      valid_status_codes: [401,403,404]
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false
+
+  http_5xx:
+    prober: http
+    http:
+      valid_status_codes: [500,502]
+      preferred_ip_protocol: ip4
+      ip_protocol_fallback: false
+
+  http_post_2xx:
+    prober: http
+    http:
+      method: POST
+
+  icmp:
+    prober: icmp
+
+  tcp_connect:
+    prober: tcp
+
+  ssh_banner:
+    prober: tcp
+    tcp:
+      query_response:
+      - expect: "^SSH-2.0-"
+      - send: "SSH-2.0-blackbox-ssh-check"
+"""
+    return {"code": 20000, "bconfig": bconfig}
+
+def get_pconfig():
+    consul_server = consul_url.split("/")[2]
+    pconfig = f"""
+  - job_name: 'blackbox_exporter'
+    metrics_path: /probe
+    consul_sd_configs:
+      - server: '{consul_server}'
+        token: '{consul_token}'
+        services: ['blackbox_exporter']
+    relabel_configs:
+      - source_labels: ["__meta_consul_service_metadata_instance"]
+        target_label: __param_target
+      - source_labels: [__meta_consul_service_metadata_module]
+        target_label: __param_module
+      - source_labels: [__meta_consul_service_metadata_module]
+        target_label: module
+      - source_labels: ["__meta_consul_service_metadata_company"]
+        target_label: company
+      - source_labels: ["__meta_consul_service_metadata_env"]
+        target_label: env
+      - source_labels: ["__meta_consul_service_metadata_name"]
+        target_label: name
+      - source_labels: ["__meta_consul_service_metadata_project"]
+        target_label: project
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 127.0.0.1:9115
+"""
+    return {"code": 20000, "pconfig": pconfig}

@@ -112,7 +112,7 @@ def add_instance(instance_dict):
             
     del instance_dict['metaInfo']
     del instance_dict['checkInfo']
-    print(instance_dict)
+    print(instance_dict, flush=True)
 
     reg = requests.put(f'{consul_url}/agent/service/register', headers=headers, data=json.dumps(instance_dict))
     if reg.status_code == 200:

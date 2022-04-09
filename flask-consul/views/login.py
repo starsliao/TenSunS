@@ -1,9 +1,12 @@
 from flask import Blueprint
 from flask_restful import reqparse, Resource, Api
+from itsdangerous import TimedJSONWebSignatureSerializer
 import sys
 sys.path.append("..")
-from config import admin_passwd,s
-from units import token_auth
+from config import admin_passwd
+from units import token_auth, consul_kv
+secret_key = consul_kv.get_value('ConsulManager/assets/secret/skey')['sk']
+s = TimedJSONWebSignatureSerializer(secret_key)
 
 blueprint = Blueprint('login',__name__)
 api = Api(blueprint)

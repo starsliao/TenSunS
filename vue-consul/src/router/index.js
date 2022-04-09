@@ -70,32 +70,82 @@ export const constantRoutes = [
       },
       {
         path: 'services',
-        name: 'Services',
+        name: '服务组',
         component: () => import('@/views/consul/services'),
-        meta: { title: 'Services', icon: 'el-icon-news' }
+        meta: { title: '服务组', icon: 'el-icon-news' }
       },
       {
         path: 'instances',
-        name: 'Instances',
+        name: '实例管理',
         component: () => import('@/views/consul/instances'),
-        meta: { title: 'Instances', icon: 'el-icon-connection' }
+        meta: { title: '实例管理', icon: 'el-icon-connection' }
+      }
+    ]
+  },
+  {
+    path: '/nodes',
+    component: Layout,
+    redirect: '/nodes/jobs',
+    name: 'ECS 云主机监控',
+    meta: { title: 'ECS 云主机监控', icon: 'example' },
+    children: [
+      {
+        path: 'jobs',
+        name: '接入数据源',
+        component: () => import('@/views/node-exporter/jobs'),
+        meta: { title: '接入数据源', icon: 'el-icon-school' }
+      },
+      {
+        path: 'lists',
+        name: '云主机列表',
+        component: () => import('@/views/node-exporter/lists'),
+        meta: { title: '云主机列表', icon: 'el-icon-s-platform' }
+      },
+      {
+        path: 'pconfig',
+        name: 'Prometheus 配置',
+        component: () => import('@/views/node-exporter/pconfig'),
+        meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
       }
     ]
   },
   {
     path: '/blackbox',
     component: Layout,
-    children: [{
-      path: 'index',
-      name: 'Blackbox 站点监控',
-      component: () => import('@/views/blackbox/index'),
-      meta: { title: 'Blackbox 站点监控', icon: 'tree' }
-    }]
+    redirect: '/blackbox/index',
+    name: 'Blackbox 站点监控',
+    meta: { title: 'Blackbox 站点监控', icon: 'tree' },
+    children: [
+      {
+        path: 'index',
+        name: '站点管理',
+        component: () => import('@/views/blackbox/index'),
+        meta: { title: '站点管理', icon: 'el-icon-s-order' }
+      },
+      {
+        path: 'bconfig',
+        name: 'Blackbox 配置',
+        component: () => import('@/views/blackbox/bconfig'),
+        meta: { title: 'Blackbox 配置', icon: 'el-icon-c-scale-to-original' }
+      },
+      {
+        path: 'pconfig',
+        name: 'Prometheus 配置',
+        component: () => import('@/views/blackbox/pconfig'),
+        meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
+      },
+      {
+        path: 'rules',
+        name: '告警规则',
+        component: () => import('@/views/blackbox/rules'),
+        meta: { title: '告警规则', icon: 'el-icon-bell' }
+      }
+    ]
   },
   {
-    path: '友情链接',
+    path: '快速链接',
     component: Layout,
-    meta: { title: '友情链接', icon: 'link' },
+    meta: { title: '快速链接', icon: 'link' },
     children: [
       {
         path: 'https://starsl.cn',
@@ -103,18 +153,22 @@ export const constantRoutes = [
       },
       {
         path: 'https://github.com/starsliao?tab=repositories',
-        meta: { title: '我的Github', icon: 'el-icon-star-off' }
+        meta: { title: '我的 Github', icon: 'el-icon-star-off' }
       },
       {
         path: 'https://grafana.com/orgs/starsliao/dashboards',
-        meta: { title: '我的Grafana', icon: 'el-icon-odometer' }
+        meta: { title: '我的 Grafana', icon: 'el-icon-odometer' }
       },
       {
-        path: 'https://starsl.cn/static/img/qr.png',
+        path: 'https://starsl.cn/static/img/thanks.png',
         meta: { title: '我的公众号', icon: 'el-icon-chat-dot-round' }
       },
       {
-        path: 'https://element.eleme.cn',
+        path: 'https://github.com/starsliao/ConsulManager/blob/main/Thanks.md',
+        meta: { title: '特别鸣谢', icon: 'el-icon-cold-drink' }
+      },
+      {
+        path: 'https://element.eleme.cn/#/zh-CN/component/icon',
         meta: { title: 'Element', icon: 'el-icon-eleme' }
       }
 

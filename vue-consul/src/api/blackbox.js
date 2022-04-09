@@ -35,3 +35,21 @@ export function delService(data) {
     data
   })
 }
+export function getRules() {
+  return request({
+    url: '/api/blackboxcfg/rules',
+    method: 'get'
+  })
+}
+export function getPconfig() {
+  return request({
+    url: '/api/blackboxcfg/pconfig',
+    method: 'get'
+  })
+}
+export function getBconfig() {
+  return request({
+    url: '/api/blackboxcfg/bconfig',
+    method: 'get'
+  })
+}

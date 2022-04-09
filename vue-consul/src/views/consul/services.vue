@@ -9,39 +9,41 @@
       highlight-current-row
       style="width: 100%;"
     >
-      <el-table-column label="ID" width="73px" align="center">
+      <el-table-column label="ID" width="50px" align="center">
         <template slot-scope="scope">
           <span>{{ scope.$index+1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="Name" label="服务名" sortable align="center">
+      <el-table-column prop="Name" label="服务组" sortable align="center">
         <template slot-scope="{row}">
-          <el-link type="primary" @click="handleInstances(row.Name)">{{ row.Name }}</el-link>
+          <el-link type="primary" style="font-weight:bold" @click="handleInstances(row.Name)"><i class="el-icon-view el-icon--left" />{{ row.Name }}</el-link>
         </template>
       </el-table-column>
-      <el-table-column prop="Nodes" label="节点" sortable align="center" width="200">
+      <el-table-column prop="Nodes" label="节点" align="center" width="120">
         <template slot-scope="{row}">
-          <el-tag v-for="atag in row.Nodes" :key="atag" size="mini" effect="dark">{{ atag }}</el-tag>
+          <el-tag v-for="atag in row.Nodes" :key="atag" type="info" size="mini">{{ atag }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="Datacenter" label="数据中心" sortable align="center" width="120">
+      <el-table-column prop="Datacenter" label="数据中心" align="center" width="110">
         <template slot-scope="{row}">
           <span>{{ row.Datacenter }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="Tags" label="Tags" sortable align="center">
         <template slot-scope="{row}">
-          <el-tag v-for="atag in row.Tags" :key="atag" size="mini">{{ atag }}</el-tag>
+          <el-tag v-for="atag in row.Tags" :key="atag" size="small">{{ atag }}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="InstanceCount" label="实例数" sortable align="center" width="100">
         <template slot-scope="{row}">
-          <span>{{ row.InstanceCount }}</span>
+          <span style="font-weight:bold">{{ row.InstanceCount }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="ChecksPassing" label="健康实例" sortable align="center" width="120">
         <template slot-scope="{row}">
-          <span>{{ row.ChecksPassing - 1 }} </span>
+          <el-tooltip class="item" effect="dark" content="健康检查成功的实例数" placement="top">
+            <el-button size="mini" type="success" icon="el-icon-check" circle>{{ row.ChecksPassing - 1 }}</el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column prop="ChecksCritical" label="实例状态" sortable align="center" width="120">

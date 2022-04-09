@@ -1,8 +1,8 @@
 from flask_httpauth import HTTPTokenAuth
-import sys
-sys.path.append("..")
-from config import s
-
+from itsdangerous import TimedJSONWebSignatureSerializer
+from units import consul_kv
+secret_key = consul_kv.get_value('ConsulManager/assets/secret/skey')['sk']
+s = TimedJSONWebSignatureSerializer(secret_key)
 auth = HTTPTokenAuth()
 
 @auth.verify_token

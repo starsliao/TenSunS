@@ -15,6 +15,13 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 import * as filters from './filters' // global filters
+
+import VueHighlightJS from 'vue-highlightjs'
+import 'highlight.js/styles/xt256.css'
+Vue.use(VueHighlightJS)
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

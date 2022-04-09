@@ -23,6 +23,16 @@ class GetAllList(Resource):
         args = parser.parse_args()
         return blackbox_manager.get_all_list(args['module'],args['company'],args['project'],args['env'])
 
+class GetConfig(Resource):
+    @token_auth.auth.login_required
+    def get(self, stype):
+        if stype == 'rules':
+            return blackbox_manager.get_rules()
+        elif stype == 'bconfig':
+            return blackbox_manager.get_bconfig()
+        elif stype == 'pconfig':
+            return blackbox_manager.get_pconfig()
+
 class BlackboxApi(Resource):
     decorators = [token_auth.auth.login_required]
     def get(self):
@@ -49,3 +59,4 @@ class BlackboxApi(Resource):
 
 api.add_resource(GetAllList,'/api/blackbox/alllist')
 api.add_resource(BlackboxApi, '/api/blackbox/service')
+api.add_resource(GetConfig,'/api/blackboxcfg/<stype>')

@@ -78,32 +78,32 @@
       <el-table-column type="expand" width="1">
         <template slot-scope="{row}">
           <el-table style="width: 100%" :data="row.meta" row-class-name="success-row" fit border>
-            <el-table-column v-for="{ prop, label } in row.meta_label" :key="prop" :prop="prop" :label="label" />
+            <el-table-column v-for="{ prop, label } in row.meta_label" :key="prop" :prop="prop" :label="label" align="center" />
           </el-table>
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="45%">
-      <el-form ref="dataForm" :rules="rules" :model="newService" label-position="right" label-width="100px" style="width: 500px; margin-left: 50px;">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="40%">
+      <el-form ref="dataForm" :rules="rules" :model="newService" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
         <el-form-item label="所属服务组" prop="name">
-          <el-autocomplete v-model="newService.name" :fetch-suggestions="Sugg_name" placeholder="优先选择" clearable style="width: 360px" class="filter-item" />
+          <el-autocomplete v-model="newService.name" :fetch-suggestions="Sugg_name" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
         <div v-if="dialogStatus==='update'">
           <el-form-item label="服务实例ID" prop="ID">
-            <el-input v-model="newService.ID" placeholder="请输入" clearable style="width: 360px" :disabled="true" />
+            <el-input v-model="newService.ID" placeholder="请输入" clearable :disabled="true" />
           </el-form-item>
         </div>
         <div v-else>
           <el-form-item label="服务实例ID" prop="ID">
-            <el-input v-model="newService.ID" placeholder="请输入" clearable style="width: 360px" class="filter-item" />
+            <el-input v-model="newService.ID" placeholder="请输入" clearable class="filter-item" />
           </el-form-item>
         </div>
         <el-form-item label="地址" prop="address">
-          <el-input v-model="newService.address" placeholder="请输入" clearable style="width: 360px" class="filter-item" />
+          <el-input v-model="newService.address" placeholder="请输入" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="端口" prop="port">
-          <el-input v-model="newService.port" placeholder="请输入" clearable style="width: 360px" class="filter-item" />
+          <el-input v-model="newService.port" placeholder="请输入" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="Tags" prop="tags">
           <el-tag v-for="tag in newService.tags" :key="tag" closable :disable-transitions="false" @close="handleClose(tag)">{{ tag }}</el-tag>
@@ -123,7 +123,7 @@
               </el-tooltip>
             </span>
           </span>
-          <el-input v-model="newService.metaInfo.metaJson" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder='{ "aaa": "bbb", "ccc": "ddd" }' clearable style="width: 360px" class="filter-item" />
+          <el-input v-model="newService.metaInfo.metaJson" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder='{ "aaa": "bbb", "ccc": "ddd" }' clearable class="filter-item" />
         </el-form-item>
 
         <el-form-item v-if="coption !== '' && dialogStatus==='update'" label="健康检查操作" prop="coption">
@@ -134,7 +134,7 @@
           </el-radio-group>
         </el-form-item>
 
-        <el-form :inline="true" class="demo-form-inline" label-position="right" label-width="100px">
+        <el-form :inline="true" class="demo-form-inline" label-position="right" label-width="94px">
           <el-form-item v-if="coption === '' || coption === 'modf'" label="健康检查" prop="isCheck">
             <el-switch v-model="newService.checkInfo.isCheck" active-text="　　　　　" />
           </el-form-item>
@@ -161,7 +161,7 @@
               </el-tooltip>
             </span>
           </span>
-          <el-input v-model="newService.checkInfo.caddress" placeholder="请输入" clearable style="width: 360px" />
+          <el-input v-model="newService.checkInfo.caddress" placeholder="请输入" clearable />
         </el-form-item>
 
         <el-form v-if="newService.checkInfo.isCheck" :inline="true" class="demo-form-inline" label-position="right" label-width="100px">
@@ -225,6 +225,7 @@ export default {
         }
       },
       coption: '',
+      listLoading: false,
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
@@ -369,10 +370,8 @@ export default {
       })
     },
     fetchServicesName() {
-      this.listLoading = true
       getServicesName().then(response => {
         this.services_name_list = response.services_name
-        this.listLoading = false
         this.xname = this.load_name()
       })
     },
@@ -409,20 +408,7 @@ export default {
     updateData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          if (this.coption === 'delete') {
-            delSid(this.newService.ID).then(response => {
-              addSid(this.newService).then(response => {
-                this.fetchServicesName()
-                this.services_name = this.newService.name
-                this.fetchData(this.newService.name)
-                this.dialogFormVisible = false
-                this.$message({
-                  message: response.data,
-                  type: 'success'
-                })
-              })
-            })
-          } else {
+          delSid(this.newService.ID).then(response => {
             addSid(this.newService).then(response => {
               this.fetchServicesName()
               this.services_name = this.newService.name
@@ -433,7 +419,7 @@ export default {
                 type: 'success'
               })
             })
-          }
+          })
         }
       })
     },

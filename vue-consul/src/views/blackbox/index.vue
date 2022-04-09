@@ -92,22 +92,22 @@
 
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="handleFilter" />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="40%">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="37%">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
         <el-form-item label="监控类型" prop="module">
-          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择" clearable style="width: 360px" class="filter-item" />
+          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="公司部门" prop="company">
-          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择" clearable style="width: 360px" class="filter-item" />
+          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="项目" prop="project">
-          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择" clearable style="width: 360px" class="filter-item" />
+          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="环境" prop="env">
-          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择" clearable style="width: 360px" class="filter-item" />
+          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name" placeholder="请输入" clearable style="width: 360px" class="filter-item" />
+          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" />
         </el-form-item>
         <el-form-item prop="instance">
           <span slot="label">
@@ -118,7 +118,7 @@
               </el-tooltip>
             </span>
           </span>
-          <el-input v-model="temp.instance" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" style="width: 360px" class="filter-item" />
+          <el-input v-model="temp.instance" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" class="filter-item" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

@@ -4,6 +4,25 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/4/7" placement="top">
+        <el-card>
+          <h4>v0.5.0</h4>
+          <p>【重要】增加ECS云主机监控：支持自动同步阿里、腾讯、华为云的ECS、分组信息到Consul并接入到Prometheus监控！</p>
+          <p>增加了从Consul同步ECS，站点信息到Prometheus的配置生成界面。</p>
+          <p>增加了Blackbox的配置信息与告警规则信息页面。</p>
+          <p>优化了Blackbox接入Prometheus的配置，只需配置1个job即可接入所有类型的站点监控。</p>
+          <p>更新了站点监控的grafana看板，增加了URL筛选，查询关联所有图表，并支持展示单job的配置方式。</p>
+          <p>更新了主机监控的grafana看板，可匹配自动同步方式采集ECS信息字段的展示， 优化了大量图表，使用新版表格重建，新增健康评分概念，并新增了整体资源消耗信息的一些图表。</p>
+        </el-card>
+      </el-timeline-item>
+      <el-timeline-item timestamp="2022/2/23" placement="top">
+        <el-card>
+          <h4>v0.3.1</h4>
+          <p>允许在实例ID字段使用'/'，(可以在Consul管理中对blackbox-exporter的监控实例做自定义编辑了，例如：增加标签，增加Meta)。</p>
+          <p>优化了描述和引导使用Blackbox站点监控。</p>
+          <p>增加了Makefile文件，可以使用make update来更新等操作。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/2/10" placement="top">
         <el-card>
           <h4>v0.3.0</h4>
