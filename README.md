@@ -5,8 +5,7 @@
 ### 关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
 ![](https://github.com/starsliao/Prometheus/blob/master/qr.jpg)
 ## 实现功能
-### Consul Manager
-- 更名Consul Manager
+### Consul Web Manager
 - 增加Consul Web管理功能
 - 增加Consul服务器的状态查看
 - 支持Consul Services的增删改查
