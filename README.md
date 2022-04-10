@@ -1,5 +1,7 @@
 # 概述
-- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。本工具基于Prometheus自动发现Consul，实现了两个监控管理维护的应用：
+- ConsulManager是一个使用Flask+Vue开发的Consul WEB管理工具，比官方自带的WEB UI实现了更多的功能。
+- 可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。
+- 本工具基于Prometheus自动发现Consul，实现了两个监控管理维护的应用：
   1. 基于云厂商ECS的自动同步到Consul，并接入Prometheus监控。
   2. 基于Blackbox实现站点与接口监控接入Consul，通过Web界面方便管理。
 - 本工具支持使用docker-compose快速部署。
