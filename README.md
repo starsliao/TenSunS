@@ -35,13 +35,14 @@
 
 ## 截图
 ### Consul Web Manager 界面
-![c1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.png)![c2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul2.png)![c3](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.png)
-![c4](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul4.png)
+
+### ECS Manager 界面
+
 ### Blackbox Manager 界面
-![0](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/0.png)
+
+### Node Exporter Dashboard 截图
 
 ### Blackbox Exporter Dashboard 截图
-![1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/1.png)![2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/2.png)
 
 ## 部署说明
 
