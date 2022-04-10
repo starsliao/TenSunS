@@ -5,6 +5,8 @@
 - **新增监控时，监控类型字段(`module`)和Blackbox配置中的`module`必须保持一致。**
 - **前5个字段合并即为consul的serviceID，作为唯一监控项标识**
 
+---
+
 ### 配置Prometheus与Blackbox
 
 #### 基于Consul实现Prometheus的自动发现功能配置
