@@ -93,8 +93,8 @@ consul acl bootstrap
 ### 2. 部署Consul Manager
 
 ##### 使用docker-compose来部署
-- 下载：`wget https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml`
-- 编辑`docker-compose.yaml`文件，修改3个环境变量：
+- 下载：`https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml`
+- 编辑：`docker-compose.yml`，修改3个环境变量：
   - consul的token：**`consul_token`**
   - consul的URL(/v1要保留)：**`consul_url`**
   - 登录Consul Manager的密码：**`admin_passwd`**
