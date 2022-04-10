@@ -106,6 +106,12 @@ export const constantRoutes = [
         name: 'Prometheus 配置',
         component: () => import('@/views/node-exporter/pconfig'),
         meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
+      },
+      {
+        path: 'grafana',
+        name: 'Grafana 看板',
+        component: () => import('@/views/node-exporter/grafana'),
+        meta: { title: 'Grafana 看板', icon: 'el-icon-data-line' }
       }
     ]
   },
@@ -139,6 +145,12 @@ export const constantRoutes = [
         name: '告警规则',
         component: () => import('@/views/blackbox/rules'),
         meta: { title: '告警规则', icon: 'el-icon-bell' }
+      },
+      {
+        path: 'grafana',
+        name: 'Grafana 看板',
+        component: () => import('@/views/blackbox/grafana'),
+        meta: { title: 'Grafana 看板', icon: 'el-icon-data-line' }
       }
     ]
   },
@@ -147,6 +159,10 @@ export const constantRoutes = [
     component: Layout,
     meta: { title: '快速链接', icon: 'link' },
     children: [
+      {
+        path: 'https://github.com/starsliao/ConsulManager#%E7%89%B9%E5%88%AB%E9%B8%A3%E8%B0%A2',
+        meta: { title: '赞赏与鸣谢', icon: 'el-icon-cold-drink' }
+      },
       {
         path: 'https://starsl.cn',
         meta: { title: 'StarsL.cn', icon: 'el-icon-s-custom' }
@@ -162,10 +178,6 @@ export const constantRoutes = [
       {
         path: 'https://starsl.cn/static/img/thanks.png',
         meta: { title: '我的公众号', icon: 'el-icon-chat-dot-round' }
-      },
-      {
-        path: 'https://github.com/starsliao/ConsulManager/blob/main/Thanks.md',
-        meta: { title: '特别鸣谢', icon: 'el-icon-cold-drink' }
       },
       {
         path: 'https://element.eleme.cn/#/zh-CN/component/icon',
