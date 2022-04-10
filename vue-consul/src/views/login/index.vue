@@ -2,7 +2,8 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
-      <div class="title-container">
+      <div class="title-container" style="text-align:center">
+        <img src="../../assets/login_images/SLH.png" width="90" height="90">
         <h3 style="font-size:35px" class="title">Consul Manager</h3>
       </div>
 
@@ -162,7 +163,7 @@ $cursor: #fff;
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
@@ -176,14 +177,20 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .login-container {
-  min-height: 100%;
+  // min-height: 100%;
+  // width: 100%;
+  // background-color: $bg;
+  // overflow: hidden;
   width: 100%;
-  background-color: $bg;
-  overflow: hidden;
+  height: 100%;
+  background-image: url("../../assets/login_images/bg.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 460px;
     max-width: 100%;
     padding: 160px 35px 0;
     margin: 0 auto;
@@ -216,7 +223,7 @@ $light_gray:#eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0px auto 20px auto;
       text-align: center;
       font-weight: bold;
     }
