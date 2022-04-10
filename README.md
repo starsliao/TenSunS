@@ -34,7 +34,7 @@
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
-### Consul Manager 界面
+### Consul Web Manager 界面
 ![c1](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.png)![c2](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul2.png)![c3](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.png)
 ![c4](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul4.png)
 ### Blackbox Manager 界面
@@ -91,6 +91,7 @@ consul acl bootstrap
 ### 2. 部署Consul Manager
 
 ##### 使用docker-compose来部署
+wget https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml
 编辑docker-compose.yaml文件，修改传入的3个环境变量：
 - **consul的`token`，consul的`URL`(/v1要保留)，登录Consul Manager的`密码`**
 
