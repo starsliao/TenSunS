@@ -33,5 +33,7 @@
 #### 批量导入脚本
 
 在units目录下`instance.list`中写入监控目标的信息：JOB名称，公司/部门，项目，环境，名称，实例url，每行一个，空格分隔。
+
 **注意：前5个字段组合起来必须唯一，作为一个监控项的ID。**
+
 修改units目录下导入脚本中的consul_token和consul_url，保存后执行input.py，即可导入所有监控目标到Consul，并符合Prometheus的自动发现配置。
