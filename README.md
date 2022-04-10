@@ -101,10 +101,19 @@ consul acl bootstrap
 
 
 # 特别鸣谢
+## 赞赏与关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
+![](https://github.com/starsliao/ConsulManager/blob/main/thanks.png)
+
+---
+
 ### 赞助
+暂无
+
 ---
 
 ### 提交代码
+暂无
+
 ---
 
 ### 提交bug
@@ -119,5 +128,3 @@ consul acl bootstrap
 
 ---
 
-### 赞赏与关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
-![](https://github.com/starsliao/ConsulManager/blob/main/thanks.png)
