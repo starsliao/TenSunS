@@ -1,5 +1,8 @@
 <template>
   <div class="app-container">
+    <el-alert type="success" center close-text="知道了">
+      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理ECS主机监控</el-link>
+    </el-alert>
     <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
       <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
     </el-select>

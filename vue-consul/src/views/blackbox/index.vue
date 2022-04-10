@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-alert type="success" center close-text="知道了">
-      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8consul%E7%AE%A1%E7%90%86blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7" target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
+      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
     </el-alert>
     <div class="filter-container">
       <el-select v-model="listQuery.module" placeholder="监控类型" clearable collapse-tags style="width: 150px" class="filter-item">
