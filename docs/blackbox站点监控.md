@@ -9,7 +9,7 @@
 
 ### 配置Prometheus与Blackbox
 
-#### 基于Consul实现Prometheus的自动发现功能配置
+#### 原理：基于Consul实现Prometheus的自动发现功能配置
 - 把Consul每个service的Meta的KV关联到Prometheus每个指标的标签。
 - 根据每个指标的标签来对监控目标分类，分组，方便管理维护。
 ##### 1. 配置Blackbox_Exporter
