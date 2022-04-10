@@ -22,7 +22,6 @@
 ##### 5. 导入Node Exporter Dashboard
 - 更新了主机监控的grafana看板，可匹配自动同步方式采集ECS信息字段的展示。
 - 优化了大量图表，使用新版表格重建，新增健康评分概念，并新增了整体资源消耗信息的一些图表。
-```
-导入ID：8919
-详细URL：[https://grafana.com/grafana/dashboards/8919](https://grafana.com/grafana/dashboards/8919)
-```
+- **导入ID：8919**
+- 详细URL：[https://grafana.com/grafana/dashboards/8919](https://grafana.com/grafana/dashboards/8919)
+
