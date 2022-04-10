@@ -28,6 +28,8 @@
 详细URL：https://grafana.com/grafana/dashboards/9965
 ```
 
+---
+
 ##### 批量导入脚本
 
 在units目录下`instance.list`中写入监控目标的信息：JOB名称，公司/部门，项目，环境，名称，实例url，每行一个，空格分隔。
