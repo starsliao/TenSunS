@@ -34,6 +34,7 @@
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 截图
+## [点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)
 ### Consul Web Manager 界面
 ![](https://github.com/starsliao/ConsulManager/blob/main/screenshot/consul2.PNG?raw=true)
 ### ECS Manager 界面
