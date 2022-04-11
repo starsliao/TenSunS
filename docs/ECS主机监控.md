@@ -25,3 +25,4 @@
 - **导入ID：8919**
 - 详细URL：[https://grafana.com/grafana/dashboards/8919](https://grafana.com/grafana/dashboards/8919)
 
+##### 注意：各ECS的Node_exporter需要自行安装。
