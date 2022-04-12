@@ -25,4 +25,7 @@
 - **导入ID：8919**
 - 详细URL：[https://grafana.com/grafana/dashboards/8919](https://grafana.com/grafana/dashboards/8919)
 
+##### 主动关机的ECS，会在同步时候从Consul中清除，即会在Prometheus中去除，重新开机后会增加回去。
+
 ##### 注意：各ECS的Node_exporter需要自行安装。
+
