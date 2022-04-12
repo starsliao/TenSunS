@@ -12,7 +12,8 @@
     </el-row>
     <br>
     <div class="block">
-      <el-image style="width: 100%; height: 100%" src="/node-exporter.png" />
+      <el-image style="width: 100%; height: 100%" src="/node1.png" />
+      <el-image style="width: 100%; height: 100%" src="/node2.png" />
     </div>
   </div>
 </template>
