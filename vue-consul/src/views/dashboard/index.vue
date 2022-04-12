@@ -7,14 +7,17 @@
       <el-timeline-item timestamp="2022/4/7" placement="top">
         <el-card>
           <h4>v0.5.0</h4>
-          <p>【重要】增加ECS云主机监控：支持自动同步阿里、腾讯、华为云的ECS、分组信息到Consul并接入到Prometheus监控！并更新了对应的Grafana看板。</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle /> 增加ECS云主机监控：支持自动同步阿里、腾讯、华为云的ECS、分组信息到Consul并接入到Prometheus监控！并更新了对应的Grafana看板。</p>
           <p>增加了从Consul同步ECS，站点信息到Prometheus的配置生成界面，可生成Prometheus的配置。</p>
           <p>增加了Blackbox的配置信息与Prometheus告警规则信息生成页面。</p>
-          <p>优化了Blackbox接入Prometheus的配置，只需配置1个job即可接入所有类型的站点监控，并更新了对应的Grafana看板。</p>
-          <p>更新了站点监控的grafana看板，增加了URL筛选，查询关联所有图表，并支持展示单job的配置方式。</p>
-          <p>更新了主机监控的grafana看板，可匹配自动同步方式采集ECS信息字段的展示， 优化了大量图表，使用新版表格重建，新增健康评分概念，并新增了整体资源消耗信息的一些图表。</p>
+          <p>优化了Blackbox接入Prometheus的配置，只需配置1个job即可接入所有类型的站点监控，并更新了对应的Grafana看板。(使用旧版本配置的请参考新文档配置)</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle /> 更新了站点监控的grafana看板，增加了URL筛选，查询关联所有图表，并支持展示单job的配置方式。</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> 更新了主机监控的grafana看板，可匹配自动同步方式采集ECS信息字段的展示， 优化了大量图表，使用新版表格重建，新增健康评分概念，并新增了整体资源消耗信息的一些图表。</p>
           <p>修正了一个修改Consul实例健康检查不能生效的bug。</p>
           <p>优化了多个展示信息的说明，与帮助文档的描述，以及增加了鸣谢信息。</p>
+          <p>更新了登录界面。</p>
+          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景1：如何优雅的基于Consul自动同步ECS主机监控</el-link></p>
+          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景2：如何优雅的使用Consul管理Blackbox站点监控</el-link></p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/2/23" placement="top">
