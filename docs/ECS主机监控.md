@@ -6,6 +6,7 @@
 - 新增的各个云厂商的ECS同步任务：会存放到consul_kv的`/ConsulManager/jobs`下，服务启动的时候会加载这些任务。
 - 每次同步任务的执行结果:会存储到consul_kv的`/ConsulManager/record/jobs`的各个云厂商目录下。
 - 新增云厂商的数据源之后会自动同步一次分组信息，ECS信息则会在设置的时间间隔之后才会同步，可以手动点击同步按钮同步一次。
+- Linux默认监控node_exporter的9100端口，Windows默认监控windows——exporter的9128端口。
 
 ### 配置说明
 ##### 1. 新增同步源 
