@@ -42,7 +42,8 @@
 ### Blackbox Manager 界面
 ![](https://github.com/starsliao/ConsulManager/blob/main/screenshot/blackbox1.PNG?raw=true)
 ### Node Exporter Dashboard 截图
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node-exporter.png)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
 ### Blackbox Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/blackbox.png)
 
