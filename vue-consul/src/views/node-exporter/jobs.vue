@@ -232,7 +232,8 @@ export default {
           { value: 'ap-tianjin', label: '华北地区(天津)' },
           { value: 'ap-chengdu', label: '西南地区(成都)' },
           { value: 'ap-chongqing', label: '西南地区(重庆)' },
-          { value: 'ap-hongkong', label: '港澳台地区(中国香港)' }
+          { value: 'ap-hongkong', label: '港澳台地区(中国香港)' },
+          { value: 'ap-tokyo', label: '亚太地区(东京)' }
         ]
       },
 

@@ -17,5 +17,5 @@ regions = {'huaweicloud':{'none': '无','cn-east-3': '华东-上海一','cn-east
            'tencent_cloud':{'none': '无',"ap-nanjing":"华东地区(南京)","ap-shanghai":"华东地区(上海)",
                            "ap-guangzhou":"华南地区(广州)","ap-beijing":"华北地区(北京)","ap-tianjin":"华北地区(天津)",
                            "ap-chengdu":"西南地区(成都)","ap-chongqing":"西南地区(重庆)",
-                           "ap-hongkong":"港澳台地区(中国香港)"}
+                           "ap-hongkong":"港澳台地区(中国香港)","ap-tokyo":"亚太地区(东京)"}
           }
