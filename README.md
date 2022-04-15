@@ -67,7 +67,7 @@ rpm -ivh ./consul-1.11.1-1.x86_64.rpm
 
 ```bash
 vi /etc/consul.d/consul.hcl
-advertise_addr = "10.5.148.67" #如果有多网卡需要配置这行，填写你的网卡IP
+advertise_addr = "192.168.x.x" #可以先不加这行，如果启动有问题再加上，一般有多网卡需要配置这行，填写你的网卡IP
 data_dir = "/opt/consul"
 client_addr = "0.0.0.0"
 ui_config{
