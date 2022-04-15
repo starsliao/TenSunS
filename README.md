@@ -85,6 +85,7 @@ acl = {
 ##### 启动与鉴权配置
 
 ```bash
+chown -R consul:consul /opt/consul  #注意下数据目录的权限。
 systemctl enable consul.service
 systemctl start consul.service
 # 获取登录密码
