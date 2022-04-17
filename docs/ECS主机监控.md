@@ -26,7 +26,18 @@
 - **导入ID：8919**
 - 详细URL：[https://grafana.com/grafana/dashboards/8919](https://grafana.com/grafana/dashboards/8919)
 
-##### 主动关机的ECS，会在同步时候从Consul中清除，即会在Prometheus中去除(减少无效的告警)，重新开机后会增加回去。
+### 注意：
 
-##### 注意：各ECS的Node_exporter需要自行安装。
+##### 主动关机的ECS，会在同步时候从Consul中清除，即会在Prometheus中去除(减少无效的告警)，重新开机后会增加回去。
+##### 各ECS的Node_exporter需要自行安装。
+##### 【最近7天P99资源使用率】图表需要在Prometheus增加记录规则(采集1小时后出数据)：
+```
+- name: node_usage_record_rules
+  interval: 1m
+  rules:
+  - record: cpu:usage:rate1m
+    expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])) by (instance,vendor,account,group,name)) * 100
+  - record: mem:usage:rate1m
+    expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
+```
 
