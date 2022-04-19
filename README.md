@@ -111,6 +111,8 @@ consul acl bootstrap
 ### 加入ConsulManager交流群
 ![图片](https://user-images.githubusercontent.com/3349611/163729552-1f55a61d-0d4c-4955-a83e-52fc524cc7a1.png)
 
+### 开发线路
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/ConsulManager-Roadmap.png)
 
 # 特别鸣谢
 ## 赞赏与关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
@@ -124,6 +126,8 @@ consul acl bootstrap
 @mac🐬 🌈
 
 @Stephen
+
+@蔡志昆
 
 ---
 
