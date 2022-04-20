@@ -109,7 +109,8 @@ consul acl bootstrap
 ## [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
 ### 加入ConsulManager交流群
-![图片](https://user-images.githubusercontent.com/3349611/164152065-24fa1e4d-dd1c-4695-9389-75a3d6a697ff.png)
+![图片](https://user-images.githubusercontent.com/3349611/164152250-77a99959-f8ca-4f16-a1ad-a93fa694e034.png)
+
 
 
 ### 开发线路
