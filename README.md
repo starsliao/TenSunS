@@ -141,6 +141,8 @@ consul acl bootstrap
 ### 提交bug
 @会飞的鱼
 
+[@奈](https://github.com/Wp516781950)
+
 ---
 
 ### 提供建议
