@@ -222,7 +222,8 @@ export default {
           { value: 'cn-guangzhou', label: '华南3(广州)' },
           { value: 'cn-chengdu', label: '西南1(成都)' },
           { value: 'cn-hongkong', label: '中国(香港)' },
-          { value: 'cn-nanjing', label: '华东5(南京-本地地域)' }
+          { value: 'cn-nanjing', label: '华东5(南京-本地地域)' },
+          { value: 'us-east-1', label: '美国东部1(弗吉尼亚)' }
         ],
         tencent_cloud: [
           { value: 'ap-nanjing', label: '华东地区(南京)' },
