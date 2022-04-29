@@ -35,12 +35,12 @@
 
 ## 部分截图  （[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 ### Consul Web Manager 界面
-![](https://github.com/starsliao/ConsulManager/blob/main/screenshot/consul1.PNG?raw=true)
-![](https://github.com/starsliao/ConsulManager/blob/main/screenshot/consul3.PNG?raw=true)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.PNG)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
 ### ECS Manager 界面
-![](https://github.com/starsliao/ConsulManager/blob/main/screenshot/ecs1.PNG?raw=true)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
 ### Blackbox Manager 界面
-![](https://github.com/starsliao/ConsulManager/blob/main/screenshot/blackbox1.PNG?raw=true)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/blackbox1.PNG)
 ### Node Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
