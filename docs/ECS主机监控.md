@@ -19,7 +19,7 @@
 ##### 3. 管理自建主机
 - 在Web页面点击`Node 云主机监控/自建主机管理`，点击`新增`，根据需要即可增加需要监控的自建主机，支持增删改查与批量操作（脚本）。
 ##### 3. 配置Prometheus
-- 点击`ECS 云主机监控/Prometheus 配置`，根据需要来生成各云账号、系统（均支持多选）的Prometheus配置信息（**自建主机请选择`selfnode_exporter`**），复制配置后，追加到`prometheus.yml`的末尾，重启Prometheus即可。
+- 点击`ECS 云主机监控/Prometheus 配置`，根据需要来生成各云账号、系统（均支持多选）的Prometheus配置信息（**有自建主机记得复选上`selfnode_exporter`**），复制配置后，追加到`prometheus.yml`的末尾，重启Prometheus即可。
 ##### 4. 查看Prometheus
 - 在Prometheus的Web页面中，点击`Status-Targets`，能看到新增的Job即表示数据同步到Prometheus。
 ##### 5. 导入Node Exporter Dashboard
