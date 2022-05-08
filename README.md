@@ -15,12 +15,11 @@
 - 可以方便的对每个Services实例的Tags、Meta、健康检查进行配置。
 
 ### ECS Manager
-- 支持同步阿里云，腾讯云，华为云的ECS主机信息到Consul。
-- 支持自建主机接入监控管理，提供脚本可批量导入主机到Consul。
 - 基于Consul实现Prometheus监控目标的自动发现。
+- 支持同步阿里云，腾讯云，华为云的ECS主机信息到Consul。
 - 支持同步各云厂商的分组信息到Consul，用于关联ECS分组。
+- 支持自建主机接入监控管理，并提供脚本批量导入主机到Consul。
 - 提供了可查询分组与ECS信息的页面，指标中加入了ECS到期日等信息，可直接监控。
-- 可调整同步的时间间隔。
 - 提供了按需的Prometheus配置生成功能。
 - 提供了一个匹配ECS Manager各字段的node_exporter Grafana展示看板。
 
@@ -149,6 +148,8 @@ consul acl bootstrap
 [@dong9205](https://github.com/dong9205)
 
 [@dissipator](https://github.com/dissipator)
+
+@
 
 ---
 
