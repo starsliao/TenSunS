@@ -47,6 +47,7 @@ export default {
       this.listLoading = true
       getServicesList().then(response => {
         this.services_list = response.services_list
+        this.services_list.push('selfnode_exporter')
         this.listLoading = false
       })
     },

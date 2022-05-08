@@ -223,7 +223,11 @@ export default {
           { value: 'cn-chengdu', label: '西南1(成都)' },
           { value: 'cn-hongkong', label: '中国(香港)' },
           { value: 'cn-nanjing', label: '华东5(南京-本地地域)' },
-          { value: 'us-east-1', label: '美国东部1(弗吉尼亚)' }
+          { value: 'us-east-1', label: '美国东部1(弗吉尼亚)' },
+          { value: 'us-west-1', label: '美国(硅谷)' },
+          { value: 'eu-west-1', label: '英国(伦敦)' },
+          { value: 'ap-southeast-1', label: '新加坡' },
+          { value: 'ap-northeast-1', label: '日本(东京)' }
         ],
         tencent_cloud: [
           { value: 'ap-nanjing', label: '华东地区(南京)' },

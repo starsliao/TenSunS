@@ -86,8 +86,8 @@ export const constantRoutes = [
     path: '/nodes',
     component: Layout,
     redirect: '/nodes/jobs',
-    name: 'ECS 云主机监控',
-    meta: { title: 'ECS 云主机监控', icon: 'example' },
+    name: 'Node 主机监控',
+    meta: { title: 'Node 主机监控', icon: 'example' },
     children: [
       {
         path: 'jobs',
@@ -99,7 +99,13 @@ export const constantRoutes = [
         path: 'lists',
         name: '云主机列表',
         component: () => import('@/views/node-exporter/lists'),
-        meta: { title: '云主机列表', icon: 'el-icon-s-platform' }
+        meta: { title: '云主机列表', icon: 'el-icon-cloudy' }
+      },
+      {
+        path: 'self',
+        name: '自建主机管理',
+        component: () => import('@/views/node-exporter/self'),
+        meta: { title: '自建主机管理', icon: 'el-icon-s-platform' }
       },
       {
         path: 'pconfig',

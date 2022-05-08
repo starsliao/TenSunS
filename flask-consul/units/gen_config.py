@@ -16,6 +16,8 @@ def ecs_config(services_list,ostype_list):
         services: {services_list}
         tags: ['{ostype}']
     relabel_configs:
+      - source_labels: ['__meta_consul_service']
+        target_label: cservice
       - source_labels: ['__meta_consul_service_metadata_vendor']
         target_label: vendor
       - source_labels: ['__meta_consul_service_metadata_region']

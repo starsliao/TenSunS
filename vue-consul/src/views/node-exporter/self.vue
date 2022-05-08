@@ -1,20 +1,17 @@
 <template>
   <div class="app-container">
-    <el-alert type="success" center close-text="知道了">
-      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
-    </el-alert>
     <div class="filter-container">
-      <el-select v-model="listQuery.module" placeholder="监控类型" clearable collapse-tags style="width: 150px" class="filter-item">
-        <el-option v-for="item in module_list" :key="item" :label="item" :value="item" />
+      <el-select v-model="listQuery.vendor" placeholder="机房/公司" clearable collapse-tags style="width: 150px" class="filter-item">
+        <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.company" placeholder="公司部门" clearable style="width: 150px" class="filter-item">
-        <el-option v-for="item in company_list" :key="item" :label="item" :value="item" />
+      <el-select v-model="listQuery.account" placeholder="租户/部门" clearable style="width: 150px" class="filter-item">
+        <el-option v-for="item in account_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.project" filterable placeholder="项目" clearable style="width: 160px" class="filter-item">
-        <el-option v-for="item in project_list" :key="item" :label="item" :value="item" />
+      <el-select v-model="listQuery.region" filterable placeholder="区域/项目" clearable style="width: 160px" class="filter-item">
+        <el-option v-for="item in region_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.env" filterable placeholder="环境" clearable style="width: 100px" class="filter-item">
-        <el-option v-for="item in env_list" :key="item" :label="item" :value="item" />
+      <el-select v-model="listQuery.group" filterable placeholder="分组/环境" clearable style="width: 100px" class="filter-item">
+        <el-option v-for="item in group_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-tooltip class="item" effect="light" content="点击清空查询条件" placement="top">
         <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="handleReset" />
@@ -48,34 +45,39 @@
           <span>{{ scope.$index+1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="module" label="监控类型" sortable width="130px" align="center">
+      <el-table-column prop="vendor" label="机房/公司" sortable align="center">
         <template slot-scope="{row}">
-          <span>{{ row.module }}</span>
+          <span>{{ row.vendor }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="company" label="公司部门" sortable width="110px" align="center">
+      <el-table-column prop="account" label="租户/部门" sortable align="center">
         <template slot-scope="{row}">
-          <span>{{ row.company }}</span>
+          <span>{{ row.account }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="project" label="项目" sortable width="180px" align="center" show-overflow-tooltip>
+      <el-table-column prop="region" label="区域/项目" sortable align="center" show-overflow-tooltip>
         <template slot-scope="{row}">
-          <span>{{ row.project }}</span>
+          <span>{{ row.region }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="env" label="环境" sortable align="center" width="73px">
+      <el-table-column prop="group" label="分组/环境" sortable align="center">
         <template slot-scope="{row}">
-          <span>{{ row.env }}</span>
+          <span>{{ row.group }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="名称" sortable width="200px" align="center" show-overflow-tooltip>
+      <el-table-column prop="name" label="名称" sortable align="center" show-overflow-tooltip>
         <template slot-scope="{row}">
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="instance" label="实例" sortable align="center" show-overflow-tooltip>
+      <el-table-column prop="instance" label="实例" sortable align="center" width="160" show-overflow-tooltip>
         <template slot-scope="{row}">
-          <span style="font-size: 12px">{{ row.instance }}</span>
+          <span>{{ row.instance }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="os" label="系统" sortable align="center" width="80">
+        <template slot-scope="{row}">
+          <span>{{ row.os }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="160" class-name="small-padding fixed-width">
@@ -94,40 +96,35 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="37%">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
-        <el-form-item prop="module">
-          <span slot="label">
-            <span class="span-box">
-              <span>监控类型</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="该字段必须和Blackbox配置中的module名称保持一致，如：http_2xx，http_post_2xx，http_post_2xx 等。" placement="top">
-                <i class="el-icon-info" />
-              </el-tooltip>
-            </span>
-          </span>
-          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择" clearable class="filter-item" />
+        <el-form-item label="机房/公司" prop="vendor">
+          <el-autocomplete v-model="temp.vendor" :fetch-suggestions="Sugg_vendor" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
-        <el-form-item label="公司部门" prop="company">
-          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择" clearable class="filter-item" />
+        <el-form-item label="租户/部门" prop="account">
+          <el-autocomplete v-model="temp.account" :fetch-suggestions="Sugg_account" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
-        <el-form-item label="项目" prop="project">
-          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择" clearable class="filter-item" />
+        <el-form-item label="区域/项目" prop="region">
+          <el-autocomplete v-model="temp.region" :fetch-suggestions="Sugg_region" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
-        <el-form-item label="环境" prop="env">
-          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择" clearable class="filter-item" />
+        <el-form-item label="分组/环境" prop="group">
+          <el-autocomplete v-model="temp.group" :fetch-suggestions="Sugg_group" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" />
-        </el-form-item>
-        <el-form-item prop="instance">
-          <span slot="label">
-            <span class="span-box">
-              <span>实例</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="TCP类检查格式为：IP:端口 ，HTTP类检查格式为完整的URL，必须以http(s)://开头。" placement="top">
-                <i class="el-icon-info" />
-              </el-tooltip>
-            </span>
-          </span>
-          <el-input v-model="temp.instance" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" class="filter-item" />
-        </el-form-item>
+        <el-form ref="dataForm" :inline="true" :rules="rules" :model="temp" class="demo-form-inline" label-position="right" label-width="50px">
+          <el-form-item label="名称" prop="name">
+            <el-input v-model="temp.name" placeholder="请输入" clearable />
+          </el-form-item>
+          <el-form-item label="系统" prop="os">
+            <el-select v-model="temp.os" placeholder="请选择" style="width: 130px;" @change="temp.port=osport[temp.os]">
+              <el-option label="linux" value="linux" />
+              <el-option label="windows" value="windows" />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="IP" prop="ip">
+            <el-input v-model="temp.ip" placeholder="请输入" clearable />
+          </el-form-item>
+          <el-form-item label="端口" prop="port">
+            <el-input v-model="temp.port" placeholder="请输入" clearable style="width: 130px;" />
+          </el-form-item>
+        </el-form>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button v-if="dialogStatus==='create'" type="primary" @click="createAndNew">
@@ -149,7 +146,7 @@
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
-import { getAllList, getAllInfo, addService, updateService, delService } from '@/api/blackbox'
+import { getAllList, getAllInfo, addService, updateService, delService } from '@/api/selfnode'
 export default {
   name: 'ComplexTable',
   components: { Pagination },
@@ -182,24 +179,27 @@ export default {
       listQuery: {
         page: 1,
         limit: 30,
-        module: '',
-        company: '',
-        project: '',
-        env: ''
+        vendor: '',
+        account: '',
+        region: '',
+        group: ''
       },
-      value_module: [],
-      value_company: [],
-      value_project: [],
-      value_env: [],
+      value_vendor: [],
+      value_account: [],
+      value_region: [],
+      value_group: [],
       multipleSelection: [],
       del_dict: {},
+      osport: { linux: '9100', windows: '9128' },
       temp: {
-        module: '',
-        company: '',
-        project: '',
-        env: '',
+        vendor: '',
+        account: '',
+        region: '',
+        group: '',
         name: '',
-        instance: ''
+        os: '',
+        ip: '',
+        port: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -208,49 +208,54 @@ export default {
         create: '创建'
       },
       rules: {
-        module: [{ required: true, message: '此为必填项', trigger: 'change' },
+        vendor: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
-        company: [{ required: true, message: '此为必填项', trigger: 'change' },
+        account: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
-        project: [{ required: true, message: '此为必填项', trigger: 'change' },
+        region: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
-        env: [{ required: true, message: '此为必填项', trigger: 'change' },
+        group: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
         name: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
-        instance: [{ required: true, message: '此为必填项', trigger: 'change' }]
+        ip: [{ required: true, message: '此为必填项', trigger: 'change' },
+          { validator: validateInput, trigger: ['blur', 'change'] }],
+        port: [{ required: true, message: '此为必填项', trigger: 'change' },
+          { validator: validateInput, trigger: ['blur', 'change'] }],
+        os: [{ required: true, message: '此为必填项', trigger: 'change' },
+          { validator: validateInput, trigger: ['blur', 'change'] }]
       },
       downloadLoading: false
     }
   },
 
   computed: {
-    cmodule() {
-      return this.listQuery.module
+    cvendor() {
+      return this.listQuery.vendor
     },
-    ccompany() {
-      return this.listQuery.company
+    caccount() {
+      return this.listQuery.account
     },
-    cproject() {
-      return this.listQuery.project
+    cregion() {
+      return this.listQuery.region
     },
-    cenv() {
-      return this.listQuery.env
+    cgroup() {
+      return this.listQuery.group
     }
   },
 
   watch: {
-    cmodule(new_module) {
-      this.fetchList(new_module, this.listQuery.company, this.listQuery.project, this.listQuery.env)
+    cvendor(new_vendor) {
+      this.fetchList(new_vendor, this.listQuery.account, this.listQuery.region, this.listQuery.group)
     },
-    ccompany(new_company) {
-      this.fetchList(this.listQuery.module, new_company, this.listQuery.project, this.listQuery.env)
+    caccount(new_account) {
+      this.fetchList(this.listQuery.vendor, new_account, this.listQuery.region, this.listQuery.group)
     },
-    cproject(new_project) {
-      this.fetchList(this.listQuery.module, this.listQuery.company, new_project, this.listQuery.env)
+    cregion(new_region) {
+      this.fetchList(this.listQuery.vendor, this.listQuery.account, new_region, this.listQuery.group)
     },
-    cenv(new_env) {
-      this.fetchList(this.listQuery.module, this.listQuery.company, this.listQuery.project, new_env)
+    cgroup(new_group) {
+      this.fetchList(this.listQuery.vendor, this.listQuery.account, this.listQuery.region, new_group)
     }
   },
 
@@ -287,28 +292,28 @@ export default {
       this.listLoading = true
       getAllInfo().then(response => {
         this.all_list = response.all_list
-        this.module_list = response.module_list
-        this.company_list = response.company_list
-        this.project_list = response.project_list
-        this.env_list = response.env_list
+        this.vendor_list = response.vendor_list
+        this.account_list = response.account_list
+        this.region_list = response.region_list
+        this.group_list = response.group_list
         this.listLoading = false
-        this.xmodule = this.load_module()
-        this.xcompany = this.load_company()
-        this.xproject = this.load_project()
-        this.xenv = this.load_env()
+        this.xvendor = this.load_vendor()
+        this.xaccount = this.load_account()
+        this.xregion = this.load_region()
+        this.xgroup = this.load_group()
         this.pall_list = response.all_list
         this.handleFilter()
       })
     },
-    fetchList(module, company, project, env) {
+    fetchList(vendor, account, region, group) {
       this.listLoading = true
-      getAllList(module, company, project, env).then(response => {
+      getAllList(vendor, account, region, group).then(response => {
         this.all_list = response.all_list
         this.listLoading = false
-        this.module_list = response.module_list
-        this.company_list = response.company_list
-        this.project_list = response.project_list
-        this.env_list = response.env_list
+        this.vendor_list = response.vendor_list
+        this.account_list = response.account_list
+        this.region_list = response.region_list
+        this.group_list = response.group_list
         this.listQuery.page = 1
         this.pall_list = response.all_list
         this.handleFilter()
@@ -321,10 +326,12 @@ export default {
     handleCreate() {
       this.resetTemp()
       var newone = {
-        module: this.listQuery.module,
-        company: this.listQuery.company,
-        project: this.listQuery.project,
-        env: this.listQuery.env
+        vendor: this.listQuery.vendor,
+        account: this.listQuery.account,
+        region: this.listQuery.region,
+        group: this.listQuery.group,
+        os: 'linux',
+        port: '9100'
       }
       this.temp = Object.assign({}, this.temp, newone)
       this.dialogStatus = 'create'
@@ -337,6 +344,7 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           addService(this.temp).then(response => {
+            this.temp.instance = this.temp.ip + ':' + this.temp.port
             this.all_list.unshift(this.temp)
             this.dialogFormVisible = false
             this.$message({
@@ -351,6 +359,7 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           addService(this.temp).then(response => {
+            this.temp.instance = this.temp.ip + ':' + this.temp.port
             this.all_list.unshift(this.temp)
             this.dialogFormVisible = false
             this.$message({
@@ -358,10 +367,12 @@ export default {
               type: 'success'
             })
             var newtemp = {
-              module: this.temp.module,
-              company: this.temp.company,
-              project: this.temp.project,
-              env: this.temp.env
+              vendor: this.temp.vendor,
+              account: this.temp.account,
+              region: this.temp.region,
+              group: this.temp.group,
+              os: 'linux',
+              port: '9100'
             }
             this.resetTemp()
             this.temp = Object.assign({}, this.temp, newtemp)
@@ -375,12 +386,14 @@ export default {
       })
     },
     handleReset() {
-      this.listQuery.module = ''
-      this.listQuery.company = ''
-      this.listQuery.project = ''
-      this.listQuery.env = ''
+      this.listQuery.vendor = ''
+      this.listQuery.account = ''
+      this.listQuery.region = ''
+      this.listQuery.group = ''
     },
     handleUpdate(row) {
+      row.ip = row.instance.split(':')[0]
+      row.port = row.instance.split(':')[1]
       this.temp = Object.assign({}, row) // copy obj
       this.del_dict = row
       this.dialogStatus = 'update'
@@ -399,13 +412,14 @@ export default {
               message: response.data,
               type: 'success'
             })
+            up_dict.instance = up_dict.ip + ':' + up_dict.port
             this.all_list.splice(this.all_list.indexOf(this.del_dict), 1, up_dict)
           })
         }
       })
     },
     handleDelete(row) {
-      this.$confirm('此操作将删除【' + row.env + '：' + row.project + '：' + row.name + '】，是否继续?', '提示', {
+      this.$confirm('此操作将删除【' + row.group + '：' + row.region + '：' + row.name + '】，是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -449,13 +463,13 @@ export default {
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['监控模块', '公司部门', '项目', '环境', '名称', '实例']
-        const filterVal = ['module', 'company', 'project', 'env', 'name', 'instance']
+        const tHeader = ['机房/公司', '租户/部门', '区域/项目', '分组/环境', '名称', '实例', '系统']
+        const filterVal = ['vendor', 'account', 'region', 'group', 'name', 'instance', 'os']
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: 'Blackbox-list'
+          filename: 'selfnode-list'
         })
         this.downloadLoading = false
       })
@@ -465,24 +479,24 @@ export default {
         return v[j]
       }))
     },
-    Sugg_module(queryString, cb) {
-      var xmodule = this.xmodule
-      var results = queryString ? xmodule.filter(this.createFilter(queryString)) : xmodule
+    Sugg_vendor(queryString, cb) {
+      var xvendor = this.xvendor
+      var results = queryString ? xvendor.filter(this.createFilter(queryString)) : xvendor
       cb(results)
     },
-    Sugg_company(queryString, cb) {
-      var xcompany = this.xcompany
-      var results = queryString ? xcompany.filter(this.createFilter(queryString)) : xcompany
+    Sugg_account(queryString, cb) {
+      var xaccount = this.xaccount
+      var results = queryString ? xaccount.filter(this.createFilter(queryString)) : xaccount
       cb(results)
     },
-    Sugg_project(queryString, cb) {
-      var xproject = this.xproject
-      var results = queryString ? xproject.filter(this.createFilter(queryString)) : xproject
+    Sugg_region(queryString, cb) {
+      var xregion = this.xregion
+      var results = queryString ? xregion.filter(this.createFilter(queryString)) : xregion
       cb(results)
     },
-    Sugg_env(queryString, cb) {
-      var xenv = this.xenv
-      var results = queryString ? xenv.filter(this.createFilter(queryString)) : xenv
+    Sugg_group(queryString, cb) {
+      var xgroup = this.xgroup
+      var results = queryString ? xgroup.filter(this.createFilter(queryString)) : xgroup
       cb(results)
     },
     createFilter(queryString) {
@@ -490,29 +504,29 @@ export default {
         return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
       }
     },
-    load_module() {
-      for (const x in this.module_list) {
-        this.value_module.push({ 'value': this.module_list[x] })
+    load_vendor() {
+      for (const x in this.vendor_list) {
+        this.value_vendor.push({ 'value': this.vendor_list[x] })
       }
-      return this.value_module
+      return this.value_vendor
     },
-    load_company() {
-      for (const x in this.company_list) {
-        this.value_company.push({ 'value': this.company_list[x] })
+    load_account() {
+      for (const x in this.account_list) {
+        this.value_account.push({ 'value': this.account_list[x] })
       }
-      return this.value_company
+      return this.value_account
     },
-    load_project() {
-      for (const x in this.project_list) {
-        this.value_project.push({ 'value': this.project_list[x] })
+    load_region() {
+      for (const x in this.region_list) {
+        this.value_region.push({ 'value': this.region_list[x] })
       }
-      return this.value_project
+      return this.value_region
     },
-    load_env() {
-      for (const x in this.env_list) {
-        this.value_env.push({ 'value': this.env_list[x] })
+    load_group() {
+      for (const x in this.group_list) {
+        this.value_group.push({ 'value': this.group_list[x] })
       }
-      return this.value_env
+      return this.value_group
     }
   }
 }

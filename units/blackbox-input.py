@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 import requests,json
-consul_token = 'xxxxxxxxxx'
+consul_token = 'xxxxxxxxxx'  #Consul SecretID
 consul_url = 'http://x.x.x.x:8500/v1'
 
-with open('instance.list', 'r') as file:
+with open('blackbox-instance.list', 'r') as file:
   lines = file.readlines()
   for line in lines:
+    if line.startswith('#'):
+        continue
     module,company,project,env,name,instance = line.split()
     headers = {'X-Consul-Token': consul_token}
     data = {
