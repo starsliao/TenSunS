@@ -7,7 +7,7 @@
       <el-timeline-item timestamp="2022/5/8" placement="top">
         <el-card>
           <h4>v0.5.1</h4>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> Node 主机监控可以方便在页面上管理自建主机了。</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> Node 主机监控可以方便在页面上管理自建主机了，增加后记得重新生成Prometheus配置，复选上selfnode_exporter。</p>
           <p>优化了导入脚本，并且支持了自建主机的批量导入。</p>
           <p>云主机同步增加了部分国外的区域。</p>
           <p>web页面的描述做了优化，修复了一些bug。</p>

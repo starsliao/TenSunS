@@ -190,7 +190,7 @@ export default {
       value_group: [],
       multipleSelection: [],
       del_dict: {},
-      osport: { linux: '9100', windows: '9128' },
+      osport: { linux: '9100', windows: '9182' },
       temp: {
         vendor: '',
         account: '',
