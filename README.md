@@ -107,14 +107,11 @@ consul acl bootstrap
 ## [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
 ## [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
-### 加入ConsulManager交流群
-![图片](https://user-images.githubusercontent.com/3349611/167304840-839c9e1b-f640-49c8-8a2e-0b83409567c0.png)
-
 ### 开发线路
 ![图片](https://github.com/starsliao/ConsulManager/blob/main/Roadmap.png)
 
 # 特别鸣谢
-## 赞赏与关注公众号【**云原生DevOps**】加入运维群交流，获取更多...
+## 赞赏与关注公众号【**云原生DevOps**】加入运维群交流（注明consul），获取更多...
 ![](https://starsl.cn/static/img/thanks.png)
 
 ---
