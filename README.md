@@ -111,7 +111,7 @@ consul acl bootstrap
 ![图片](https://github.com/starsliao/ConsulManager/blob/main/Roadmap.png)
 
 # 特别鸣谢
-## 赞赏与关注公众号【**云原生DevOps**】加入运维群交流（注明consul），获取更多...
+## 赞赏与关注公众号【**云原生DevOps**】加入交流群（注明consul），获取更多...
 ![](https://starsl.cn/static/img/thanks.png)
 
 ---
