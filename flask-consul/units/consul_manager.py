@@ -83,7 +83,7 @@ def add_instance(instance_dict):
     isMeta = instance_dict['metaInfo']['isMeta']
     isCheck = instance_dict['checkInfo']['isCheck']
     address = instance_dict['address']
-    port = None if instance_dict['port'] == '' else int(instance_dict['port'])
+    port = None if (instance_dict['port'] == '' or instance_dict['port'] is None) else int(instance_dict['port'])
     instance_dict['port'] = port
     if isMeta:
         try:
