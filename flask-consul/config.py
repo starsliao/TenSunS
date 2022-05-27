@@ -7,7 +7,7 @@ admin_passwd = os.environ.get('admin_passwd','123456')
 vendors = {'alicloud': '阿里云','tencent_cloud': '腾讯云','huaweicloud': '华为云'}
 regions = {'huaweicloud':{'none': '无','cn-east-3': '华东-上海一','cn-east-2': '华东-上海二',
                           'cn-south-1': '华南-广州','cn-north-1': '华北-北京一','cn-north-4': '华北-北京四',
-                          'cn-southwest-2': '西南-贵阳一','ap-southeast-1': '中国-香港' },
+                          'cn-southwest-2': '西南-贵阳一','ap-southeast-1': '中国-香港','ap-southeast-3':'新加坡' },
            'alicloud':{'none': '无','cn-qingdao':'华北1(青岛)', 'cn-beijing':'华北2(北京)', 
                        'cn-zhangjiakou':'华北3(张家口)','cn-huhehaote':'华北5(呼和浩特)',
                        'cn-wulanchabu':'华北6(乌兰察布)', 'cn-hangzhou':'华东1(杭州)',

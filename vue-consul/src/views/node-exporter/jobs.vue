@@ -207,7 +207,8 @@ export default {
           { value: 'cn-north-1', label: '华北-北京一' },
           { value: 'cn-north-4', label: '华北-北京四' },
           { value: 'cn-southwest-2', label: '西南-贵阳一' },
-          { value: 'ap-southeast-1', label: '中国-香港' }
+          { value: 'ap-southeast-1', label: '中国-香港' },
+          { value: 'ap-southeast-3', label: '新加坡' }
         ],
         alicloud: [
           { value: 'cn-qingdao', label: '华北1(青岛)' },
