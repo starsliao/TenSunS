@@ -1,19 +1,19 @@
-# 🏆概述
+# 🚀概述
 - **ConsulManager**是一个使用Flask+Vue开发的Consul WEB管理工具，弥补了官方UI对Services管理的不足，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。
 - 本工具基于Prometheus自动发现Consul，实现了两个监控管理维护的应用：
   1. 基于云厂商ECS的自动同步到Consul，并接入Prometheus监控。（设计了一个关联的Grafana看板）
   2. 基于Blackbox实现站点与接口监控接入Consul，通过Web界面方便管理。（设计了一个关联的Grafana看板）
 - 本工具支持使用docker-compose快速部署。
 
-## ✨实现功能
-### Consul 管理
+## 💎实现功能
+### 🏆Consul 管理
 - 比官方自带的WEB UI实现了更多的功能。
 - 包含Consul服务器的状态信息。
 - 支持Consul Services的增删改查，可以批量删除Service。
 - 直观的查看每个Services实例的信息，及整体Services的健康状态。
 - 可以方便的对每个Services实例的Tags、Meta、健康检查进行配置。
 
-### Node 主机监控
+### 🏆Node 主机监控
 - 基于Consul实现Prometheus监控目标的自动发现。
 - 支持同步阿里云，腾讯云，华为云的ECS主机信息到Consul。
 - 支持同步各云厂商的分组信息到Consul，用于关联ECS分组。
@@ -22,7 +22,7 @@
 - 提供了按需的Prometheus配置生成功能。
 - 提供了一个匹配ECS Manager各字段的node_exporter Grafana展示看板。
 
-### Blackbox 站点监控
+### 🏆Blackbox 站点监控
 - 基于Prometheus + Blackbox_Exporter实现站点与接口监控。
 - 基于Consul实现Prometheus监控目标的自动发现。
 - 使用Web操作即可简单的对监控目标增删改查，支持批量删除，以及方便的分类维护管理。
