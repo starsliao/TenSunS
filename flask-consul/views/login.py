@@ -6,7 +6,7 @@ sys.path.append("..")
 from config import admin_passwd
 from units import token_auth, consul_kv
 secret_key = consul_kv.get_value('ConsulManager/assets/secret/skey')['sk']
-s = TimedJSONWebSignatureSerializer(secret_key)
+s = TimedJSONWebSignatureSerializer(secret_key,expires_in=28800)
 
 blueprint = Blueprint('login',__name__)
 api = Api(blueprint)

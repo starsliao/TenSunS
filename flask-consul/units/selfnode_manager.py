@@ -39,6 +39,8 @@ def get_service():
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
 def add_service(vendor,account,region,group,name,ip,port,os):
+    if port is None or name is None:
+        return {"code": 50000, "data": f"名称或IP不能为空！"}
     sid = f"{vendor}/{account}/{region}/{group}@{name}"
     instance = f'{ip}:{port}'
     if '//' in sid or sid.startswith('/') or sid.endswith('/'):

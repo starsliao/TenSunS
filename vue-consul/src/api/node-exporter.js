@@ -59,3 +59,9 @@ export function getConfig(services_dict) {
     data: { services_dict }
   })
 }
+export function getRules() {
+  return request({
+    url: '/api/nodes/rules',
+    method: 'get'
+  })
+}

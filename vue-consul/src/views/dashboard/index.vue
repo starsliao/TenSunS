@@ -4,6 +4,15 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/6/3" placement="top">
+        <el-card>
+          <h4>v0.5.2</h4>
+          <p>增加了node-exporter的告警规则。</p>
+          <p>修正了一个新增自建主机监控项的bug。</p>
+          <p>新增站点监控的描述做了优化。</p>
+          <p>登录过期时间修改为8小时。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/5/8" placement="top">
         <el-card>
           <h4>v0.5.1</h4>

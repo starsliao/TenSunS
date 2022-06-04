@@ -114,6 +114,12 @@ export const constantRoutes = [
         meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
       },
       {
+        path: 'rules',
+        name: '告警规则',
+        component: () => import('@/views/node-exporter/rules'),
+        meta: { title: '告警规则', icon: 'el-icon-bell' }
+      },
+      {
         path: 'grafana',
         name: 'Grafana 看板',
         component: () => import('@/views/node-exporter/grafana'),

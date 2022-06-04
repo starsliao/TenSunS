@@ -38,7 +38,8 @@ class Nodes(Resource):
                 serivces = i.split("/")
                 services_list.append(f'{serivces[0]}_{serivces[1]}_{serivces[2]}')
             return {'code': 20000,'services_list': sorted(set(services_list))}
-
+        elif stype == 'rules':
+            return gen_config.get_rules()
     def post(self, stype):
         if stype == 'config':
             args = parser.parse_args()

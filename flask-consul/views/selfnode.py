@@ -31,6 +31,7 @@ class SelfnodeApi(Resource):
         return selfnode_manager.get_service()
     def post(self):
         args = parser.parse_args()
+        print('=======\n',args,flush=True)
         return selfnode_manager.add_service(args['vendor'],args['account'],args['region'],
                                             args['group'],args['name'],args['ip'],args['port'],args['os'])
     def put(self):
