@@ -1,11 +1,11 @@
-# 概述
+# 🏆概述
 - **ConsulManager**是一个使用Flask+Vue开发的Consul WEB管理工具，弥补了官方UI对Services管理的不足，可以方便的对Consul Services进行增删改查，支持批量操作；并优化了对Tags、Meta、健康检查的配置管理与查询展示。
 - 本工具基于Prometheus自动发现Consul，实现了两个监控管理维护的应用：
   1. 基于云厂商ECS的自动同步到Consul，并接入Prometheus监控。（设计了一个关联的Grafana看板）
   2. 基于Blackbox实现站点与接口监控接入Consul，通过Web界面方便管理。（设计了一个关联的Grafana看板）
 - 本工具支持使用docker-compose快速部署。
 
-## 实现功能
+## ✨实现功能
 ### Consul 管理
 - 比官方自带的WEB UI实现了更多的功能。
 - 包含Consul服务器的状态信息。
@@ -32,7 +32,7 @@
 
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
-## 部分截图  （[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
+## 🎨部分截图  （[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 ### Consul Web Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.PNG)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
@@ -46,7 +46,7 @@
 ### Blackbox Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/blackbox.png)
 
-## 部署说明
+## 💾部署说明
 
 ### 1. 部署Consul
 
@@ -107,16 +107,16 @@ consul acl bootstrap
 ## [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
 ## [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
-### 开发线路
+### 💯开发线路
 ![图片](https://github.com/starsliao/ConsulManager/blob/main/Roadmap.png)
 
-# 特别鸣谢
+# 💖特别鸣谢
 ## 赞赏与关注公众号【**云原生DevOps**】加入交流群（注明consul），获取更多...
 ![](https://starsl.cn/static/img/thanks.png)
 
 ---
 
-### 赞赏
+### 💰赞赏
 @南城阿宇
 
 @mac🐬 🌈
@@ -127,19 +127,21 @@ consul acl bootstrap
 
 ---
 
-### 提交代码
+### ✅提交代码
 暂无
 
 ---
 
-### 提交bug
+### 🎃提交bug
 @会飞的鱼
 
 [@奈](https://github.com/Wp516781950)
 
+@Swancavalier
+
 ---
 
-### 提供建议
+### 📢提供建议
 [@dong9205](https://github.com/dong9205)
 
 [@dissipator](https://github.com/dissipator)
