@@ -49,6 +49,13 @@ def del_key(path):
         return response.json()
     else:
         return None
+def del_key_all(path):
+    url = f'{consul_url}/kv/{path}?recurse=true'
+    response = requests.delete(url, headers=headers)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
 
 def get_ecs_services(job_id):
     cloud,account,itype,region = job_id.split('/')

@@ -16,7 +16,16 @@ def init():
     global Scheduler
     Scheduler = APScheduler()
     return Scheduler
-    
+
+def deljob(jobid):
+    Scheduler.remove_job(jobid)
+
+def addjob(job_id,job_func,job_args,job_interval):
+    Scheduler.add_job(id=job_id, func=job_func, args=job_args, trigger='interval',
+                      minutes=job_interval, replace_existing=True)
+def runjob(jobid):
+    Scheduler.run_job(jobid)
+
 class Jobs(Resource):
     decorators = [token_auth.auth.login_required]
     def get(self):

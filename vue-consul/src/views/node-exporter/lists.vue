@@ -7,7 +7,7 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="fetchEcs(jobecs_name)" />
     </el-tooltip>
 
-    <el-table v-loading="listLoading" :data="ecs_list" :default-sort="{ prop: 'group', order: 'ascending' }" border fit highlight-current-row style="width: 100%;">
+    <el-table v-loading="listLoading" :data="ecs_list" :default-sort="{ prop: 'exp', order: 'ascending' }" border fit highlight-current-row style="width: 100%;">
       <el-table-column type="index" align="center" />
       <el-table-column prop="group" label="分组" sortable align="center" width="180" show-overflow-tooltip />
       <el-table-column prop="name" label="名称" sortable align="center" width="280" />

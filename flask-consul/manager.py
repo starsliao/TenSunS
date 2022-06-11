@@ -6,8 +6,9 @@ skey_path = 'ConsulManager/assets/secret/skey'
 if consul_kv.get_kv_dict(skey_path) == {}:
     consul_kv.put_kv(skey_path,{'sk':''.join(str(uuid.uuid4()).split('-'))})
 
-from views import login, blackbox, consul, jobs, nodes, selfnode
+from views import login, blackbox, consul, jobs, nodes, selfnode, avd
 from units.cloud import huaweicloud,alicloud,tencent_cloud
+from units.avd import avd_list
 app = Flask(__name__)
 app.register_blueprint(login.blueprint)
 app.register_blueprint(blackbox.blueprint)
@@ -15,13 +16,17 @@ app.register_blueprint(consul.blueprint)
 app.register_blueprint(jobs.blueprint)
 app.register_blueprint(nodes.blueprint)
 app.register_blueprint(selfnode.blueprint)
+app.register_blueprint(avd.blueprint)
 class Config(object):
     JOBS = []
     SCHEDULER_API_ENABLED = True
 init_jobs = consul_kv.get_kv_dict('ConsulManager/jobs')
+avd_jobs = consul_kv.get_kv_dict('ConsulManager/avd/jobs')
+init_jobs.update(avd_jobs)
+
 if init_jobs is not None:
     for k,v in init_jobs.items():
-        print(f'初始化任务：{k}:\n    {v}', flush=True)
+        print(f'【初始化任务】{k}:\n    {v}', flush=True)
     Config.JOBS = init_jobs.values()
 app.config.from_object(Config())
 

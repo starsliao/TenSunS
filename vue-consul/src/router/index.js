@@ -167,6 +167,16 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/avd',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: '漏洞通知',
+      component: () => import('@/views/avd/index'),
+      meta: { title: '漏洞通知', icon: 'el-icon-chat-line-square' }
+    }]
+  },
+  {
     path: '快速链接',
     component: Layout,
     meta: { title: '快速链接', icon: 'link' },
