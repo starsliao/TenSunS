@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3.2"
 services:
   flask-consul:
     image: registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
