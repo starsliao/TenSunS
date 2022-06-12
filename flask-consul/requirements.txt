@@ -8,6 +8,7 @@ requests==2.27.1
 Flask-APScheduler==1.12.3
 #pyDes==2.0.1
 pycryptodome==3.14.1
+beautifulsoup4==4.11.1
 huaweicloudsdkcore==3.0.78
 huaweicloudsdkecs==3.0.78
 huaweicloudsdkeps==3.0.78
