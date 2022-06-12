@@ -65,8 +65,8 @@ yum install -y yum-utils
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 yum -y install consul
 # 或者直接下RPM包安装
-wget https://rpm.releases.hashicorp.com/RHEL/7/x86_64/stable/consul-1.11.4.x86_64.rpm
-rpm -ivh ./consul-1.11.1-1.x86_64.rpm
+wget https://rpm.releases.hashicorp.com/RHEL/7/x86_64/stable/consul-1.12.2-1.x86_64.rpm
+rpm -ivh ./consul-1.12.2-1.x86_64.rpm
 ```
 
 ##### 配置
@@ -97,7 +97,7 @@ systemctl start consul.service
 # 获取登录密码
 consul acl bootstrap
 
-记录 SecretID，即为Consul登录的Token
+# 记录 SecretID，即为Consul登录的Token
 ```
 
 ### 2. 部署Consul Manager
