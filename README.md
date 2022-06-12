@@ -96,7 +96,8 @@ systemctl enable consul.service
 systemctl start consul.service
 # 获取登录密码
 consul acl bootstrap
-# 记录 SecretID
+
+记录 SecretID，即为Consul登录的Token
 ```
 
 ### 2. 部署Consul Manager
