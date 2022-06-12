@@ -11,7 +11,7 @@
           <el-switch v-model="avd_config.dingding" />
         </el-form-item>
         <el-form-item v-if="avd_config.switch && avd_config.dingding" required label="机器人Webhook地址">
-          <el-input v-model="avd_config.dingdingwh" type="textarea" autosize />
+          <el-input v-model="avd_config.dingdingwh" type="textarea" autosize /><font size="2" color="#ff0000">机器人安全设置的自定义关键词请设置为：<strong>漏洞告警</strong></font>
         </el-form-item>
         <el-form-item v-if="avd_config.switch" label="企业微信通知">
           <el-switch v-model="avd_config.wecom" />
