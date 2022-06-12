@@ -4,6 +4,14 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/6/13" placement="top">
+        <el-card>
+          <h4>v0.6.0</h4>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle /> 增加了漏洞采集与告警通知功能。</p>
+          <p>功能开启即可采集最新30个漏洞列表。</p>
+          <p>支持企业微信与钉钉群机器人通知。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/6/3" placement="top">
         <el-card>
           <h4>v0.5.2</h4>
