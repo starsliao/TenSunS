@@ -30,9 +30,14 @@
 - 提供了一个匹配Blackbox Manager各字段的Blackbox Exporter Grafana展示看板。
 - 提供脚本可批量导入监控目标到Consul。
 
+### 🏆高危漏洞采集与通知
+- 增加了漏洞采集与告警通知功能。
+- 功能开启即可采集最新30个漏洞列表。
+- 支持企业微信与钉钉群机器人通知。
+
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
 
-## 🎨部分截图  （[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
+## 🎨部分截图（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 ### Consul Web Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.PNG)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
@@ -117,13 +122,7 @@ consul acl bootstrap
 ---
 
 ### 💰赞赏
-@南城阿宇
-
-@mac🐬 🌈
-
-@Stephen
-
-@蔡志昆
+@南城阿宇  @mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约
 
 ---
 
@@ -133,18 +132,12 @@ consul acl bootstrap
 ---
 
 ### 🎃提交bug
-@会飞的鱼
-
-[@奈](https://github.com/Wp516781950)
-
-@Swancavalier
+@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier
 
 ---
 
 ### 📢提供建议
-[@dong9205](https://github.com/dong9205)
-
-[@dissipator](https://github.com/dissipator)
+[@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator)
 
 ---
 
