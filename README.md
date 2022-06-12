@@ -31,7 +31,7 @@
 - 提供脚本可批量导入监控目标到Consul。
 
 ### 🏆高危漏洞采集与通知
-- 增加了漏洞采集与告警通知功能。
+- 增加了高危风险漏洞采集与告警通知功能。
 - 功能开启即可采集最新30个漏洞列表。
 - 支持企业微信与钉钉群机器人通知。
 
@@ -45,6 +45,8 @@
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
 ### Blackbox Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/blackbox1.PNG)
+### 高危漏洞采集与通知 界面
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/bug.png)
 ### Node Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
