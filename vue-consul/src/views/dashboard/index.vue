@@ -6,9 +6,17 @@
     <el-timeline>
       <el-timeline-item timestamp="2022/6/13" placement="top">
         <el-card>
+          <h4>v0.6.1</h4>
+          <p>优化了漏洞通知页面的描述信息。</p>
+          <p>修复了一个启动漏洞通知的bug。</p>
+        </el-card>
+      </el-timeline-item>
+      <el-timeline-item timestamp="2022/6/13" placement="top">
+        <el-card>
           <h4>v0.6.0</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle /> 增加了漏洞采集与告警通知功能。</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle /> 新增高危漏洞采集与实时通知功能。</p>
           <p>功能开启即可采集最新30个漏洞列表。</p>
+          <p>每小时采集一次，发现新漏洞立即推送到群机器人。</p>
           <p>支持企业微信与钉钉群机器人通知。</p>
         </el-card>
       </el-timeline-item>

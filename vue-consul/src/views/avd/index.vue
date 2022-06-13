@@ -1,17 +1,21 @@
 <template>
   <div class="app-container">
     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">配置漏洞通知</el-button>
-    <el-button class="filter-item" type="warning" icon="el-icon-magic-stick" @click="handleRun">执行一次</el-button>
+    <el-button class="filter-item" type="warning" icon="el-icon-magic-stick" @click="handleRun">测试一次</el-button>
     <el-dialog title="配置漏洞通知" :visible.sync="dialogFormVisible" width="45%">
       <el-form ref="dataForm" :model="avd_config" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
         <el-form-item label="漏洞采集">
-          <el-switch v-model="avd_config.switch" />
+          <el-switch v-model="avd_config.switch" /><br>
+          <font size="3px" color="#ff0000">
+            <li>开启采集：每小时会自动采集一次漏洞信息。</li>
+            <li>开启通知：当发现新漏洞时，会立刻推送到群机器人。</li>
+          </font>
         </el-form-item>
         <el-form-item v-if="avd_config.switch" label="钉钉通知">
           <el-switch v-model="avd_config.dingding" />
         </el-form-item>
         <el-form-item v-if="avd_config.switch && avd_config.dingding" required label="机器人Webhook地址">
-          <el-input v-model="avd_config.dingdingwh" type="textarea" autosize /><font size="2" color="#ff0000">机器人安全设置的自定义关键词请设置为：<strong>漏洞告警</strong></font>
+          <el-input v-model="avd_config.dingdingwh" type="textarea" autosize /><font size="3px" color="#ff0000">机器人安全设置的自定义关键词请设置为：<strong>漏洞告警</strong></font>
         </el-form-item>
         <el-form-item v-if="avd_config.switch" label="企业微信通知">
           <el-switch v-model="avd_config.wecom" />
