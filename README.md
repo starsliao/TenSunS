@@ -130,7 +130,7 @@ consul acl bootstrap
 ---
 
 ### 💰赞赏
-@南城阿宇  @mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209
+@南城阿宇  @mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209  @Runner91
 
 ---
 
