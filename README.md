@@ -47,6 +47,8 @@
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/blackbox1.PNG)
 ### 高危漏洞采集与通知 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/bug.png)
+![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
+
 ### Node Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
