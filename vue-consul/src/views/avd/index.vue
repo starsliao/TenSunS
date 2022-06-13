@@ -24,7 +24,7 @@
         <el-button @click="dialogFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="createData(avd_config)">
+        <el-button type="primary" @click="createData">
           确认
         </el-button>
       </div>
@@ -63,7 +63,9 @@ export default {
     handleCreate() {
       this.listLoading = true
       getAvdConfig().then(response => {
-        this.avd_config = response.avd_config
+        if (Object.keys(response.avd_config).length !== 0) {
+          this.avd_config = response.avd_config
+        }
         this.listLoading = false
         this.dialogFormVisible = true
       })
@@ -75,12 +77,12 @@ export default {
         this.listLoading = false
       })
     },
-    createData(avd_config) {
+    createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           this.dialogFormVisible = false
           this.listLoading = true
-          postAvdJob(avd_config).then(response => {
+          postAvdJob(this.avd_config).then(response => {
             this.fetchData()
             this.$message({
               message: response.data,
