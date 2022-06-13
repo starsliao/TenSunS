@@ -33,6 +33,7 @@
 ### 🏆高危漏洞采集与通知
 - 增加了高危风险漏洞采集与告警通知功能。
 - 功能开启即可采集最新30个漏洞列表。
+- 每小时采集一次，发现新漏洞立即推送到群机器人。
 - 支持企业微信与钉钉群机器人通知。
 
 ## [更新记录](https://github.com/starsliao/ConsulManager/releases)
@@ -47,6 +48,7 @@
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/blackbox1.PNG)
 ### 高危漏洞采集与通知 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/bug.png)
+##### 通知界面
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
 ### Node Exporter Dashboard 截图
