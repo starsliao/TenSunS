@@ -33,6 +33,7 @@ def get_avd():
                 avd_switch = consul_kv.get_value('ConsulManager/avd/switch')
                 wecomwh = avd_switch.get('wecomwh','')
                 dingdingwh = avd_switch.get('dingdingwh','')
+                feishuwh = avd_switch.get('feishuwh','')
                 content = f"# <font color=\"#ff0000\">{avd_dict['avd_name']}</font>\n" \
                     f"- 编号：{avd_dict['avd_id']}[【详情】]({avd_dict['avd_id_url']})\n" \
                     f"- 类型：{avd_dict['avd_type']}\n" \
@@ -42,7 +43,14 @@ def get_avd():
                     wecom(wecomwh,content)
                 if avd_switch['switch'] and avd_switch['dingding'] and dingdingwh.startswith('https://oapi.dingtalk.com'):
                     dingding(dingdingwh,content)
-
+                if avd_switch['switch'] and avd_switch.get('feishu',False) and feishuwh.startswith('https://open.feishu.cn'):
+                    title = '漏洞告警:' + avd_dict['avd_name']
+                    md = f"编号：{avd_dict['avd_id']}[【详情】]({avd_dict['avd_id_url']})\n" \
+                         f"类型：{avd_dict['avd_type']}\n" \
+                         f"披露：{avd_dict['avd_time']}\n" \
+                         f"状态：**{avd_dict['avd_stat']}**({avd_dict['avd_collect']})"
+                    feishu(feishuwh,title,md)
+                
 def wecom(webhook,content):
     headers = {'Content-Type': 'application/json'}
     params = {'msgtype': 'markdown', 'markdown': {'content' : content}}
@@ -56,3 +64,12 @@ def dingding(webhook,content):
     data = bytes(json.dumps(params), 'utf-8')
     response = requests.post(webhook, headers=headers, data=data)
     print('【dingding】',response.json(),flush=True)
+
+def feishu(webhook,title,md):
+    headers = {'Content-Type': 'application/json'}
+    params = {"msg_type": "interactive",
+              "card": {"header": {"title": {"tag": "plain_text","content": title},"template": "red"},
+                       "elements": [{"tag": "markdown","content": f"{md}\n<at id=all></at>",}]}}
+    data = json.dumps(params)
+    response = requests.post(webhook, headers=headers, data=data)
+    print('【feishu】',response.json(),flush=True)

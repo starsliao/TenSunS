@@ -7,6 +7,7 @@
       <el-timeline-item timestamp="2022/6/13" placement="top">
         <el-card>
           <h4>v0.6.1</h4>
+          <p>漏洞通知增加了飞书的支持。</p>
           <p>优化了漏洞通知页面的描述信息。</p>
           <p>修复了一个启动漏洞通知的bug。</p>
         </el-card>

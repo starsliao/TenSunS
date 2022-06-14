@@ -23,6 +23,12 @@
         <el-form-item v-if="avd_config.switch && avd_config.wecom" required label="机器人Webhook地址">
           <el-input v-model="avd_config.wecomwh" type="textarea" autosize />
         </el-form-item>
+        <el-form-item v-if="avd_config.switch" label="飞书通知">
+          <el-switch v-model="avd_config.feishu" />
+        </el-form-item>
+        <el-form-item v-if="avd_config.switch && avd_config.feishu" required label="机器人Webhook地址">
+          <el-input v-model="avd_config.feishuwh" type="textarea" autosize /><font size="3px" color="#ff0000">机器人安全设置的自定义关键词请设置为：<strong>漏洞告警</strong></font>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -56,7 +62,7 @@ export default {
     return {
       listLoading: false,
       dialogFormVisible: false,
-      avd_config: { switch: false, wecom: false, dingding: false, wecomwh: '', dingdingwh: '' },
+      avd_config: { switch: false, wecom: false, dingding: false, feishu: false, wecomwh: '', dingdingwh: '', feishuwh: '' },
       avd_list: []
     }
   },
