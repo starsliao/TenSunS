@@ -1,5 +1,5 @@
 # 🚀概述
-- **ConsulManager**是一个使用Flask+Vue开发的Consul WEB运维平台，弥补了官方UI对Services管理的不足，优化了Consul对Services的配置管理与查询展示。
+- **ConsulManager**是一个使用Flask+Vue开发的Consul WEB运维助手，弥补了官方UI对Services管理的不足，优化了Consul对Services的配置管理与查询展示。
 - 本工具基于Prometheus自动发现Consul，还实现了几个监控管理维护的应用：
   1. 支持云厂商ECS与分组自动同步到Consul，并接入Prometheus监控。（设计了一个关联的Grafana看板）
   2. 基于Blackbox实现站点与接口监控接入Consul，通过Web界面方便管理。（设计了一个关联的Grafana看板）
