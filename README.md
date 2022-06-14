@@ -55,16 +55,9 @@
 ##### 钉钉告警通知
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
-
-
-
 ## 💾部署说明
-
-### 1. 部署Consul（[部署文档](docs/Consul部署说明.md)）
-
-### 2. 部署Consul Manager
-
-##### 使用docker-compose来部署
+##### Consul Manager需要依赖Consul，请先完成Consul的部署。（[部署文档](docs/Consul部署说明.md)）
+##### 使用docker-compose来部署Consul Manager
 - 下载：`wget https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml`
 - 国内下载：`wget https://starsl.cn/static/img/docker-compose.yml`
 - 编辑：`docker-compose.yml`，修改3个环境变量：
