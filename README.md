@@ -3,7 +3,7 @@
 - 本工具基于Prometheus自动发现Consul，实现了两个监控管理维护的应用：
   1. 基于云厂商ECS的自动同步到Consul，并接入Prometheus监控。（设计了一个关联的Grafana看板）
   2. 基于Blackbox实现站点与接口监控接入Consul，通过Web界面方便管理。（设计了一个关联的Grafana看板）
-- 本工具支持使用docker-compose快速部署。
+
 
 ## 💎实现功能
 ### 🏆Consul 管理
@@ -56,8 +56,8 @@
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
 ## 💾部署说明
-##### Consul Manager需要依赖Consul，请先完成Consul的部署。（[部署文档](docs/Consul部署说明.md)）
-##### 使用docker-compose来部署Consul Manager
+##### Consul Manager需要依赖`Consul`，请先完成Consul的部署。（[Consul部署文档](docs/Consul部署说明.md)）
+##### 使用`docker-compose`来部署Consul Manager
 - 下载：`wget https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml`
 - 国内下载：`wget https://starsl.cn/static/img/docker-compose.yml`
 - 编辑：`docker-compose.yml`，修改3个环境变量：
