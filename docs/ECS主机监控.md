@@ -32,11 +32,11 @@
 
 ### 批量导入自建主机脚本
 
-在units目录下`selfnode-instance.list`中写入监控目标的信息：机房/公司 租户/部门 区域/项目 分组/环境 名称 实例(ip:端口) 系统(linux/windows)，每行一个，空格分隔。
+在项目仓库根目录的units目录下：编辑`selfnode-instance.list`，写入监控目标的信息：机房/公司 租户/部门 区域/项目 分组/环境 名称 实例(ip:端口) 系统(linux/windows)，每行一个，空格分隔。
 
 **注意：前5个字段组合起来必须唯一，作为一个监控项的ID。即Consul的ServiceID**
 
-修改units目录下导入脚本中的consul_token和consul_url，保存后执行selfnode-input.py，即可导入所有监控目标到Consul，并符合Prometheus的自动发现配置。
+再修改导入脚本`selfnode-input.py`中的consul_token和consul_url，保存后执行selfnode-input.py，即可导入所有监控目标到Consul，并符合Prometheus的自动发现配置。
 
 ### 注意：
 
