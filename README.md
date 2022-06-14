@@ -52,7 +52,7 @@
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/blackbox.png)
 ### 高危漏洞采集与通知 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/bug.png)
-##### 通知界面
+##### 钉钉告警通知
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
 
