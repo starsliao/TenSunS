@@ -40,22 +40,23 @@
 
 ## 🎨部分截图（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 ### Consul Web Manager 界面
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul1.PNG)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
 ### ECS Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
+### Node Exporter Dashboard 截图
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
 ### Blackbox Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/blackbox1.PNG)
+### Blackbox Exporter Dashboard 截图
+![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/blackbox.png)
 ### 高危漏洞采集与通知 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/bug.png)
 ##### 通知界面
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
-### Node Exporter Dashboard 截图
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
-### Blackbox Exporter Dashboard 截图
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/blackbox.png)
+
+
 
 ## 💾部署说明
 
@@ -77,11 +78,9 @@
 ## [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
 ## [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
-### 💯开发线路
-![图片](https://github.com/starsliao/ConsulManager/blob/main/Roadmap.png)
 
-# 💖特别鸣谢
-## 赞赏与关注公众号【**云原生DevOps**】加入交流群（注明consul），获取更多...
+## 💖特别鸣谢
+### 赞赏与关注公众号【**云原生DevOps**】加入交流群（注明consul），获取更多...
 ![](https://starsl.cn/static/img/thanks.png)
 
 ---
