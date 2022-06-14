@@ -64,7 +64,7 @@
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的Consul Manager密码登录
 ---
-## [ConsulManager的帮助文档与FAQ](https://github.com/starsliao/ConsulManager/docs)
+## [ConsulManager实践与FAQ](https://github.com/starsliao/ConsulManager/docs)
 ## [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
 ## [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
