@@ -115,7 +115,7 @@
           <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" /><font size="2" color="#ff0000">前5个字段组合后需唯一，重复会覆盖已有监控项！</font>
+          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" /><font size="3px" color="#ff0000">上面5个字段组合后需唯一，重复会覆盖已有监控项!</font>
         </el-form-item>
         <el-form-item prop="instance">
           <span slot="label">

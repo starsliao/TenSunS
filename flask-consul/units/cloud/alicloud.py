@@ -63,7 +63,7 @@ def ecs(account,region):
                 'name':i['InstanceName'],'group':group_dict.get(i['ResourceGroupId'],'无'),'ostype':i['OSType'].lower(),
                 'status':i['Status'],'region':region,
                 'ip':i["InnerIpAddress"]["IpAddress"] if len(i["InnerIpAddress"]["IpAddress"]) != 0 else i['NetworkInterfaces']['NetworkInterface'][0]['PrimaryIpAddress'],
-                'cpu':f"{i['Cpu']}核",'mem':f"{str(round(i['Memory']/1024,1)).rstrip('.0')}GB",'exp':i['ExpiredTime'].split('T')[0]
+                'cpu':f"{i['Cpu']}核",'mem':f"{str(round(i['Memory']/1024,1)).rstrip('.0')}GB",'exp':i['ExpiredTime'].split('T')[0],'ecstag': i.get('Tags',{}).get('Tag',[])
                 }for i in ecs_list}
             ecs_dict.update(ecs_dict_temp)
             next_token = ecs.body.next_token

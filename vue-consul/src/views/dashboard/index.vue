@@ -4,6 +4,14 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/6/16" placement="top">
+        <el-card>
+          <h4>v0.6.2</h4>
+          <p>已披露的漏洞有状态或类型更新，再次推送时候增加了提示。</p>
+          <p>同步阿里云ECS支持同步ECS的标签到Consul的meta中，注意标签的key有中文或符号会忽略，因为meta的key不支持。</p>
+          <p>自建主机的新增页面优化了描述和提交处理逻辑。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/6/13" placement="top">
         <el-card>
           <h4>v0.6.1</h4>

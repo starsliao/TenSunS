@@ -3,8 +3,8 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container" style="text-align:center">
-        <img src="../../assets/login_images/SLH.png" width="90" height="90">
-        <h3 style="font-size:35px" class="title">Consul Manager</h3>
+        <img src="../../assets/login_images/SLH.png" width="90" height="90"><br><br>
+        <h3 style="font-size:35px" class="title">Consul Manager</h3><br>
       </div>
 
       <el-form-item prop="username">
@@ -46,7 +46,7 @@
 
     </el-form>
     <div align="center" class="title-container">
-      <span style="font-size:12px" class="title">v0.6.1</span>
+      <span style="font-size:12px" class="title">v0.6.2</span>
     </div>
   </div>
 </template>

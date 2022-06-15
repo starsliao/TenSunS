@@ -96,6 +96,7 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="37%">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
+        <font size="3px" color="#ff0000">【注意：前5个字段组合后需唯一，重复会覆盖已有监控项!】</font>
         <el-form-item label="机房/公司" prop="vendor">
           <el-autocomplete v-model="temp.vendor" :fetch-suggestions="Sugg_vendor" placeholder="优先选择" clearable class="filter-item" />
         </el-form-item>

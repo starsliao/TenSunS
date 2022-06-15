@@ -39,6 +39,8 @@ def get_avd():
                     f"- 类型：{avd_dict['avd_type']}\n" \
                     f"- 披露：{avd_dict['avd_time']}\n" \
                     f"- 状态：<font color=\"#ff0000\">{avd_dict['avd_stat']}</font>({avd_dict['avd_collect']})\n"
+                if avd_dict['avd_id'] == last_avd.get('avd_id'):
+                    content = content + '(已披露漏洞，今日推送为状态或类型有更新。)\n'
                 if avd_switch['switch'] and avd_switch['wecom'] and wecomwh.startswith('https://qyapi.weixin.qq.com'):
                     wecom(wecomwh,content)
                 if avd_switch['switch'] and avd_switch['dingding'] and dingdingwh.startswith('https://oapi.dingtalk.com'):
@@ -49,6 +51,8 @@ def get_avd():
                          f"类型：{avd_dict['avd_type']}\n" \
                          f"披露：{avd_dict['avd_time']}\n" \
                          f"状态：**{avd_dict['avd_stat']}**({avd_dict['avd_collect']})"
+                    if avd_dict['avd_id'] == last_avd.get('avd_id'):
+                        md = md + '\n(已披露漏洞，今日推送为状态或类型有更新。)'
                     feishu(feishuwh,title,md)
                 
 def wecom(webhook,content):

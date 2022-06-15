@@ -61,6 +61,12 @@ def w2consul(vendor,account,region,ecs_dict):
                     "interval": "60s"
                 }
             }
+            if vendor == 'alicloud' and v['ecstag'] != []:
+                ecstag_dict = {}
+                for ecstag in v['ecstag']:
+                    if ecstag['TagKey'].encode().isalnum():
+                        ecstag_dict[ecstag['TagKey']] = ecstag['TagValue']
+                data['Meta'].update(ecstag_dict)
             reg = requests.put(puturl, headers=headers, data=json.dumps(data))
             if reg.status_code == 200:
                 pass
