@@ -53,8 +53,8 @@
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
 ## 💾部署说明
-##### Consul Manager需要依赖`Consul`，请先完成Consul的部署。（[Consul部署文档](docs/Consul部署说明.md)）
-##### 使用`docker-compose`来部署Consul Manager
+##### 1. Consul Manager需要依赖`Consul`，请先完成Consul的部署。（[Consul部署文档](docs/Consul部署说明.md)）
+##### 2. 使用`docker-compose`来部署Consul Manager
 - 下载：`wget https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml`
 - 国内下载：`wget https://starsl.cn/static/img/docker-compose.yml`
 - 编辑：`docker-compose.yml`，修改3个环境变量：
@@ -65,9 +65,9 @@
 - 访问：`http://{IP}:1026`，使用配置的Consul Manager密码登录
 ---
 ## 🥇最佳实践
-### [ConsulManager实践与FAQ](https://github.com/starsliao/ConsulManager/docs)
-### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
-### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
+- ### [ConsulManager：实践与FAQ](https://github.com/starsliao/ConsulManager/docs)
+- ### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
+- ### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
 
 ## 💖特别鸣谢
