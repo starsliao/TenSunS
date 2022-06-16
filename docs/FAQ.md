@@ -20,3 +20,8 @@ http://10.0.0.26:9115/probe?module=http_2xx&target=https%3A%2F%2Fpayapp.weixin.q
 ```
 journalctl -u blackbox_exporter.service -n20 -f
 ```
+### prometheus配置告警规则后报错怎么办？
+- 进入prometheus所在的目录，执行如下命令即可检查：
+```
+./promtool check rules ./rules.yml 
+```
