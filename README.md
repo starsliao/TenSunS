@@ -1,3 +1,12 @@
+**目录**
+* [🚀概述](#概述)
+* [💎实现功能](#实现功能)
+* [📌更新记录](#更新记录)
+* [🎨截图预览](#截图预览点击查看完整截图)
+* [💾部署说明](#部署说明)
+* [🥇最佳实践](#最佳实践)
+* [💖特别鸣谢](#特别鸣谢)
+
 ## 🚀概述
 - **ConsulManager**是一个使用Flask+Vue开发的Consul WEB运维助手，弥补了官方UI对Services管理的不足，优化了Consul对Services的配置管理与查询展示。
 - 本工具基于Prometheus自动发现Consul，还实现了几个监控管理的功能：
@@ -35,7 +44,7 @@
 
 ## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
 
-## 🎨部分截图（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
+## 🎨截图预览（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 ### Consul Web Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
 ### ECS Manager 界面
