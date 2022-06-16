@@ -1,4 +1,4 @@
-# 🚀概述
+## 🚀概述
 - **ConsulManager**是一个使用Flask+Vue开发的Consul WEB运维助手，弥补了官方UI对Services管理的不足，优化了Consul对Services的配置管理与查询展示。
 - 本工具基于Prometheus自动发现Consul，还实现了几个监控管理的功能：
   1. 支持云厂商ECS与分组自动同步到Consul，并接入Prometheus监控。（设计了一个关联的Grafana看板）
@@ -33,7 +33,7 @@
 - 每小时采集一次，发现新漏洞立即推送到群机器人。
 - 支持企微、钉钉、飞书群机器人通知。
 
-## [更新记录](https://github.com/starsliao/ConsulManager/releases)
+## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 🎨部分截图（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 ### Consul Web Manager 界面
@@ -64,9 +64,10 @@
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的Consul Manager密码登录
 ---
-## [ConsulManager实践与FAQ](https://github.com/starsliao/ConsulManager/docs)
-## [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
-## [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
+## 🥇最佳实践
+### [ConsulManager实践与FAQ](https://github.com/starsliao/ConsulManager/docs)
+### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
+### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
 
 
 ## 💖特别鸣谢
