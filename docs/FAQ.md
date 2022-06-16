@@ -6,9 +6,11 @@ docker-compose logs --tail=10 -f flask-consul
 ```
 docker-compose logs --tail=10 -f flask-vue
 ```
-### 检查consul连接是否正常
+### 检查consul连接是否正常？
 ```
-进入容器，执行:
+# 进入容器：
+docker-compose exec flask-consul sh
+# 执行检查:
 nc -vz {ip} 8500
 ```
 ### blackbox_exporter监控某个站点有异常，如何debug
