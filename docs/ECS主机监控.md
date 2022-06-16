@@ -44,6 +44,7 @@
 ##### 各ECS的Node_exporter需要自行安装。
 ##### 【最近7天P99资源使用率】图表需要在Prometheus增加记录规则(采集1小时后出数据)：
 ```
+groups:   #新rule文件需要加这行开头，追加旧的rule文件则不需要。
 - name: node_usage_record_rules
   interval: 1m
   rules:
