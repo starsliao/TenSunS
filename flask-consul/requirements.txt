@@ -6,6 +6,7 @@ flask-cors==3.0.10
 Flask-HTTPAuth==4.5.0
 requests==2.27.1
 Flask-APScheduler==1.12.3
+xlrd==1.2.0
 #pyDes==2.0.1
 pycryptodome==3.14.1
 beautifulsoup4==4.11.1

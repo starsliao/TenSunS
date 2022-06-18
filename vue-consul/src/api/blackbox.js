@@ -53,3 +53,11 @@ export function getBconfig() {
     method: 'get'
   })
 }
+
+export function upload_web(data) {
+  return request({
+    url: '/api/blackboxcfg/upload_web',
+    method: 'get',
+    data
+  })
+}
