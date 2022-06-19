@@ -4,6 +4,15 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/6/19" placement="top">
+        <el-card>
+          <h4>v0.6.3</h4>
+          <p>支持在Web页面直接批量导入自建主机。</p>
+          <p>支持在Web页面直接批量导入站点监控。</p>
+          <p>修复了部分页面前端展示的bug。</p>
+          <p></p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/6/16" placement="top">
         <el-card>
           <h4>v0.6.2</h4>
