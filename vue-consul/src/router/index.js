@@ -109,19 +109,19 @@ export const constantRoutes = [
       },
       {
         path: 'pconfig',
-        name: 'Prometheus 配置',
+        name: 'node-pconfig',
         component: () => import('@/views/node-exporter/pconfig'),
         meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
       },
       {
         path: 'rules',
-        name: '告警规则',
+        name: 'node-rules',
         component: () => import('@/views/node-exporter/rules'),
         meta: { title: '告警规则', icon: 'el-icon-bell' }
       },
       {
         path: 'grafana',
-        name: 'Grafana 看板',
+        name: 'node-grafana',
         component: () => import('@/views/node-exporter/grafana'),
         meta: { title: 'Grafana 看板', icon: 'el-icon-data-line' }
       }
