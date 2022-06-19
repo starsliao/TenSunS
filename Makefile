@@ -3,6 +3,7 @@ help:
 build:
 	cd flask-consul && docker build -t flask-consul:latest .
 	cd vue-consul && docker build -t nginx-consul:latest .
+    cd vue-consul && docker build -t nginx-consul:tensuns-latest -f Dockerfile.tensuns .
 	echo -e "\n\n自行编译的版本，注意修改docker-compose.yml中的镜像地址为本地仓库后再启动。\nBlackbox-Manager:\nhttp://{ip}:1026\n"
 
 push:
@@ -15,6 +16,8 @@ push:
 	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${ver}
 	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
 	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${ver}
+    docker tag nginx-consul:tensuns-latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:tensuns-latest
+    docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:tensuns-latest
 
 update:
 	docker-compose pull && docker-compose up -d
