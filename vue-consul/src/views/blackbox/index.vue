@@ -3,17 +3,17 @@
     <el-alert type="success" center close-text="知道了">
       <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
     </el-alert>
-    <div class="filter-container" style="flex: 1;display: flex;align-items: center;height: 100px;">
+    <div class="filter-container" style="flex: 1;display: flex;align-items: center;height: 50px;">
       <el-select v-model="listQuery.module" placeholder="监控类型" clearable collapse-tags style="width: 150px" class="filter-item">
         <el-option v-for="item in module_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-select v-model="listQuery.company" placeholder="公司部门" clearable style="width: 150px" class="filter-item">
         <el-option v-for="item in company_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.project" filterable placeholder="项目" clearable style="width: 160px" class="filter-item">
+      <el-select v-model="listQuery.project" filterable placeholder="项目" clearable style="width: 150px" class="filter-item">
         <el-option v-for="item in project_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.env" filterable placeholder="环境" clearable style="width: 100px" class="filter-item">
+      <el-select v-model="listQuery.env" filterable placeholder="环境" clearable style="width: 120px" class="filter-item">
         <el-option v-for="item in env_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-tooltip class="item" effect="light" content="点击清空查询条件" placement="top">
@@ -22,11 +22,22 @@
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
         新增
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-download" @click="handleDownload">
         导出
       </el-button>
-      <el-upload style="margin-right: 10px;" class="upload-demo" action="/api/blackboxcfg/upload_web" :on-success="success" :on-error="error" accept=".xlsx" :show-file-list="false" multiple :limit="1">
-        <el-button v-waves style="margin-left: 10px;" :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-upload2">
+      <el-upload
+        style="margin-right: 10px;"
+        class="upload-demo"
+        action="/api/blackbox/upload"
+        :headers="myHeaders"
+        :on-success="success"
+        :on-error="error"
+        accept=".xlsx"
+        :before-upload="handleBeforeUpload"
+        :show-file-list="false"
+        :multiple="false"
+      >
+        <el-button v-waves style="margin-left: 10px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
           导入
         </el-button>
       </el-upload>
@@ -34,7 +45,7 @@
         批量删除
       </el-button>
       <div style="float: right;margin-left: 10px;">
-        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:230px" class="filter-item" @input="inameFilter(iname)" />
+        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:180px" class="filter-item" @input="inameFilter(iname)" />
       </div>
     </div>
 
@@ -103,7 +114,7 @@
           <span slot="label">
             <span class="span-box">
               <span>监控类型</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="该字段必须和Blackbox配置中的module名称保持一致，如：http_2xx，http_post_2xx，http_post_2xx 等。" placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark" content="该字段必须和Blackbox配置中的module名称保持一致，如：http_2xx，http_post_2xx，tcp_connect 等。" placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
@@ -178,6 +189,7 @@ export default {
       }
     }
     return {
+      myHeaders: { Authorization: this.$store.getters.token },
       all_list: [],
       pall_list: [],
       iname: '',
@@ -264,6 +276,23 @@ export default {
   },
 
   methods: {
+    handleBeforeUpload(file) {
+      const uploadLimit = 5
+      const uploadTypes = ['xlsx']
+      const filetype = file.name.replace(/.+\./, '')
+      const isRightSize = (file.size || 0) / 1024 / 1024 < uploadLimit
+      if (!isRightSize) {
+        this.$message.error(`文件大小超过${uploadLimit}MB！`)
+        return false
+      }
+      if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+        this.$message.warning({
+          message: '仅支持上传xlsx格式的文件！'
+        })
+        return false
+      }
+      return true
+    },
     success(response) {
       if (response.code === 20000) {
         this.fetchData()
@@ -476,7 +505,7 @@ export default {
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['监控模块', '公司部门', '项目', '环境', '名称', '实例']
+        const tHeader = ['监控模块', '公司部门', '项目', '环境', '名称', '实例(tcp的格式为IP:端口,URL需要以http(s)://开头)']
         const filterVal = ['module', 'company', 'project', 'env', 'name', 'instance']
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({

@@ -6,7 +6,6 @@ from units import token_auth,blackbox_manager
 from werkzeug.datastructures import FileStorage
 from units import upload
 
-
 blueprint = Blueprint('blackbox',__name__)
 api = Api(blueprint)
 
@@ -21,11 +20,12 @@ parser.add_argument('del_dict',type=dict)
 parser.add_argument('up_dict',type=dict)
 parser.add_argument('file',type=FileStorage, location="files", help="File is wrong.")
 
-class Blackbox_Upload_Web(Resource):
+class Upload(Resource):
+    @token_auth.auth.login_required
     def post(self):
         file = parser.parse_args().get("file")
         try:
-            return upload.read_execl(file.read())
+            return upload.read_execl(file.read(),'blackbox')
         except Exception as e:
             print("【blackbox】导入失败",e,flush=True)
             return {"code": 50000, "data": f"导入失败！"}
@@ -73,4 +73,4 @@ class BlackboxApi(Resource):
 api.add_resource(GetAllList,'/api/blackbox/alllist')
 api.add_resource(BlackboxApi, '/api/blackbox/service')
 api.add_resource(GetConfig,'/api/blackboxcfg/<stype>')
-api.add_resource(Blackbox_Upload_Web,'/api/blackboxcfg/upload_web')
+api.add_resource(Upload,'/api/blackbox/upload')

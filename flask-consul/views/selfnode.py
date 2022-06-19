@@ -3,6 +3,8 @@ from flask_restful import reqparse, Resource, Api
 import sys
 sys.path.append("..")
 from units import token_auth,selfnode_manager
+from werkzeug.datastructures import FileStorage
+from units import upload
 
 blueprint = Blueprint('selfnode',__name__)
 api = Api(blueprint)
@@ -18,6 +20,17 @@ parser.add_argument('port',type=str)
 parser.add_argument('os',type=str)
 parser.add_argument('del_dict',type=dict)
 parser.add_argument('up_dict',type=dict)
+parser.add_argument('file',type=FileStorage, location="files", help="File is wrong.")
+
+class Upload(Resource):
+    @token_auth.auth.login_required
+    def post(self):
+        file = parser.parse_args().get("file")
+        try:
+            return upload.read_execl(file.read(),'selfnode')
+        except Exception as e:
+            print("【selfnode】导入失败",e,flush=True)
+            return {"code": 50000, "data": f"导入失败！"}
 
 class GetAllList(Resource):
     @token_auth.auth.login_required
@@ -53,3 +66,4 @@ class SelfnodeApi(Resource):
 
 api.add_resource(GetAllList,'/api/selfnode/alllist')
 api.add_resource(SelfnodeApi, '/api/selfnode/service')
+api.add_resource(Upload,'/api/selfnode/upload')

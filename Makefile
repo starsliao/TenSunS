@@ -1,5 +1,5 @@
 help:
-	echo "Read Makefile" && echo "make build" && echo "make push vf=x.x.x vb=x.x.x"
+	echo "Read Makefile" && echo "make build" && echo "make push ver=x.x.x"
 build:
 	cd flask-consul && docker build -t flask-consul:latest .
 	cd vue-consul && docker build -t nginx-consul:latest .
@@ -8,13 +8,13 @@ build:
 push:
 	docker login --username=starsliao@163.com registry.cn-shenzhen.aliyuncs.com
 	docker tag nginx-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest
-	docker tag nginx-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${vf}
+	docker tag nginx-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${ver}
 	docker tag flask-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
-	docker tag flask-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${vb}
+	docker tag flask-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${ver}
 	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${vf}
+	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${ver}
 	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${vb}
+	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${ver}
 
 update:
 	docker-compose pull && docker-compose up -d

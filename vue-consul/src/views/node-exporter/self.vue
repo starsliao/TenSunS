@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
+    <div class="filter-container" style="flex: 1;display: flex;align-items: center;height: 50px;">
       <el-select v-model="listQuery.vendor" placeholder="机房/公司" clearable collapse-tags style="width: 150px" class="filter-item">
         <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-select v-model="listQuery.account" placeholder="租户/部门" clearable style="width: 150px" class="filter-item">
         <el-option v-for="item in account_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.region" filterable placeholder="区域/项目" clearable style="width: 160px" class="filter-item">
+      <el-select v-model="listQuery.region" filterable placeholder="区域/项目" clearable style="width: 150px" class="filter-item">
         <el-option v-for="item in region_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.group" filterable placeholder="分组/环境" clearable style="width: 100px" class="filter-item">
+      <el-select v-model="listQuery.group" filterable placeholder="分组/环境" clearable style="width: 120px" class="filter-item">
         <el-option v-for="item in group_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-tooltip class="item" effect="light" content="点击清空查询条件" placement="top">
@@ -19,14 +19,30 @@
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
         新增
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-download" @click="handleDownload">
         导出
       </el-button>
+      <el-upload
+        style="margin-right: 10px;"
+        class="upload-demo"
+        action="/api/selfnode/upload"
+        :headers="myHeaders"
+        :on-success="success"
+        :on-error="error"
+        accept=".xlsx"
+        :before-upload="handleBeforeUpload"
+        :show-file-list="false"
+        :multiple="false"
+      >
+        <el-button v-waves style="margin-left: 10px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
+          导入
+        </el-button>
+      </el-upload>
       <el-button class="filter-item" type="danger" icon="el-icon-delete" @click="handleDelAll">
         批量删除
       </el-button>
-      <div style="float: right;">
-        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:230px" class="filter-item" @input="inameFilter(iname)" />
+      <div style="float: right;margin-left: 10px;">
+        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:180px" class="filter-item" @input="inameFilter(iname)" />
       </div>
     </div>
 
@@ -171,6 +187,7 @@ export default {
       }
     }
     return {
+      myHeaders: { Authorization: this.$store.getters.token },
       all_list: [],
       pall_list: [],
       iname: '',
@@ -265,6 +282,45 @@ export default {
   },
 
   methods: {
+    handleBeforeUpload(file) {
+      const uploadLimit = 5
+      const uploadTypes = ['xlsx']
+      const filetype = file.name.replace(/.+\./, '')
+      const isRightSize = (file.size || 0) / 1024 / 1024 < uploadLimit
+      if (!isRightSize) {
+        this.$message.error(`文件大小超过${uploadLimit}MB！`)
+        return false
+      }
+      if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
+        this.$message.warning({
+          message: '仅支持上传xlsx格式的文件！'
+        })
+        return false
+      }
+      return true
+    },
+    success(response) {
+      if (response.code === 20000) {
+        this.fetchData()
+        this.$message({
+          message: response.data,
+          type: 'success'
+        })
+      } else {
+        this.$message({
+          message: response.data,
+          type: 'error'
+        })
+      }
+    },
+    error(response) {
+      if (response.code === 50000) {
+        this.$message({
+          message: response.data,
+          type: 'error'
+        })
+      }
+    },
     inameFilter(iname) {
       if (iname === '') {
         this.handleFilter()
@@ -464,7 +520,7 @@ export default {
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['机房/公司', '租户/部门', '区域/项目', '分组/环境', '名称', '实例', '系统']
+        const tHeader = ['机房/公司', '租户/部门', '区域/项目', '分组/环境', '名称', '实例(IP:端口)', '系统(linux/windows)']
         const filterVal = ['vendor', 'account', 'region', 'group', 'name', 'instance', 'os']
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({

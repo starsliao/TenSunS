@@ -32,7 +32,7 @@
 
 ### 批量导入自建主机脚本
 
-在项目仓库根目录的`units`目录下：编辑`selfnode-instance.list`，写入监控目标的信息：机房/公司 租户/部门 区域/项目 分组/环境 名称 实例(ip:端口) 系统(linux/windows)，每行一个，空格分隔。
+在项目仓库根目录的`tools`目录下：编辑`selfnode-instance.list`，写入监控目标的信息：机房/公司 租户/部门 区域/项目 分组/环境 名称 实例(ip:端口) 系统(linux/windows)，每行一个，空格分隔。
 
 **注意：前5个字段组合起来必须唯一，作为一个监控项的ID。即Consul的ServiceID**
 
