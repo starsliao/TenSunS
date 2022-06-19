@@ -23,7 +23,7 @@
 ### 🏆Node 主机监控
 - 基于Consul实现Prometheus监控目标的自动发现。
 - 支持同步阿里云、腾讯云、华为云的ECS主机与分组信息到Consul。
-- 支持自建主机接入监控管理，并提供脚本批量导入主机到Consul。
+- 支持自建主机接入监控管理，并支持批量导入主机到Consul。
 - 提供了可查询分组与ECS信息的页面，指标中加入了ECS到期日等信息，可直接监控。
 - 提供了按需生成Prometheus配置与告警规则的功能。
 - 提供了一个匹配ECS Manager各字段的node_exporter Grafana展示看板。
@@ -32,7 +32,7 @@
 - 基于Prometheus + Blackbox_Exporter实现站点与接口监控。
 - 基于Consul实现Prometheus监控目标的自动发现。
 - 使用Web操作即可简单的对监控目标增删改查，支持批量删除，以及方便的分类维护管理。
-- 提供脚本可批量导入监控目标到Consul。
+- 支持批量导入监控目标到Consul。
 - 提供了Blackbox的配置，Prometheus的配置以及Prometheus站点监控的告警规则。
 - 提供了一个匹配Blackbox Manager各字段的Blackbox Exporter Grafana展示看板。
 
