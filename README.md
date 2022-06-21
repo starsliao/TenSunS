@@ -80,7 +80,7 @@
 
 
 ## 💖特别鸣谢
-### 赞赏与关注公众号【**云原生DevOps**】加入交流群（注明consul），获取更多...
+### 赞赏与关注公众号【**云原生DevOps**】加入交流群（请备注：consul），获取更多...
 ![](https://starsl.cn/static/img/thanks.png)
 
 ---
