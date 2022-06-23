@@ -26,7 +26,7 @@ class Nodes(Resource):
             group_list = [{'gid':k,'gname':v}for k,v in group_dict.items()]
             return {'code': 20000,'group':group_list}
         elif stype == 'ecs':
-            if job_id == '':
+            if job_id == '' or job_id == None:
                 return {'code': 20000,'ecs_list': [] }
             else:
                 return consul_kv.get_ecs_services(job_id) 

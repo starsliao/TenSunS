@@ -4,11 +4,11 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
-      <el-timeline-item timestamp="2022/6/19" placement="top">
+      <el-timeline-item timestamp="2022/6/23" placement="top">
         <el-card>
-          <h4>v0.6.3</h4>
+          <h4>v0.6.5</h4>
           <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> 云主机同步支持自定义IP端口功能，可在【云主机列表】菜单操作。</p>
-          <p>修复了WEB批量导入功能的BUG。</p>
+          <p>修复了WEB页面批量导入自建主机与站点功能的BUG。</p>
           <p>优化了实例管理、云主机列表页的展示效果和支持搜索。</p>
         </el-card>
       </el-timeline-item>
