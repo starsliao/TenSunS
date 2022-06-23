@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="title-container" style="text-align:center">
-      <img src="../../assets/login_images/tensuns.png" width="800" height="400">
+      <img src="../../assets/login_images/tensuns.png" width="720" height="330">
     </div>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" style="padding: 10px 70px 0;">
       <el-form-item prop="username">
