@@ -7,6 +7,14 @@
       <el-timeline-item timestamp="2022/6/19" placement="top">
         <el-card>
           <h4>v0.6.3</h4>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> 云主机同步支持自定义IP端口功能，可在【云主机列表】菜单操作。</p>
+          <p>修复了WEB批量导入功能的BUG。</p>
+          <p>优化了实例管理、云主机列表页的展示效果和支持搜索。</p>
+        </el-card>
+      </el-timeline-item>
+      <el-timeline-item timestamp="2022/6/19" placement="top">
+        <el-card>
+          <h4>v0.6.3</h4>
           <p>★支持在Web页面直接批量导入自建主机。</p>
           <p>★支持在Web页面直接批量导入站点监控。</p>
           <p>修复了部分页面前端展示的bug。</p>

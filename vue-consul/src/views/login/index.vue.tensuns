@@ -43,7 +43,7 @@
 
     </el-form>
     <div align="center" class="title-container">
-      <span style="font-size:12px" class="title">v0.6.3</span>
+      <span style="font-size:12px" class="title">v0.6.5</span>
     </div>
   </div>
 </template>
