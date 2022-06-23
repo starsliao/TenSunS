@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import requests, json
-import xlrd
-import sys
+import xlrd,re,sys
 sys.path.append("..")
 from config import consul_token,consul_url
 
@@ -18,6 +17,7 @@ def importconsul(row,imptype):
             }
         elif imptype == 'selfnode':
             vendor,account,region,group,name,instance,os = row
+            print(row)
             sid = f"{vendor}/{account}/{region}/{group}@{name}"
             ip = instance.split(':')[0]
             port = instance.split(':')[1]
@@ -52,7 +52,19 @@ def read_execl(file_contents,imptype):
         row = table.row_values(rownum)
         if rownum == 0:
             continue
-        imp = importconsul(row,imptype)
+        nrow = []
+        for i in row:
+            try:
+                float(i)
+                if i % 1 == 0:
+                    i = int(i)
+                nrow.append(str(i))
+            except:
+                j = i.strip()
+                if i != row[5]:
+                    j = re.sub('[[ \]`~!\\\#$^/&*=|"{}\':;?]','_',j)
+                nrow.append(j)
+        imp = importconsul(nrow,imptype)
         if imp['code'] == 50000:
             return imp
     return {"code": 20000, "data": f"导入成功！共导入 {rownum} 条数据。"}

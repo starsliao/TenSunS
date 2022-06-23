@@ -1,6 +1,7 @@
 <template>
   <div class="app-container">
-    <el-alert v-if="services_name === 'blackbox_exporter'" title="如需管理【blackbox_exporter】的监控实例，建议使用左侧菜单【Blackbox 站点监控】来维护，更加方便直观。" type="success" center close-text="知道了" />
+    <el-alert v-if="services_name === 'blackbox_exporter'" title="以下是站点监控的实例，如需管理【blackbox_exporter】的监控实例，建议使用左侧菜单【Blackbox 站点监控】来维护，更加方便直观。" type="success" center close-text="朕知道了" />
+    <el-alert v-if="services_name === 'selfnode_exporter'" title="以下是自建主机的实例，如需管理【自建主机】的监控实例，建议使用左侧菜单【自建主机管理】来维护，更加方便直观。" type="success" center close-text="朕知道了" />
     <el-select v-model="services_name" placeholder="请选择 Services" filterable collapse-tags style="width: 250px" class="filter-item" @change="fetchData(services_name)">
       <el-option v-for="item in services_name_list" :key="item" :label="item" :value="item" />
     </el-select>
@@ -13,8 +14,19 @@
     <el-button class="filter-item" type="danger" icon="el-icon-delete" @click="handleDelAll">
       批量删除
     </el-button>
-
-    <el-table ref="expandstable" v-loading="listLoading" :data="instances" border fit highlight-current-row style="width: 100%;" @selection-change="handleSelectionChange">
+    <div style="float: right;margin-left: 10px;">
+      <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="支持实例ID、地址、端口、Tags筛选" clearable style="width: 300px" class="filter-item" />
+    </div>
+    <el-table
+      ref="expandstable"
+      v-loading="listLoading"
+      :data="instances.filter(data => !iname || (data.ID.toLowerCase().includes(iname.toLowerCase()) || data.tags.toString().toLowerCase().includes(iname.toLowerCase()) || data.port.toString().toLowerCase().includes(iname.toLowerCase()) || data.address.toLowerCase().includes(iname.toLowerCase())))"
+      border
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column type="selection" align="center" width="30" />
       <el-table-column label="ID" width="50px" align="center">
         <template slot-scope="scope">
@@ -115,15 +127,16 @@
           <el-switch v-model="newService.metaInfo.isMeta" />
         </el-form-item>
         <el-form-item v-if="newService.metaInfo.isMeta" prop="newmeta">
+          <font size="3px" color="#ff0000">键不能是中文,值不能是数字类型,键值都必须用双引号引起！</font>
           <span slot="label">
             <span class="span-box">
               <span>Meta</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content='Meta必须是JSON字符串格式，例如：{ "aaa":"bbb", "ccc": "ddd" }' placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark" content='Meta必须是JSON字符串格式，例如：{ "aaa":"bbb", "ccc": "123" }' placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
           </span>
-          <el-input v-model="newService.metaInfo.metaJson" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder='{ "aaa": "bbb", "ccc": "ddd" }' clearable class="filter-item" />
+          <el-input v-model="newService.metaInfo.metaJson" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder='{ "aaa": "bbb", "ccc": "123" }' clearable class="filter-item" />
         </el-form-item>
 
         <el-form-item v-if="coption !== '' && dialogStatus==='update'" label="健康检查操作" prop="coption">
@@ -205,6 +218,7 @@ export default {
       services_name: '',
       services_name_list: [],
       multipleSelection: [],
+      iname: '',
       newService: {
         ID: '',
         name: '',
@@ -244,10 +258,16 @@ export default {
     }
   },
   created() {
-    this.fetchServicesName()
-    if (this.$route.query.service_name) {
-      this.fetchData(this.$route.query.service_name)
-    }
+    getServicesName().then(response => {
+      this.services_name_list = response.services_name
+      this.xname = this.load_name()
+      if (this.$route.query.service_name) {
+        this.fetchData(this.$route.query.service_name)
+      } else {
+        this.services_name = this.services_name_list[0]
+        this.fetchData(this.services_name)
+      }
+    })
   },
   mounted() {
     if (this.$route.query.service_name) {

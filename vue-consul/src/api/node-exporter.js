@@ -65,3 +65,27 @@ export function getRules() {
     method: 'get'
   })
 }
+
+export function postCstEcs(cst_ecs_dict) {
+  return request({
+    url: '/api/nodes/cstecs',
+    method: 'post',
+    data: { cst_ecs_dict }
+  })
+}
+
+export function getCstEcsConfig(iid) {
+  return request({
+    url: '/api/nodes/cstecsconf',
+    method: 'get',
+    params: { iid }
+  })
+}
+
+export function getCstEcsList(jobecs_name, checked) {
+  return request({
+    url: '/api/nodes/cstecslist',
+    method: 'get',
+    params: { jobecs_name, checked }
+  })
+}

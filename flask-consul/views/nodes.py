@@ -3,7 +3,7 @@ from flask_restful import reqparse, Resource, Api
 from flask_apscheduler import APScheduler
 #import sys
 #sys.path.append("..")
-from units import token_auth,consul_kv,gen_config
+from units import token_auth,consul_kv,gen_config,consul_svc
 
 blueprint = Blueprint('nodes',__name__)
 api = Api(blueprint)
@@ -11,6 +11,10 @@ api = Api(blueprint)
 parser = reqparse.RequestParser()
 parser.add_argument('job_id',type=str)
 parser.add_argument('services_dict',type=dict)
+parser.add_argument('cst_ecs_dict',type=dict)
+parser.add_argument('iid',type=str)
+parser.add_argument('jobecs_name',type=str)
+parser.add_argument('checked',type=str)
 
 class Nodes(Resource):
     decorators = [token_auth.auth.login_required]
@@ -40,9 +44,61 @@ class Nodes(Resource):
             return {'code': 20000,'services_list': sorted(set(services_list))}
         elif stype == 'rules':
             return gen_config.get_rules()
+        elif stype == 'cstecsconf':
+            args = parser.parse_args()
+            iid = args['iid']
+            cst_ecs_config = consul_kv.get_value(f'ConsulManager/assets/sync_ecs_custom/{iid}')
+            cst_ecs_config.update({'iid': iid,'ipswitch': False,'portswitch': False})
+            if 'ip' in cst_ecs_config and cst_ecs_config['ip'] != '':
+                cst_ecs_config['ipswitch'] = True
+            if 'port' in cst_ecs_config and cst_ecs_config['port'] != '':
+                cst_ecs_config['portswitch'] = True
+            return {'code': 20000, 'cst_ecs': cst_ecs_config}
+        elif stype == 'cstecslist':
+            args = parser.parse_args()
+            jobecs_name = args['jobecs_name']
+            checked = args['checked']
+            cst_ecs_dict = consul_kv.get_kv_dict('ConsulManager/assets/sync_ecs_custom/')
+            cst_ecs_keylist = [k.split('/')[-1] for k,v in cst_ecs_dict.items() if v != {}]
+            ecs_info = consul_kv.get_ecs_services(jobecs_name)
+            if checked == 'false':
+                return ecs_info
+            else:
+                cst_ecs_list = [i for i in ecs_info['ecs_list'] if i['iid'] in cst_ecs_keylist]
+                return {'code': 20000, 'ecs_list': cst_ecs_list}
+                
     def post(self, stype):
         if stype == 'config':
             args = parser.parse_args()
             services_dict = args['services_dict']
             return gen_config.ecs_config(services_dict['services_list'],services_dict['ostype_list'])
+        elif stype == 'cstecs':
+            args = parser.parse_args()
+            cst_ecs_dict = args['cst_ecs_dict']
+            consul_ecs_cst = {}
+            iid = cst_ecs_dict['iid']
+            try:
+                sid_dict = consul_svc.get_sid(iid)['instance']
+                if cst_ecs_dict['portswitch'] and cst_ecs_dict['port'] != '':
+                    consul_ecs_cst['port'] = int(cst_ecs_dict['port'])
+                    sid_dict['Port'] = consul_ecs_cst['port']
+                if cst_ecs_dict['ipswitch'] and cst_ecs_dict['ip'] != '':
+                    consul_ecs_cst['ip'] = cst_ecs_dict['ip']
+                    sid_dict['Address'] = consul_ecs_cst['ip']
+                consul_kv.put_kv(f'ConsulManager/assets/sync_ecs_custom/{iid}',consul_ecs_cst)
+                del sid_dict['TaggedAddresses']
+                del sid_dict['Weights']
+                del sid_dict['ContentHash']
+                del sid_dict['Datacenter']
+                sid_dict['name'] = sid_dict.pop('Service')
+                sid_dict['Meta']['instance'] = f"{sid_dict['Address']}:{sid_dict['Port']}"
+                sid_dict["check"] = { "tcp": sid_dict['Meta']['instance'],"interval": "60s" }
+                consul_svc.del_sid(iid)
+                consul_svc.add_sid(sid_dict)
+                return {'code': 20000, 'data': '自定义实例信息修改成功！'}
+            except Exception as e:
+                print(e,flush=True)
+                return {'code': 50000, "data": '提交自定义实例信息格式错误！'}
+
+
 api.add_resource(Nodes, '/api/nodes/<stype>')

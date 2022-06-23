@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import requests,json
+from units import consul_kv
 from config import consul_token,consul_url,vendors,regions
 headers = {'X-Consul-Token': consul_token}
 geturl = f'{consul_url}/agent/services'
@@ -34,8 +35,13 @@ def w2consul(vendor,account,region,ecs_dict):
                     print({"code": 50000,"data": f'{dereg.status_code}:{dereg.text}'}, flush=True)
         else:
             on = on + 1
-            port = 9100 if v['ostype'] == 'linux' else 9182
-            ip = v['ip'] if isinstance(v['ip'],list) is False else v['ip'][0]
+            custom_ecs = consul_kv.get_value(f'ConsulManager/assets/sync_ecs_custom/{iid}')
+            port = custom_ecs.get('port')
+            ip = custom_ecs.get('ip')
+            if port == None:
+                port = 9100 if v['ostype'] == 'linux' else 9182
+            if ip == None:
+                ip = v['ip'] if isinstance(v['ip'],list) is False else v['ip'][0]
             instance = f'{ip}:{port}'
             data = {
                 'id': iid,
@@ -73,4 +79,5 @@ def w2consul(vendor,account,region,ecs_dict):
                 #print({f"{account}:code": 20000,"data": "增加成功！"}, flush=True)
             else:
                 print({f"{account}:code": 50000,"data": f'{reg.status_code}:{reg.text}'}, flush=True)
+                #return {"code": 50000,"data": f'{reg.status_code}:{reg.text}'}
     return off,on
