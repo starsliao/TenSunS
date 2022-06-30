@@ -23,7 +23,7 @@
         导出
       </el-button>
       <el-upload
-        style="margin-right: 10px;"
+        style="margin-right: 9px;"
         class="upload-demo"
         action="/api/selfnode/upload"
         :headers="myHeaders"
@@ -35,7 +35,7 @@
         :multiple="false"
       >
         <el-tooltip class="item" effect="light" content="点击【导出】可获取导入模板" placement="top">
-          <el-button v-waves style="margin-left: 10px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
+          <el-button v-waves style="margin-left: 9px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
             导入
           </el-button>
         </el-tooltip>
@@ -43,7 +43,7 @@
       <el-button class="filter-item" type="danger" icon="el-icon-delete" @click="handleDelAll">
         批量删除
       </el-button>
-      <div style="float: right;margin-left: 10px;">
+      <div style="float: right;margin-left: 9px;">
         <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:180px" class="filter-item" @input="inameFilter(iname)" />
       </div>
     </div>

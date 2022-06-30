@@ -4,10 +4,77 @@ from alibabacloud_resourcemanager20200331 import models as resource_manager_2020
 from alibabacloud_ecs20140526.client import Client as Ecs20140526Client
 from alibabacloud_ecs20140526 import models as ecs_20140526_models
 from Tea.exceptions import TeaException
+from alibabacloud_bssopenapi20171214.client import Client as BssOpenApi20171214Client
+from alibabacloud_bssopenapi20171214 import models as bss_open_api_20171214_models
+from alibabacloud_tea_util import models as util_models
+from alibabacloud_tea_util.client import Client as UtilClient
 
 import sys,datetime
 from units import consul_kv
 from units.cloud import sync_ecs
+from units.cloud import notify
+
+def exp(account,collect_days,notify_days,notify_amount):
+    ak,sk = consul_kv.get_aksk('alicloud',account)
+    now = datetime.datetime.utcnow().strftime('%Y-%m-%dT16:00:00Z')
+    collect = (datetime.datetime.utcnow() + datetime.timedelta(days=collect_days+1)).strftime('%Y-%m-%dT16:00:00Z')
+    config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
+    config.endpoint = f'business.aliyuncs.com'
+    client = BssOpenApi20171214Client(config)
+    query_available_instances_request = bss_open_api_20171214_models.QueryAvailableInstancesRequest(
+        renew_status='ManualRenewal',
+        end_time_start=now,
+        end_time_end=collect)
+    runtime = util_models.RuntimeOptions()
+    amount_response = client.query_account_balance()
+    try:
+        exp = client.query_available_instances_with_options(query_available_instances_request, runtime)
+        exp_list = exp.body.to_map()['Data']['InstanceList']
+        exp_dict = {}
+        notify_dict = {}
+        amount_dict = {}
+        for i in exp_list:
+            endtime = datetime.datetime.strptime(i['EndTime'],'%Y-%m-%dT%H:%M:%SZ') + datetime.timedelta(hours=8)
+            endtime_str = endtime.strftime('%Y-%m-%d')
+            exp_dict[i['InstanceID']] = {'Region':i['Region'],'Product':i['ProductCode'],
+                'EndTime':endtime_str,'Ptype':i.get('ProductType',i['ProductCode'])}
+            if (endtime - datetime.datetime.now()).days < notify_days:
+                notify_dict[i['InstanceID']] = exp_dict[i['InstanceID']]
+        consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/exp', exp_dict)
+        amount = float(amount_response.body.data.available_amount.replace(',',''))
+        consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/amount',{'amount':amount})
+        if amount < notify_amount:
+            amount_dict = {'amount':amount}
+        exp_config = consul_kv.get_value('ConsulManager/exp/config')
+        wecomwh = exp_config.get('wecomwh','')
+        dingdingwh = exp_config.get('dingdingwh','')
+        feishuwh = exp_config.get('feishuwh','')
+        if notify_dict != {}:
+            msg = [f'### 阿里云账号 {account}：\n### 以下资源到期日小于 {notify_days} 天：']
+            for k,v in notify_dict.items():
+                msg.append(f"- {v['Region']}：{v['Product']}：{k}：<font color=\"#ff0000\">{v['EndTime']}</font>")
+            content = '\n'.join(msg)
+            if exp_config['switch'] and exp_config.get('wecom',False):
+                notify.wecom(wecomwh,content)
+            if exp_config['switch'] and exp_config.get('dingding',False):
+                notify.dingding(dingdingwh,content)
+            if exp_config['switch'] and exp_config.get('feishu',False):
+                title = '阿里云资源到期通知'
+                md = content
+                notify.feishu(feishuwh,title,md)
+        if amount_dict != {}:
+            content = f'### 阿里云账号 {account}：\n### 可用余额：<font color=\"#ff0000\">{amount}</font> 元'
+            if exp_config['switch'] and exp_config.get('wecom',False):
+                notify.wecom(wecomwh,content)
+            if exp_config['switch'] and exp_config.get('dingding',False):
+                notify.dingding(dingdingwh,content)
+            if exp_config['switch'] and exp_config.get('feishu',False):
+                title = '阿里云余额不足通知'
+                md = content
+                notify.feishu(feishuwh,title,md)
+
+    except Exception as error:
+        UtilClient.assert_as_string(error.message)
 
 def group(account):
     ak,sk = consul_kv.get_aksk('alicloud',account)

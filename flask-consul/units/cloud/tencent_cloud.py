@@ -9,6 +9,70 @@ import sys,datetime
 #import consul_kv,sync_ecs
 from units import consul_kv
 from units.cloud import sync_ecs
+from units.cloud import notify
+def exp(account,collect_days,notify_days,notify_amount):
+    from tencentcloud.billing.v20180709 import billing_client, models
+    ak,sk = consul_kv.get_aksk('tencent_cloud',account)
+    exp_dict = {}
+    notify_dict = {}
+    amount_dict = {}
+    try:
+        ecs_list = consul_kv.get_services_meta(f'tencent_cloud_{account}_ecs').get('ecs_list',[])
+        now = datetime.datetime.now()
+        for i in ecs_list:
+            exp_day = datetime.datetime.strptime(i['exp'], '%Y-%m-%d')
+            if (now - exp_day).days <= collect_days:
+                exp_dict[i['iid']] = {'Region':i['region'],'Product':i['os'],'Name':i['name'],
+                    'EndTime':i['exp'],'Ptype':i['cpu']+i['mem'],'Group':i['group']}
+            if (now - exp_day).days <= notify_days:
+                notify_dict[i['iid']] = exp_dict[i['iid']]
+        consul_kv.put_kv(f'ConsulManager/exp/lists/tencent_cloud/{account}/exp', exp_dict)
+
+        cred = credential.Credential(ak, sk)
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "billing.tencentcloudapi.com"
+
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+        client = billing_client.BillingClient(cred, "", clientProfile)
+
+        req = models.DescribeAccountBalanceRequest()
+        params = {}
+        req.from_json_string(json.dumps(params))
+
+        amount = client.DescribeAccountBalance(req).RealBalance/100
+        consul_kv.put_kv(f'ConsulManager/exp/lists/tencent_cloud/{account}/amount',{'amount':amount})
+        if amount < notify_amount:
+            amount_dict = {'amount':amount}
+        exp_config = consul_kv.get_value('ConsulManager/exp/config')
+        wecomwh = exp_config.get('wecomwh','')
+        dingdingwh = exp_config.get('dingdingwh','')
+        feishuwh = exp_config.get('feishuwh','')
+        if notify_dict != {}:
+            msg = [f'### 腾讯云账号 {account}：\n### 以下资源到期日小于 {notify_days} 天：']
+            for k,v in notify_dict.items():
+                msg.append(f"- {v['Region']}：{v['Product']}：{v['Group']}：{v['Name']}：<font color=\"#ff0000\">{v['EndTime']}</font>")
+            content = '\n'.join(msg)
+            if exp_config['switch'] and exp_config.get('wecom',False):
+                notify.wecom(wecomwh,content)
+            if exp_config['switch'] and exp_config.get('dingding',False):
+                notify.dingding(dingdingwh,content)
+            if exp_config['switch'] and exp_config.get('feishu',False):
+                title = '腾讯云资源到期通知'
+                md = content
+                notify.feishu(feishuwh,title,md)
+        if amount_dict != {}:
+            content = f'### 腾讯云账号 {account}：\n### 可用余额：<font color=\"#ff0000\">{amount}</font> 元'
+            if exp_config['switch'] and exp_config.get('wecom',False):
+                notify.wecom(wecomwh,content)
+            if exp_config['switch'] and exp_config.get('dingding',False):
+                notify.dingding(dingdingwh,content)
+            if exp_config['switch'] and exp_config.get('feishu',False):
+                title = '腾讯云余额不足通知'
+                md = content
+                notify.feishu(feishuwh,title,md)
+    except TencentCloudSDKException as err:
+        print(err)
 
 def group(account):
     from tencentcloud.dcdb.v20180411 import dcdb_client, models

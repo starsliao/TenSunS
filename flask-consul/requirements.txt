@@ -13,8 +13,11 @@ beautifulsoup4==4.11.1
 huaweicloudsdkcore==3.0.78
 huaweicloudsdkecs==3.0.78
 huaweicloudsdkeps==3.0.78
+huaweicloudsdkbss==3.0.95
 alibabacloud_resourcemanager20200331==2.1.0
 alibabacloud_ecs20140526==2.1.0
+alibabacloud_bssopenapi20171214==2.0.5
 tencentcloud-sdk-python-common==3.0.607
 tencentcloud-sdk-python-cvm==3.0.607
 tencentcloud-sdk-python-dcdb==3.0.607
+tencentcloud-sdk-python-billing==3.0.607

@@ -41,9 +41,9 @@ def get_avd():
                     f"- 状态：<font color=\"#ff0000\">{avd_dict['avd_stat']}</font>({avd_dict['avd_collect']})\n"
                 if avd_dict['avd_id'] == last_avd.get('avd_id'):
                     content = content + '(已披露漏洞，今日推送为状态或类型有更新。)\n'
-                if avd_switch['switch'] and avd_switch['wecom'] and wecomwh.startswith('https://qyapi.weixin.qq.com'):
+                if avd_switch['switch'] and avd_switch.get('wecom',False) and wecomwh.startswith('https://qyapi.weixin.qq.com'):
                     wecom(wecomwh,content)
-                if avd_switch['switch'] and avd_switch['dingding'] and dingdingwh.startswith('https://oapi.dingtalk.com'):
+                if avd_switch['switch'] and avd_switch.get('dingding',False) and dingdingwh.startswith('https://oapi.dingtalk.com'):
                     dingding(dingdingwh,content)
                 if avd_switch['switch'] and avd_switch.get('feishu',False) and feishuwh.startswith('https://open.feishu.cn'):
                     title = '漏洞告警:' + avd_dict['avd_name']

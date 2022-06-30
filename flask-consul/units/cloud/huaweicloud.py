@@ -1,12 +1,90 @@
 from huaweicloudsdkcore.auth.credentials import GlobalCredentials,BasicCredentials
 from huaweicloudsdkeps.v1.region.eps_region import EpsRegion
 from huaweicloudsdkcore.exceptions import exceptions
+from huaweicloudsdkbss.v2.region.bss_region import BssRegion
 from huaweicloudsdkeps.v1 import *
 from huaweicloudsdkecs.v2.region.ecs_region import EcsRegion
 from huaweicloudsdkecs.v2 import *
+from huaweicloudsdkbss.v2 import *
 import sys,datetime
 from units import consul_kv
 from units.cloud import sync_ecs
+from units.cloud import notify
+
+def exp(account,collect_days,notify_days,notify_amount):
+    ak,sk = consul_kv.get_aksk('huaweicloud',account)
+    now = datetime.datetime.utcnow().strftime('%Y-%m-%dT16:00:00Z')
+    collect = (datetime.datetime.utcnow() + datetime.timedelta(days=collect_days+1)).strftime('%Y-%m-%dT16:00:00Z')
+    credentials = GlobalCredentials(ak, sk)
+    try:
+        client = BssClient.new_builder() \
+            .with_credentials(credentials) \
+            .with_region(BssRegion.value_of("cn-north-1")) \
+            .build()
+        request = ListPayPerUseCustomerResourcesRequest()
+        listQueryResourcesReqStatusListbody = [2]
+        request.body = QueryResourcesReq(
+            expire_time_end=collect,
+            limit=500,
+            status_list=listQueryResourcesReqStatusListbody,
+            only_main_resource=1
+        )
+        exp_list = client.list_pay_per_use_customer_resources(request).to_dict()['data']
+        exp_dict = {}
+        notify_dict = {}
+        amount_dict = {}
+        for i in exp_list:
+            endtime = datetime.datetime.strptime(i['expire_time'],'%Y-%m-%dT%H:%M:%SZ') + datetime.timedelta(hours=8.1)
+            endtime_str = endtime.strftime('%Y-%m-%d')
+            i['service_type_code'].replace('hws.service.type.','')
+            if i['expire_policy'] not in [1,3,4]:
+                exp_dict[i['resource_id']] = {'Region':i['region_code'],'Product':i['resource_spec_code'],
+                    'EndTime':endtime_str,'Name':i['resource_name'],'Ptype':i['resource_type_code']}
+                if (endtime - datetime.datetime.now()).days < notify_days:
+                    notify_dict[i['resource_id']] = exp_dict[i['resource_id']]
+
+        consul_kv.put_kv(f'ConsulManager/exp/lists/huaweicloud/{account}/exp', exp_dict)
+
+        request = ShowCustomerAccountBalancesRequest()
+        response = client.show_customer_account_balances(request).to_dict()['account_balances']
+        amount = [i['amount'] for i in response if i['account_type'] == 1][0]
+        consul_kv.put_kv(f'ConsulManager/exp/lists/huaweicloud/{account}/amount',{'amount':amount})
+        if amount < notify_amount:
+            amount_dict = {'amount':amount}
+        exp_config = consul_kv.get_value('ConsulManager/exp/config')
+        wecomwh = exp_config.get('wecomwh','')
+        dingdingwh = exp_config.get('dingdingwh','')
+        feishuwh = exp_config.get('feishuwh','')
+        if notify_dict != {}:
+            msg = [f'### 华为云账号 {account}：\n### 以下资源到期日小于 {notify_days} 天：']
+            for k,v in notify_dict.items():
+                msg.append(f"- {v['Region']}：{v['Product']}：{v['Name']}：<font color=\"#ff0000\">{v['EndTime']}</font>")
+            content = '\n'.join(msg)
+            if exp_config['switch'] and exp_config.get('wecom',False):
+                notify.wecom(wecomwh,content)
+            if exp_config['switch'] and exp_config.get('dingding',False):
+                notify.dingding(dingdingwh,content)
+            if exp_config['switch'] and exp_config.get('feishu',False):
+                title = '华为云资源到期通知'
+                md = content
+                notify.feishu(feishuwh,title,md)
+        if amount_dict != {}:
+            content = f'### 华为云账号 {account}：\n### 可用余额：<font color=\"#ff0000\">{amount}</font> 元'
+            if exp_config['switch'] and exp_config.get('wecom',False):
+                notify.wecom(wecomwh,content)
+            if exp_config['switch'] and exp_config.get('dingding',False):
+                notify.dingding(dingdingwh,content)
+            if exp_config['switch'] and exp_config.get('feishu',False):
+                title = '华为云余额不足通知'
+                md = content
+                notify.feishu(feishuwh,title,md)
+
+    except exceptions.ClientRequestException as e:
+        print(e.status_code)
+        print(e.request_id)
+        print(e.error_code)
+        print(e.error_msg)
+
 def group(account):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
     now = datetime.datetime.now().strftime('%m%d/%H:%M')

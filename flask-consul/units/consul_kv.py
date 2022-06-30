@@ -69,7 +69,17 @@ def get_ecs_services(job_id):
         return {'code': 20000,'ecs_list': ecs_list}
     else:
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
-        
+ 
+def get_services_meta(services_name):
+    url = f'{consul_url}/agent/services?filter=Service == "{services_name}"'
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        info = response.json()
+        ecs_list = [i['Meta'] for i in info.values()]
+        return {'code': 20000,'ecs_list': ecs_list}
+    else:
+        return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
+
 def get_aksk(cloud,account):
     import myaes
     aksk_dict = get_value(f'ConsulManager/assets/{cloud}/aksk/{account}')
