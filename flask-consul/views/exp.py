@@ -26,7 +26,7 @@ class Exp(Resource):
             exp_config_dict = args['exp_config_dict']
             consul_kv.put_kv('ConsulManager/exp/config',exp_config_dict)
             cloud_job_list = consul_kv.get_keys_list('ConsulManager/jobs')
-            cloud_list = [i for i in cloud_job_list if i.endswith('/group') and 'tencent_cloud' in i]
+            cloud_list = [i for i in cloud_job_list if i.endswith('/group')]
             collect_days = exp_config_dict['collect_days']
             notify_days = exp_config_dict['notify_days']
             notify_amount = exp_config_dict['notify_amount']

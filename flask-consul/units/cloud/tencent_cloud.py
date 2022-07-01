@@ -21,10 +21,10 @@ def exp(account,collect_days,notify_days,notify_amount):
         now = datetime.datetime.now()
         for i in ecs_list:
             exp_day = datetime.datetime.strptime(i['exp'], '%Y-%m-%d')
-            if (now - exp_day).days <= collect_days:
+            if (exp_day - now).days <= collect_days:
                 exp_dict[i['iid']] = {'Region':i['region'],'Product':i['os'],'Name':i['name'],
                     'EndTime':i['exp'],'Ptype':i['cpu']+i['mem'],'Group':i['group']}
-            if (now - exp_day).days <= notify_days:
+            if (exp_day - now).days <= notify_days:
                 notify_dict[i['iid']] = exp_dict[i['iid']]
         consul_kv.put_kv(f'ConsulManager/exp/lists/tencent_cloud/{account}/exp', exp_dict)
 
