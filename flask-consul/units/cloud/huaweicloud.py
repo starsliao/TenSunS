@@ -6,7 +6,7 @@ from huaweicloudsdkeps.v1 import *
 from huaweicloudsdkecs.v2.region.ecs_region import EcsRegion
 from huaweicloudsdkecs.v2 import *
 from huaweicloudsdkbss.v2 import *
-import sys,datetime
+import sys,datetime,hashlib
 from units import consul_kv
 from units.cloud import sync_ecs
 from units.cloud import notify
@@ -31,6 +31,8 @@ def exp(account,collect_days,notify_days,notify_amount):
         )
         exp_list = client.list_pay_per_use_customer_resources(request).to_dict()['data']
         exp_dict = {}
+        isnotify_list = consul_kv.get_keys_list(f'ConsulManager/exp/isnotify/huaweicloud/{account}')
+        isnotify_list = [i.split('/')[-1] for i in isnotify_list]
         notify_dict = {}
         amount_dict = {}
         for i in exp_list:
@@ -38,9 +40,10 @@ def exp(account,collect_days,notify_days,notify_amount):
             endtime_str = endtime.strftime('%Y-%m-%d')
             i['service_type_code'].replace('hws.service.type.','')
             if i['expire_policy'] not in [1,3,4]:
+                notify_id = hashlib.md5(str(i).encode(encoding='UTF-8')).hexdigest()
                 exp_dict[i['resource_id']] = {'Region':i['region_code'],'Product':i['resource_spec_code'],
-                    'EndTime':endtime_str,'Name':i['resource_name'],'Ptype':i['resource_type_code']}
-                if (endtime - datetime.datetime.now()).days < notify_days:
+                    'EndTime':endtime_str,'Name':i['resource_name'],'Ptype':i['resource_type_code'],'notify_id':notify_id}
+                if (endtime - datetime.datetime.now()).days < notify_days and notify_id not in isnotify_list:
                     notify_dict[i['resource_id']] = exp_dict[i['resource_id']]
 
         consul_kv.put_kv(f'ConsulManager/exp/lists/huaweicloud/{account}/exp', exp_dict)

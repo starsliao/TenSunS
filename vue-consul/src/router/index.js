@@ -86,14 +86,20 @@ export const constantRoutes = [
     path: '/nodes',
     component: Layout,
     redirect: '/nodes/jobs',
-    name: 'Node 主机监控',
-    meta: { title: 'Node 主机监控', icon: 'example' },
+    name: '云资源监控',
+    meta: { title: '云资源监控', icon: 'example' },
     children: [
       {
         path: 'jobs',
         name: '接入数据源',
         component: () => import('@/views/node-exporter/jobs'),
         meta: { title: '接入数据源', icon: 'el-icon-school' }
+      },
+      {
+        path: 'exp',
+        name: '余额与到期通知',
+        component: () => import('@/views/node-exporter/exp'),
+        meta: { title: '余额与到期通知', icon: 'el-icon-alarm-clock' }
       },
       {
         path: 'lists',
@@ -131,8 +137,8 @@ export const constantRoutes = [
     path: '/blackbox',
     component: Layout,
     redirect: '/blackbox/index',
-    name: 'Blackbox 站点监控',
-    meta: { title: 'Blackbox 站点监控', icon: 'tree' },
+    name: '站点与接口监控',
+    meta: { title: '站点与接口监控', icon: 'tree' },
     children: [
       {
         path: 'index',

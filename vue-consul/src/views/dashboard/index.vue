@@ -4,6 +4,14 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/7/3" placement="top">
+        <el-card>
+          <h4>v0.7.0</h4>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增阿里云、华为云、腾讯云账户余额和资源到期前通知！</p>
+          <p>可自定义到期前时长与通知余额。</p>
+          <p>支持钉钉、企业微信、飞书通知。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/6/23" placement="top">
         <el-card>
           <h4>v0.6.5</h4>

@@ -9,7 +9,7 @@ from alibabacloud_bssopenapi20171214 import models as bss_open_api_20171214_mode
 from alibabacloud_tea_util import models as util_models
 from alibabacloud_tea_util.client import Client as UtilClient
 
-import sys,datetime
+import sys,datetime,hashlib
 from units import consul_kv
 from units.cloud import sync_ecs
 from units.cloud import notify
@@ -31,14 +31,17 @@ def exp(account,collect_days,notify_days,notify_amount):
         exp = client.query_available_instances_with_options(query_available_instances_request, runtime)
         exp_list = exp.body.to_map()['Data']['InstanceList']
         exp_dict = {}
+        isnotify_list = consul_kv.get_keys_list(f'ConsulManager/exp/isnotify/alicloud/{account}')
+        isnotify_list = [i.split('/')[-1] for i in isnotify_list]
         notify_dict = {}
         amount_dict = {}
         for i in exp_list:
+            notify_id = hashlib.md5(str(i).encode(encoding='UTF-8')).hexdigest()
             endtime = datetime.datetime.strptime(i['EndTime'],'%Y-%m-%dT%H:%M:%SZ') + datetime.timedelta(hours=8)
             endtime_str = endtime.strftime('%Y-%m-%d')
-            exp_dict[i['InstanceID']] = {'Region':i['Region'],'Product':i['ProductCode'],
-                'EndTime':endtime_str,'Ptype':i.get('ProductType',i['ProductCode'])}
-            if (endtime - datetime.datetime.now()).days < notify_days:
+            exp_dict[i['InstanceID']] = {'Region':i.get('Region','Null'),'Product':i['ProductCode'],
+                'EndTime':endtime_str,'Ptype':i.get('ProductType',i['ProductCode']),'notify_id':notify_id}
+            if (endtime - datetime.datetime.now()).days < notify_days and notify_id not in isnotify_list:
                 notify_dict[i['InstanceID']] = exp_dict[i['InstanceID']]
         consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/exp', exp_dict)
         amount = float(amount_response.body.data.available_amount.replace(',',''))

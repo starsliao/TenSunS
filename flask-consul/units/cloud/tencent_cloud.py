@@ -4,7 +4,7 @@ from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 
-import sys,datetime
+import sys,datetime,hashlib
 #sys.path.append("..")
 #import consul_kv,sync_ecs
 from units import consul_kv
@@ -14,6 +14,8 @@ def exp(account,collect_days,notify_days,notify_amount):
     from tencentcloud.billing.v20180709 import billing_client, models
     ak,sk = consul_kv.get_aksk('tencent_cloud',account)
     exp_dict = {}
+    isnotify_list = consul_kv.get_keys_list(f'ConsulManager/exp/isnotify/tencent_cloud/{account}')
+    isnotify_list = [i.split('/')[-1] for i in isnotify_list]
     notify_dict = {}
     amount_dict = {}
     try:
@@ -22,9 +24,10 @@ def exp(account,collect_days,notify_days,notify_amount):
         for i in ecs_list:
             exp_day = datetime.datetime.strptime(i['exp'], '%Y-%m-%d')
             if (exp_day - now).days <= collect_days:
+                notify_id = hashlib.md5(str(i).encode(encoding='UTF-8')).hexdigest()
                 exp_dict[i['iid']] = {'Region':i['region'],'Product':i['os'],'Name':i['name'],
-                    'EndTime':i['exp'],'Ptype':i['cpu']+i['mem'],'Group':i['group']}
-            if (exp_day - now).days <= notify_days:
+                    'EndTime':i['exp'],'Ptype':i['cpu']+i['mem'],'Group':i['group'],'notify_id':notify_id}
+            if (exp_day - now).days <= notify_days and notify_id not in isnotify_list:
                 notify_dict[i['iid']] = exp_dict[i['iid']]
         consul_kv.put_kv(f'ConsulManager/exp/lists/tencent_cloud/{account}/exp', exp_dict)
 

@@ -100,6 +100,21 @@ class Jobs(Resource):
             else:
                 Scheduler.remove_job(proj_job_id)
                 Scheduler.remove_job(ecs_job_id)
+            exp = consul_kv.get_value(f'ConsulManager/exp/config')
+            switch = exp.get('switch',False)
+            if switch:
+                vendor = job_dict['vendor']
+                account = job_dict['account']
+                exp_job_id = f'{vendor}/{account}/exp'
+                exp_job_func = f'__main__:{vendor}.exp'
+                exp_job_args = [account,exp['collect_days'],exp['notify_days'],exp['notify_amount']]
+                exp_job_interval = 60
+                Scheduler.add_job(id=exp_job_id, func=exp_job_func, args=exp_job_args, trigger='interval',
+                                  minutes=exp_job_interval, replace_existing=True)
+                exp_job_dict = {'id':exp_job_id,'func':exp_job_func,'args':exp_job_args,
+                                'minutes':exp_job_interval,'trigger': 'interval','replace_existing': True}
+                consul_kv.put_kv(f'ConsulManager/exp/jobs/{vendor}/{account}',exp_job_dict)
+                runjob(exp_job_id)
             return {'code': record_dict['status'], 'data': f"{record_dict['update']}：{record_dict['msg']}"}
         elif job_status == 'update':
             jobid = job_dict['jobid']
@@ -119,6 +134,11 @@ class Jobs(Resource):
         job_id = args['job_id']
         Scheduler.remove_job(job_id)
         del_job = consul_kv.del_key(f'ConsulManager/jobs/{job_id}')
+        if '/group' in job_id and consul_kv.get_value(f'ConsulManager/exp/config').get('switch',False):
+            job_id = job_id.replace('/group','/exp')
+            Scheduler.remove_job(job_id)
+            del_job = consul_kv.del_key(f"ConsulManager/exp/jobs/{job_id.replace('/exp','')}")
+            consul_kv.del_key_all(f"ConsulManager/exp/lists/{job_id.replace('/exp','')}")
         return {'code': 20000, 'data': '删除成功！'}
 
 api.add_resource(Jobs, '/api/jobs')
