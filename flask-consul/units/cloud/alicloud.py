@@ -10,7 +10,7 @@ from alibabacloud_tea_util import models as util_models
 from alibabacloud_tea_util.client import Client as UtilClient
 
 import sys,datetime,hashlib
-from units import consul_kv
+from units import consul_kv,consul_svc
 from units.cloud import sync_ecs
 from units.cloud import notify
 
@@ -39,8 +39,10 @@ def exp(account,collect_days,notify_days,notify_amount):
             notify_id = hashlib.md5(str(i).encode(encoding='UTF-8')).hexdigest()
             endtime = datetime.datetime.strptime(i['EndTime'],'%Y-%m-%dT%H:%M:%SZ') + datetime.timedelta(hours=8)
             endtime_str = endtime.strftime('%Y-%m-%d')
+            iname = consul_svc.get_sid(i['InstanceID'])['instance']['Meta']['name'] if i['ProductCode'] == 'ecs' else 'Null'
             exp_dict[i['InstanceID']] = {'Region':i.get('Region','Null'),'Product':i['ProductCode'],
-                'EndTime':endtime_str,'Ptype':i.get('ProductType',i['ProductCode']),'notify_id':notify_id}
+                'Name':iname,'EndTime':endtime_str,'notify_id':notify_id,
+                'Ptype':i.get('ProductType',i['ProductCode'])}
             if (endtime - datetime.datetime.now()).days < notify_days and notify_id not in isnotify_list:
                 notify_dict[i['InstanceID']] = exp_dict[i['InstanceID']]
         consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/exp', exp_dict)
@@ -55,7 +57,8 @@ def exp(account,collect_days,notify_days,notify_amount):
         if notify_dict != {}:
             msg = [f'### 阿里云账号 {account}：\n### 以下资源到期日小于 {notify_days} 天：']
             for k,v in notify_dict.items():
-                msg.append(f"- {v['Region']}：{v['Product']}：{k}：<font color=\"#ff0000\">{v['EndTime']}</font>")
+                iname = k if v['Name'] == 'Null' else v['Name']
+                msg.append(f"- {v['Region']}：{v['Product']}：{iname}：<font color=\"#ff0000\">{v['EndTime']}</font>")
             content = '\n'.join(msg)
             if exp_config['switch'] and exp_config.get('wecom',False):
                 notify.wecom(wecomwh,content)

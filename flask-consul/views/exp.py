@@ -14,7 +14,7 @@ parser.add_argument('exp_config_dict',type=dict)
 parser.add_argument('isnotify_dict',type=dict)
 
 class Exp(Resource):
-    #decorators = [token_auth.auth.login_required]
+    decorators = [token_auth.auth.login_required]
     def get(self,stype):
         if stype == 'list':
             switch = consul_kv.get_value(f'ConsulManager/exp/config').get('switch',False)
