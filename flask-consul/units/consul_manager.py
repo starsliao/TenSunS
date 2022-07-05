@@ -27,7 +27,7 @@ def get_services():
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         info = response.json()
-        services_list = [{'Name':i['Name'],'Datacenter':i['Datacenter'],'InstanceCount':i['InstanceCount'],'ChecksCritical':i['ChecksCritical'],'ChecksPassing':i['ChecksPassing'],'Tags':i['Tags'],'Nodes':list(set(i['Nodes']))} for i in info if i['Name'] != 'consul']
+        services_list = [{'Name':i['Name'],'Datacenter':i.get('Datacenter','Null'),'InstanceCount':i['InstanceCount'],'ChecksCritical':i['ChecksCritical'],'ChecksPassing':i['ChecksPassing'],'Tags':i['Tags'],'Nodes':list(set(i['Nodes']))} for i in info if i['Name'] != 'consul']
         return {'code': 20000,'services':services_list}
     else:
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
