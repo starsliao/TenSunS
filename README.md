@@ -3,7 +3,7 @@
 [![StarsL.cn](https://img.shields.io/badge/website-StarsL.cn-orange)](https://starsl.cn)
 [![Status](https://img.shields.io/badge/status-active-success.svg)](https://github.com/starsliao/ConsulManager)
 [![GitHub Issues](https://img.shields.io/github/issues/starsliao/ConsulManager.svg)](https://github.com/starsliao/ConsulManager/issues)
-[![GitHub Stargazers](https://img.shields.io/github/stars/starsliao/ConsulManager)](https://github.com/starsliao/ConsulManager/stargazers)
+[![GitHub Stargazers](https://img.shields.io/github/stars/starsliao/ConsulManager?color=ff69b4)](https://github.com/starsliao/ConsulManager/stargazers)
 [![Node.js](https://img.shields.io/badge/node.js-%3E=v14.19-229954)](https://nodejs.org)
 [![Python](https://img.shields.io/badge/python-%3E=v3.6.8-3776ab)](https://nodejs.org)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
