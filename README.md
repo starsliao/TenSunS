@@ -1,3 +1,13 @@
+<div align="center">
+
+[![StarsL.cn](https://img.shields.io/badge/website-StarsL.cn-orange)](https://starsl.cn)
+[![Status](https://img.shields.io/badge/status-active-success.svg)](https://github.com/starsliao/ConsulManager)
+[![GitHub Issues](https://img.shields.io/github/issues/starsliao/ConsulManager.svg)](https://github.com/starsliao/ConsulManager/issues)
+[![GitHub Stargazers](https://img.shields.io/github/stars/starsliao/ConsulManager)](https://github.com/starsliao/ConsulManager/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
+[![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
+</div>
+
 # 🏷目录
 * [🚀概述](#概述)
 * [🌈实现功能](#实现功能)
