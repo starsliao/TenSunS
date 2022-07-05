@@ -177,6 +177,7 @@ export default {
       job_dict: {},
       vendor_list: [],
       account_list: [],
+      itype_list: [],
       itype: [],
       query: { vendor: '', account: '', itype: '' },
       rules: {

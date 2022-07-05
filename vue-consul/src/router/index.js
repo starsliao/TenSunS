@@ -183,7 +183,7 @@ export const constantRoutes = [
     }]
   },
   {
-    path: '快速链接',
+    path: '/link',
     component: Layout,
     meta: { title: '快速链接', icon: 'link' },
     children: [
