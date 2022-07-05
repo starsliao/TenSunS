@@ -1,8 +1,7 @@
 <div align="center">
 
 [![StarsL.cn](https://img.shields.io/badge/website-StarsL.cn-orange)](https://starsl.cn)
-[![Commits](https://img.shields.io/github/commit-activity/m/starsliao/ConsulManager?color=success)](https://github.com/starsliao/ConsulManager/commits/main)
-[![GitHub Issues](https://img.shields.io/github/issues/starsliao/ConsulManager.svg)](https://github.com/starsliao/ConsulManager/issues)
+[![Commits](https://img.shields.io/github/commit-activity/m/starsliao/ConsulManager?color=ffff00)](https://github.com/starsliao/ConsulManager/commits/main)
 [![GitHub Stargazers](https://img.shields.io/github/stars/starsliao/ConsulManager?color=ff69b4)](https://github.com/starsliao/ConsulManager/stargazers)
 [![Python](https://img.shields.io/badge/python-%3E=v3.6.8-3776ab)](https://nodejs.org)
 [![Node.js](https://img.shields.io/badge/node.js-%3E=v14.19-229954)](https://nodejs.org)
