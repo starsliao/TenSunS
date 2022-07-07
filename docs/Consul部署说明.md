@@ -5,17 +5,17 @@
 yum install -y yum-utils
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 yum -y install consul
-# 或者直接下RPM包安装
+# 或者直接下RPM包安装(推荐)
 wget https://rpm.releases.hashicorp.com/RHEL/7/x86_64/stable/consul-1.12.2-1.x86_64.rpm
 rpm -ivh ./consul-1.12.2-1.x86_64.rpm
-```
+``` 
 
 ##### 配置
 
 ```bash
 vi /etc/consul.d/consul.hcl
 log_level = "ERROR" #日志级别，日志太多可以只打印error日志，不需要可以去掉这行。
-advertise_addr = "192.168.x.x" #可以先不加这行，如果启动有问题再加上，一般有多网卡需要配置这行，填写你的网卡IP。
+advertise_addr = "192.168.x.x" #填写你的网卡IP。
 data_dir = "/opt/consul"
 client_addr = "0.0.0.0"
 ui_config{
