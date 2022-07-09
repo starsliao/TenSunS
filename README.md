@@ -55,6 +55,9 @@
 ## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
 
 ## 🎨截图预览（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
+
+<details><summary>💥点击展开</summary>
+  
 ### Consul Web Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
 ### ECS Manager 界面
@@ -71,6 +74,8 @@
 ##### 钉钉告警通知
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
+</details>
+  
 ## 💾部署说明
 ##### 1. Consul Manager需要依赖`Consul`，请先完成Consul的部署。（[Consul部署文档](docs/Consul部署说明.md)）
 ##### 2. 使用`docker-compose`来部署Consul Manager
