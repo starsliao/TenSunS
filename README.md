@@ -114,4 +114,10 @@
 [@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator)
 
 ---
+
+### 🏆开源推荐
+[🌉Go-Ldap-Admin: 基于Go+Vue实现的openLDAP后台管理项目](https://github.com/eryajf/go-ldap-admin)
+
+---
+
 # 💖感谢伟大的[Flask](https://github.com/pallets/flask)、[VUE](https://github.com/vuejs/vue)、[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
