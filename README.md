@@ -83,9 +83,9 @@
 - 编辑：`docker-compose.yml`，修改3个环境变量：
   - **`consul_token`**：consul的登录token（[如何获取？](https://github.com/starsliao/ConsulManager/blob/main/docs/Consul%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md#%E8%8E%B7%E5%8F%96%E7%99%BB%E5%BD%95token%E8%AE%B0%E5%BD%95secretid%E5%8D%B3%E4%B8%BAconsul%E7%99%BB%E5%BD%95%E7%9A%84token)）
   - **`consul_url`**：consul的URL(http开头，/v1要保留)
-  - **`admin_passwd`**：登录Consul Manager Web的admin密码
+  - **`admin_passwd`**：登录ConsulManager Web的admin密码
 - 启动：`docker-compose pull && docker-compose up -d`
-- 访问：`http://{IP}:1026`，使用配置的Consul Manager admin密码登录
+- 访问：`http://{IP}:1026`，使用配置的ConsulManager admin密码登录
 ---
 ## 🥇最佳实践
 - ### [ConsulManager：实践与FAQ](https://github.com/starsliao/ConsulManager/tree/main/docs)
