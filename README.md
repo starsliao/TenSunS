@@ -82,9 +82,9 @@
 - 下载：`wget https://raw.githubusercontent.com/starsliao/ConsulManager/main/docker-compose.yml`
 - 国内下载：`wget https://starsl.cn/static/img/docker-compose.yml`
 - 编辑：`docker-compose.yml`，修改3个环境变量：
-  - **`consul_token`**：consul的登录token
+  - **`consul_token`**：consul的登录token（[如何获取？](https://github.com/starsliao/ConsulManager/blob/main/docs/Consul%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md#%E8%8E%B7%E5%8F%96%E7%99%BB%E5%BD%95token%E8%AE%B0%E5%BD%95secretid%E5%8D%B3%E4%B8%BAconsul%E7%99%BB%E5%BD%95%E7%9A%84token)）
   - **`consul_url`**：consul的URL(http开头，/v1要保留)
-  - **`admin_passwd`**：登录Consul Manager的admin密码
+  - **`admin_passwd`**：登录Consul Manager Web的admin密码
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的Consul Manager密码登录
 ---
