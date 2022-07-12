@@ -86,7 +86,7 @@
   - **`consul_url`**：consul的URL(http开头，/v1要保留)
   - **`admin_passwd`**：登录Consul Manager Web的admin密码
 - 启动：`docker-compose pull && docker-compose up -d`
-- 访问：`http://{IP}:1026`，使用配置的Consul Manager密码登录
+- 访问：`http://{IP}:1026`，使用配置的Consul Manager admin密码登录
 ---
 ## 🥇最佳实践
 - ### [ConsulManager：实践与FAQ](https://github.com/starsliao/ConsulManager/tree/main/docs)
