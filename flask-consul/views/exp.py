@@ -27,7 +27,6 @@ class Exp(Resource):
             query_set = set({k:v for k,v in query_dict.items() if v != ''}.items())
             cloud_job_list = consul_kv.get_keys_list('ConsulManager/jobs')
             cloud_list = [i for i in cloud_job_list if i.endswith('/group')]
-            exp_dict = consul_kv.get_kv_dict(f'ConsulManager/exp/lists')
             exp_list = []
             amount_list = []
             for i in cloud_list:

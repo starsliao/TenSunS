@@ -87,13 +87,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/nodes/jobs',
     name: '云资源监控',
-    meta: { title: '云资源监控', icon: 'example' },
+    meta: { title: '云资源监控', icon: 'el-icon-shopping-bag-2' },
     children: [
       {
         path: 'jobs',
         name: '接入数据源',
         component: () => import('@/views/node-exporter/jobs'),
         meta: { title: '接入数据源', icon: 'el-icon-school' }
+      },
+      {
+        path: 'jms',
+        name: 'JumpServer',
+        component: () => import('@/views/jms/index'),
+        meta: { title: 'JumpServer 同步', icon: 'el-icon-copy-document' }
       },
       {
         path: 'exp',
