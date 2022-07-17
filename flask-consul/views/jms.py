@@ -39,12 +39,16 @@ class Jms(Resource):
                 count_group = consul_kv.get_value(f'ConsulManager/record/jobs/{vendor}/{account}/group')['count']
                 services_meta = consul_kv.get_services_meta(f'{vendor}_{account}_ecs').get('ecs_list',[])
                 count_ecs = len(services_meta)
-                count_cpu,count_mem,count_win,count_linux = 0,0,0,0
+                count_off,count_on,count_cpu,count_mem,count_win,count_linux = 0,0,0,0,0,0
                 for i in services_meta:
                     if i['os'] == linux:
                         count_linux = count_linux + 1
                     elif i['os'] == windows:
                         count_win = count_win + 1
+                    if i.get('stat') == off:
+                        count_off = count_off + 1
+                    else:
+                        count_on = count_on + 1
                     cpu = int(i['cpu'].replace('核',''))
                     count_cpu = count_cpu + cpu
                     mem = int(i['cpu'].replace('GB',''))
