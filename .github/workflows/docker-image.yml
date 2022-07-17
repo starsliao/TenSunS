@@ -1,8 +1,0 @@
-name: Docker Image CI
-
-on:
-  workflow_dispatch:
-    inputs:
-      ver:
-        description: 'version'
-        required: true
