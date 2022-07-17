@@ -26,6 +26,9 @@ def addjob(job_id,job_func,job_args,job_interval):
 def runjob(jobid):
     Scheduler.run_job(jobid)
 
+def getjob(jobid):
+    return Scheduler.get_job(jobid)
+
 class Jobs(Resource):
     decorators = [token_auth.auth.login_required]
     def get(self):

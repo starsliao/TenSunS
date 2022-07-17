@@ -43,19 +43,30 @@
         </el-button>
       </div>
     </el-dialog>
-    <el-table v-loading="listLoading" :data="exp_list" :default-sort="{ prop: 'EndTime', order: 'ascending' }" border fit highlight-current-row style="width: 100%;">
-      <el-table-column type="index" align="center" />
+    <el-table v-loading="listLoading" :data="ecs_list" border fit highlight-current-row style="width: 100%;">
+      <el-table-column type="index" align="center" width="30" />
       <el-table-column prop="vendor" label="云厂商" sortable align="center" width="90" />
-      <el-table-column prop="account" label="账号" sortable align="center" width="100" />
-      <el-table-column prop="Region" label="区域" sortable align="center" width="100" show-overflow-tooltip />
-      <el-table-column prop="Ptype" label="类型" sortable align="center" width="150" show-overflow-tooltip />
-      <el-table-column prop="Product" label="产品" sortable align="center" width="200" show-overflow-tooltip />
-      <el-table-column prop="Name" label="名称" sortable align="center" show-overflow-tooltip />
-      <el-table-column prop="id" label="实例ID" sortable align="center" show-overflow-tooltip />
-      <el-table-column prop="EndTime" label="到期日" sortable align="center" width="100" />
-      <el-table-column label="通知" align="center" width="60" class-name="small-padding fixed-width">
+      <el-table-column prop="account" label="账号" sortable align="center" width="100" show-overflow-tooltip />
+      <el-table-column prop="count_linux" label="Linux" sortable align="center" width="90" />
+      <el-table-column prop="count_win" label="Win" sortable align="center" width="80" />
+      <el-table-column prop="count_mem" label="总内存" sortable align="center" width="120" />
+      <el-table-column prop="count_cpu" label="总CPU" sortable align="center" width="110" />
+      <el-table-column prop="count_ecs" label="资源数" sortable align="center" width="100">
         <template slot-scope="{row}">
-          <el-switch v-model="row.isnotify" active-color="#13ce66" @change="fetchNotify(row.vendor, row.account, row.notify_id, row.isnotify)" />
+          <span style="font-weight:bold">{{ row.count_ecs }} </span>
+          <el-tooltip style="diaplay:inline" effect="dark" placement="top">
+            <div slot="content"> 开机：{{ row.count_on }}，关机：{{ row.count_off }} </div>
+            <i class="el-icon-info" />
+          </el-tooltip>
+        </template>
+      </el-table-column>
+      <el-table-column prop="count_sync" label="同步数" sortable align="center" width="90" />
+      <el-table-column prop="runtime" label="上次同步" sortable align="center" />
+      <el-table-column prop="interval" label="同步间隔" sortable align="center" />
+      <el-table-column prop="nextime" label="下次同步" sortable align="center" />
+      <el-table-column label="同步" align="center" width="60" class-name="small-padding fixed-width">
+        <template slot-scope="{row}">
+          <el-switch v-model="row.sync" active-color="#13ce66" @change="fetchNotify(row.vendor, row.account, row.notify_id, row.isnotify)" />
         </template>
       </el-table-column>
     </el-table>
@@ -71,7 +82,7 @@
 </template>
 
 <script>
-import { getExpList, getJmsConfig, postJmsConfig, postExpIsnotify } from '@/api/jms'
+import { getJmsList, getJmsConfig, postJmsConfig, postExpIsnotify } from '@/api/jms'
 export default {
   data() {
     return {
@@ -79,7 +90,7 @@ export default {
       listLoading: false,
       dialogFormVisible: false,
       query: { vendor: '', account: '' },
-      exp_list: [],
+      ecs_list: [],
       vendor_list: [],
       account_list: [],
       amount_list: [],
@@ -116,11 +127,10 @@ export default {
     },
     fetchData() {
       this.listLoading = true
-      getExpList(this.query).then(response => {
+      getJmsList(this.query).then(response => {
         this.vendor_list = response.vendor_list
         this.account_list = response.account_list
-        this.exp_list = response.exp_list
-        this.amount_list = response.amount_list
+        this.ecs_list = response.ecs_list
         this.listLoading = false
       })
     },

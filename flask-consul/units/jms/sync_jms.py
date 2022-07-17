@@ -1,17 +1,15 @@
 import datetime,requests,json
 from units import consul_kv,consul_manager,myaes
 
-jms = consul_kv.get_value('ConsulManager/jms/jms_info')
-jms_url = jms.get('url')
-token = myaes.decrypt(jms.get('token'))
-headers = {'Content-Type': 'application/json','Authorization': f"Token {token}"}
-
 #创建node
-def create_node(node_id,cloud,account):
+def create_node(jms_url,headers,now,node_id,cloud,account):
     node_url = f"{jms_url}/api/v1/assets/nodes/{node_id}/children/"
     jms_node_list = requests.request("GET", node_url, headers=headers).json()
     if type(jms_node_list) == dict:
-        print('  【JMS】',jms_node_list.get('detail'),flush=True)
+        detail = jms_node_list.get('detail','ERROR')
+        print('  【JMS】',detail,flush=True)
+        data = {'count': '失败','update':now,'status':50000,'msg':f'同步资源失败！{detail}'}
+        consul_kv.put_kv(f'ConsulManager/record/jms/{cloud}/{account}', data)
     cloud_group_dict = consul_kv.get_value(f'ConsulManager/assets/{cloud}/group/{account}')
     for k,v in cloud_group_dict.items():
         if v not in [i['value'] for i in jms_node_list]:
@@ -21,7 +19,7 @@ def create_node(node_id,cloud,account):
     new_node_dict = {i['value']:i['id'] for i in reget_node_list}
     return new_node_dict
 
-def update_jms_ecs(new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info):
+def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info):
     #比较云主机与JMS中对应node的主机列表，删除jms中多余的主机
     ecs_url = f"{jms_url}/api/v1/assets/assets/"
     reget_ecs_list = requests.request("GET", f'{ecs_url}?node={node_id}', headers=headers).json()
@@ -71,7 +69,7 @@ def update_jms_ecs(new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info)
     return 'ok'
 
 #从JMS中删除没有主机的组
-def del_node(node_id,cloud,account):
+def del_node(jms_url,headers,now,node_id,cloud,account):
     node_tree_url = f"{jms_url}/api/v1/assets/nodes/children/tree/?id={node_id}"
     jms_node_list = requests.request("GET", node_tree_url, headers=headers).json()
     for i in jms_node_list:
@@ -79,9 +77,14 @@ def del_node(node_id,cloud,account):
             del_node_url = f"{jms_url}/api/v1/assets/nodes/{i['meta']['node']['id']}/"
             response = requests.request("DELETE", del_node_url, headers=headers)
             print('  【JMS】删除空组===>',i['name'],response.status_code,flush=True)
+    ecs_count_url = f"{jms_url}/api/v1/assets/assets/?node={node_id}&limit=1&offset=1"
+    ecs_count = requests.request("GET", ecs_count_url, headers=headers).json()['count']
+    data = {'count':ecs_count,'update':now,'status':20000,'msg':f'同步资源成功！总数：{ecs_count}'}
+    consul_kv.put_kv(f'ConsulManager/record/jms/{cloud}/{account}', data)
     return 'ok'
 
 def run(cloud,account):
+    now = datetime.datetime.now().strftime('%m%d/%H:%M')
     print('【JOB】===>',cloud,account,'JMS同步开始',flush=True)
     node_id = consul_kv.get_value(f'ConsulManager/jms/{cloud}/{account}/node_id')['node_id']
     temp_ecs_info = consul_kv.get_value(f'ConsulManager/jms/{cloud}/{account}/ecs_info')
@@ -89,7 +92,12 @@ def run(cloud,account):
     temp_custom_ecs_info = consul_kv.get_value(f'ConsulManager/jms/{cloud}/{account}/custom_ecs_info')
     custom_ecs_info = consul_kv.get_value(f'ConsulManager/jms/custom_ecs_info') if temp_custom_ecs_info == {} else temp_custom_ecs_info
 
-    new_node_dict = create_node(node_id,cloud,account)
-    update_jms_ecs(new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info)
-    del_node(node_id,cloud,account)
+    jms = consul_kv.get_value('ConsulManager/jms/jms_info')
+    jms_url = jms.get('url')
+    token = myaes.decrypt(jms.get('token'))
+    headers = {'Content-Type': 'application/json','Authorization': f"Token {token}"}
+
+    new_node_dict = create_node(jms_url,headers,now,node_id,cloud,account)
+    update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info)
+    del_node(jms_url,headers,now,node_id,cloud,account)
     print('【JOB】===>',cloud,account,'JMS同步完成',flush=True)

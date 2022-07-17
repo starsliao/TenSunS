@@ -1,8 +1,8 @@
 import request from '@/utils/request-ops'
 
-export function getExpList(query_dict) {
+export function getJmsList(query_dict) {
   return request({
-    url: '/api/exp/list',
+    url: '/api/jms/list',
     method: 'get',
     params: { query_dict }
   })

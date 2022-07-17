@@ -4,7 +4,7 @@ from flask_apscheduler import APScheduler
 from units import token_auth,consul_kv,myaes
 from config import vendors
 import json
-from .jobs import deljob,addjob,runjob
+from .jobs import deljob,addjob,runjob,getjob
 blueprint = Blueprint('jms',__name__)
 api = Api(blueprint)
 
@@ -19,7 +19,7 @@ class Jms(Resource):
         if stype == 'list':
             switch = consul_kv.get_value(f'ConsulManager/jms/jms_info')
             if switch == {}:
-                return({'code': 20000,'exp_list':[],'vendor_list':[],'account_list':[]})
+                return({'code': 20000,'ecs_list':[],'vendor_list':[],'account_list':[]})
             args = parser.parse_args()
             query_dict = json.loads(args['query_dict'])
             if query_dict['vendor'] != '':
@@ -28,7 +28,7 @@ class Jms(Resource):
             cloud_job_list = consul_kv.get_keys_list('ConsulManager/jobs')
             cloud_list = [i for i in cloud_job_list if i.endswith('/group')]
 
-            exp_list = []
+            ecs_list = []
             for i in cloud_list:
                 vendor,account = i.split('/')[2:4]
                 cloud_info_dict = {'vendor':vendor,'account':account}
@@ -41,26 +41,36 @@ class Jms(Resource):
                 count_ecs = len(services_meta)
                 count_off,count_on,count_cpu,count_mem,count_win,count_linux = 0,0,0,0,0,0
                 for i in services_meta:
-                    if i['os'] == linux:
+                    if i['os'] == 'linux':
                         count_linux = count_linux + 1
-                    elif i['os'] == windows:
+                    elif i['os'] == 'windows':
                         count_win = count_win + 1
-                    if i.get('stat') == off:
+                    if i.get('stat') == 'off':
                         count_off = count_off + 1
                     else:
                         count_on = count_on + 1
                     cpu = int(i['cpu'].replace('核',''))
                     count_cpu = count_cpu + cpu
-                    mem = int(i['cpu'].replace('GB',''))
+                    mem = int(i['mem'].replace('GB',''))
                     count_mem = count_mem + mem
-                
-                exp_list.append({'vendor':vendors[vendor],'account':account,'id':k,'Region':v['Region'],
-                        'Product':v['Product'],'Name':v.get('Name','Null'),'EndTime':v['EndTime'],
-                        'Ptype':v['Ptype'].replace('hws.resource.type.',''),
-                        'notify_id': v['notify_id'],'isnotify':isnotify})
-            vendor_list = sorted(list(set([i['vendor'] for i in exp_list])))
-            account_list = sorted(list(set([i['account'] for i in exp_list])))
-            return {'code': 20000,'exp_list':exp_list,'vendor_list':vendor_list,'account_list':account_list,'amount_list':amount_list}
+
+                jms_job = consul_kv.get_value(f"ConsulManager/jms/jobs/{vendor}/{account}")
+                if jms_job == {}:
+                    count_sync,interval,runtime,nextime,sync = '无','无','无','无',False
+                else:
+                    interval = f"{jms_job['minutes']}分钟"
+                    jms_job = consul_kv.get_value(f'ConsulManager/record/jms/{vendor}/{account}')
+                    runtime = jms_job.get('update')
+                    count_sync = jms_job.get('count')
+                    nextime = getjob(f'{vendor}/{account}/jms').next_run_time.strftime("%m%d/%H:%M")
+                    sync = True
+                ecs_list.append({'vendor':vendors[vendor],'account':account,'count_linux':count_linux,
+                                 'count_win':count_win,'count_mem':f'{count_mem}GB','count_cpu':f'{count_cpu}核',
+                                 'count_ecs':count_ecs,'count_on':count_on,'count_off':count_off,'sync':sync,
+                                 'count_sync':count_sync,'interval':interval,'runtime':runtime,'nextime':nextime})
+            vendor_list = sorted(list(set([i['vendor'] for i in ecs_list])))
+            account_list = sorted(list(set([i['account'] for i in ecs_list])))
+            return {'code': 20000,'ecs_list':ecs_list,'vendor_list':vendor_list,'account_list':account_list}
         if stype == 'config':
             ecs_info = consul_kv.get_value('ConsulManager/jms/ecs_info')
             jms_info = consul_kv.get_value('ConsulManager/jms/jms_info')
