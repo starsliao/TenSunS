@@ -13,6 +13,9 @@ from units.avd import avd_list
 from units.jms import sync_jms
 
 app = Flask(__name__)
+#非nginx调试，解决跨域CORS问题
+#CORS(app, supports_credentials=True)
+
 app.register_blueprint(login.blueprint)
 app.register_blueprint(blackbox.blueprint)
 app.register_blueprint(consul.blueprint)

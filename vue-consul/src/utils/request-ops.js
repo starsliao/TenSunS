@@ -8,6 +8,8 @@ const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
   baseURL: '',
+  // 非nginx调试，填写后端的信息。
+  // baseURL: 'http://192.168.1.120:2026',
   timeout: 10000 // request timeout
 })
 
