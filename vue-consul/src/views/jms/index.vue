@@ -13,7 +13,7 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-magic-stick" circle @click="resetData" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">接入JumpServer</el-button>
-    <el-dialog :visible.sync="dialogFormVisible" width="40%">
+    <el-dialog :visible.sync="dialogFormVisible" width="44%">
       <div slot="title" class="header-title">
         <span style="font-size:16px;font-weight:bold;">接入JumpServer</span>&nbsp;&nbsp;
         <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/43c141f4373cb3288e213116a69b33820b6cce10/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
@@ -87,7 +87,7 @@
         <el-form-item label="新节点ID">
           <el-input v-model="jms_sync.nodeid" />
         </el-form-item>
-        <font size="3px" color="#ff0000">注意：JumpServer中已有的同名主机不会同步。</font>
+        <font size="3px" color="#ff0000">注意：每个云账号必须在JumpServer创建一个新节点！<br><br>JumpServer中已有的同名主机不会同步，日志可查看同名信息。</font>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="fetchData">
@@ -187,6 +187,7 @@ export default {
             this.listLoading = false
             if (response.code === 20000) {
               this.dialogFormVisible = false
+              this.fetchData()
             }
             this.$message({
               message: response.data,

@@ -4,6 +4,18 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/7/26" placement="top">
+        <el-card>
+          <h4>v0.8.1</h4>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增自动同步云资产到JumpServer的功能！</p>
+          <p>当我们在云厂商界面新增、删除、修改ECS后，都会及时的自动同步到JumpServer中。</p>
+          <p>并且在JumpServer各资产的备注中会记录丰富的资产信息，方便查询筛选登录。</p>
+          <p>同步页面提供了云账号ECS资产整体的系统、资源、状态信息。</p>
+          <p>优化了站点监控管理页面的用户操作体验，方便增加各类型的站点监控。</p>
+          <p>关机的云主机也会同步到consul，并加上tag标识，默认不会接入Prometheus。</p>
+          <p>优化后端镜像大小，更新大量前端依赖，修复漏洞。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/7/3" placement="top">
         <el-card>
           <h4>v0.7.0</h4>
