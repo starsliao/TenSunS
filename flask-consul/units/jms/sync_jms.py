@@ -50,7 +50,7 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
                         admin_user = custom_info[ostype][1]
         payload = {
             "ip": ip,
-            "hostname": "cm_" + iname,
+            "hostname": iname,
             "protocols": protocols,
             "platform": platform,
             "is_active": True,
@@ -60,7 +60,7 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
             "comment": comment
         }
         if ip in jms_ecs_dict.keys():
-            if jms_ecs_dict[ip]['name'] != "cm_" + iname or jms_ecs_dict[ip]['node'].split('/')[-1] != v['ent']:
+            if jms_ecs_dict[ip]['name'] != iname or jms_ecs_dict[ip]['node'].split('/')[-1] != v['ent']:
                 response = requests.request("PUT", f"{ecs_url}{jms_ecs_dict[ip]['id']}/", headers=headers, data = json.dumps(payload))
                 print('  【JMS】update：主机名：',response.json()['hostname'],response.status_code,flush=True)
         else:

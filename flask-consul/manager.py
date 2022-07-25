@@ -38,7 +38,7 @@ init_jobs = { **ecs_jobs, **avd_jobs, **exp_jobs, **jms_jobs }
 
 if init_jobs is not None:
     for k,v in init_jobs.items():
-        print(f'【初始化任务】{k}:\n    {v}', flush=True)
+        print(f"【初始化任务】{k}：{v['args']}，{v['minutes']}m", flush=True)
     Config.JOBS = init_jobs.values()
 
 app.config.from_object(Config())

@@ -49,7 +49,7 @@ groups:   #新rule文件需要加这行开头，追加旧的rule文件则不需�
   interval: 1m
   rules:
   - record: cpu:usage:rate1m
-    expr: (1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m])) by (instance,vendor,account,group,name)) * 100
+    expr: (1 - avg(irate(node_cpu_seconds_total{mode="idle"}[3m])) by (instance,vendor,account,group,name)) * 100
   - record: mem:usage:rate1m
     expr: (1 - node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100
 ```

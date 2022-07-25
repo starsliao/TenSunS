@@ -22,10 +22,19 @@ export function postJmsConfig(jms_config) {
   })
 }
 
-export function postExpIsnotify(isnotify_dict) {
+export function postJmsSwitch(switch_dict) {
   return request({
-    url: '/api/exp/isnotify',
+    url: '/api/jms/switch',
     method: 'post',
-    data: { isnotify_dict }
+    data: { switch_dict }
+  })
+}
+
+export function postJmsSync(jms_sync) {
+  return request({
+    url: '/api/jms/sync',
+    method: 'post',
+    timeout: 600 * 1000,
+    data: { jms_sync }
   })
 }

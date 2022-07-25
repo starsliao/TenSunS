@@ -1,6 +1,8 @@
 <template>
   <div class="app-container">
-    <el-alert title="菜单只显示有到期资源的账户，余额可查询所有账户；单个资源的通知可独立关闭。【自动续费、到期转按需、到期不续费的资源不会采集】【腾讯云仅采集主机到期列表(未找到整体到期接口)】" type="error" close-text="朕知道了" />
+    <el-alert type="success" center close-text="朕知道了">
+      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/43c141f4373cb3288e213116a69b33820b6cce10/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank">应用场景：如何优雅的把主机信息自动同步到JumpServer</el-link>
+    </el-alert>
     <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
       <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
     </el-select>
@@ -11,10 +13,11 @@
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-magic-stick" circle @click="resetData" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">接入JumpServer</el-button>
-    <el-tooltip class="item" effect="light" content="根据菜单选择查询对应账户余额，菜单为空时，查询所有账户。" placement="top">
-      <el-button class="filter-item" type="warning" icon="el-icon-data-line" @click="handleamount">查看余额</el-button>
-    </el-tooltip>
-    <el-dialog title="接入JumpServer" :visible.sync="dialogFormVisible" width="45%">
+    <el-dialog :visible.sync="dialogFormVisible" width="40%">
+      <div slot="title" class="header-title">
+        <span style="font-size:16px;font-weight:bold;">接入JumpServer</span>&nbsp;&nbsp;
+        <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/43c141f4373cb3288e213116a69b33820b6cce10/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
+      </div>
       <el-form ref="dataForm" :model="jms_config" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
         <el-form-item label="JumpServer URL">
           <el-input v-model="jms_config.url" placeholder="http开头" style="width: 390px;" />
@@ -22,17 +25,21 @@
         <el-form-item label="JumpServer Token">
           <el-input v-model="jms_config.token" placeholder="请输入Admin Token" style="width: 390px;" show-password />
         </el-form-item>
-        <el-form-item label="全局管理用户信息：" />
+        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
+        <h3>全局通用主机【管理用户】信息：</h3>
         <div class="demo-input-suffix">
-          <h3>Linux：</h3>
+          <h4>Linux：</h4>
           ssh端口：<el-input v-model="jms_config.linuxport" style="width: 72px;" />
           &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.linuxuid" style="width: 300px;" />
         </div>
         <div class="demo-input-suffix">
-          <h3>Windows：</h3>
+          <h4>Windows：</h4>
           rdp端口：<el-input v-model="jms_config.winport" style="width: 72px;" />
           &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.winuid" style="width: 300px;" />
         </div>
+        <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
+        <h3>全局特殊主机【管理用户】信息：</h3>
+        <el-input v-model="jms_config.custom_ecs_info" :autosize="{ minRows: 5, maxRows: 18}" type="textarea" placeholder="请输入标准Json格式，无特殊主机请留空。" class="filter-item" style="width: 530px;" />
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -66,50 +73,87 @@
       <el-table-column prop="nextime" label="下次同步" sortable align="center" />
       <el-table-column label="同步" align="center" width="60" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-switch v-model="row.sync" active-color="#13ce66" @change="fetchNotify(row.vendor, row.account, row.notify_id, row.isnotify)" />
+          <el-switch v-model="row.sync" active-color="#13ce66" @change="fetchSwitch(row.vendor, row.account, row.sync)" />
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="查询余额" :visible.sync="amountFormVisible" width="60%">
-      <el-table v-loading="listLoading" :data="amount_list" height="540" :default-sort="{ prop: 'amount', order: 'ascending' }" border fit highlight-current-row style="width: 100%;">
-        <el-table-column prop="vendor" label="云厂商" sortable align="center" />
-        <el-table-column prop="account" label="账户" sortable align="center" />
-        <el-table-column prop="amount" label="余额(元)" sortable align="center" />
-      </el-table>
+    <el-dialog title="开启同步JumpServer" :visible.sync="swFormVisible" :before-close="fetchData" width="33%">
+      <el-form ref="dataForm" :model="jms_sync" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
+        <el-form-item label="同步间隔">
+          <el-input v-model="jms_sync.interval" style="width: 180px;" type="number">
+            <template slot="append">分钟</template>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="新节点ID">
+          <el-input v-model="jms_sync.nodeid" />
+        </el-form-item>
+        <font size="3px" color="#ff0000">注意：JumpServer中已有的同名主机不会同步。</font>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fetchData">
+          取消
+        </el-button>
+        <el-button type="primary" @click="createSync(jms_sync)">
+          确认
+        </el-button>
+      </div>
     </el-dialog>
   </div>
 
 </template>
 
 <script>
-import { getJmsList, getJmsConfig, postJmsConfig, postExpIsnotify } from '@/api/jms'
+import { getJmsList, getJmsConfig, postJmsConfig, postJmsSwitch, postJmsSync } from '@/api/jms'
 export default {
   data() {
     return {
-      jms_config: { url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '' },
+      jms_config: { url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '', custom_ecs_info: '' },
       listLoading: false,
       dialogFormVisible: false,
       query: { vendor: '', account: '' },
       ecs_list: [],
       vendor_list: [],
       account_list: [],
-      amount_list: [],
-      isnotify_dict: {},
-      amountFormVisible: false
+      jms_sync: { vendor: '', account: '', interval: '3', nodeid: '' },
+      switch_dict: {},
+      swFormVisible: false
     }
   },
   created() {
     this.fetchData()
   },
   methods: {
-    fetchNotify(vendor, account, notify_id, isnotify) {
-      this.isnotify_dict = { vendor: vendor, account: account, notify_id: notify_id, isnotify: isnotify }
-      postExpIsnotify(this.isnotify_dict).then(response => {
-        this.$message({
-          message: response.data,
-          type: response.type
+    fetchSwitch(vendor, account, sync) {
+      this.switch_dict = { vendor: vendor, account: account, sync: sync }
+      if (sync) {
+        this.jms_sync.vendor = vendor
+        this.jms_sync.account = account
+        postJmsSwitch(this.switch_dict).then(response => {
+          this.jms_sync.interval = response.interval
+          this.jms_sync.nodeid = response.nodeid
+          this.swFormVisible = true
         })
-      })
+      } else {
+        this.$confirm('此操作将关闭同步功能，是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          postJmsSwitch(this.switch_dict).then(response => {
+            this.fetchData()
+            this.$message({
+              message: response.data,
+              type: response.type
+            })
+          })
+        }).catch(() => {
+          this.fetchData()
+          this.$message({
+            type: 'info',
+            message: '操作已取消'
+          })
+        })
+      }
     },
     handleCreate() {
       this.listLoading = true
@@ -126,6 +170,7 @@ export default {
       this.fetchData()
     },
     fetchData() {
+      this.swFormVisible = false
       this.listLoading = true
       getJmsList(this.query).then(response => {
         this.vendor_list = response.vendor_list
@@ -137,10 +182,12 @@ export default {
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.dialogFormVisible = false
           this.listLoading = true
           postJmsConfig(this.jms_config).then(response => {
             this.listLoading = false
+            if (response.code === 20000) {
+              this.dialogFormVisible = false
+            }
             this.$message({
               message: response.data,
               type: 'success'
@@ -149,8 +196,32 @@ export default {
         }
       })
     },
-    handleamount() {
-      this.amountFormVisible = true
+    createSync(jms_sync) {
+      this.$confirm('此操作将开启同步功能，并进行首次同步，请等待（耗时依主机数而定，可在日志中查看进度）是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$refs['dataForm'].validate((valid) => {
+          if (valid) {
+            this.swFormVisible = false
+            this.listLoading = true
+            postJmsSync(jms_sync).then(response => {
+              this.listLoading = false
+              this.fetchData()
+              this.$message({
+                message: response.data,
+                type: 'success'
+              })
+            })
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '操作已取消'
+        })
+      })
     }
   }
 }

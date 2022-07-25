@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-alert type="success" center close-text="知道了">
+    <el-alert type="success" center close-text="朕知道了">
       <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
     </el-alert>
     <div class="filter-container" style="flex: 1;display: flex;align-items: center;height: 50px;">
@@ -47,7 +47,7 @@
         批量删除
       </el-button>
       <div style="float: right;margin-left: 10px;">
-        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="请输入名称或实例进行筛选" clearable style="width:180px" class="filter-item" @input="inameFilter(iname)" />
+        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="名称或URL筛选" clearable style="width:180px" class="filter-item" @input="inameFilter(iname)" />
       </div>
     </div>
 
@@ -91,7 +91,7 @@
           <span>{{ row.name }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="instance" label="实例" sortable align="center" show-overflow-tooltip>
+      <el-table-column prop="instance" label="URL" sortable align="center" show-overflow-tooltip>
         <template slot-scope="{row}">
           <span style="font-size: 12px">{{ row.instance }}</span>
         </template>
@@ -121,30 +121,30 @@
               </el-tooltip>
             </span>
           </span>
-          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择，填写可新增" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="公司部门" prop="company">
-          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择，填写可新增" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="项目" prop="project">
-          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择，填写可新增" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="环境" prop="env">
-          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择，填写可新增" clearable class="filter-item" />
         </el-form-item>
         <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" /><font size="3px" color="#ff0000">上面5个字段组合后需唯一，重复会覆盖已有监控项!</font>
+          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" /><br><font size="3px" color="#ff0000">以上5个字段组合后需唯一，重复会覆盖已有监控项!</font>
         </el-form-item>
         <el-form-item prop="instance">
           <span slot="label">
             <span class="span-box">
-              <span>实例</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="TCP类检查格式为：IP:端口 ，HTTP类检查格式为完整的URL，必须以http(s)://开头。" placement="top">
+              <span>URL</span>
+              <el-tooltip style="diaplay:inline" effect="dark" content="TCP类检查格式为：IP:端口 ，HTTP类检查格式为完整的URL，必须以http(s)://开头，ICMP检查仅填IP或域名。" placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
           </span>
-          <el-input v-model="temp.instance" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入" class="filter-item" />
+          <el-input v-model="temp.instance" placeholder="一次仅添加一个URL，批量添加可使用导入" clearable class="filter-item" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -228,7 +228,7 @@ export default {
       dialogStatus: '',
       textMap: {
         update: '更新',
-        create: '创建'
+        create: '创建URL监控'
       },
       rules: {
         module: [{ required: true, message: '此为必填项', trigger: 'change' },
@@ -437,6 +437,7 @@ export default {
       })
     },
     handleReset() {
+      this.fetchData()
       this.listQuery.module = ''
       this.listQuery.company = ''
       this.listQuery.project = ''
@@ -511,7 +512,7 @@ export default {
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['监控模块', '公司部门', '项目', '环境', '名称', '实例(tcp的格式为IP:端口,URL需要以http(s)://开头)']
+        const tHeader = ['监控模块', '公司部门', '项目', '环境', '名称', 'URL(tcp的格式为IP:端口,URL需要以http(s)://开头)']
         const filterVal = ['module', 'company', 'project', 'env', 'name', 'instance']
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({

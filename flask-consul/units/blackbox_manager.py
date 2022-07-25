@@ -1,10 +1,8 @@
-import requests,json
-import sys 
-sys.path.append("..") 
+import requests,json,consul_kv
 from config import consul_token,consul_url
 
 headers = {'X-Consul-Token': consul_token}
-
+init_module_list = ['http_2xx','http_4xx','tcp_connect','icmp','http200igssl','httpNoRedirect4ssl','http_5xx','http_post_2xx','ssh_banner']
 def get_all_list(module,company,project,env):
     module = f'and Meta.module=="{module}"' if module != '' else f'and Meta.module != ""'
     company = f'and Meta.company=="{company}"' if company != '' else f'and Meta.company != ""'
@@ -15,10 +13,14 @@ def get_all_list(module,company,project,env):
     if response.status_code == 200:
         info = response.json()
         all_list = [i['Meta'] for i in info.values()]
-        module_list = sorted(list(set([i['module'] for i in all_list])))
+        module_list = consul_kv.get_value('ConsulManager/record/blackbox/module_list')['module_list']
         company_list = sorted(list(set([i['company'] for i in all_list])))
         project_list = sorted(list(set([i['project'] for i in all_list])))
         env_list = sorted(list(set([i['env'] for i in all_list])))
+
+        init_m_list = [x for x in init_module_list if x not in module_list]
+        module_list = module_list + ['---'] + init_m_list
+
         return {'code': 20000,'all_list':all_list,'module_list':module_list,
                 'company_list':company_list,'project_list':project_list,'env_list':env_list}
     else:
@@ -33,6 +35,10 @@ def get_service():
         company_list = sorted(list(set([i['company'] for i in all_list])))
         project_list = sorted(list(set([i['project'] for i in all_list])))
         env_list = sorted(list(set([i['env'] for i in all_list])))
+        consul_kv.put_kv('ConsulManager/record/blackbox/module_list',{'module_list':module_list})
+        init_m_list = [x for x in init_module_list if x not in module_list]
+        module_list = module_list + ['------'] + init_m_list
+
         return {'code': 20000,'all_list':all_list,'module_list':module_list,
                 'company_list':company_list,'project_list':project_list,'env_list':env_list}
     else:

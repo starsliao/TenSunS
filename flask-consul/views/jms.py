@@ -11,7 +11,8 @@ api = Api(blueprint)
 parser = reqparse.RequestParser()
 parser.add_argument('query_dict',type=str)
 parser.add_argument('jms_config',type=dict)
-parser.add_argument('isnotify_dict',type=dict)
+parser.add_argument('jms_sync',type=dict)
+parser.add_argument('switch_dict',type=dict)
 
 class Jms(Resource):
     decorators = [token_auth.auth.login_required]
@@ -74,15 +75,17 @@ class Jms(Resource):
         if stype == 'config':
             ecs_info = consul_kv.get_value('ConsulManager/jms/ecs_info')
             jms_info = consul_kv.get_value('ConsulManager/jms/jms_info')
+            custom_ecs_info = consul_kv.get_value('ConsulManager/jms/custom_ecs_info')
             if ecs_info != {} and jms_info != {}:
                 linuxport = ecs_info['linux'][0][0].split('/')[-1]
                 linuxuid = ecs_info['linux'][-1]
                 winport = ecs_info['windows'][0][0].split('/')[-1]
                 winuid = ecs_info['windows'][-1]
                 token = myaes.decrypt(jms_info['token'])
+                custom_ecs_json = json.dumps(custom_ecs_info, indent=8) if custom_ecs_info != {} else ''
                 jms_config = {'url': jms_info['url'], 'token': token, 
                     'linuxport': linuxport, 'linuxuid': linuxuid, 
-                    'winport': winport, 'winuid': winuid}
+                    'winport': winport, 'winuid': winuid, 'custom_ecs_info':custom_ecs_json}
             else:
                 jms_config = {}
             return {'code': 20000, 'jms_config': jms_config}
@@ -96,5 +99,49 @@ class Jms(Resource):
             ecs_info = {"linux": [[f"ssh/{jms_config['linuxport']}"],jms_config['linuxuid']],
                 "windows": [[f"rdp/{jms_config['winport']}"],jms_config['winuid']]}
             consul_kv.put_kv('ConsulManager/jms/ecs_info', ecs_info)
+            custom_ecs_info = jms_config['custom_ecs_info']
+            if custom_ecs_info != '':
+                try:
+                    custom_ecs_dict = json.loads(custom_ecs_info)
+                    consul_kv.put_kv('ConsulManager/jms/custom_ecs_info',custom_ecs_dict)
+                except Exception as e:
+                    print(e,flush=True)
+                    return {'code': 50000, 'data': 'Json解析错误，请检查！'}
+            else:
+                consul_kv.put_kv('ConsulManager/jms/custom_ecs_info',{})
             return {'code': 20000, 'data': '配置完成'}
+        if stype == 'switch':
+            args = parser.parse_args()
+            switch_dict = args['switch_dict']
+            vendor = {v : k for k, v in vendors.items()}[switch_dict['vendor']]
+            account = switch_dict['account']
+            sync = switch_dict['sync']
+            if sync:
+                node = consul_kv.get_value(f'ConsulManager/jms/{vendor}/{account}/node_id')
+                nodeid = node.get('node_id','')
+                interval = node.get('interval',3)
+                return {'code': 20000, 'interval': interval, 'nodeid': nodeid}
+            else:
+                deljob(f'{vendor}/{account}/jms')
+                consul_kv.del_key(f'ConsulManager/jms/jobs/{vendor}/{account}')
+                return {'code': 20000, 'data': f'【{vendor}/{account}】同步功能关闭！'}
+        if stype == 'sync':
+            args = parser.parse_args()
+            jms_sync = args['jms_sync']
+            vendor = {v : k for k, v in vendors.items()}[jms_sync['vendor']]
+            account = jms_sync['account']
+            nodeid = jms_sync['nodeid']
+            interval = int(jms_sync['interval'])
+            consul_kv.put_kv(f'ConsulManager/jms/{vendor}/{account}/node_id',{'node_id':nodeid,'interval':interval})
+
+            jms_job_id = f'{vendor}/{account}/jms'
+            jms_job_func = "__main__:sync_jms.run"
+            jms_job_args = [vendor,account]
+
+            addjob(jms_job_id,jms_job_func,jms_job_args,interval)
+            runjob(jms_job_id)
+            jms_job_dict = {'id':jms_job_id,'func':jms_job_func,'args':jms_job_args,'minutes':interval,
+                            'trigger': 'interval','replace_existing': True}
+            consul_kv.put_kv(f'ConsulManager/jms/jobs/{vendor}/{account}',jms_job_dict)
+            return {'code': 20000, 'data': f'【{vendor}/{account}】同步JumpServer功能开启！首次同步完成'}
 api.add_resource(Jms, '/api/jms/<stype>')
