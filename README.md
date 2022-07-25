@@ -33,6 +33,7 @@
 
 - 支持阿里云、腾讯云、华为云的ECS主机、分组、标签自动同步到Consul。
 - 支持自建主机接入WEB管理，并支持WEB批量导入自建主机到Consul。
+- 支持阿里云、腾讯云、华为云的ECS自动同步到JumpServer。
 - 支持阿里云、腾讯云、华为云账户余额与云资源到期日设置阈值告警通知。
 - 提供了可查询分组与ECS信息的页面，指标中加入了ECS到期日等信息。
 - 提供了按需生成Prometheus配置与ECS告警规则的功能。
@@ -62,6 +63,8 @@
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
 ### ECS Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
+### ECS 同步界面
+![图片](https://user-images.githubusercontent.com/3349611/180870935-56e536d2-0b71-4803-b5f8-0839a241c79a.png)
 ### Node Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
