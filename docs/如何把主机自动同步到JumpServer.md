@@ -1,12 +1,12 @@
-### 云主机自动同步JumpServer有什么用途？
+## 云主机自动同步JumpServer有什么用途？
 - 当我们在云上购买了新的ECS时，需要手动在JumpServer中创建新资产来纳管该ECS。
 - `JumpServer同步`功能可以把阿里、腾讯、华为云的ECS资源自动同步到JumpServer中，免去手动创建资产的操作。
 - 当我们在云厂商界面新增、删除、修改ECS后，都会及时的自动同步到JumpServer中。
 
-### 同步JumpServer功能如何开启？
+## 同步JumpServer功能如何开启？
 ![图片](https://user-images.githubusercontent.com/3349611/180848168-a2bafcfa-faa1-457d-8f5f-dcb07ad12d60.png)
 
-### 如何获取JumpServer永久token？
+## 如何获取JumpServer永久token？
 - 登录JumpServer所在的主机，执行以下命令：
 ```
 docker exec -it jms_core /bin/bash   #非容器化部署的JumpServer，不执行该行。
@@ -19,12 +19,12 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 - 该账号已经创建过token的执行以下命令：`u.private_token`
 - 记录`PrivateToken: `后面的部分，最后的`>`不要。
 
-### 什么是JumpServer的管理用户？
+## 什么是JumpServer的管理用户？
 - 管理用户是资产（被控服务器）上的 root，或拥有 NOPASSWD: ALL sudo 权限的用户， JumpServer 使用该用户来 `推送系统用户`、`获取资产硬件信息` 等。
 - 创建资产的时候需要给每台ECS选择一个管理用户：
 ![图片](https://user-images.githubusercontent.com/3349611/180855383-ec4a76b3-9354-4485-b0f6-17b5b9c2a8d7.png)
 
-### 接入JumpServer时，`全局通用主机【管理用户】信息`该如何填写？
+## 接入JumpServer时，`全局通用主机【管理用户】信息`该如何填写？
 ![图片](https://user-images.githubusercontent.com/3349611/180858510-b2b4ac0f-bc01-4c8e-a948-f3f26338037e.png)
 
 - 全局通用是指：全局是指所有的云账号，一般情况下所有的ECS会使用一个统一的管理用户来方便管理ECS。
@@ -36,7 +36,7 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 
 - 配置完成之后所有的Linux主机都会使用对应的Linux端口和Linux管理用户。
 
-### 接入JumpServer时，`全局特殊主机【管理用户】信息`该如何填写？
+## 接入JumpServer时，`全局特殊主机【管理用户】信息`该如何填写？
 ![图片](https://user-images.githubusercontent.com/3349611/180859728-6c1e7c41-ea75-4efa-98ca-6b26266d71e7.png)
 - 对于部分主机可能会使用特殊的端口以及管理用户的情况，所以我们支持了根据主机名称关键字来匹配不同的登录端口和管理用户的功能。
 - 实例如下：
@@ -65,7 +65,7 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 - 最外层的key：`xxxaaa`、`xxxbbb`表示主机名的关键字，包含该关键字的主机均有效。
 - 每个最外层key的value为固定格式：有windows或者linux系统的端口和管理用户ID，您只需要更换掉对应的端口号及管理用户ID即可。
 
-### 接入JumpServer操作完成之后，我该做什么？
+## 接入JumpServer操作完成之后，我该做什么？
 - 完成接入后，您将看到已经接入过数据源的云厂商账号的信息，包括整体的系统、资源、状态信息，如图：
 ![图片](https://user-images.githubusercontent.com/3349611/180862967-4575fbdf-3bb4-47ae-a491-df00eaba9a26.png)
 - 点击各云账号右侧的同步开关，填写节点信息和同步间隔后，即可进行首次同步（耗时依主机数而定，可在日志中查看进度）。
