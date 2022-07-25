@@ -63,7 +63,7 @@
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
 ### ECS Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
-### ECS 同步界面
+### ECS 同步JumpServer界面
 ![图片](https://user-images.githubusercontent.com/3349611/180870935-56e536d2-0b71-4803-b5f8-0839a241c79a.png)
 ### Node Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
