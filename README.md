@@ -26,7 +26,7 @@
 ### 🎡Consul管理(比官方更优雅的Consul Web UI)
 - 支持Consul Services的增删改查，可以批量删除Service。
 - 直观的查看每个Services实例的信息，及整体Services的健康状态。
-- 可以便捷的对Services实例的Tags、Meta、健康检查配置管理与查询展示。
+- 可以便捷的对Services实例的Tags、Meta、健康检查配置管理与查询。
 
 ### 💎云资源监控管理
 >**基于Consul实现Prometheus监控目标的自动发现。**
@@ -37,7 +37,6 @@
   - ✔支持多云ECS信息自动同步到**JumpServer**。
   - ✔支持多云**账户余额**与云资源**到期日**设置阈值告警通知。
 - 支持自建主机接入WEB管理，并支持WEB批量导入自建主机到Consul。
-
 - 提供了可查询分组与ECS信息的页面，指标中加入了ECS到期日等信息。
 - 提供了按需生成Prometheus配置与ECS告警规则的功能。
 - 设计了一个支持同步的各字段展示的Node_Exporter Grafana看板。
