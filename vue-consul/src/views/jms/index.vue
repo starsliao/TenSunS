@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-alert type="success" center close-text="朕知道了">
-      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/43c141f4373cb3288e213116a69b33820b6cce10/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank">应用场景：如何优雅的把主机信息自动同步到JumpServer</el-link>
+      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank">应用场景：如何优雅的把主机信息自动同步到JumpServer</el-link>
     </el-alert>
     <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
       <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
@@ -16,7 +16,7 @@
     <el-dialog :visible.sync="dialogFormVisible" width="44%">
       <div slot="title" class="header-title">
         <span style="font-size:16px;font-weight:bold;">接入JumpServer</span>&nbsp;&nbsp;
-        <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/43c141f4373cb3288e213116a69b33820b6cce10/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
+        <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
       </div>
       <el-form ref="dataForm" :model="jms_config" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
         <el-form-item label="JumpServer URL">
