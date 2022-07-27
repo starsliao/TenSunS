@@ -30,11 +30,13 @@
 
 ### 💎云资源监控管理
 >**基于Consul实现Prometheus监控目标的自动发现。**
+>**当前已支持接入阿里云、腾讯云、华为云。
 
-- 支持阿里云、腾讯云、华为云的ECS主机、分组、标签自动同步到Consul。
+- 支持多云ECS的资源、分组、标签自动同步到Consul(提供Prometheus自动发现)。
+- 支持多云ECS信息自动实时同步到JumpServer。
+- 支持多云账户余额与云资源到期日设置阈值告警通知。
 - 支持自建主机接入WEB管理，并支持WEB批量导入自建主机到Consul。
-- 支持阿里云、腾讯云、华为云的ECS自动同步到JumpServer。
-- 支持阿里云、腾讯云、华为云账户余额与云资源到期日设置阈值告警通知。
+
 - 提供了可查询分组与ECS信息的页面，指标中加入了ECS到期日等信息。
 - 提供了按需生成Prometheus配置与ECS告警规则的功能。
 - 设计了一个支持同步的各字段展示的Node_Exporter Grafana看板。
@@ -61,9 +63,9 @@
   
 ### Consul Web Manager 界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
-### ECS Manager 界面
+### 多云ECS同步Consul界面
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
-### ECS 同步JumpServer界面
+### 多云ECS同步JumpServer界面
 ![图片](https://user-images.githubusercontent.com/3349611/180870935-56e536d2-0b71-4803-b5f8-0839a241c79a.png)
 ### Node Exporter Dashboard 截图
 ![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
@@ -94,6 +96,7 @@
 - ### [ConsulManager：实践与FAQ](https://github.com/starsliao/ConsulManager/tree/main/docs)
 - ### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
 - ### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
+- ### [应用场景3：如何把云主机自动同步到JumpServer](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md)
 
 
 ## 💖特别鸣谢
