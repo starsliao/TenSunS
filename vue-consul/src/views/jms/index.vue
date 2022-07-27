@@ -16,7 +16,7 @@
     <el-dialog :visible.sync="dialogFormVisible" width="44%">
       <div slot="title" class="header-title">
         <span style="font-size:16px;font-weight:bold;">接入JumpServer</span>&nbsp;&nbsp;
-        <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/43c141f4373cb3288e213116a69b33820b6cce10/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
+        <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
       </div>
       <el-form ref="dataForm" :model="jms_config" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
         <el-form-item label="JumpServer URL">
