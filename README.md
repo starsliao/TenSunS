@@ -23,7 +23,7 @@
 >**ConsulManager**是一个使用Flask+Vue开发的WEB运维平台，弥补了Consul官方UI对Services管理的不足；并且基于Consul的服务发现与键值存储：实现了各云厂商资源与Prometheus的无缝同步，以及对各类监控资源的优雅管理与展示。
 
 ## 🌈实现功能
-### 🎡Consul 管理
+### 🎡Consul管理(比官方更优雅的Consul Web UI)
 - 支持Consul Services的增删改查，可以批量删除Service。
 - 直观的查看每个Services实例的信息，及整体Services的健康状态。
 - 可以便捷的对Services实例的Tags、Meta、健康检查配置管理与查询展示。
