@@ -1,7 +1,7 @@
 # 🏷目录
-* [云主机自动同步JumpServer能做什么？](## 云主机自动同步JumpServer能做什么？)
-* [同步JumpServer功能如何开启？](## 同步JumpServer功能如何开启？)
-* [如何获取JumpServer永久token？](## 如何获取JumpServer永久token？)
+* [云主机自动同步JumpServer能做什么？](##云主机自动同步JumpServer能做什么？)
+* [同步JumpServer功能如何开启？](#同步JumpServer功能如何开启？)
+* [如何获取JumpServer永久token？](##如何获取JumpServer永久token？)
 * [🎨截图预览](#截图预览点击查看完整截图)
 * [💾部署说明](#部署说明)
 * [🥇最佳实践](#最佳实践)
