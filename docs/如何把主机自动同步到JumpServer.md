@@ -77,8 +77,9 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 
 **注意：云主机自动同步JumpServer功能仅是自动化了创建资产的操作，每台云主机的系统用户，还需要根据JumpServer的配置来创建或者推送。**
 
-# 高级设置
-## 不同云账号有不同的jumpserver管理账户的场景能否支持？
+---
+
+## 高级设置：不同云账号有不同的jumpserver管理账户的场景能否支持？
 ### 目前web界面上不支持这样的场景，不过后端是已经支持的，所以可以直接修改consul KV的方式来实现。
 - 访问consul的webUI `http://x.x.x.x:8500/ui/dc1/kv/ConsulManager/jms/`
 - 该目录下可以看到2个键：全局管理用户信息：`ecs_info`，全局特殊管理用户信息：`custom_ecs_info`
