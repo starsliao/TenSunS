@@ -1,7 +1,7 @@
-## 云主机自动同步JumpServer有什么用途？
-- 当我们在云上购买了新的ECS时，需要手动在JumpServer中创建新资产来纳管该ECS。
+## 云主机自动同步JumpServer能做什么？
+- 当您在云上购买了新的ECS时，需要手动在JumpServer中创建新资产来纳管该ECS。
 - `JumpServer同步`功能可以把阿里、腾讯、华为云的ECS资源自动同步到JumpServer中，免去手动创建资产的操作。
-- 当我们在云厂商界面新增、删除、修改ECS后，都会及时的自动同步到JumpServer中。
+- 当您在云厂商界面新增、删除、修改ECS后，都会及时的自动同步到JumpServer中。
 
 ## 同步JumpServer功能如何开启？
 ![图片](https://user-images.githubusercontent.com/3349611/180848168-a2bafcfa-faa1-457d-8f5f-dcb07ad12d60.png)
@@ -76,3 +76,13 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 - 最后，可以登录JumpServer，找到对应到节点，查看同步后的主机信息，会根据云资源的分组信息把所有的ECS存放到对应的分组目录。
 
 **注意：云主机自动同步JumpServer功能仅是自动化了创建资产的操作，每台云主机的系统用户，还需要根据JumpServer的配置来创建或者推送。**
+
+# 高级设置
+## 不同云账号有不同的jumpserver管理账户的场景能否支持？
+### 目前web界面上不支持这样的场景，不过后端是已经支持的，所以可以直接修改consul KV的方式来实现。
+- 访问consul的webUI `http://x.x.x.x:8500/ui/dc1/kv/ConsulManager/jms/`
+- 该目录下可以看到2个键：全局管理用户信息：`ecs_info`，全局特殊管理用户信息：`custom_ecs_info`
+- 进入改目录下对应的云厂商以及云账户的目录
+- 把上面提到了两个键复制到云账户的目录下即可，并修改为需要的内容即可，注意内容的格式保持不变。
+- 下次同步时候会优先读取云账户目录下的管理用户信息。（需要登录jumpserver删掉已同步的主机。）
+- 我会尽快把这个功能做到web界面上。
