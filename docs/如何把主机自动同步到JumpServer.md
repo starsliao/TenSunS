@@ -1,3 +1,14 @@
+- [云主机自动同步JumpServer能做什么？](#云主机自动同步jumpserver能做什么)
+- [同步JumpServer功能如何开启？](#同步jumpserver功能如何开启)
+- [如何获取JumpServer永久token？](#如何获取jumpserver永久token)
+- [什么是JumpServer的管理用户？](#什么是jumpserver的管理用户)
+- [接入JumpServer时，`全局通用主机【管理用户】信息`该如何填写？](#接入jumpserver时全局通用主机管理用户信息该如何填写)
+- [接入JumpServer时，`全局特殊主机【管理用户】信息`该如何填写？](#接入jumpserver时全局特殊主机管理用户信息该如何填写)
+- [接入JumpServer操作完成之后，我该做什么？](#接入jumpserver操作完成之后我该做什么)
+- [高级设置：不同云账号有不同的jumpserver管理账户的场景能否支持？](#高级设置不同云账号有不同的jumpserver管理账户的场景能否支持)
+  - [目前web界面上不支持这样的场景，不过后端是已经支持的，所以可以直接修改consul KV的方式来实现。](#目前web界面上不支持这样的场景不过后端是已经支持的所以可以直接修改consul-kv的方式来实现)
+
+
 ## 云主机自动同步JumpServer能做什么？
 - 当您在云上购买了新的ECS时，需要手动在JumpServer中创建新资产来纳管该ECS。
 - `JumpServer同步`功能可以把阿里、腾讯、华为云的ECS资源自动同步到JumpServer中，免去手动创建资产的操作。
