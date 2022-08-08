@@ -116,7 +116,7 @@
 ---
 
 ### 🎃提交bug
-@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  @Show Lo
+@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  [@Show_Lo](https://github.com/ShowXian)
 
 ---
 
