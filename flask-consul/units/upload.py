@@ -61,6 +61,7 @@ def read_execl(file_contents,imptype):
                 nrow.append(str(i))
             except:
                 j = i.strip()
+                j = '_' if j == '' else j
                 if i != row[5]:
                     j = re.sub('[[ \]`~!\\\#$^/&*=|"{}\':;?]','_',j)
                 nrow.append(j)
