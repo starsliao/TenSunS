@@ -62,7 +62,7 @@ groups:
       description: "{{ $labels.name }}：内存使用率{{ $value | humanize }}%\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
   - alert: CPU使用率
-    expr: 100 - (avg by(instance,name,group,account) (irate(node_cpu_seconds_total[5m])) * 100) > 92
+    expr: 100 - (avg by(instance,name,group,account) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 92
     for: 5m
     labels:
       alertype: system
