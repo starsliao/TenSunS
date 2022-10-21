@@ -96,46 +96,92 @@ export const constantRoutes = [
         meta: { title: '接入数据源', icon: 'el-icon-school' }
       },
       {
-        path: 'jms',
-        name: 'JumpServer',
-        component: () => import('@/views/jms/index'),
-        meta: { title: 'JumpServer 同步', icon: 'el-icon-copy-document' }
-      },
-      {
         path: 'exp',
         name: '余额与到期通知',
         component: () => import('@/views/node-exporter/exp'),
         meta: { title: '余额与到期通知', icon: 'el-icon-alarm-clock' }
       },
       {
-        path: 'lists',
-        name: '云主机列表',
-        component: () => import('@/views/node-exporter/lists'),
-        meta: { title: '云主机列表', icon: 'el-icon-cloudy' }
+        path: 'ecs',
+        name: 'ECS',
+        component: () => import('@/views/node-exporter/index'),
+        meta: { title: 'ECS管理', icon: 'el-icon-cpu' },
+        children: [
+          {
+            path: 'jms',
+            name: 'JumpServer',
+            component: () => import('@/views/jms/index'),
+            meta: { title: 'JumpServer 同步', icon: 'el-icon-copy-document' }
+          },
+          {
+            path: 'lists',
+            name: '云主机列表',
+            component: () => import('@/views/node-exporter/lists'),
+            meta: { title: '云主机列表', icon: 'el-icon-cloudy' }
+          },
+          {
+            path: 'self',
+            name: '自建主机管理',
+            component: () => import('@/views/node-exporter/self'),
+            meta: { title: '自建主机管理', icon: 'el-icon-s-platform' }
+          },
+          {
+            path: 'pconfig',
+            name: 'node-pconfig',
+            component: () => import('@/views/node-exporter/pconfig'),
+            meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
+          },
+          {
+            path: 'rules',
+            name: 'node-rules',
+            component: () => import('@/views/node-exporter/rules'),
+            meta: { title: '告警规则', icon: 'el-icon-bell' }
+          },
+          {
+            path: 'grafana',
+            name: 'node-grafana',
+            component: () => import('@/views/node-exporter/grafana'),
+            meta: { title: 'Grafana 看板', icon: 'el-icon-data-line' }
+          }
+        ]
       },
       {
-        path: 'self',
-        name: '自建主机管理',
-        component: () => import('@/views/node-exporter/self'),
-        meta: { title: '自建主机管理', icon: 'el-icon-s-platform' }
-      },
-      {
-        path: 'pconfig',
-        name: 'node-pconfig',
-        component: () => import('@/views/node-exporter/pconfig'),
-        meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
-      },
-      {
-        path: 'rules',
-        name: 'node-rules',
-        component: () => import('@/views/node-exporter/rules'),
-        meta: { title: '告警规则', icon: 'el-icon-bell' }
-      },
-      {
-        path: 'grafana',
-        name: 'node-grafana',
-        component: () => import('@/views/node-exporter/grafana'),
-        meta: { title: 'Grafana 看板', icon: 'el-icon-data-line' }
+        path: 'rds',
+        name: 'RDS',
+        component: () => import('@/views/rds/index'),
+        meta: { title: 'MySQL管理', icon: 'el-icon-cpu' },
+        children: [
+          {
+            path: 'lists',
+            name: '云MySQL列表',
+            component: () => import('@/views/rds/lists'),
+            meta: { title: '云MySQL列表', icon: 'el-icon-cloudy' }
+          },
+          {
+            path: 'self',
+            name: '自建MySQL管理',
+            component: () => import('@/views/rds/self'),
+            meta: { title: '自建MySQL管理', icon: 'el-icon-s-platform' }
+          },
+          {
+            path: 'pconfig',
+            name: 'rds-pconfig',
+            component: () => import('@/views/rds/pconfig'),
+            meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
+          },
+          {
+            path: 'rules',
+            name: 'rds-rules',
+            component: () => import('@/views/rds/rules'),
+            meta: { title: '告警规则', icon: 'el-icon-bell' }
+          },
+          {
+            path: 'grafana',
+            name: 'rds-grafana',
+            component: () => import('@/views/rds/grafana'),
+            meta: { title: 'Grafana 看板', icon: 'el-icon-data-line' }
+          }
+        ]
       }
     ]
   },

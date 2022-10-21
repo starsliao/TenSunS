@@ -58,7 +58,7 @@
       <el-table-column prop="nextime" label="下次同步" sortable align="center" />
       <el-table-column label="操作" align="center" width="280" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="success" size="mini" @click="row.itype==='ecs'?handleEcs(row.jobid):handleEnt(row.jobid)">
+          <el-button type="success" size="mini" @click="row.itype==='group'?handleEnt(row.jobid):handleRes(row.itype,row.jobid)">
             查看
           </el-button>
           <el-button type="warning" size="mini" @click="handleRun(row.jobid)">
@@ -111,6 +111,15 @@
             <el-option v-for="item in regions[ecsJob.vendor]" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
+
+        <el-form-item label="资源类型">
+          <el-checkbox-group v-model="restype">
+            <el-checkbox label="group" disabled>分组</el-checkbox>
+            <el-checkbox label="ecs">ECS</el-checkbox>
+            <el-checkbox label="rds">RDS</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+
         <el-form-item prop="proj_interval">
           <span slot="label">
             <span class="span-box">
@@ -122,8 +131,11 @@
           </span>
           <el-input v-model="ecsJob.proj_interval" />
         </el-form-item>
-        <el-form-item label="ECS同步间隔(分钟)" prop="ecs_interval">
+        <el-form-item v-if="restype.includes('ecs')" label="ECS同步间隔(分钟)" prop="ecs_interval">
           <el-input v-model="ecsJob.ecs_interval" />
+        </el-form-item>
+        <el-form-item v-if="restype.includes('rds')" label="RDS同步间隔(分钟)" prop="rds_interval">
+          <el-input v-model="ecsJob.rds_interval" />
         </el-form-item>
       </el-form>
 
@@ -179,6 +191,7 @@ export default {
       account_list: [],
       itype_list: [],
       itype: [],
+      restype: ['group', 'ecs'],
       query: { vendor: '', account: '', itype: '' },
       rules: {
         vendor: [{ required: true, message: '此为必填项', trigger: 'change' },
@@ -244,7 +257,7 @@ export default {
         ]
       },
 
-      ecsJob: { vendor: '', ak: '', sk: '', region: '', account: '', proj_interval: 60, ecs_interval: 5 },
+      ecsJob: { vendor: '', ak: '', sk: '', region: '', account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 },
       upjob: { jobid: '', interval: '' },
       newFormVisible: false,
       upFormVisible: false,
@@ -285,7 +298,7 @@ export default {
       })
     },
     handleCreate() {
-      this.ecsJob = { vendor: '', ak: '', sk: '', region: '', account: '', proj_interval: 60, ecs_interval: 5 }
+      this.ecsJob = { vendor: '', ak: '', sk: '', region: '', account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 }
       this.ecsJob.account = this.query.account
       this.newFormVisible = true
     },
@@ -315,6 +328,7 @@ export default {
           this.newFormVisible = false
           this.listLoading = true
           this.ecsJob.dialogStatus = 'create'
+          this.ecsJob.restype = this.restype
           PostJob(this.ecsJob).then(response => {
             this.fetchData()
             this.$message({
@@ -354,9 +368,9 @@ export default {
       this.upjob.interval = row.interval
       this.upFormVisible = true
     },
-    handleEcs(jobid) {
+    handleRes(restype, jobid) {
       this.$router.push({
-        path: '/nodes/lists',
+        path: '/nodes/' + restype + '/lists',
         query: { job_id: jobid }
       })
     },
