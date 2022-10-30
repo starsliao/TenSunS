@@ -20,6 +20,9 @@ def init():
 def deljob(jobid):
     Scheduler.remove_job(jobid)
 
+def modjob_interval(jobid,job_interval):
+    Scheduler.modify_job(jobid,trigger='interval',minutes=job_interval)
+
 def addjob(job_id,job_func,job_args,job_interval):
     Scheduler.add_job(id=job_id, func=job_func, args=job_args, trigger='interval',
                       minutes=job_interval, replace_existing=True)
@@ -38,7 +41,7 @@ class Jobs(Resource):
             query_dict['vendor'] = {v : k for k, v in vendors.items()}[query_dict['vendor']]
         query_set = set({k:v for k,v in query_dict.items() if v != ''}.items())
         job_list = list(consul_kv.get_kv_dict(f'ConsulManager/jobs').values())
-        job_run_dict = {job.id:job.next_run_time.strftime("%m%d/%H:%M") for job in Scheduler.get_jobs()}
+        job_run_dict = {job.id:job.next_run_time.strftime("%m.%d/%H:%M") for job in Scheduler.get_jobs()}
         job_count_dict = consul_kv.get_kv_dict('ConsulManager/record/jobs')
         jobs = []
         for i in job_list:
@@ -91,17 +94,17 @@ class Jobs(Resource):
             if record_dict['status'] == 20000:
                 consul_kv.put_kv(f'ConsulManager/jobs/{proj_job_id}',proj_job_dict)
                 for res in restype:
+                    for reg in job_dict['region']:
+                        res_job_id = f"{job_dict['vendor']}/{job_dict['account']}/{res}/{reg}"
+                        res_job_func = f"__main__:{job_dict['vendor']}.{res}"
+                        res_job_args = [job_dict['account'],reg]
+                        res_job_interval = int(job_dict[f'{res}_interval'])
+                        Scheduler.add_job(id=res_job_id, func=res_job_func, args=res_job_args, trigger='interval',
+                                          minutes=res_job_interval, replace_existing=True)
+                        res_job_dict = {'id':res_job_id,'func':res_job_func,'args':res_job_args,'minutes':res_job_interval,
+                                        'trigger': 'interval','replace_existing': True}
 
-                    res_job_id = f"{job_dict['vendor']}/{job_dict['account']}/{res}/{job_dict['region']}"
-                    res_job_func = f"__main__:{job_dict['vendor']}.{res}"
-                    res_job_args = [job_dict['account'],job_dict['region']]
-                    res_job_interval = int(job_dict[f'{res}_interval'])
-                    Scheduler.add_job(id=res_job_id, func=res_job_func, args=res_job_args, trigger='interval',
-                                  minutes=res_job_interval, replace_existing=True)
-                    res_job_dict = {'id':res_job_id,'func':res_job_func,'args':res_job_args,'minutes':res_job_interval,
-                                "trigger": "interval","replace_existing": True}
-
-                    consul_kv.put_kv(f'ConsulManager/jobs/{res_job_id}',res_job_dict)
+                        consul_kv.put_kv(f'ConsulManager/jobs/{res_job_id}',res_job_dict)
             else:
                 Scheduler.remove_job(proj_job_id)
 

@@ -66,7 +66,7 @@
 </template>
 
 <script>
-import { getEcsList, getJobEcs, postCstEcs, getCstEcsConfig, getCstEcsList } from '@/api/node-exporter'
+import { getResList, getJobEcs, postCstEcs, getCstEcsConfig, getCstEcsList } from '@/api/node-exporter'
 export default {
   data() {
     return {
@@ -100,7 +100,7 @@ export default {
     cstEcsList(jobecs_name, checked) {
       this.listLoading = true
       getCstEcsList(jobecs_name, checked).then(response => {
-        this.ecs_list = response.ecs_list
+        this.ecs_list = response.res_list
         this.listLoading = false
       })
     },
@@ -136,8 +136,8 @@ export default {
     fetchEcs(job_id) {
       this.checked = false
       this.listLoading = true
-      getEcsList(job_id).then(response => {
-        this.ecs_list = response.ecs_list
+      getResList(job_id).then(response => {
+        this.ecs_list = response.res_list
         this.listLoading = false
       })
     }

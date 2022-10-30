@@ -86,14 +86,14 @@ export const constantRoutes = [
     path: '/nodes',
     component: Layout,
     redirect: '/nodes/jobs',
-    name: '云资源监控',
-    meta: { title: '云资源监控', icon: 'el-icon-shopping-bag-2' },
+    name: '云资源管理',
+    meta: { title: '云资源管理', icon: 'el-icon-shopping-bag-2' },
     children: [
       {
         path: 'jobs',
-        name: '接入数据源',
+        name: '接入云厂商',
         component: () => import('@/views/node-exporter/jobs'),
-        meta: { title: '接入数据源', icon: 'el-icon-school' }
+        meta: { title: '接入云厂商', icon: 'el-icon-school' }
       },
       {
         path: 'exp',
@@ -149,7 +149,7 @@ export const constantRoutes = [
         path: 'rds',
         name: 'RDS',
         component: () => import('@/views/rds/index'),
-        meta: { title: 'MySQL管理', icon: 'el-icon-cpu' },
+        meta: { title: 'MySQL管理', icon: 'el-icon-coin' },
         children: [
           {
             path: 'lists',
@@ -157,12 +157,14 @@ export const constantRoutes = [
             component: () => import('@/views/rds/lists'),
             meta: { title: '云MySQL列表', icon: 'el-icon-cloudy' }
           },
+          /**
           {
             path: 'self',
             name: '自建MySQL管理',
             component: () => import('@/views/rds/self'),
             meta: { title: '自建MySQL管理', icon: 'el-icon-s-platform' }
           },
+          */
           {
             path: 'pconfig',
             name: 'rds-pconfig',

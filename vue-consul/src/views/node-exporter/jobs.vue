@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-alert type="success" center close-text="知道了">
+    <el-alert type="success" center close-text="朕知道了">
       <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理ECS主机监控</el-link>
     </el-alert>
     <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
@@ -16,8 +16,11 @@
     <el-tooltip class="item" effect="light" content="清空查询条件" placement="top">
       <el-button class="filter-item" style="margin-left: 10px;" type="info" icon="el-icon-delete" circle @click="resetData" />
     </el-tooltip>
-    <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
-      新增同步源
+    <el-button class="filter-item" type="primary" icon="el-icon-s-promotion" @click="handleCreate">
+      新增云资源
+    </el-button>
+    <el-button class="filter-item" type="warning" icon="el-icon-edit" @click="handleEdit">
+      编辑云资源
     </el-button>
     <div style="float: right;">
       <el-tooltip class="item" effect="light" content="刷新当前页面" placement="top">
@@ -31,7 +34,7 @@
       <el-table-column prop="account" label="账户" sortable align="center" />
       <el-table-column prop="itype" label="资源" sortable align="center">
         <template slot-scope="{row}">
-          <div v-if="row.itype === 'ecs'" slot="reference" class="name-wrapper">
+          <div v-if="row.itype !== 'group'" slot="reference" class="name-wrapper">
             <el-tag size="medium">{{ row.itype.toUpperCase() }}</el-tag>
           </div>
           <div v-else>
@@ -43,7 +46,7 @@
       <el-table-column prop="count" label="资源数" sortable align="center">
         <template slot-scope="{row}">
           <span style="font-weight:bold">{{ row.count }} </span>
-          <el-tooltip v-if="row.itype === 'ecs'" style="diaplay:inline" effect="dark" placement="top">
+          <el-tooltip v-if="row.itype !== 'group'" style="diaplay:inline" effect="dark" placement="top">
             <div slot="content"> 开机：{{ row.on }}，关机：{{ row.off }} </div>
             <i class="el-icon-info" />
           </el-tooltip>
@@ -82,10 +85,10 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog title="新增同步源" :visible.sync="newFormVisible" width="40%">
+    <el-dialog title="新增云资源" :visible.sync="newFormVisible" width="40%">
       <el-form ref="dataForm" :rules="rules" :model="ecsJob" label-position="right" label-width="auto" style="width: 90%; margin-left: 1px;">
         <el-form-item label="云厂商" prop="vendor">
-          <el-select v-model="ecsJob.vendor" placeholder="请选择" @change="ecsJob.region=''">
+          <el-select v-model="ecsJob.vendor" placeholder="请选择" @change="ecsJob.region=[]">
             <el-option v-for="item in vendors" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -107,7 +110,7 @@
           <el-input v-model="ecsJob.sk" placeholder="请输入AccessKey Secret" show-password />
         </el-form-item>
         <el-form-item label="区域" prop="region">
-          <el-select v-model="ecsJob.region" placeholder="请选择">
+          <el-select v-model="ecsJob.region" filterable multiple collapse-tags placeholder="请选择">
             <el-option v-for="item in regions[ecsJob.vendor]" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
@@ -116,7 +119,7 @@
           <el-checkbox-group v-model="restype">
             <el-checkbox label="group" disabled>分组</el-checkbox>
             <el-checkbox label="ecs">ECS</el-checkbox>
-            <el-checkbox label="rds">RDS</el-checkbox>
+            <el-checkbox label="rds">MySQL</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
 
@@ -134,7 +137,7 @@
         <el-form-item v-if="restype.includes('ecs')" label="ECS同步间隔(分钟)" prop="ecs_interval">
           <el-input v-model="ecsJob.ecs_interval" />
         </el-form-item>
-        <el-form-item v-if="restype.includes('rds')" label="RDS同步间隔(分钟)" prop="rds_interval">
+        <el-form-item v-if="restype.includes('rds')" label="MySQL同步间隔(分钟)" prop="rds_interval">
           <el-input v-model="ecsJob.rds_interval" />
         </el-form-item>
       </el-form>
@@ -147,6 +150,72 @@
           取消
         </el-button>
         <el-button type="primary" @click="createData()">
+          确认
+        </el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="编辑云资源" :visible.sync="editFormVisible" width="40%">
+      <el-form ref="dataForm" :rules="rules" :model="editJob" label-position="right" label-width="auto" style="width: 90%; margin-left: 1px;">
+        <el-form-item label="云厂商" prop="vendor">
+          <el-select v-model="editJob.vendor" placeholder="请选择" @change="editJob.region=[];editJob.account=''">
+            <el-option v-for="item in vendors" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="账户" prop="account">
+          <el-select v-model="editJob.account" placeholder="请选择" @change="editJob.akskswitch=false;editJob.region=''">
+            <el-option v-for="item in cloud_dict[editJob.vendor]" :key="item" :label="item" :value="item" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="修改密钥">
+          <el-switch v-model="editJob.akskswitch" />
+        </el-form-item>
+        <el-form-item v-if="editJob.akskswitch" label="Access Key" prop="ak">
+          <el-input v-model="editJob.ak" placeholder="请输AccessKey ID" />
+        </el-form-item>
+        <el-form-item v-if="editJob.akskswitch" label="Secret Key" prop="sk">
+          <el-input v-model="editJob.sk" placeholder="请输入AccessKey Secret" show-password />
+        </el-form-item>
+
+        <el-form-item label="区域" prop="region">
+          <el-select v-model="editJob.region" filterable placeholder="请选择" @change="fetchGroup(editJob.vendor, editJob.account, editJob.region)">
+            <el-option v-for="item in regions[editJob.vendor]" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="资源类型">
+          <el-checkbox-group v-model="editJob.restype">
+            <el-checkbox label="group" disabled>分组</el-checkbox>
+            <el-checkbox label="ecs">ECS</el-checkbox>
+            <el-checkbox label="rds">MySQL</el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+
+        <el-form-item prop="proj_interval">
+          <span slot="label">
+            <span class="span-box">
+              <span>分组同步间隔(分钟)</span>
+              <el-tooltip style="diaplay:inline" effect="dark" content="分组是采集云厂商用于资源分组的字段，阿里云：资源组，华为云：企业项目，腾讯云：所属项目。请在创建云主机时设置好属组。" placement="top">
+                <i class="el-icon-info" />
+              </el-tooltip>
+            </span>
+          </span>
+          <el-input v-model="editJob.proj_interval" />
+        </el-form-item>
+        <el-form-item v-if="editJob.restype.includes('ecs')" label="ECS同步间隔(分钟)" prop="ecs_interval">
+          <el-input v-model="editJob.ecs_interval" />
+        </el-form-item>
+        <el-form-item v-if="editJob.restype.includes('rds')" label="MySQL同步间隔(分钟)" prop="rds_interval">
+          <el-input v-model="editJob.rds_interval" />
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editFormVisible = false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="editData(editJob)">
           确认
         </el-button>
       </div>
@@ -172,6 +241,7 @@
 
 <script>
 import { getAllJobs, PostJob, DelJob, getGroup } from '@/api/node-exporter'
+import { getCloud, findGroup, PostEditJob } from '@/api/edit'
 export default {
   data() {
     const validateInput = (rule, value, callback) => {
@@ -202,8 +272,7 @@ export default {
           { validator: validateInput, trigger: ['blur', 'change'] }],
         sk: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
-        region: [{ required: true, message: '此为必填项', trigger: 'blur' },
-          { validator: validateInput, trigger: ['blur'] }],
+        region: [{ required: true, message: '此为必填项', trigger: 'blur' }],
         proj_interval: [{ required: true, message: '此为必填项', trigger: 'change' },
           { validator: validateInput, trigger: ['blur', 'change'] }],
         ecs_interval: [{ required: true, message: '此为必填项', trigger: 'change' },
@@ -257,10 +326,13 @@ export default {
         ]
       },
 
-      ecsJob: { vendor: '', ak: '', sk: '', region: '', account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 },
+      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 },
+      editJob: { restype: ['group'] },
+      cloud_dict: {},
       upjob: { jobid: '', interval: '' },
       newFormVisible: false,
       upFormVisible: false,
+      editFormVisible: false,
       entFormVisible: false
     }
   },
@@ -280,6 +352,8 @@ export default {
     tableRowClassName({ row }) {
       if (row.itype === 'ecs') {
         return 'success-row'
+      } else if (row.itype === 'rds') {
+        return 'warning-row'
       }
       return ''
     },
@@ -297,8 +371,26 @@ export default {
         this.listLoading = false
       })
     },
+
+    fetchGroup(vendor, account, region) {
+      this.listLoading = true
+      findGroup(vendor, account, region).then(response => {
+        this.editJob.restype = response.restype
+        this.editJob.proj_interval = response.interval.proj_interval
+        this.editJob.ecs_interval = response.interval.ecs_interval
+        this.editJob.rds_interval = response.interval.rds_interval
+        this.listLoading = false
+      })
+    },
+    handleEdit() {
+      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 5, rds_interval: 5 }
+      getCloud().then(response => {
+        this.cloud_dict = response.cloud_dict
+      })
+      this.editFormVisible = true
+    },
     handleCreate() {
-      this.ecsJob = { vendor: '', ak: '', sk: '', region: '', account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 }
+      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 }
       this.ecsJob.account = this.query.account
       this.newFormVisible = true
     },
@@ -322,6 +414,21 @@ export default {
         }
       })
     },
+    editData(editJob) {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          this.editFormVisible = false
+          this.listLoading = true
+          PostEditJob(editJob).then(response => {
+            this.fetchData()
+            this.$message({
+              message: response.data,
+              type: 'success'
+            })
+          })
+        }
+      })
+    },
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
@@ -335,7 +442,7 @@ export default {
               message: response.data,
               type: 'success'
             })
-            this.ecsJob.region = ''
+            this.ecsJob.region = []
           })
         }
       })
@@ -407,5 +514,8 @@ export default {
 <style>
   .el-table .success-row {
     background: #f0f9eb;
+  }
+  .el-table .warning-row {
+    background: oldlace;
   }
 </style>

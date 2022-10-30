@@ -54,6 +54,7 @@ def w2consul(vendor,account,region,rds_dict):
                 'group': v['group'],
                 'instance': instance,
                 'account': account,
+                'itype': v['itype'],
                 'vendor': vendors.get(vendor,'未找到'),
                 'disk': v['disk'],
                 'cpu': v['cpu'],

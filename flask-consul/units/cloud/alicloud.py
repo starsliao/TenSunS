@@ -93,7 +93,7 @@ def exp(account,collect_days,notify_days,notify_amount):
 
 def group(account):
     ak,sk = consul_kv.get_aksk('alicloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
     config.endpoint = f'resourcemanager.aliyuncs.com'
     client = ResourceManager20200331Client(config)
@@ -123,7 +123,7 @@ def group(account):
 
 def ecs(account,region):
     ak,sk = consul_kv.get_aksk('alicloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
 
     config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)

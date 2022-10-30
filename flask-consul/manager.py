@@ -7,7 +7,7 @@ skey_path = 'ConsulManager/assets/secret/skey'
 if consul_kv.get_kv_dict(skey_path) == {}:
     consul_kv.put_kv(skey_path,{'sk':''.join(str(uuid.uuid4()).split('-'))})
 
-from views import login, blackbox, consul, jobs, nodes, selfnode, avd, exp, jms
+from views import login, blackbox, consul, jobs, nodes, selfnode, avd, exp, jms, edit_cloud
 from units.cloud import huaweicloud,alicloud,tencent_cloud
 from units.avd import avd_list
 from units.jms import sync_jms
@@ -25,6 +25,7 @@ app.register_blueprint(selfnode.blueprint)
 app.register_blueprint(avd.blueprint)
 app.register_blueprint(exp.blueprint)
 app.register_blueprint(jms.blueprint)
+app.register_blueprint(edit_cloud.blueprint)
 
 class Config(object):
     JOBS = []

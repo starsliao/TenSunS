@@ -57,7 +57,7 @@ def del_key_all(path):
     else:
         return None
 
-def get_ecs_services(job_id):
+def get_res_services(job_id):
     cloud,account,itype,region = job_id.split('/')
     service = f'{cloud}_{account}_{itype}'
     region = f'and "{region}" in Tags'
@@ -65,8 +65,8 @@ def get_ecs_services(job_id):
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         info = response.json()
-        ecs_list = [i['Meta'] for i in info.values()]
-        return {'code': 20000,'ecs_list': ecs_list}
+        res_list = [i['Meta'] for i in info.values()]
+        return {'code': 20000,'res_list': res_list}
     else:
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
  

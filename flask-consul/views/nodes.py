@@ -25,15 +25,19 @@ class Nodes(Resource):
             group_dict = consul_kv.get_value(f'ConsulManager/assets/{cloud}/group/{account}')
             group_list = [{'gid':k,'gname':v}for k,v in group_dict.items()]
             return {'code': 20000,'group':group_list}
-        elif stype == 'ecs':
+        elif stype == 'res':
             if job_id == '' or job_id == None:
-                return {'code': 20000,'ecs_list': [] }
+                return {'code': 20000,'res_list': [] }
             else:
-                return consul_kv.get_ecs_services(job_id) 
+                return consul_kv.get_res_services(job_id) 
         elif stype == 'jobecs':
             jobecs = consul_kv.get_keys_list('ConsulManager/jobs')
             jobecs_list = [i.split('/jobs/')[1] for i in jobecs if '/ecs/' in i]
             return {'code': 20000,'jobecs':jobecs_list}
+        elif stype == 'jobrds':
+            jobrds = consul_kv.get_keys_list('ConsulManager/jobs')
+            jobrds_list = [i.split('/jobs/')[1] for i in jobrds if '/rds/' in i]
+            return {'code': 20000,'jobrds':jobrds_list}
         elif stype == 'ecs_services':
             jobecs = consul_kv.get_keys_list('ConsulManager/jobs')
             jobecs_list = [i.split('/jobs/')[1] for i in jobecs if '/ecs/' in i]
@@ -60,12 +64,12 @@ class Nodes(Resource):
             checked = args['checked']
             cst_ecs_dict = consul_kv.get_kv_dict('ConsulManager/assets/sync_ecs_custom/')
             cst_ecs_keylist = [k.split('/')[-1] for k,v in cst_ecs_dict.items() if v != {}]
-            ecs_info = consul_kv.get_ecs_services(jobecs_name)
+            ecs_info = consul_kv.get_res_services(jobecs_name)
             if checked == 'false':
                 return ecs_info
             else:
-                cst_ecs_list = [i for i in ecs_info['ecs_list'] if i['iid'] in cst_ecs_keylist]
-                return {'code': 20000, 'ecs_list': cst_ecs_list}
+                cst_ecs_list = [i for i in ecs_info['res_list'] if i['iid'] in cst_ecs_keylist]
+                return {'code': 20000, 'res_list': cst_ecs_list}
                 
     def post(self, stype):
         if stype == 'config':

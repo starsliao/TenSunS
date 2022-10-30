@@ -93,7 +93,7 @@ def exp(account,collect_days,notify_days,notify_amount):
 
 def group(account):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     credentials = GlobalCredentials(ak, sk)
     try:
         client = EpsClient.new_builder() \
@@ -128,7 +128,7 @@ def group(account):
 
 def ecs(account,region):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     group_dict = consul_kv.get_value(f'ConsulManager/assets/huaweicloud/group/{account}')
     credentials = BasicCredentials(ak, sk)
     try:
@@ -173,7 +173,7 @@ def ecs(account,region):
 
 def rds(account,region):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     group_dict = consul_kv.get_value(f'ConsulManager/assets/huaweicloud/group/{account}')
     credentials = BasicCredentials(ak, sk)
     try:
@@ -198,7 +198,7 @@ def rds(account,region):
                              'cpu':f"{i['cpu']}核",
                              'mem':f"{i['mem']}GB",
                              'disk':f"{i['volume']['size']}GB",
-                             'exp': i['expiration_time']
+                             'exp': '-' if i['expiration_time'] == None else i['expiration_time'].split('T')[0]
                             } for i in info}
         count = len(rds_dict)
         off,on = sync_rds.w2consul('huaweicloud',account,region,rds_dict)

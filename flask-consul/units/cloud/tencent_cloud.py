@@ -80,7 +80,7 @@ def exp(account,collect_days,notify_days,notify_amount):
 def group(account):
     from tencentcloud.dcdb.v20180411 import dcdb_client, models
     ak,sk = consul_kv.get_aksk('tencent_cloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     try:
         cred = credential.Credential(ak, sk)
         httpProfile = HttpProfile()
@@ -115,7 +115,7 @@ def group(account):
 def ecs(account,region):
     from tencentcloud.cvm.v20170312 import cvm_client, models
     ak,sk = consul_kv.get_aksk('tencent_cloud',account)
-    now = datetime.datetime.now().strftime('%m%d/%H:%M')
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     group_dict = consul_kv.get_value(f'ConsulManager/assets/tencent_cloud/group/{account}')
     try:
         cred = credential.Credential(ak, sk)

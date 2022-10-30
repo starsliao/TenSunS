@@ -63,7 +63,7 @@ class Jms(Resource):
                     jms_job = consul_kv.get_value(f'ConsulManager/record/jms/{vendor}/{account}')
                     runtime = jms_job.get('update')
                     count_sync = jms_job.get('count')
-                    nextime = getjob(f'{vendor}/{account}/jms').next_run_time.strftime("%m%d/%H:%M")
+                    nextime = getjob(f'{vendor}/{account}/jms').next_run_time.strftime("%m.%d/%H:%M")
                     sync = True
                 ecs_list.append({'vendor':vendors[vendor],'account':account,'count_linux':count_linux,
                                  'count_win':count_win,'count_mem':f'{count_mem}GB','count_cpu':f'{count_cpu}核',

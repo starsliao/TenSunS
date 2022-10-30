@@ -32,11 +32,18 @@ export function getGroup(job_id) {
   })
 }
 
-export function getEcsList(job_id) {
+export function getResList(job_id) {
   return request({
-    url: '/api/nodes/ecs',
+    url: '/api/nodes/res',
     method: 'get',
     params: { job_id }
+  })
+}
+
+export function getJobRds() {
+  return request({
+    url: '/api/nodes/jobrds',
+    method: 'get'
   })
 }
 
