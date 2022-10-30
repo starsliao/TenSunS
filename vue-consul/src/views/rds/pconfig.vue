@@ -3,10 +3,9 @@
     <el-select v-model="services" multiple placeholder="请选择需要生成配置的服务" filterable collapse-tags clearable style="width: 350px" class="filter-item">
       <el-option v-for="item in services_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-select v-model="ostype" multiple placeholder="请选择系统" filterable clearable class="filter-item">
-      <el-option v-for="item in ostype_list" :key="item" :label="item" :value="item" />
-    </el-select>
-    <el-button class="filter-item" type="primary" icon="el-icon-magic-stick" @click="fetchEcsConfig">
+    &nbsp;&nbsp;<font color="#ff0000">*</font>MySQLd_Exporter IP端口
+    <el-input v-model="exporter" placeholder="x.x.x.x:9104" clearable style="width: 200px;" class="filter-item" />&nbsp;&nbsp;
+    <el-button class="filter-item" type="primary" icon="el-icon-magic-stick" @click="fetchRdsConfig">
       生成配置
     </el-button>
     <el-button v-clipboard:copy="configs" v-clipboard:success="onCopy" v-clipboard:error="onError" class="filter-item" type="warning" icon="el-icon-document-copy">
@@ -17,7 +16,7 @@
 </template>
 
 <script>
-import { getServicesList, getConfig } from '@/api/node-exporter'
+import { getRdsServicesList, getRdsConfig } from '@/api/node-exporter'
 export default {
   data() {
     return {
@@ -25,13 +24,13 @@ export default {
       services: [],
       ostype: [],
       services_list: [],
-      ostype_list: ['linux', 'windows'],
       services_dict: {},
+      exporter: '',
       configs: ''
     }
   },
   created() {
-    this.fetchEcsList()
+    this.fetchRdsList()
   },
   methods: {
     onCopy() {
@@ -43,19 +42,18 @@ export default {
     onError() {
       this.$message.error('复制失败！')
     },
-    fetchEcsList() {
+    fetchRdsList() {
       this.listLoading = true
-      getServicesList().then(response => {
+      getRdsServicesList().then(response => {
         this.services_list = response.services_list
-        this.services_list.push('selfnode_exporter')
         this.listLoading = false
       })
     },
-    fetchEcsConfig() {
+    fetchRdsConfig() {
       this.listLoading = true
       this.services_dict.services_list = this.services
-      this.services_dict.ostype_list = this.ostype
-      getConfig(this.services_dict).then(response => {
+      this.services_dict.exporter = this.exporter
+      getRdsConfig(this.services_dict).then(response => {
         this.configs = response.configs
         this.listLoading = false
       })

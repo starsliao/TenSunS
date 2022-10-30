@@ -59,6 +59,26 @@ export function getServicesList() {
     method: 'get'
   })
 }
+export function getRdsServicesList() {
+  return request({
+    url: '/api/nodes/rds_services',
+    method: 'get'
+  })
+}
+
+export function getRdsConfig(services_dict) {
+  return request({
+    url: '/api/nodes/rdspconfig',
+    method: 'post',
+    data: { services_dict }
+  })
+}
+export function getRdsRules() {
+  return request({
+    url: '/api/nodes/rdsrules',
+    method: 'get'
+  })
+}
 export function getConfig(services_dict) {
   return request({
     url: '/api/nodes/config',

@@ -46,8 +46,18 @@ class Nodes(Resource):
                 serivces = i.split("/")
                 services_list.append(f'{serivces[0]}_{serivces[1]}_{serivces[2]}')
             return {'code': 20000,'services_list': sorted(set(services_list))}
+        elif stype == 'rds_services':
+            jobecs = consul_kv.get_keys_list('ConsulManager/jobs')
+            jobecs_list = [i.split('/jobs/')[1] for i in jobecs if '/rds/' in i]
+            services_list = []
+            for i in jobecs_list:
+                serivces = i.split("/")
+                services_list.append(f'{serivces[0]}_{serivces[1]}_{serivces[2]}')
+            return {'code': 20000,'services_list': sorted(set(services_list))}
         elif stype == 'rules':
             return gen_config.get_rules()
+        elif stype == 'rdsrules':
+            return gen_config.get_rdsrules()
         elif stype == 'cstecsconf':
             args = parser.parse_args()
             iid = args['iid']
@@ -76,6 +86,10 @@ class Nodes(Resource):
             args = parser.parse_args()
             services_dict = args['services_dict']
             return gen_config.ecs_config(services_dict['services_list'],services_dict['ostype_list'])
+        elif stype == 'rdspconfig':
+            args = parser.parse_args()
+            services_dict = args['services_dict']
+            return gen_config.rds_config(services_dict['services_list'],services_dict['exporter'])
         elif stype == 'cstecs':
             args = parser.parse_args()
             cst_ecs_dict = args['cst_ecs_dict']

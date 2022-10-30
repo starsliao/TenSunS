@@ -1,4 +1,51 @@
 from config import consul_token,consul_url
+
+def rds_config(services_list, exporter):
+    consul_server = consul_url.split("/")[2]
+    configs = f"""
+  - job_name: multi_mysqld_exporter
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    metrics_path: /probe
+    consul_sd_configs:
+      - server: '{consul_server}'
+        token: '{consul_token}'
+        refresh_interval: 30s
+        services: {services_list}
+    relabel_configs:
+      - source_labels: [__meta_consul_service_address,__meta_consul_service_port]
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        target_label: __param_target
+        replacement: $1:$2
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {exporter}
+      - source_labels: ['__meta_consul_service_metadata_vendor']
+        target_label: vendor
+      - source_labels: ['__meta_consul_service_metadata_region']
+        target_label: region
+      - source_labels: ['__meta_consul_service_metadata_group']
+        target_label: group
+      - source_labels: ['__meta_consul_service_metadata_account']
+        target_label: account
+      - source_labels: ['__meta_consul_service_metadata_name']
+        target_label: name
+      - source_labels: ['__meta_consul_service_metadata_iid']
+        target_label: iid
+      - source_labels: ['__meta_consul_service_metadata_exp']
+        target_label: exp
+      - source_labels: ['__meta_consul_service_metadata_cpu']
+        target_label: cpu
+      - source_labels: ['__meta_consul_service_metadata_mem']
+        target_label: mem
+      - source_labels: ['__meta_consul_service_metadata_disk']
+        target_label: disk
+      - source_labels: ['__meta_consul_service_metadata_itype']
+        target_label: itype
+"""
+    return {'code': 20000,'configs': configs }
+
 def ecs_config(services_list,ostype_list):
     consul_server = consul_url.split("/")[2]
     job_dict = {'linux':'node_exporter','windows':'windows_exporter'}
@@ -39,6 +86,70 @@ def ecs_config(services_list,ostype_list):
 """
         configs = configs + config_str
     return {'code': 20000,'configs': configs }
+
+def get_rdsrules():
+    rules = """
+groups:
+- name: MySQL-Alert
+  rules:
+  - alert: MySQL_is_down
+    expr: mysql_up == 0
+    for: 3m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is down. \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_慢查询过多
+    expr: delta(mysql_global_status_slow_queries[1m]) > 60
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：每分钟慢查询:{{ $value }} \\n> {{ $labels.iid }}"
+
+  - alert: mysql_当前活跃的连接数过多
+    expr: mysql_global_status_threads_running > 100
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：当前活跃的连接数:{{ $value }} \\n> {{ $labels.iid }}"
+
+  - alert: mysql_当前updating状态的线程过多
+    expr: mysql_global_status_threads_running > 100
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：当前updating状态的线程:{{ $value }} \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_High_QPS
+    expr: irate(mysql_global_status_questions[3m]) > 30000
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：Mysql QPS:{{ $value | humanize }} \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_Too_Many_Connections
+    expr: irate(mysql_global_status_threads_connected[3m]) > 1000
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：Mysql Connections:{{ $value | humanize }} \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_is_Restart
+    expr: mysql_global_status_uptime <600
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is Restart. \\n> {{ $labels.iid }}"
+"""
+    return {"code": 20000, "rules": rules}
+
 def get_rules():
     rules = """
 groups:

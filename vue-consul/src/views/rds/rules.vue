@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getRules } from '@/api/node-exporter'
+import { getRdsRules } from '@/api/node-exporter'
 export default {
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
     },
     fetchRules() {
       this.listLoading = true
-      getRules().then(response => {
+      getRdsRules().then(response => {
         this.rules = response.rules
         this.listLoading = false
       })
