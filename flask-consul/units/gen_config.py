@@ -117,7 +117,7 @@ groups:
       description: "{{ $labels.group }}_{{ $labels.name }}：当前活跃的连接数:{{ $value }} \\n> {{ $labels.iid }}"
 
   - alert: mysql_当前updating状态的线程过多
-    expr: mysql_global_status_threads_running > 100
+    expr: mysql_info_schema_processlist_threads{state=~"updating"} > 100
     for: 1m
     labels:
       severity: critical
