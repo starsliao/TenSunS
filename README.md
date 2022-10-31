@@ -15,7 +15,7 @@
 - 增加了MySQL的Grafana监控看板。（尚未开放）
 - 增加了从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。
 - 增加了RDS的Prometheus告警规则信息生成页面。
-**Releases后会开放所有功能**
+- **Releases后会开放所有功能**
 
 ---
 
