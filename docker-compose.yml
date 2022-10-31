@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   flask-consul:
-    image: registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
+    image: swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:latest
     container_name: flask-consul
     hostname: flask-consul
     restart: always
@@ -12,7 +12,7 @@ services:
       consul_url: http://x.x.x.x:8500/v1
       admin_passwd: xxxxxxxx
   nginx-consul:
-    image: registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest
+    image: swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:latest
     container_name: nginx-consul
     hostname: nginx-consul
     restart: always

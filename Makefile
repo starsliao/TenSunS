@@ -7,17 +7,17 @@ build:
 	echo -e "\n\n自行编译的版本，注意修改docker-compose.yml中的镜像地址为本地仓库后再启动。\nBlackbox-Manager:\nhttp://{ip}:1026\n"
 
 push:
-	docker login --username=starsliao@163.com registry.cn-shenzhen.aliyuncs.com
-	docker tag nginx-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest
-	docker tag nginx-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${ver}
-	docker tag flask-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
-	docker tag flask-consul:latest registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${ver}
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:latest
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:${ver}
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:latest
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/flask-consul:${ver}
-	docker tag nginx-consul:tensuns-latest registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:tensuns-latest
-	docker push registry.cn-shenzhen.aliyuncs.com/starsl/nginx-consul:tensuns-latest
+	#docker login --username=starsliao@163.com registry.cn-shenzhen.aliyuncs.com
+	docker tag nginx-consul:latest swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:latest
+	docker tag nginx-consul:latest swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:${ver}
+	docker tag flask-consul:latest swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:latest
+	docker tag flask-consul:latest swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:${ver}
+	docker push swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:latest
+	docker push swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:${ver}
+	docker push swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:latest
+	docker push swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:${ver}
+	docker tag nginx-consul:tensuns-latest swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:tensuns-latest
+	docker push swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:tensuns-latest
 
 update:
 	docker-compose pull && docker-compose up -d
