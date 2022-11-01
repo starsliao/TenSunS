@@ -1,0 +1,6423 @@
+{
+  "__inputs": [
+    {
+      "name": "DS__VICTORIAMETRICS-PROD-ALL",
+      "label": " VictoriaMetrics-prod-all",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": [],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "8.5.14"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph (old)",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table-old",
+      "name": "Table (old)",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "$$hashKey": "object:15",
+        "builtIn": 1,
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "#e0752d",
+        "limit": 100,
+        "name": "PMM Annotations",
+        "showIn": 0,
+        "tags": [
+          "pmm_annotation"
+        ],
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [
+            "pmm_annotation"
+          ],
+          "type": "tags"
+        },
+        "type": "tags"
+      }
+    ]
+  },
+  "description": "基于官方版本汉化，增加总览页，增加表大小行数统计，优化重要指标展示。",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "gnetId": 7362,
+  "graphTooltip": 1,
+  "id": null,
+  "iteration": 1667322662460,
+  "links": [
+    {
+      "$$hashKey": "object:1359",
+      "asDropdown": true,
+      "icon": "external link",
+      "tags": [
+        "阿里云"
+      ],
+      "targetBlank": true,
+      "type": "dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 464,
+      "panels": [],
+      "title": "总览",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "center",
+            "displayMode": "auto",
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "总CPU"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 63
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "总内存"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 67
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "总磁盘"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 73
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "账号"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "名称"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 141
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "类型"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 52
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "到期日"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 96
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "分组"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 141
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "实例"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 118
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/总.*/"
+            },
+            "properties": [
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/.*%/"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "percent"
+              },
+              {
+                "id": "min",
+                "value": 0
+              },
+              {
+                "id": "max",
+                "value": 100
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "continuous-GrYlRd"
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "gradient-gauge"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU%"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 91
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "内存%"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "磁盘%"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 108
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "QPS"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 70
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 1000
+                    },
+                    {
+                      "color": "red",
+                      "value": 2000
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "连接数"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 76
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "活跃连接"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 52
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 100
+                    },
+                    {
+                      "color": "red",
+                      "value": 200
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "用户连接"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 64
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 1000
+                    },
+                    {
+                      "color": "red",
+                      "value": 2000
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "线程数(非unknown)"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 56
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 100
+                    },
+                    {
+                      "color": "red",
+                      "value": 200
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "发送"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              },
+              {
+                "id": "unit",
+                "value": "binBps"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 50000000
+                    },
+                    {
+                      "color": "red",
+                      "value": 100000000
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "接收"
+            },
+            "properties": [
+              {
+                "id": "custom.width",
+                "value": 90
+              },
+              {
+                "id": "unit",
+                "value": "binBps"
+              },
+              {
+                "id": "custom.displayMode",
+                "value": "color-background"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "green",
+                      "value": null
+                    },
+                    {
+                      "color": "#EAB839",
+                      "value": 50000000
+                    },
+                    {
+                      "color": "red",
+                      "value": 100000000
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 466,
+      "options": {
+        "footer": {
+          "fields": [
+            "Value #B",
+            "Value #C",
+            "Value #L",
+            "Value #H",
+            "Value #I",
+            "Value #M",
+            "Value #N",
+            "Value #J",
+            "Value #K"
+          ],
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "用户连接"
+          }
+        ]
+      },
+      "pluginVersion": "8.5.14",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mysql_up{account=~\"$account\",group=~\"$group\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mysql_cpu_rate * on (iid) group_right mysql_up{account=~\"$account\",group=~\"$group\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mysql_mem_rate * on (iid) group_right mysql_up{account=~\"$account\",group=~\"$group\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mysql_disk_rate * on (iid) group_right mysql_up{account=~\"$account\",group=~\"$group\"}",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "D"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(mysql_global_status_queries{account=~\"$account\",group=~\"$group\"}[$interval])",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "__auto",
+          "refId": "E"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum (mysql_info_schema_processlist_processes_by_user{account=~\"$account\",group=~\"$group\"})by(account,group,name,iid)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "用户连接数",
+          "refId": "F"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "mysql_global_status_threads_running{account=~\"$account\",group=~\"$group\"} -0",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "活跃连接数",
+          "refId": "G"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "sum (mysql_info_schema_processlist_threads{account=~\"$account\",group=~\"$group\",state!=\"unknown\"}) by(account,group,name,iid)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "非unknown线程数",
+          "refId": "H"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(mysql_global_status_bytes_received{account=~\"$account\",group=~\"$group\"}[$interval])",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "接收",
+          "refId": "I"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "rate(mysql_global_status_bytes_sent{account=~\"$account\",group=~\"$group\"}[$interval])",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "发送",
+          "refId": "J"
+        }
+      ],
+      "title": "MySQL资源总览表【$vendor：$account：$group】",
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "Value #A": true,
+              "__name__": true,
+              "account": true,
+              "group": true,
+              "iaccount": true,
+              "igroup": true,
+              "iname": true,
+              "job": true,
+              "origin_prometheus": true,
+              "region": true,
+              "vendor": true
+            },
+            "indexByName": {
+              "Time": 0,
+              "Value #A": 28,
+              "Value #B": 8,
+              "Value #C": 9,
+              "Value #D": 10,
+              "Value #E": 11,
+              "Value #F": 12,
+              "Value #G": 13,
+              "Value #H": 14,
+              "Value #I": 16,
+              "Value #J": 15,
+              "__name__": 1,
+              "account": 2,
+              "cpu": 5,
+              "disk": 7,
+              "exp": 17,
+              "group": 3,
+              "iaccount": 21,
+              "igroup": 22,
+              "iid": 20,
+              "iname": 23,
+              "instance": 19,
+              "itype": 18,
+              "job": 24,
+              "mem": 6,
+              "name": 4,
+              "origin_prometheus": 25,
+              "region": 26,
+              "vendor": 27
+            },
+            "renameByName": {
+              "Value #B": "CPU%",
+              "Value #C": "内存%",
+              "Value #D": "磁盘%",
+              "Value #E": "QPS",
+              "Value #F": "用户连接",
+              "Value #G": "活跃连接",
+              "Value #H": "线程数(非unknown)",
+              "Value #I": "接收",
+              "Value #J": "发送",
+              "account": "账号",
+              "cpu": "总CPU",
+              "disk": "总磁盘",
+              "exp": "到期日",
+              "group": "分组",
+              "iaccount": "",
+              "iid": "实例ID",
+              "instance": "实例",
+              "itype": "类型",
+              "mem": "总内存",
+              "name": "名称",
+              "region": "",
+              "vendor": ""
+            }
+          }
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 382,
+      "panels": [],
+      "title": "全局",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 35
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 75
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 10
+      },
+      "id": 458,
+      "links": [],
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "center",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "value"
+      },
+      "pluginVersion": "8.5.14",
+      "targets": [
+        {
+          "calculatedInterval": "10m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "datasourceErrors": {},
+          "editorMode": "code",
+          "errors": {},
+          "expr": "rate(mysql_global_status_queries{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{instance}}",
+          "metric": "",
+          "range": true,
+          "refId": "A",
+          "step": 20
+        }
+      ],
+      "title": "最大QPS",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 2,
+        "y": 10
+      },
+      "id": 450,
+      "interval": "1m",
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "exemplar": true,
+          "expr": "mysql_cpu_rate * on (iid) group_right mysql_up{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\"}",
+          "interval": "",
+          "legendFormat": "CPU使用率",
+          "refId": "A"
+        }
+      ],
+      "title": "CPU使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 7,
+        "y": 10
+      },
+      "id": 452,
+      "interval": "1m",
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "exemplar": true,
+          "expr": "mysql_mem_rate * on (iid) group_right mysql_up{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\"}",
+          "interval": "",
+          "legendFormat": "内存使用率",
+          "refId": "A"
+        }
+      ],
+      "title": "内存使用率",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 5,
+        "x": 12,
+        "y": 10
+      },
+      "id": 462,
+      "interval": "1m",
+      "maxDataPoints": 100,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "editorMode": "code",
+          "exemplar": true,
+          "expr": "mysql_disk_rate * on (iid) group_right mysql_up{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\"}",
+          "interval": "",
+          "legendFormat": "磁盘使用率",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "磁盘使用率",
+      "type": "timeseries"
+    },
+    {
+      "aliasColors": {
+        "QPS": "red",
+        "TPS": "green"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "",
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 7,
+        "x": 17,
+        "y": 10
+      },
+      "hiddenSeries": false,
+      "id": 398,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "MySQL Server Status Variables",
+          "url": "https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html#statvar_Queries"
+        }
+      ],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.14",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:258",
+          "alias": "TPS",
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "calculatedInterval": "10m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "exemplar": true,
+          "expr": "rate(mysql_global_status_queries{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "QPS",
+          "metric": "",
+          "refId": "A",
+          "step": 20
+        },
+        {
+          "calculatedInterval": "10m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "sum(rate(mysql_global_status_commands_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",instance=~\"$host\",command=~\"(commit|rollback)\"}[$interval])) without (command)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "TPS",
+          "metric": "",
+          "refId": "B",
+          "step": 20
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "QPS/TPS",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:516",
+          "format": "none",
+          "label": "QPS",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:517",
+          "format": "short",
+          "label": "TPS",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "**InnoDB Buffer Pool Size**\n\nInnoDB maintains a storage area called the buffer pool for caching data and indexes in memory.  Knowing how the InnoDB buffer pool works, and taking advantage of it to keep frequently accessed data in memory, is one of the most important aspects of MySQL tuning. The goal is to keep the working set in memory. In most cases, this should be between 60%-90% of available memory on a dedicated database host, but depends on many factors.",
+      "fieldConfig": {
+        "defaults": {
+          "decimals": 0,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 90
+              },
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 0,
+        "y": 13
+      },
+      "id": 456,
+      "interval": "1m",
+      "links": [
+        {
+          "targetBlank": true,
+          "title": "Tuning the InnoDB Buffer Pool Size",
+          "url": "https://www.percona.com/blog/2015/06/02/80-ram-tune-innodb_buffer_pool_size/"
+        }
+      ],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.14",
+      "targets": [
+        {
+          "calculatedInterval": "10m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_variables_innodb_buffer_pool_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "{{instance}}",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "title": "InnoDB Buffer Pool",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "description": "自上次重新启动mysql服务器进程的运行时间。",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 300
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 3600
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 2,
+        "x": 0,
+        "y": 15
+      },
+      "id": 12,
+      "interval": "",
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.5.14",
+      "targets": [
+        {
+          "calculatedInterval": "10m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "expr": "mysql_global_status_uptime{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=\"$host\"}",
+          "format": "time_series",
+          "instant": false,
+          "interval": "5m",
+          "intervalFactor": 1,
+          "legendFormat": "",
+          "metric": "",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "title": "运行时间",
+      "type": "stat"
+    },
+    {
+      "columns": [
+        {
+          "$$hashKey": "object:647",
+          "text": "Current",
+          "value": "current"
+        }
+      ],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "editable": true,
+      "error": false,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "height": "",
+      "hideTimeOverride": true,
+      "id": 442,
+      "links": [],
+      "scroll": false,
+      "showHeader": true,
+      "sort": {
+        "col": 1,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:1087",
+          "alias": "占用空间",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Current",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bytes"
+        },
+        {
+          "$$hashKey": "object:219",
+          "alias": "表名称",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Metric",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "topk(10, sum(mysql_info_schema_table_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\", component!=\"data_free\"}) by (schema, table)) > 0",
+          "interval": "5m",
+          "intervalFactor": 1,
+          "legendFormat": "{{ schema }}.{{ table }}",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "timeFrom": "5m",
+      "title": "表占用空间概览Top10",
+      "transform": "timeseries_aggregations",
+      "type": "table-old"
+    },
+    {
+      "columns": [
+        {
+          "$$hashKey": "object:416",
+          "text": "Current",
+          "value": "current"
+        }
+      ],
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "editable": true,
+      "error": false,
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
+      "height": "",
+      "hideTimeOverride": true,
+      "id": 440,
+      "links": [],
+      "scroll": false,
+      "showHeader": true,
+      "sort": {
+        "col": 1,
+        "desc": true
+      },
+      "styles": [
+        {
+          "$$hashKey": "object:733",
+          "alias": "表名称",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "mappingType": 1,
+          "pattern": "Metric",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:918",
+          "alias": "",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "$$hashKey": "object:686",
+          "alias": "数据量",
+          "align": "auto",
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "Current",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "topk(10, sum(mysql_info_schema_table_rows{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}) by (schema, table)) > 0",
+          "interval": "5m",
+          "intervalFactor": 1,
+          "legendFormat": "{{ schema }}.{{ table }}",
+          "refId": "A",
+          "step": 300
+        }
+      ],
+      "timeFrom": "5m",
+      "title": "表数据量概览Top10",
+      "transform": "timeseries_aggregations",
+      "type": "table-old"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "decimals": 0,
+      "description": "",
+      "editable": true,
+      "error": false,
+      "fill": 6,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 0,
+        "y": 25
+      },
+      "hiddenSeries": false,
+      "id": 460,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.14",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:527",
+          "alias": "System Memory",
+          "fill": 0,
+          "stack": false
+        }
+      ],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": " mysql_global_status_innodb_page_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"} * on (instance) mysql_global_status_buffer_pool_pages{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\",state=\"data\"}",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "InnoDB Buffer Pool Data",
+          "refId": "A",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_variables_innodb_log_buffer_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "InnoDB Log Buffer Size",
+          "refId": "D",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_variables_innodb_additional_mem_pool_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 2,
+          "legendFormat": "InnoDB Additional Memory Pool Size",
+          "refId": "H",
+          "step": 40
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_status_innodb_mem_dictionary{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "InnoDB Dictionary Size",
+          "refId": "F",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_variables_key_buffer_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Key Buffer Size",
+          "refId": "B",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_variables_query_cache_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Query Cache Size",
+          "refId": "C",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_status_innodb_mem_adaptive_hash{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "Adaptive Hash Index Size",
+          "refId": "E",
+          "step": 20
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "expr": "mysql_global_variables_tokudb_cache_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "TokuDB Cache Size",
+          "refId": "I",
+          "step": 20
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "内存使用情况",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:542",
+          "format": "bytes",
+          "label": "",
+          "logBase": 1,
+          "min": 0,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:543",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "editable": true,
+      "error": false,
+      "fill": 0,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 8,
+        "y": 25
+      },
+      "hiddenSeries": false,
+      "id": 444,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "hideZero": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.14",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:126",
+          "alias": "unknown",
+          "color": "#F2495C",
+          "hideTooltip": true,
+          "yaxis": 2
+        }
+      ],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "calculatedInterval": "2m",
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "datasourceErrors": {},
+          "errors": {},
+          "exemplar": true,
+          "expr": "mysql_info_schema_processlist_threads{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "format": "time_series",
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ state }}",
+          "metric": "",
+          "refId": "A",
+          "step": 20
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "Processlist列表",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1776",
+          "format": "none",
+          "logBase": 1,
+          "min": 0,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1777",
+          "format": "none",
+          "label": "unknown",
+          "logBase": 1,
+          "min": 0,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+      },
+      "fill": 0,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 9,
+        "w": 8,
+        "x": 16,
+        "y": 25
+      },
+      "hiddenSeries": false,
+      "id": 448,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": true,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "sort": "max",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.5.14",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "exemplar": true,
+          "expr": "mysql_info_schema_processlist_processes_by_user{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+          "interval": "",
+          "legendFormat": "{{mysql_user}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeRegions": [],
+      "title": "用户连接数",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "mode": "time",
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:53",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:54",
+          "format": "short",
+          "logBase": 1,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false
+      }
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 386,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "Sort_scan 和 Sort_range\n查询做排序，不论是因为 order by 还是 group by（除了使用了 order by NULL 的 group by），主要都是下面的三步：\n通过 where 条件找到记录\n排序\n按排好的顺序读取记录\n如果第二步不被跳过，那么第三步中就会有 Sort_scan 或 Sort_range。如果第一步是 Select_scan，那么第三步将是 Sort_scan，如果第一步是 Select_range，那么第三步会是 Sort_range。但 Sort_scan 和 Sort_range 其实没有功能上的区别，都是将需要的记录按顺序读出来，所以性能也是一样的。\nSort_merge_passes\nSort_merge_passes 包括两步。MySQL 首先会尝试在内存中做排序，使用的内存大小由系统变量 Sort_buffer_size 决定，如果它的大小不够把所有的记录都读到内存中，MySQL 就会把每次在内存中排序的结果存到临时文件中，等 MySQL 找到所有记录之后，再把临时文件中的记录做一次排序。这再次排序就会增加 Sort_merge_passes。实际上，MySQL 会用另一个临时文件来存再次排序的结果，所以通常会看到 Sort_merge_passes 增加的数值是建临时文件数的两倍。因为用到了临时文件，所以速度可能会比较慢，增加 Sort_buffer_size 会减少 Sort_merge_passes 和 创建临时文件的次数。但盲目的增加 Sort_buffer_size 并不一定能提高速度。",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 13
+          },
+          "hiddenSeries": false,
+          "id": 30,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "hideZero": true,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_sort_rows{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": true,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Sort Rows",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_sort_range{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "范围排序",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_sort_merge_passes{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "合并排序",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_sort_scan{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "全表排序",
+              "metric": "",
+              "refId": "D",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "慢排序",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:1078",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:1079",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 13
+          },
+          "hiddenSeries": false,
+          "id": 48,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "delta(mysql_global_status_slow_queries{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1m])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "慢查询次数",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "每分钟慢查询数量",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:1163",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:1164",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "此图显示有关mysql服务器创建的临时对象的信息：临时表、临时文件和在磁盘而不是内存中创建的临时表。就像排序数据一样，这很容易被过度分析。最严重的是在磁盘上创建的临时表。",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 0,
+            "y": 20
+          },
+          "hiddenSeries": false,
+          "id": 22,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_created_tmp_tables{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "内存中的临时表",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_created_tmp_disk_tables{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "硬盘中的临时表",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_created_tmp_files{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "临时文件",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "临时对象",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:908",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:909",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 11,
+            "w": 12,
+            "x": 12,
+            "y": 20
+          },
+          "height": "250px",
+          "hiddenSeries": false,
+          "id": 311,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "hideZero": true,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_select_full_join{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "多表全表扫描（join查询未使用索引）",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_select_full_range_join{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Select Full Range Join",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_select_range{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "范围查询（需要从硬盘读表在一段范围内的所有行）",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_select_range_check{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "范围查询检查（如果可以那么会使用范围查询，如果不行仍会使用全表扫描）",
+              "metric": "",
+              "refId": "D",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_select_scan{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "全表扫描",
+              "metric": "",
+              "refId": "E",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Mysql慢扫描类型",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:993",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:994",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "慢查询",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 383,
+      "panels": [
+        {
+          "aliasColors": {
+            "Max Connections": "dark-red"
+          },
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 0,
+          "description": "**Max Connections** \n\nMax Connections is the maximum permitted number of simultaneous client connections. By default, this is 151. Increasing this value increases the number of file descriptors that mysqld requires. If the required number of descriptors are not available, the server reduces the value of Max Connections.\n\nmysqld actually permits Max Connections + 1 clients to connect. The extra connection is reserved for use by accounts that have the SUPER privilege, such as root.\n\nMax Used Connections is the maximum number of connections that have been in use simultaneously since the server started.\n\nConnections is the number of connection attempts (successful or not) to the MySQL server.",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 14
+          },
+          "height": "250px",
+          "hiddenSeries": false,
+          "id": 402,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "$$hashKey": "object:189",
+              "alias": "Max Connections",
+              "fill": 0
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_threads_connected{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Connections",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_max_used_connections{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Max Used Connections",
+              "metric": "",
+              "refId": "C",
+              "step": 20,
+              "target": ""
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "editorMode": "code",
+              "errors": {},
+              "expr": "mysql_global_variables_max_connections{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Max Connections",
+              "metric": "",
+              "range": true,
+              "refId": "B",
+              "step": 20,
+              "target": ""
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL Connections",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:202",
+              "format": "none",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:203",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 14
+          },
+          "hiddenSeries": false,
+          "id": 461,
+          "legend": {
+            "alignAsTable": false,
+            "avg": false,
+            "current": true,
+            "max": true,
+            "min": false,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "editorMode": "code",
+              "errors": {},
+              "expr": "mysql_global_status_threads_running{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "当前活跃的连接数",
+              "metric": "",
+              "range": true,
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "editorMode": "code",
+              "errors": {},
+              "expr": "delta(mysql_global_status_connection_errors_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1m]) > 0",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "ERROR:{{error}}",
+              "metric": "",
+              "range": true,
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "当前活跃的连接数",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": [
+              "total"
+            ]
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:463",
+              "format": "short",
+              "label": "Threads",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:464",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "description": "与qps计算中使用的查询不同，这只包括客户端发送到服务器的语句，而不包括存储程序中执行的语句",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 53,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_questions{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "请求数量",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "请求数量",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:731",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:732",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 11,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "$$hashKey": "object:816",
+              "alias": "Threads Created",
+              "fill": 0
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_variables_thread_cache_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "线程缓存配置数量（自动调整）",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_threads_cached{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "实际缓存线程数",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_threads_created{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "新创建的线程数（单个时间单元内）",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "线程缓存",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:823",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:824",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "连接",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 36
+      },
+      "id": 387,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "fill": 1,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 15
+          },
+          "hiddenSeries": false,
+          "id": 454,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null as zero",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "editorMode": "code",
+              "expr": "delta(mysql_global_status_innodb_row_lock_waits{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1m])",
+              "hide": false,
+              "instant": false,
+              "interval": "",
+              "legendFormat": " 每分钟行锁等待数",
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "editorMode": "code",
+              "expr": "delta(mysql_global_status_innodb_row_lock_time{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1m])/1000",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "每分钟行锁等待时间(s)",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "editorMode": "code",
+              "expr": "(rate(mysql_global_status_innodb_row_lock_time{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])/1000)/rate(mysql_global_status_innodb_row_lock_waits{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "hide": false,
+              "interval": "",
+              "legendFormat": "平均行锁等待时间(s)",
+              "range": true,
+              "refId": "C"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "InnoDB行锁等待",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:1264",
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:1265",
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**InnoDB Deadlocks**\n\nA deadlock in MySQL happens when two or more transactions mutually hold and request for locks, creating a cycle of dependencies. In a transaction system, deadlocks are a fact of life and not completely avoidable. InnoDB automatically detects transaction deadlocks, rollbacks a transaction immediately and returns an error.",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 15
+          },
+          "hiddenSeries": false,
+          "id": 426,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "How to deal with MySQL deadlocks",
+              "url": "https://www.percona.com/blog/2014/10/28/how-to-deal-with-mysql-deadlocks/"
+            }
+          ],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "delta(mysql_info_schema_innodb_metrics_lock_lock_deadlocks_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1m])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Deadlocks",
+              "metric": "",
+              "refId": "B",
+              "step": 300
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "InnoDB 每分钟死锁",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:1515",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:1516",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "当一个主机连接到mysql时，连接被中断（例如密码修改），mysql将该信息保存在一个系统表中。\n\n如果连接失败请求的数量达到max_connect_errors的值，mysqld将假定有问题并阻止主机进一步连接。\n\n要再次允许来自该主机的连接，需要发出“flush hosts”请求。",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 22
+          },
+          "hiddenSeries": false,
+          "id": 47,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_aborted_connects{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "中断的连接 (被打断)",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_aborted_clients{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "中断的客户端 (超时)",
+              "metric": "",
+              "refId": "B",
+              "step": 20,
+              "target": ""
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "中断的连接",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:2423",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:2424",
+              "format": "short",
+              "label": "",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 22
+          },
+          "hiddenSeries": false,
+          "id": 32,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_table_locks_immediate{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "表锁执行数量",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_table_locks_waited{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "表锁等待数量",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "表锁",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:2506",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:2507",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "连接中断与表锁",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 37
+      },
+      "id": 390,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "fill": 0,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 16
+          },
+          "hiddenSeries": false,
+          "id": 436,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "topk(5, rate(mysql_global_status_commands_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])>0)",
+              "interval": "",
+              "legendFormat": "Com_{{ command }}",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Top Command Counters",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:113",
+              "format": "none",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:114",
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "- read_rnd_next：在数据文件中读下一行的请求数。如果你正进行大量的表扫描，该值较高。通常说明你的表索引不正确或写入的查询没有利用索引。\n- read_next：按照键顺序读下一行的请求数。如果你用范围约束或如果执行索引扫描来查询索引列，该值增加。\n- read_key：根据键读一行的请求数。如果较高，说明查询和表的索引正确。\n- write：请求向表中插入一行的次数。 \n- read_rnd：根据固定位置读一行的请求数。如果你正执行大量查询并需要对结果进行排序该值较高。你可能使用了大量需要MySQL扫描整个表的查询或你的连接没有正确使用索引。\n- external_lock：此变量与锁定操作数量有关，主要是在表访问的开始和结束时起作用。\n- update：请求更新表中一行的次数。 \n- read_prev：按照键顺序读前一行的请求数。该读方法主要用于优化ORDER BY … DESC。\n- read_first：索引中第一条被读的次数。如果较高，它建议服务器正执行大量全索引扫描；例如，SELECT col1 FROM foo，假定col1有索引。\n- delete：请求从表中删除行的次数。\n- read_last：根据键读最后一行的请求数。",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 24
+          },
+          "hiddenSeries": false,
+          "id": 8,
+          "legend": {
+            "alignAsTable": true,
+            "avg": false,
+            "current": true,
+            "hideZero": true,
+            "max": true,
+            "min": false,
+            "rightSide": true,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_handlers_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\", handler!~\"commit|rollback|savepoint.*|prepare\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{ handler }}",
+              "metric": "",
+              "refId": "J",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Handlers",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:1699",
+              "format": "locale",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:1700",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 31
+          },
+          "hiddenSeries": false,
+          "id": 408,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "hideZero": true,
+            "max": true,
+            "min": true,
+            "rightSide": true,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_handlers_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\", handler=~\"commit|rollback|savepoint.*|prepare\"}[$interval])",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "{{ handler }}",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL Transaction Handlers",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:2050",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:2051",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "Command, Handlers",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 38
+      },
+      "id": 388,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 6,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 17
+          },
+          "hiddenSeries": false,
+          "id": 9,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_bytes_received{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "接受",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_bytes_sent{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "发送",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "传输速度",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:3597",
+              "format": "Bps",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:3598",
+              "format": "none",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 6,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 17
+          },
+          "height": "250px",
+          "hiddenSeries": false,
+          "id": 381,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "increase(mysql_global_status_bytes_received{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1h])",
+              "format": "time_series",
+              "interval": "1h",
+              "intervalFactor": 1,
+              "legendFormat": "接收",
+              "metric": "",
+              "refId": "A",
+              "step": 3600
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "increase(mysql_global_status_bytes_sent{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1h])",
+              "format": "time_series",
+              "interval": "1h",
+              "intervalFactor": 1,
+              "legendFormat": "发送",
+              "metric": "",
+              "refId": "B",
+              "step": 3600
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": "24h",
+          "timeRegions": [],
+          "title": "MySQL每小时流量使用情况",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:3677",
+              "format": "bytes",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:3678",
+              "format": "none",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "网络",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "id": 391,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "fill": 0,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 0,
+            "y": 7
+          },
+          "hiddenSeries": false,
+          "id": 434,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "1- mysql_global_status_innodb_buffer_pool_reads{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"} / mysql_global_status_innodb_buffer_pool_read_requests{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"} ",
+              "interval": "",
+              "legendFormat": "命中率",
+              "refId": "A"
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "Innodb_buffer_pool命中率",
+          "tooltip": {
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:493",
+              "decimals": 2,
+              "format": "percentunit",
+              "logBase": 1,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:494",
+              "format": "short",
+              "logBase": 1,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 8,
+            "y": 7
+          },
+          "height": "",
+          "hiddenSeries": false,
+          "id": 45,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_qcache_hits{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "命中次数",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_qcache_inserts{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "未命中后插入",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_qcache_not_cached{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "未使用缓存",
+              "metric": "",
+              "refId": "D",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_qcache_lowmem_prunes{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "移除出查询缓存",
+              "metric": "",
+              "refId": "F",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "缓存使用情况",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:3861",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:3862",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 0,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 16,
+            "y": 7
+          },
+          "hiddenSeries": false,
+          "id": 430,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "Disk Reads",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_buffer_pool_read_requests{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Read Requests",
+              "metric": "",
+              "refId": "A",
+              "step": 300
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_buffer_pool_write_requests{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Write Requests",
+              "metric": "",
+              "refId": "B",
+              "step": 300
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_buffer_pool_reads{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Disk Reads",
+              "metric": "",
+              "refId": "C",
+              "step": 300
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "InnoDB Buffer Pool Requests",
+          "tooltip": {
+            "msResolution": true,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:3944",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:3945",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 14
+          },
+          "hiddenSeries": false,
+          "id": 46,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_qcache_free_memory{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "剩余空间",
+              "metric": "",
+              "refId": "F",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_variables_query_cache_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "高速缓存配置大小",
+              "metric": "",
+              "refId": "E",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "高速缓存",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4035",
+              "format": "bytes",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4036",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**MySQL Table Definition Cache**\n\nThe recommendation is to set the `table_open_cache_instances` to a loose correlation to virtual CPUs, keeping in mind that more instances means the cache is split more times. If you have a cache set to 500 but it has 10 instances, each cache will only have 50 cached.\n\nThe `table_definition_cache` and `table_open_cache` can be left as default as they are auto-sized MySQL 5.6 and above (ie: do not set them to any value).",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 14
+          },
+          "hiddenSeries": false,
+          "id": 418,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [
+            {
+              "title": "Server Status Variables (table_open_cache)",
+              "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
+            }
+          ],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "Opened Table Definitions",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_open_table_definitions{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Open Table Definitions",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_variables_table_definition_cache{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Table Definitions Cache Size",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "rate(mysql_global_status_opened_table_definitions{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Opened Table Definitions",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL Table Definition Cache",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4118",
+              "format": "none",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4119",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**MySQL Table Open Cache Status**\n\nThe recommendation is to set the `table_open_cache_instances` to a loose correlation to virtual CPUs, keeping in mind that more instances means the cache is split more times. If you have a cache set to 500 but it has 10 instances, each cache will only have 50 cached.\n\nThe `table_definition_cache` and `table_open_cache` can be left as default as they are auto-sized MySQL 5.6 and above (ie: do not set them to any value).",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 414,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [
+            {
+              "title": "Server Status Variables (table_open_cache)",
+              "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
+            }
+          ],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "Table Open Cache Hit Ratio",
+              "yaxis": 2
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_opened_tables{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Openings",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "rate(mysql_global_status_table_open_cache_hits{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Hits",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "rate(mysql_global_status_table_open_cache_misses{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Misses",
+              "refId": "C",
+              "step": 20
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "rate(mysql_global_status_table_open_cache_overflows{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Misses due to Overflows",
+              "refId": "D",
+              "step": 20
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "rate(mysql_global_status_table_open_cache_hits{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])/(rate(mysql_global_status_table_open_cache_hits{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])+rate(mysql_global_status_table_open_cache_misses{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval]))",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Table Open Cache Hit Ratio",
+              "refId": "E",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL Table Open Cache Status",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4282",
+              "format": "none",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4283",
+              "format": "percentunit",
+              "logBase": 1,
+              "max": "1.01",
+              "min": "0",
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 21
+          },
+          "hiddenSeries": false,
+          "id": 424,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_innodb_buffer_pool_bytes_data{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Data Total",
+              "metric": "",
+              "refId": "B",
+              "step": 300
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_innodb_buffer_pool_bytes_dirty{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Data Dirty",
+              "metric": "",
+              "refId": "A",
+              "step": 300
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "InnoDB Buffer Pool Content",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4446",
+              "format": "bytes",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4447",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "缓存",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "WAYOn0FGz"
+      },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
+      "id": 420,
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 8
+          },
+          "hiddenSeries": false,
+          "id": 410,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_opened_files{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Openings",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL File Openings",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4799",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4800",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 8
+          },
+          "hiddenSeries": false,
+          "id": 412,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_open_files{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Open Files",
+              "metric": "",
+              "refId": "A",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_variables_open_files_limit{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Open Files Limit",
+              "metric": "",
+              "refId": "D",
+              "step": 20
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "expr": "mysql_global_status_innodb_num_open_files{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "InnoDB Open Files",
+              "refId": "B",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL Open Files",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4965",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4966",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**InnoDB Row Operations**\n\nThis graph allows you to see which operations occur and the number of rows affected per operation. A graph like Queries Per Second will give you an idea of queries, but one query could effect millions of rows.",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 15
+          },
+          "hiddenSeries": false,
+          "id": 428,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_row_ops_total{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Rows {{ operation }}",
+              "metric": "",
+              "refId": "A",
+              "step": 300
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "InnoDB Row Operations",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:5291",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:5292",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**MySQL Open Tables**\n\nThe recommendation is to set the `table_open_cache_instances` to a loose correlation to virtual CPUs, keeping in mind that more instances means the cache is split more times. If you have a cache set to 500 but it has 10 instances, each cache will only have 50 cached.\n\nThe `table_definition_cache` and `table_open_cache` can be left as default as they are auto-sized MySQL 5.6 and above (ie: do not set them to any value).",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 15
+          },
+          "hiddenSeries": false,
+          "id": 416,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [
+            {
+              "title": "Server Status Variables (table_open_cache)",
+              "url": "http://dev.mysql.com/doc/refman/5.6/en/server-system-variables.html#sysvar_table_open_cache"
+            }
+          ],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_status_open_tables{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Open Tables",
+              "metric": "",
+              "refId": "B",
+              "step": 20
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_variables_table_open_cache{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Table Open Cache",
+              "metric": "",
+              "refId": "C",
+              "step": 20
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "MySQL Open Tables",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:4882",
+              "format": "none",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:4883",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**InnoDB I/O**\n\n_Data Writes_ - The total number of InnoDB data writes.\\\n_Data Reads_ - The total number of InnoDB data reads (OS file reads).\\\n_Log Writes_ - The number of physical writes to the InnoDB redo log file.\\\n_Data Fsyncs_ - The number of fsync() operations. The frequency of fsync() calls is influenced by the setting of the `innodb_flush_method` configuration option.",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 22
+          },
+          "hiddenSeries": false,
+          "id": 432,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_data_reads{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Data Reads",
+              "metric": "",
+              "refId": "C",
+              "step": 300
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_data_writes{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Data Writes",
+              "metric": "",
+              "refId": "D",
+              "step": 300
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_data_fsyncs{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Data Fsyncs",
+              "metric": "",
+              "refId": "A",
+              "step": 300
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "rate(mysql_global_status_innodb_log_writes{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[$interval])",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Log Writes",
+              "metric": "",
+              "refId": "B",
+              "step": 300
+            }
+          ],
+          "thresholds": [],
+          "timeRegions": [],
+          "title": "InnoDB I/O",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:5374",
+              "format": "none",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:5375",
+              "format": "short",
+              "logBase": 1,
+              "min": 0,
+              "show": true
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": {
+            "type": "prometheus",
+            "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+          },
+          "decimals": 2,
+          "description": "**InnoDB Log File Usage Hourly**\n\nAlong with the buffer pool size, `innodb_log_file_size` is the most important setting when we are working with InnoDB. This graph shows how much data was written to InnoDB's redo logs over each hour. When the InnoDB log files are full, InnoDB needs to flush the modified pages from memory to disk.\n\nThe rules of the thumb is to keep one hour of traffic in those logs and let the checkpointing perform its work as smooth as possible. If you don't do this, InnoDB will do synchronous flushing at the worst possible time, ie when you are busiest.\n\nThis graph can help guide you in setting the correct `innodb_log_file_size`.",
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "fillGradient": 0,
+          "grid": {},
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 22
+          },
+          "hiddenSeries": false,
+          "id": 446,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": false,
+            "max": true,
+            "min": true,
+            "rightSide": false,
+            "show": true,
+            "sort": "avg",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "How to calculate a good InnoDB log file size",
+              "url": "https://www.percona.com/blog/2008/11/21/how-to-calculate-a-good-innodb-log-file-size/"
+            },
+            {
+              "targetBlank": true,
+              "title": "System Variables (innodb_log_file_size)",
+              "url": "http://www.percona.com/doc/percona-server/5.5/scalability/innodb_io_55.html#innodb_log_file_size"
+            }
+          ],
+          "nullPointMode": "null",
+          "options": {
+            "alertThreshold": true
+          },
+          "percentage": false,
+          "pluginVersion": "8.5.14",
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [
+            {
+              "alias": "Total Size of InnoDB Log Files",
+              "bars": false,
+              "color": "#E24D42",
+              "fill": 0,
+              "lines": true
+            },
+            {
+              "alias": "Data Written",
+              "color": "#E0752D"
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "increase(mysql_global_status_innodb_os_log_written{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}[1h])",
+              "format": "time_series",
+              "interval": "1h",
+              "intervalFactor": 1,
+              "legendFormat": "Data Written",
+              "metric": "",
+              "refId": "A",
+              "step": 3600
+            },
+            {
+              "calculatedInterval": "2m",
+              "datasource": {
+                "type": "prometheus",
+                "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+              },
+              "datasourceErrors": {},
+              "errors": {},
+              "expr": "mysql_global_variables_innodb_log_files_in_group{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"} * mysql_global_variables_innodb_log_file_size{account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\",instance=~\"$host\"}",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "Total Size of InnoDB Log Files",
+              "metric": "",
+              "refId": "B",
+              "step": 300
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": "24h",
+          "timeRegions": [],
+          "title": "InnoDB Log File Usage Hourly",
+          "tooltip": {
+            "msResolution": false,
+            "shared": true,
+            "sort": 2,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "xaxis": {
+            "mode": "time",
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "$$hashKey": "object:5616",
+              "format": "bytes",
+              "logBase": 2,
+              "show": true
+            },
+            {
+              "$$hashKey": "object:5617",
+              "format": "short",
+              "logBase": 1,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false
+          }
+        }
+      ],
+      "title": "表",
+      "type": "row"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": [
+    "StarsL.cn",
+    "MySQL",
+    "mysqld_exporter",
+    "ConsulManager"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+        },
+        "definition": "label_values(mysql_up, vendor)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "云厂商",
+        "multi": false,
+        "name": "vendor",
+        "options": [],
+        "query": {
+          "query": "label_values(mysql_up, vendor)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+        },
+        "definition": "label_values(mysql_up{vendor=~\"$vendor\"}, account)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "账号",
+        "multi": false,
+        "name": "account",
+        "options": [],
+        "query": {
+          "query": "label_values(mysql_up{vendor=~\"$vendor\"}, account)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "glob",
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+        },
+        "definition": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\"}, group)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "属组",
+        "multi": false,
+        "multiFormat": "regex values",
+        "name": "group",
+        "options": [],
+        "query": {
+          "query": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\"}, group)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "refresh_on_load": false,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+        },
+        "definition": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\"}, name)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "名称",
+        "multi": false,
+        "name": "name",
+        "options": [],
+        "query": {
+          "query": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\"}, name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+        },
+        "definition": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"}, iid)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "实例ID",
+        "multi": false,
+        "name": "iid",
+        "options": [],
+        "query": {
+          "query": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\"}, iid)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "glob",
+        "current": {},
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS__VICTORIAMETRICS-PROD-ALL}"
+        },
+        "definition": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\"}, instance)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Host",
+        "multi": false,
+        "multiFormat": "regex values",
+        "name": "host",
+        "options": [],
+        "query": {
+          "query": "label_values(mysql_up{vendor=~\"$vendor\",account=~\"$account\",group=~\"$group\",name=~\"$name\",iid=~\"$iid\"}, instance)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "refresh_on_load": false,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 5,
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allFormat": "glob",
+        "auto": false,
+        "auto_count": 200,
+        "auto_min": "1m",
+        "current": {
+          "selected": false,
+          "text": "2m",
+          "value": "2m"
+        },
+        "datasource": "PrometheUS_TestEnv",
+        "hide": 0,
+        "includeAll": false,
+        "label": "时间精度",
+        "multi": false,
+        "multiFormat": "glob",
+        "name": "interval",
+        "options": [
+          {
+            "selected": false,
+            "text": "1m",
+            "value": "1m"
+          },
+          {
+            "selected": true,
+            "text": "2m",
+            "value": "2m"
+          },
+          {
+            "selected": false,
+            "text": "3m",
+            "value": "3m"
+          },
+          {
+            "selected": false,
+            "text": "5m",
+            "value": "5m"
+          },
+          {
+            "selected": false,
+            "text": "10m",
+            "value": "10m"
+          }
+        ],
+        "query": "1m,2m,3m,5m,10m",
+        "queryValue": "",
+        "refresh": 2,
+        "skipUrlSync": false,
+        "type": "interval"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {
+    "collapse": false,
+    "enable": true,
+    "hidden": false,
+    "notice": false,
+    "now": true,
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "status": "Stable",
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ],
+    "type": "timepicker"
+  },
+  "timezone": "browser",
+  "title": "1 Mysqld Exporter Dashboard 22/11/01中文版",
+  "uid": "0D6dTg3Zk",
+  "version": 94,
+  "weekStart": ""
+}
