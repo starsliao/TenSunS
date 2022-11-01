@@ -12,10 +12,9 @@
 
 #### v0.9.0 alpha开发完成，尚未Releases。镜像存储更换到华为云，请查看仓库根目录下的[docker-compose.yml](https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml)，**更新您的镜像地址**，即可试用该版本。
 - 增加RDS云数据库监控接入：支持同步华为云的RDS信息到Consul并接入到Prometheus监控！（阿里、腾讯暂未完成）
-- 增加了MySQL的Grafana监控看板。（尚未开放）
+- 增加了MySQL的Grafana监控看板。
 - 增加了从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。
 - 增加了RDS的Prometheus告警规则信息生成页面。
-- **Releases后会开放所有功能**
 
 ---
 
