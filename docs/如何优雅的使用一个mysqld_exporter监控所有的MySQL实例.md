@@ -50,4 +50,10 @@ services:
 启动：`docker-compose up -d`
 
 ### 三、如何接入到Prometheus
-![图片](https://user-images.githubusercontent.com/3349611/199270662-f4f280ed-f6b8-482b-bb28-5cc4d3799dc1.png)
+点击菜单`云资源管理`-`MySQL管理`-`prometheus配置`
+在右侧选择需要加入监控的云账号RDS组，并且输入mysqld_exporter的IP和端口，点击生成配置，即可复制生成的JOB内容到prometheus。
+![图片](https://user-images.githubusercontent.com/3349611/199271393-6a7083dc-e861-4ce1-b4da-4ef99aa72868.png)
+
+
+### 四、参考告警规则
+![图片](https://user-images.githubusercontent.com/3349611/199274270-6cbb1ca5-4db9-45a7-ba93-1042198be2cb.png)
