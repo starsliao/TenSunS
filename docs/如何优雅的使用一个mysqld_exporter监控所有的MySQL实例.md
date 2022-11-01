@@ -6,4 +6,4 @@
 
 2. 对已经添加过的账号，增加同步云数据库资源：点击编辑云资源，选择好需要编辑的厂商、账号及区域，再勾选资源类型MySQL，配置上同步间隔即可增加自动同步云数据库。
 
-![图片](https://user-images.githubusercontent.com/3349611/199263994-c9485241-d8bb-46b2-abd8-48084de94236.png)
+![图片](https://user-images.githubusercontent.com/3349611/199264858-f2a325bf-fad2-4850-bc39-76e9271d883e.png)
