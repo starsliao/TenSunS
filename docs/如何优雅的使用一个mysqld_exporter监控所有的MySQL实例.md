@@ -12,6 +12,10 @@
 
 ![图片](https://user-images.githubusercontent.com/3349611/199267039-a010ce6f-3e04-4e54-8e44-6bde7ff5a000.png)
 
+4. 同步完成后，可在`云资源管理`-`MySQL管理`-`云MySQL列表`，查看同步的云数据库信息。
+![图片](https://user-images.githubusercontent.com/3349611/199276321-f8523931-b56d-43ca-84bd-def33f70b8eb.png)
+
+
 ### 二、部署一个支持多实例的Mysqld_exporter
 
 > 官方main版本的代码已经支持多目标的mysqld_exporter，只是还没有发Releases。所以基于最新的main版本自行编译了一个mysqld_exporter，并且做成了docker镜像。
