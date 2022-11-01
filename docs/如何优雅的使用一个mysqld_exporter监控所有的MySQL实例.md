@@ -1,5 +1,5 @@
 # 如何优雅的使用一个mysqld_exporter监控所有的MySQL实例
-### 如何在ConsulManager中接入云厂商的数据库
+### 一、如何在ConsulManager中接入云厂商的数据库
 1. 新增云账号的情况：目前新增时，支持多选区域，以及选择增加的资源类型，勾选MySQL即可接入自动同步云数据库，记得设置好同步间隔。
 
 ![图片](https://user-images.githubusercontent.com/3349611/199262165-3582e051-a924-4043-bc05-96643b17caca.png)
@@ -12,13 +12,13 @@
 
 ![图片](https://user-images.githubusercontent.com/3349611/199267039-a010ce6f-3e04-4e54-8e44-6bde7ff5a000.png)
 
-### 部署一个支持多实例的Mysqld_exporter
+### 二、部署一个支持多实例的Mysqld_exporter
 
 > 官方main版本的代码已经支持多目标的mysqld_exporter，只是还没有发Releases。所以基于最新的main版本自行编译了一个mysqld_exporter，并且做成了docker镜像。
 
 详细说明查看：https://github.com/starsliao/multi_mysqld_exporter
 
-新建一个`docker-compose.yml`：
+新建一个`docker-compose.yml`，内容如下：
 
 ```
 version: "3.2"
@@ -48,3 +48,6 @@ services:
 - 如果你有不同mysql实例需要配置不同监控账号密码的需求，请参考官方readme使用配置文件的方式启动。
 
 启动：`docker-compose up -d`
+
+### 三、如何接入到Prometheus
+![图片](https://user-images.githubusercontent.com/3349611/199270662-f4f280ed-f6b8-482b-bb28-5cc4d3799dc1.png)
