@@ -12,4 +12,37 @@
 
 ![图片](https://user-images.githubusercontent.com/3349611/199267039-a010ce6f-3e04-4e54-8e44-6bde7ff5a000.png)
 
-### 
+### 部署一个支持多实例的Mysqld_exporter
+
+> 官方main版本的代码已经支持多目标的mysqld_exporter，只是还没有发Releases。所以自行编译了一个mysqld_exporter，并且做成了docker镜像。
+
+详细说明查看：https://github.com/starsliao/multi_mysqld_exporter
+
+新建一个`docker-compose.yml`：
+
+```
+version: "3.2"
+services:
+  mysqld_exporter:
+    image: swr.cn-south-1.myhuaweicloud.com/starsl.cn/mysqld_exporter:latest
+    container_name: mysqld_exporter
+    hostname: mysqld_exporter
+    restart: always
+    ports:
+      - "9104:9104"
+    volumes:
+      - /usr/share/zoneinfo/PRC:/etc/localtime
+    environment:
+      MYSQLD_EXPORTER_PASSWORD: xxxxxxxxxxxxx
+    entrypoint:
+      - /bin/mysqld_exporter
+      - --collect.info_schema.innodb_metrics
+      - --collect.info_schema.tables
+      - --collect.info_schema.processlist
+      - --collect.info_schema.tables.databases=*
+      - --mysqld.username=xxxxxxxxxx
+```
+
+- docker-compose中有2个变量：监控专用的mysql账号和密码，注意修改掉后再启动。
+- docker-compose配置方式是**所有的mysql实例都配置了一样的mysql监控账号和密码。**
+- 如果你有不同mysql实例需要配置不同监控账号密码的需求，请参考官方readme使用配置文件的方式启动。
