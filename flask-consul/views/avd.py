@@ -43,7 +43,7 @@ class Avd(Resource):
                 return {'code': 20000, 'data': '漏洞采集通知功能关闭！'}
         if stype == 'run':
             avd_config_dict = consul_kv.get_value('ConsulManager/avd/switch')
-            if avd_config_dict['switch']:
+            if avd_config_dict.get('switch',False):
                 consul_kv.del_key('ConsulManager/avd/list/0')
                 runjob('avd_list')
                 return {'code': 20000, 'data': '漏洞采集通知执行成功！'}
