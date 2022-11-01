@@ -14,7 +14,7 @@
 
 ### 部署一个支持多实例的Mysqld_exporter
 
-> 官方main版本的代码已经支持多目标的mysqld_exporter，只是还没有发Releases。所以自行编译了一个mysqld_exporter，并且做成了docker镜像。
+> 官方main版本的代码已经支持多目标的mysqld_exporter，只是还没有发Releases。所以基于最新的main版本自行编译了一个mysqld_exporter，并且做成了docker镜像。
 
 详细说明查看：https://github.com/starsliao/multi_mysqld_exporter
 
@@ -46,3 +46,5 @@ services:
 - docker-compose中有2个变量：监控专用的mysql账号和密码，注意修改掉后再启动。
 - docker-compose配置方式是**所有的mysql实例都配置了一样的mysql监控账号和密码。**
 - 如果你有不同mysql实例需要配置不同监控账号密码的需求，请参考官方readme使用配置文件的方式启动。
+
+启动：`docker-compose up -d`
