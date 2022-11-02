@@ -9,7 +9,9 @@ import sys,datetime,hashlib
 #import consul_kv,sync_ecs
 from units import consul_kv
 from units.cloud import sync_ecs
+from units.cloud import sync_rds
 from units.cloud import notify
+
 def exp(account,collect_days,notify_days,notify_amount):
     from tencentcloud.billing.v20180709 import billing_client, models
     ak,sk = consul_kv.get_aksk('tencent_cloud',account)
@@ -161,3 +163,54 @@ def ecs(account,region):
     except Exception as e:
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}', data)
+
+def rds(account,region):
+    from tencentcloud.cdb.v20170320 import cdb_client, models
+    ak,sk = consul_kv.get_aksk('tencent_cloud',account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/tencent_cloud/group/{account}')
+    try:
+        cred = credential.Credential(ak, sk)
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "cdb.tencentcloudapi.com"
+
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+        client = cdb_client.CdbClient(cred, region, clientProfile)
+        req = models.DescribeDBInstancesRequest()
+        params = {"Limit": 2000}
+        req.from_json_string(json.dumps(params))
+        resp = client.DescribeDBInstances(req)
+        rds_list = resp.Items
+        total = resp.TotalCount
+        rds_dict = {i.InstanceId:{'name':i.InstanceName,
+                             'domain':i.Vip,
+                             'ip':i.Vip,
+                             'port':i.Vport,
+                             'region':region,
+                             'group':group_dict.get(str(i.ProjectId),'无'),
+                             'status': '运行中' if i.Status == 1 else '非运行中',
+                             'itype':{1:'主实例',2:'灾备实例',3:'只读实例'}[i.InstanceType],
+                             'ver':i.EngineVersion,
+                             'exp': '-' if i.DeadlineTime == "0000-00-00 00:00:00" else i.DeadlineTime.split(' ')[0],
+                             'cpu':f"{i.Cpu}核",
+                             'mem':f"{round(i.Memory/1024)}GB",
+                             'disk':f"{i.Volume}GB"
+                            } for i in rds_list}
+        count = len(rds_dict)
+        off,on = sync_rds.w2consul('tencent_cloud',account,region,rds_dict)
+        data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'rds同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
+        print('【JOB】===>', 'tencent_cloud_rds', account,region, data, flush=True)
+    except TencentCloudSDKException as err:
+        print(err, flush=True)
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}')
+        if data == {}:
+            data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
+        else:
+            data['update'] = f'失败'
+            data['msg'] = str(err)
+        consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
+    except Exception as e:
+        data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)

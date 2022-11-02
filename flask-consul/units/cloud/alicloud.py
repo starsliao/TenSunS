@@ -1,17 +1,21 @@
-from alibabacloud_resourcemanager20200331.client import Client as ResourceManager20200331Client
+from Tea.exceptions import TeaException
 from alibabacloud_tea_openapi import models as open_api_models
+from alibabacloud_tea_util import models as util_models
+from alibabacloud_tea_util.client import Client as UtilClient
+
+from alibabacloud_resourcemanager20200331.client import Client as ResourceManager20200331Client
 from alibabacloud_resourcemanager20200331 import models as resource_manager_20200331_models
 from alibabacloud_ecs20140526.client import Client as Ecs20140526Client
 from alibabacloud_ecs20140526 import models as ecs_20140526_models
-from Tea.exceptions import TeaException
 from alibabacloud_bssopenapi20171214.client import Client as BssOpenApi20171214Client
 from alibabacloud_bssopenapi20171214 import models as bss_open_api_20171214_models
-from alibabacloud_tea_util import models as util_models
-from alibabacloud_tea_util.client import Client as UtilClient
+from alibabacloud_rds20140815.client import Client as Rds20140815Client
+from alibabacloud_rds20140815 import models as rds_20140815_models
 
 import sys,datetime,hashlib
 from units import consul_kv,consul_svc
 from units.cloud import sync_ecs
+from units.cloud import sync_rds
 from units.cloud import notify
 
 def exp(account,collect_days,notify_days,notify_amount):
@@ -168,3 +172,64 @@ def ecs(account,region):
     except Exception as e:
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}', data)
+
+def rds(account,region):
+    ak,sk = consul_kv.get_aksk('alicloud',account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
+
+    config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
+    config.endpoint = 'rds.aliyuncs.com'
+    client = Rds20140815Client(config)
+
+    try:
+        runtime = util_models.RuntimeOptions()
+        describe_dbinstances_request = rds_20140815_models.DescribeDBInstancesRequest(
+            max_results=100,
+            region_id=region
+        )
+        rdsbaseinfo = client.describe_dbinstances_with_options(describe_dbinstances_request, runtime)
+        rdsbase_list = rdsbaseinfo.body.to_map()['Items']["DBInstance"]
+
+
+        describe_dbinstances_as_csv_request = rds_20140815_models.DescribeDBInstancesAsCsvRequest(region_id=region)
+        rdsplusinfo = client.describe_dbinstances_as_csv_with_options(describe_dbinstances_as_csv_request, runtime)
+        rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
+
+        rds_dict = {i['DBInstanceId']:{'name':i['DBInstanceDescription'],
+                                       'domain':i['ConnectionString'],
+                                       'ip':i['ConnectionString'],
+                                       'port':3306,
+                                       'region':region,
+                                       'group':group_dict.get(i['ResourceGroupId'],'无'),
+                                       'status':i['DBInstanceStatus'],
+                                       'itype':i['DBInstanceType'],
+                                       'ver':i['EngineVersion'],
+                                       'exp': '-' if i['ExpireTime'] == None else i['ExpireTime'].split('T')[0]
+                                      } for i in rdsbase_list}
+
+        rds_plus = {i['DBInstanceId']:{'cpu':f"{i['DBInstanceCPU']}核",
+                                       'mem':f"{round(i['DBInstanceMemory']/1024)}GB",
+                                       'disk':f"{i['DBInstanceStorage']}GB"
+                                      } for i in rdsplus_list}
+        for k,v in rds_plus.items():
+            rds_dict[k].update(v)
+
+        count = len(rds_dict)
+        off,on = sync_rds.w2consul('alicloud',account,region,rds_dict)
+        data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'rds同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
+        print('【JOB】===>', 'alicloud_rds', account,region, data, flush=True)
+    except TeaException as e:
+        emsg = e.message.split('. ',1)[0]
+        print("【code:】",e.code,"\n【message:】",emsg, flush=True)
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}')
+        if data == {}:
+            data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
+        else:
+            data['update'] = f'失败{e.code}'
+            data['msg'] = emsg
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
+    except Exception as e:
+        data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)

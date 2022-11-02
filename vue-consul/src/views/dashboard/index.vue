@@ -4,11 +4,13 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
-      <el-timeline-item timestamp="2022/10/31" placement="top">
+      <el-timeline-item timestamp="2022/11/03" placement="top">
         <el-card>
-          <h4>v0.9.0</h4>
+          <h4>v0.9.2</h4>
           <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />镜像存储更换到华为云，请查看仓库根目录下的<el-link href="https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml" target="_blank">docker-compose.yml</el-link>，更新您的镜像地址。</p>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云的RDS信息到Consul并接入到Prometheus监控！</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
+          <p>更新了阿里云、华为云、腾讯云的SDK。</p>
+          <p>优化了菜单展示，资源分类更加直观。</p>
           <p>增加了MySQL的Grafana监控看板。</p>
           <p>增加了从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。</p>
           <p>增加了RDS的Prometheus告警规则信息生成页面。</p>
