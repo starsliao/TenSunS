@@ -10,14 +10,9 @@
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
 
-#### v0.9.1 开发完成，尚未Releases。镜像存储更换到华为云，请查看仓库根目录下的[docker-compose.yml](https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml)，**更新您的镜像地址**，即可试用该版本。
-- 增加RDS云数据库监控接入：支持同步华为云的RDS信息到Consul并接入到Prometheus监控！（阿里、腾讯暂未完成）
-- 增加了MySQL的Grafana监控看板。
-- 增加了从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。
-- 增加了RDS的Prometheus告警规则信息生成页面。
-- 新增云资源界面可以多选区域和同步的资源类型了。
-- 新增编辑云资源界面，可以对已添加的账号增删区域、资源类型等操作。
-
+### 注意：v0.9版本开始镜像更换到华为云，请修改[docker-compose.yml](https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml)内的镜像地址。
+- swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:latest
+- swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:latest
 ---
 
 # 🏷目录
