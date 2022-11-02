@@ -63,7 +63,7 @@ services:
 ![图片](https://user-images.githubusercontent.com/3349611/199274588-85f39fa1-8401-41f5-b0eb-4059a5e45007.png)
 
 ### 五、参考Grafana看板
-[Mysqld Exporter Dashboard 22_11_01中文版](https://github.com/starsliao/ConsulManager/blob/main/docs/1%20Mysqld%20Exporter%20Dashboard%2022_11_01%E4%B8%AD%E6%96%87%E7%89%88-1667322674584.json)
+[GRAFANA：Mysqld Exporter Dashboard 22_11_01中文版](https://grafana.com/orgs/starsliao/dashboards/17320)
 
 ![mysql1](https://user-images.githubusercontent.com/3349611/199293017-ecd09b7d-4731-44f0-9cc8-eefdd59550a1.png)
 
