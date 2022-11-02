@@ -120,7 +120,7 @@
 ##### 榜二大哥：**@Swancavalier**
 ##### 榜三大哥：**@南城阿宇** **@新的奇迹**
 
-@mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209  @Runner91  @烂泥    @ASL·D·阿威  @惊雷
+@mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209  @Runner91  @烂泥  @ASL·D·阿威  @惊雷
 
 ---
 
@@ -135,7 +135,7 @@
 ---
 
 ### 📢提供建议
-[@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator)
+[@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator) @烂泥
 
 ---
 
