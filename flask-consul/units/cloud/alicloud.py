@@ -196,7 +196,7 @@ def rds(account,region):
         rdsplusinfo = client.describe_dbinstances_as_csv_with_options(describe_dbinstances_as_csv_request, runtime)
         rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
 
-        rds_dict = {i['DBInstanceId']:{'name':i['DBInstanceDescription'],
+        rds_dict = {i['DBInstanceId']:{'name':i.get('DBInstanceDescription',f"未命名{i['DBInstanceId']}"),
                                        'domain':i['ConnectionString'],
                                        'ip':i['ConnectionString'],
                                        'port':3306,
