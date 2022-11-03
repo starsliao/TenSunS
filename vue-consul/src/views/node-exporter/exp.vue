@@ -20,7 +20,7 @@
           <el-switch v-model="exp_config.switch" /><br>
           <font size="3px" color="#ff0000">
             <li>开启采集：每小时会自动采集一次余额与到期资源信息。</li>
-            <li>开启通知：当余额或到期资源低于设定时，会立刻推送通知。</li>
+            <li>开启通知：每次采集后检测到余额或到期资源低于设定时，会推送通知。</li>
           </font>
         </el-form-item>
         <el-form-item v-if="exp_config.switch" label="自动采集">
@@ -82,7 +82,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="查询余额" :visible.sync="amountFormVisible" width="60%">
+    <el-dialog title="查询余额(非实时，每小时采集一次，可在配置余额页面点击确认手动更新。)" :visible.sync="amountFormVisible" width="60%">
       <el-table v-loading="listLoading" :data="amount_list" height="540" :default-sort="{ prop: 'amount', order: 'ascending' }" border fit highlight-current-row style="width: 100%;">
         <el-table-column prop="vendor" label="云厂商" sortable align="center" />
         <el-table-column prop="account" label="账户" sortable align="center" />

@@ -26,6 +26,10 @@ def exp(account,collect_days,notify_days,notify_amount):
     config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
     config.endpoint = f'business.aliyuncs.com'
     client = BssOpenApi20171214Client(config)
+    exp_config = consul_kv.get_value('ConsulManager/exp/config')
+    wecomwh = exp_config.get('wecomwh','')
+    dingdingwh = exp_config.get('dingdingwh','')
+    feishuwh = exp_config.get('feishuwh','')
     try:
         amount_response = client.query_account_balance()
         if amount_response.body.success:
@@ -50,8 +54,7 @@ def exp(account,collect_days,notify_days,notify_amount):
     except Exception as e:
         print('==ERROR==',e,flush=True)
         raise
-    query_available_instances_request = bss_open_api_20171214_models.QueryAvailableInstancesRequest(
-        renew_status='ManualRenewal',end_time_start=now,end_time_end=collect)
+    query_available_instances_request = bss_open_api_20171214_models.QueryAvailableInstancesRequest(renew_status='ManualRenewal',end_time_start=now,end_time_end=collect)
     runtime = util_models.RuntimeOptions()
     try:
         exp = client.query_available_instances_with_options(query_available_instances_request, runtime)
@@ -75,10 +78,6 @@ def exp(account,collect_days,notify_days,notify_amount):
         if (endtime - datetime.datetime.now()).days < notify_days and notify_id not in isnotify_list:
             notify_dict[i['InstanceID']] = exp_dict[i['InstanceID']]
     consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/exp', exp_dict)
-    exp_config = consul_kv.get_value('ConsulManager/exp/config')
-    wecomwh = exp_config.get('wecomwh','')
-    dingdingwh = exp_config.get('dingdingwh','')
-    feishuwh = exp_config.get('feishuwh','')
     if notify_dict != {}:
         msg = [f'### 阿里云账号 {account}：\n### 以下资源到期日小于 {notify_days} 天：']
         for k,v in notify_dict.items():
