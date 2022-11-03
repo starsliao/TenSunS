@@ -208,7 +208,8 @@ def rds(account,region):
                                        'exp': '-' if i['ExpireTime'] == None else i['ExpireTime'].split('T')[0]
                                       } for i in rdsbase_list}
 
-        rds_plus = {i['DBInstanceId']:{'cpu':f"{i['DBInstanceCPU']}核",
+        rds_plus = {i['DBInstanceId']:{'port':int(i['Port'])
+                                       'cpu':f"{i['DBInstanceCPU']}核",
                                        'mem':f"{round(i['DBInstanceMemory']/1024)}GB",
                                        'disk':f"{i['DBInstanceStorage']}GB"
                                       } for i in rdsplus_list}
