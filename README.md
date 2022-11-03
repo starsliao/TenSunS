@@ -10,7 +10,7 @@
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
 
-### 注意：v0.9版本开始镜像更换到华为云，请修改[docker-compose.yml](https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml)内的镜像地址。
+### 注意：v0.9版本开始镜像更换到华为云，旧版本的用户请修改[docker-compose.yml](https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml)内的镜像地址。
 - swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:latest
 - swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:latest
 ---
