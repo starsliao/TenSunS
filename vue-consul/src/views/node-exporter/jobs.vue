@@ -327,7 +327,7 @@ export default {
         ]
       },
 
-      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 },
+      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20 },
       editJob: { restype: ['group'] },
       cloud_dict: {},
       upjob: { jobid: '', interval: '' },
@@ -384,14 +384,14 @@ export default {
       })
     },
     handleEdit() {
-      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 5, rds_interval: 5 }
+      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20 }
       getCloud().then(response => {
         this.cloud_dict = response.cloud_dict
       })
       this.editFormVisible = true
     },
     handleCreate() {
-      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 5, rds_interval: 5 }
+      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20 }
       this.ecsJob.account = this.query.account
       this.newFormVisible = true
     },
