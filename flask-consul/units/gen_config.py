@@ -108,7 +108,7 @@ groups:
     annotations:
       description: "{{ $labels.group }}_{{ $labels.name }}：每分钟慢查询:{{ $value }} \\n> {{ $labels.iid }}"
 
-  - alert: mysql_当前活跃的连接数过多
+  - alert: MySQL_当前活跃的连接数过多
     expr: mysql_global_status_threads_running > 100
     for: 1m
     labels:
@@ -116,7 +116,7 @@ groups:
     annotations:
       description: "{{ $labels.group }}_{{ $labels.name }}：当前活跃的连接数:{{ $value }} \\n> {{ $labels.iid }}"
 
-  - alert: mysql_当前updating状态的线程过多
+  - alert: MySQL_当前updating状态的线程过多
     expr: mysql_info_schema_processlist_threads{state=~"updating"} > 100
     for: 1m
     labels:
@@ -139,6 +139,30 @@ groups:
       severity: warning
     annotations:
       description: "{{ $labels.group }}_{{ $labels.name }}：Mysql Connections:{{ $value | humanize }} \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_主从IO线程运行状态异常
+  expr: mysql_slave_status_master_server_id > 0 and ON (instance) mysql_slave_status_slave_io_running == 0
+  for: 1m
+  labels:
+    severity: critical
+  annotations:
+    description: "{{ $labels.group }}_{{ $labels.name }}：MySQL Slave IO thread not running \\n> {{ $labels.iid }}"
+  
+  - alert: MySQL_主从SQL线程运行状态异常
+  expr: mysql_slave_status_master_server_id > 0 and ON (instance) mysql_slave_status_slave_sql_running == 0
+  for: 1m
+  labels:
+    severity: critical
+  annotations:
+    description: "{{ $labels.group }}_{{ $labels.name }}：MySQL Slave SQL thread not running \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_主从复制延迟过高
+  expr: mysql_slave_status_seconds_behind_master > 3
+  for: 1m
+  labels:
+    severity: critical
+  annotations:
+    description: "{{ $labels.group }}_{{ $labels.name }}：主从复制延迟当前:{{ $value | humanize }}s \\n> {{ $labels.iid }}"
 
   - alert: MySQL_is_Restart
     expr: mysql_global_status_uptime <600

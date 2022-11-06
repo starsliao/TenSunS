@@ -19,7 +19,7 @@ from units.cloud import sync_rds
 from units.cloud import notify
 
 def exp(account,collect_days,notify_days,notify_amount):
-    print(f"=====【阿里云：余额与到期日统计开始：{account}】", flush=True)
+    #print(f"=====【阿里云：余额与到期日统计开始：{account}】", flush=True)
     ak,sk = consul_kv.get_aksk('alicloud',account)
     now = datetime.datetime.utcnow().strftime('%Y-%m-%dT16:00:00Z')
     collect = (datetime.datetime.utcnow() + datetime.timedelta(days=collect_days+1)).strftime('%Y-%m-%dT16:00:00Z')
@@ -36,7 +36,7 @@ def exp(account,collect_days,notify_days,notify_amount):
             available_amount = amount_response.body.data.available_amount
             amount = float(available_amount.replace(',',''))
             consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/amount',{'amount':amount})
-            print('alicloud',account,f'可用余额:{available_amount}', flush=True)
+            #print('alicloud',account,f'可用余额:{available_amount}', flush=True)
             amount_dict = {}
             if amount < notify_amount:
                 amount_dict = {'amount':amount}
@@ -92,7 +92,7 @@ def exp(account,collect_days,notify_days,notify_amount):
             title = '阿里云资源到期通知'
             md = content
             notify.feishu(feishuwh,title,md)
-    print(f"=====【阿里云：余额与到期日统计结束：{account}】", flush=True)
+    #print(f"=====【阿里云：余额与到期日统计结束：{account}】", flush=True)
 
 def group(account):
     ak,sk = consul_kv.get_aksk('alicloud',account)

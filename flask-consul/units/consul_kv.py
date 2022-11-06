@@ -80,6 +80,17 @@ def get_services_meta(services_name):
     else:
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
+def get_services_list_by_region(services_name,region):
+    region = f'and "{region}" in Tags'
+    url = f'{consul_url}/agent/services?filter=Service == "{services_name}" {region}'
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        info = response.json()
+        res_list = info.keys()
+        return res_list
+    else:
+        return []
+
 def get_aksk(cloud,account):
     import myaes
     aksk_dict = get_value(f'ConsulManager/assets/{cloud}/aksk/{account}')
