@@ -38,7 +38,7 @@
         :multiple="false"
       >
         <el-tooltip class="item" effect="light" content="点击【导出】可获取导入模板" placement="top">
-          <el-button v-waves style="margin-left: 10px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
+          <el-button v-waves style="margin-left: 10px;margin-top: 0px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
             导入
           </el-button>
         </el-tooltip>
