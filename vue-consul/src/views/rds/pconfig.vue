@@ -52,6 +52,7 @@ export default {
       this.listLoading = true
       getRdsServicesList().then(response => {
         this.services_list = response.services_list
+        this.services_list.push('selfrds_exporter')
       })
       getJobRds().then(response => {
         this.jobrds_list = response.jobrds
