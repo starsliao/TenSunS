@@ -4,7 +4,7 @@ def rds_config(region_list,cm_exporter,services_list,exporter):
     region_str = '\n      - '.join([i.replace('/rds','') for i in region_list])
     consul_server = consul_url.split("/")[2]
     exporter_config = f"""
-  - job_name: 'ConsulManager-exporter'
+  - job_name: 'ConsulManager-MySQL'
     scrape_interval: 30s
     scrape_timeout: 15s
     static_configs:
@@ -118,6 +118,38 @@ def get_rdsrules():
 groups:
 - name: MySQL-Alert
   rules:
+  - alert: MySQL_CPU使用率过高
+    expr: mysql_cpu_util * on (iid) group_right mysql_up > 70
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前CPU使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_内存使用率过高
+    expr: mysql_mem_util * on (iid) group_right mysql_up > 85
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前内存使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_磁盘使用率过高
+    expr: mysql_disk_util * on (iid) group_right mysql_up > 90
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前磁盘使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+
+  - alert: MySQL_IO使用率过高
+    expr: mysql_io_util * on (iid) group_right mysql_up > 90
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前IO使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+
   - alert: MySQL_is_down
     expr: mysql_up == 0
     for: 3m
@@ -213,7 +245,7 @@ groups:
 
 - name: node-exporter
   rules:
-  - alert: 内存使用率
+  - alert: ECS内存使用率
     expr: 100 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 > 90
     for: 5m
     labels:
@@ -222,7 +254,7 @@ groups:
     annotations:
       description: "{{ $labels.name }}：内存使用率{{ $value | humanize }}%\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
-  - alert: CPU使用率
+  - alert: ECS_CPU使用率
     expr: 100 - (avg by(instance,name,group,account) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
     for: 5m
     labels:
@@ -231,7 +263,7 @@ groups:
     annotations:
       description: "{{ $labels.name }}：CPU使用率{{ $value | humanize }}%\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
-  - alert: 系统负载
+  - alert: ECS系统负载
     expr: node_load5 / on (instance,name,group,account) sum(count(node_cpu_seconds_total{mode='system'}) by (cpu,instance,name,group,account)) by(instance,name,group,account) > 1.7
     for: 10m
     labels:
@@ -240,7 +272,7 @@ groups:
     annotations:
       description: "{{ $labels.name }}：系统负载{{ $value | humanize }}倍\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
-  - alert: 磁盘使用率
+  - alert: ECS磁盘使用率
     expr: |
       100 - (node_filesystem_avail_bytes/node_filesystem_size_bytes{fstype=~"ext.?|xfs",mountpoint!~".*pods.*|/var/lib/docker/devicemapper/mnt/.*"} * 100) > 85
     for: 5m
@@ -249,6 +281,24 @@ groups:
       severity: warning
     annotations:
       description: "{{ $labels.name }}_{{ $labels.mountpoint }}：磁盘使用率{{ $value | humanize }}%\\n> {{ $labels.group }}-{{ $labels.instance }}"
+
+  - alert: ECS主机重启
+    expr: node_time_seconds - node_boot_time_seconds < 600
+    for: 1m
+    labels:
+      alertype: system
+      severity: warning
+    annotations:
+      description: "{{ $labels.name }}：主机重启\\n> {{ $labels.group }}-{{ $labels.instance }}"
+
+  - alert: ECS文件系统只读
+    expr: node_filesystem_readonly == 1
+    for: 1m
+    labels:
+      alertype: system
+      severity: warning
+    annotations:
+      description: "{{ $labels.name }}-{{ $labels.mountpoint }}：文件系统只读\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
   - alert: K8S节点POD磁盘使用率
     expr: 100 - (node_filesystem_avail_bytes/node_filesystem_size_bytes{mountpoint=~"/var/lib/docker/devicemapper/mnt/.*"} * 100) > 85
@@ -268,7 +318,7 @@ groups:
     annotations:
       description: "{{ $labels.name }}_{{ $labels.mountpoint }}：磁盘使用率{{ $value | humanize }}%\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
-  - alert: 磁盘读写容量
+  - alert: ECS磁盘读写容量
     expr: (irate(node_disk_read_bytes_total[5m]) ) /1024 /1024  > 80 or (irate(node_disk_written_bytes_total[5m]) ) /1024 /1024 > 80
     for: 8m
     labels:
@@ -277,7 +327,7 @@ groups:
     annotations:
       description: "{{ $labels.name }}_{{ $labels.device }}：当前IO为{{ $value | humanize }}MB/s\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
-  - alert: 网络流入（下载）数据过多
+  - alert: ECS网络流入（下载）数据过多
     expr: sum by(device,instance, name, group, account) (irate(node_network_receive_bytes_total{device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'}[5m])) / 1024 / 1024 > 70
     for: 5m
     labels:
@@ -286,7 +336,7 @@ groups:
     annotations:
       description: "{{ $labels.name }}：流入数据为{{ $value | humanize }}MB/s\\n> {{ $labels.group }}-{{ $labels.instance }}"
 
-  - alert: 网络流出（上传）数据过多
+  - alert: ECS网络流出（上传）数据过多
     expr: sum by(device,instance, name, group, account) (irate(node_network_transmit_bytes_total{device!~'tap.*|veth.*|br.*|docker.*|virbr.*|lo.*|cni.*'}[5m])) / 1024 / 1024 > 70
     for: 5m
     labels:
