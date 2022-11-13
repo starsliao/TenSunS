@@ -20,8 +20,10 @@ alibabacloud_resourcemanager20200331==2.1.1
 alibabacloud_ecs20140526==2.1.1
 alibabacloud_rds20140815==2.1.1
 alibabacloud_bssopenapi20171214==2.0.5
-tencentcloud-sdk-python-common==3.0.763
-tencentcloud-sdk-python-cvm==3.0.763
-tencentcloud-sdk-python-cdb==3.0.763
-tencentcloud-sdk-python-dcdb==3.0.763
-tencentcloud-sdk-python-billing==3.0.763
+aliyun-python-sdk-cms==7.0.32
+tencentcloud-sdk-python-common==3.0.770
+tencentcloud-sdk-python-cvm==3.0.770
+tencentcloud-sdk-python-cdb==3.0.770
+tencentcloud-sdk-python-dcdb==3.0.770
+tencentcloud-sdk-python-billing==3.0.770
+tencentcloud-sdk-python-monitor==3.0.770

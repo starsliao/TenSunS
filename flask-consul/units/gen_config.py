@@ -1,7 +1,23 @@
 from config import consul_token,consul_url
 
-def rds_config(services_list, exporter):
+def rds_config(region_list,cm_exporter,services_list,exporter):
+    region_str = '\n      - '.join([i.replace('/rds','') for i in region_list])
     consul_server = consul_url.split("/")[2]
+    exporter_config = f"""
+  - job_name: 'ConsulManager-exporter'
+    scrape_interval: 30s
+    scrape_timeout: 15s
+    static_configs:
+    - targets:
+      - {region_str}
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __metrics_path__
+        regex: (.*)
+        replacement: /api/cloud_mysql_metrics/${{1}}
+      - target_label: __address__
+        replacement: {cm_exporter}
+"""
     configs = f"""
   - job_name: multi_mysqld_exporter
     scrape_interval: 15s
@@ -44,7 +60,17 @@ def rds_config(services_list, exporter):
       - source_labels: ['__meta_consul_service_metadata_itype']
         target_label: itype
 """
-    return {'code': 20000,'configs': configs }
+    if not services_list:
+        return {'code': 20000,'configs': '请选择需要Prometheus从Conusl自动发现的MySQL组' }
+    if services_list and exporter == '':
+        return {'code': 20000,'configs': '您已经选择了需要Prometheus从Conusl自动发现MySQL组，\n请输入Mysql_Exporter的地址和端口，例如：10.0.0.26:9104' }
+    if region_list and cm_exporter == '':
+        return {'code': 20000,'configs': '您已经选择了需要从云监控采集基础指标(CPU、内存、磁盘、IO)的MySQL组，\n请输入ConsulManager地址和端口，例如：10.0.0.26:1026' }
+
+    if region_list:
+        return {'code': 20000,'configs': exporter_config + configs }
+    else:
+        return {'code': 20000,'configs': configs }
 
 def ecs_config(services_list,ostype_list):
     consul_server = consul_url.split("/")[2]

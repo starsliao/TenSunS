@@ -89,7 +89,7 @@ class Nodes(Resource):
         elif stype == 'rdspconfig':
             args = parser.parse_args()
             services_dict = args['services_dict']
-            return gen_config.rds_config(services_dict['services_list'],services_dict['exporter'])
+            return gen_config.rds_config(services_dict['jobrds_list'],services_dict['cm_exporter'],services_dict['services_list'],services_dict['exporter'])
         elif stype == 'cstecs':
             args = parser.parse_args()
             cst_ecs_dict = args['cst_ecs_dict']

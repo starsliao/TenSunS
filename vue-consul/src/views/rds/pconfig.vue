@@ -1,10 +1,13 @@
 <template>
   <div class="app-container">
-    <el-select v-model="services" multiple placeholder="请选择需要生成配置的服务" filterable collapse-tags clearable style="width: 350px" class="filter-item">
+    <el-select v-model="services" multiple placeholder="选择需要自动发现的MySQL组" filterable collapse-tags clearable style="width: 260px" class="filter-item">
       <el-option v-for="item in services_list" :key="item" :label="item" :value="item" />
     </el-select>
-    &nbsp;&nbsp;<font color="#ff0000">*</font>MySQLd_Exporter IP端口
-    <el-input v-model="exporter" placeholder="x.x.x.x:9104" clearable style="width: 200px;" class="filter-item" />&nbsp;&nbsp;
+    <el-input v-model="exporter" placeholder="Mysqld_Exporter IP端口" clearable style="width: 200px;" class="filter-item" />&nbsp;&nbsp;
+    <el-select v-model="jobrds" multiple placeholder="选择需要采集指标的MySQL组" filterable collapse-tags clearable style="width: 260px" class="filter-item">
+      <el-option v-for="item in jobrds_list" :key="item" :label="item" :value="item" />
+    </el-select>
+    <el-input v-model="cm_exporter" placeholder="ConsulManager IP端口" clearable style="width: 190px;" class="filter-item" />&nbsp;&nbsp;
     <el-button class="filter-item" type="primary" icon="el-icon-magic-stick" @click="fetchRdsConfig">
       生成配置
     </el-button>
@@ -16,17 +19,20 @@
 </template>
 
 <script>
-import { getRdsServicesList, getRdsConfig } from '@/api/node-exporter'
+import { getRdsServicesList, getRdsConfig, getJobRds } from '@/api/node-exporter'
 export default {
   data() {
     return {
       listLoading: false,
       services: [],
+      jobrds: [],
       ostype: [],
       services_list: [],
       services_dict: {},
+      jobrds_list: [],
       exporter: '',
-      configs: ''
+      cm_exporter: '',
+      configs: '该功能用于生成Prometheus的两个JOB配置，生成后请复制到Prometheus配置中：\n\n1. 选择需要同步的账号，Prometheus即可自动发现该账号下的所有DRS实例。\n\n2. 由于Mysqld_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，所以ConsulManager开发了Exporter功能，可以直接从云厂商获取到这些指标并接入Prometheus！\n   选择需要采集指标的RDS账号区域，即可生成Prometheus的JOB配置。'
     }
   },
   created() {
@@ -46,13 +52,18 @@ export default {
       this.listLoading = true
       getRdsServicesList().then(response => {
         this.services_list = response.services_list
-        this.listLoading = false
       })
+      getJobRds().then(response => {
+        this.jobrds_list = response.jobrds
+      })
+      this.listLoading = false
     },
     fetchRdsConfig() {
       this.listLoading = true
       this.services_dict.services_list = this.services
       this.services_dict.exporter = this.exporter
+      this.services_dict.jobrds_list = this.jobrds
+      this.services_dict.cm_exporter = this.cm_exporter
       getRdsConfig(this.services_dict).then(response => {
         this.configs = response.configs
         this.listLoading = false
