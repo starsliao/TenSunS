@@ -4,6 +4,16 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/11/13" placement="top">
+        <el-card>
+          <h4>v0.9.6</h4>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增自建Mysql管理界面，支持增删改查、批量导入导出，自动同步到Consul，接入到Prometheus监控！</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />由于Mysqld_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，<strong>所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
+          <p>优化了MySQL的Grafana监控看板，兼容云Mysql和自建MySQL。</p>
+          <p>增加了ECS和RDS的Prometheus告警规则。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/11/03" placement="top">
         <el-card>
           <h4>v0.9.2</h4>
