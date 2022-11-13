@@ -41,6 +41,7 @@
   - ✔支持多云ECS的**资源、分组、标签**自动同步到Consul(提供Prometheus自动发现)。
   - ✔支持多云ECS信息自动同步到**JumpServer**。
   - ✔支持多云MySQL资源信息自动同步到Consul(提供Prometheus自动发现)。
+  - ✔支持输出Exporter从云厂商采集MySQL指标到Prometheus。(弥补Mysqld_Exporter无法获取部分云MySQL指标的问题)
   - ✔支持多云**账户余额**与云资源**到期日**设置阈值告警通知。
 - 支持自建主机接入WEB管理，并支持WEB批量导入自建主机到Consul。
 - 提供了可查询分组、ECS、MySQL信息的页面，指标中加入了到期日等信息。
