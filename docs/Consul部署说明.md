@@ -46,8 +46,8 @@ consul acl bootstrap
 
 ### 忘记global-management Token，重新生成
 ```
+# 记录最后的reset index: xx
 consul acl bootstrap
-# 记录最后的reset index: 13
 
 # 进入consul数据目录执行
 echo 13 > acl-bootstrap-reset
