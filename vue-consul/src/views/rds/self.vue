@@ -183,7 +183,7 @@ export default {
   data() {
     const validateInput = (rule, value, callback) => {
       if (!this.checkSpecialKey(value)) {
-        callback(new Error('不能含有空格或 [ ]`~!#$^&*=|"{}\':;?'))
+        callback(new Error('不能含有空格或 [ ]`~!#$^&*=|"{}\':;?\\'))
       } else {
         callback()
       }
