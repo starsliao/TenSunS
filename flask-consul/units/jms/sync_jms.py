@@ -57,7 +57,7 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
             "platform": platform,
             "is_active": True,
             "domain": "",
-            "admin_user": admin_user,
+            "admin_user": admin_user.strip(),
             "nodes": [nodes],
             "comment": comment
         }
