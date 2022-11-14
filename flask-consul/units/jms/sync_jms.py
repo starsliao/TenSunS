@@ -61,14 +61,18 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
             "nodes": [nodes],
             "comment": comment
         }
-        if ip in jms_ecs_dict.keys():
-            jms_group = '无' if jms_ecs_dict[ip]['node'].split('/')[-1] == '未分组' else jms_ecs_dict[ip]['node'].split('/')[-1]
-            if jms_ecs_dict[ip]['name'] != iname or jms_group != v['ent']:
-                response = requests.request("PUT", f"{ecs_url}{jms_ecs_dict[ip]['id']}/", headers=headers, data = json.dumps(payload))
-                print('  【JMS】update：主机名:',response.json()['hostname'],response.status_code,flush=True)
-        else:
-            response = requests.request("POST", ecs_url, headers=headers, data = json.dumps(payload))
-            print('  【JMS】add：主机名:',iname,ip,f"【{response.json()['hostname']}，{response.status_code}】",flush=True)
+        try:
+            if ip in jms_ecs_dict.keys():
+                jms_group = '无' if jms_ecs_dict[ip]['node'].split('/')[-1] == '未分组' else jms_ecs_dict[ip]['node'].split('/')[-1]
+                if jms_ecs_dict[ip]['name'] != iname or jms_group != v['ent']:
+                    response = requests.request("PUT", f"{ecs_url}{jms_ecs_dict[ip]['id']}/", headers=headers, data = json.dumps(payload))
+                    print('  【JMS】update：主机名:',response.json()['hostname'],response.status_code,flush=True)
+            else:
+                response = requests.request("POST", ecs_url, headers=headers, data = json.dumps(payload))
+                print('  【JMS】add：主机名:',iname,ip,f"【{response.json()['hostname']}，{response.status_code}】",flush=True)
+        except Exception as e:
+            print('【update_jms ERROR】',e,flush=True)
+            print(response.json(),flush=True)
     return ecs_ip_dict
 
 #从JMS中删除IP重复的主机
@@ -96,7 +100,10 @@ def del_node(jms_url,headers,now,node_id,cloud,account):
     jms_node_list = requests.request("GET", node_tree_url, headers=headers).json()
     for i in jms_node_list:
         if i['name'].endswith(' (0)'):
-            del_node_url = f"{jms_url}/api/v1/assets/nodes/{i['meta']['node']['id']}/"
+            if 'node' in i['meta']:
+                del_node_url = f"{jms_url}/api/v1/assets/nodes/{i['meta']['node']['id']}/"
+            else:
+                del_node_url = f"{jms_url}/api/v1/assets/nodes/{i['meta']['data']['id']}/"
             response = requests.request("DELETE", del_node_url, headers=headers)
             print('  【JMS】删除空组===>',i['name'],response.status_code,flush=True)
     ecs_count_url = f"{jms_url}/api/v1/assets/assets/?node={node_id}&limit=1&offset=1"
