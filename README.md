@@ -146,3 +146,7 @@
 ---
 
 # 💖感谢伟大的[Flask](https://github.com/pallets/flask)、[VUE](https://github.com/vuejs/vue)、[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+
+---
+
+![](https://starsl.cn/static/img/wegroups.png)
