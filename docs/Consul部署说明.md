@@ -38,9 +38,9 @@ systemctl enable consul.service
 systemctl start consul.service
 ```
 
-### 获取登录Token（记录SecretID，即为Consul登录的Token）
+### 安装后首次获取登录Token（记录SecretID，即为Consul登录的Token）
 ```bash
-consul acl bootstrap
+consul acl bootstrap|grep SecretID
 ```
 
 
