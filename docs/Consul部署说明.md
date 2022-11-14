@@ -42,3 +42,16 @@ systemctl start consul.service
 ```bash
 consul acl bootstrap
 ```
+
+
+### 忘记global-management Token，重新生成
+```
+consul acl bootstrap
+# 记录最后的reset index: 13
+
+# 进入consul数据目录执行
+echo 13 > acl-bootstrap-reset
+
+# 重新创建一个global-management Token
+consul acl bootstrap
+```
