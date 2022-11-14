@@ -183,7 +183,7 @@ export default {
   data() {
     const validateInput = (rule, value, callback) => {
       if (!this.checkSpecialKey(value)) {
-        callback(new Error('不能含有空格或 [ ]`~!#$^&*=|"{}\':;?'))
+        callback(new Error('不能含有空格或 [ ]`~!#$^&*=|"{}\':;?\\'))
       } else {
         callback()
       }
@@ -343,7 +343,7 @@ export default {
       this.multipleSelection = val
     },
     checkSpecialKey(str) {
-      const specialKey = '[]`~!#$^&*=|{}\'":;? '
+      const specialKey = '[]`~!#$^&*=|{}\'":;? \\'
       for (let i = 0; i < str.length; i++) {
         if (specialKey.indexOf(str.substr(i, 1)) !== -1) {
           return false
