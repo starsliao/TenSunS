@@ -10,6 +10,7 @@ xlrd==1.2.0
 #pyDes==2.0.1
 pycryptodome==3.14.1
 beautifulsoup4==4.11.1
+ldap3==2.9.1
 huaweicloudsdkcore==3.1.8
 huaweicloudsdkecs==3.1.8
 huaweicloudsdkeps==3.1.8

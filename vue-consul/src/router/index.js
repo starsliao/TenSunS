@@ -235,6 +235,16 @@ export const constantRoutes = [
     }]
   },
   {
+    path: '/settings',
+    component: Layout,
+    children: [{
+      path: 'index',
+      name: '全局配置',
+      component: () => import('@/views/ldap/index'),
+      meta: { title: '全局配置', icon: 'el-icon-chat-line-square' }
+    }]
+  },
+  {
     path: '/link',
     component: Layout,
     meta: { title: '快速链接', icon: 'link' },

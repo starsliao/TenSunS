@@ -1,11 +1,11 @@
 <template>
   <div class="app-container">
-    <el-select v-model="services" multiple placeholder="请选择需要生成配置的服务" filterable collapse-tags clearable style="width: 350px" class="filter-item">
+    <el-select v-model="services" multiple placeholder="请选择需要生成配置的服务" filterable collapse-tags clearable style="width: 300px" class="filter-item">
       <el-option v-for="item in services_list" :key="item" :label="item" :value="item" />
-    </el-select>
-    <el-select v-model="ostype" multiple placeholder="请选择系统" filterable clearable class="filter-item">
+    </el-select>&nbsp;&nbsp;
+    <el-select v-model="ostype" multiple placeholder="请选择系统" filterable clearable style="width: 200px" class="filter-item">
       <el-option v-for="item in ostype_list" :key="item" :label="item" :value="item" />
-    </el-select>
+    </el-select>&nbsp;&nbsp;
     <el-button class="filter-item" type="primary" icon="el-icon-magic-stick" @click="fetchEcsConfig">
       生成配置
     </el-button>
