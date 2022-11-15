@@ -17,18 +17,15 @@ def exporter(vendor,account,region):
                         "DiskUsage":["# HELP mysql_disk_util 磁盘使用率","# TYPE mysql_disk_util gauge"],
                         "IOPSUsage":["# HELP mysql_io_util 磁盘I/O使用率","# TYPE mysql_io_util gauge"]
                        }
-    try:
-        for i in metric_name_dict.keys():
-            request_rdsmonit.set_MetricName(i)
-            response_rdsmonit = json.loads(client_rdsmonit.do_action_with_exception(request_rdsmonit), encoding='utf-8')
-            instance = json.loads(response_rdsmonit["Datapoints"])
-            prom_metric_name = metric_name_dict[i][0].split()[2]
-            for j in instance:
-                iid,max,ts = j["instanceId"],j["Maximum"],j["timestamp"]
-                metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(max)} {ts}')
-        prom_metric_list = []
-        for x in metric_name_dict.values():
-            prom_metric_list = prom_metric_list + x
-        return prom_metric_list
-    except Exception as e:
-        print(e,flush=True)
+    for i in metric_name_dict.keys():
+        request_rdsmonit.set_MetricName(i)
+        response_rdsmonit = json.loads(client_rdsmonit.do_action_with_exception(request_rdsmonit))
+        instance = json.loads(response_rdsmonit["Datapoints"])
+        prom_metric_name = metric_name_dict[i][0].split()[2]
+        for j in instance:
+            iid,max,ts = j["instanceId"],j["Maximum"],j["timestamp"]
+            metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(max)} {ts}')
+    prom_metric_list = []
+    for x in metric_name_dict.values():
+        prom_metric_list = prom_metric_list + x
+    return prom_metric_list
