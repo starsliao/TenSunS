@@ -82,7 +82,7 @@ def get_rules():
       description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：站点无法访问\\n> {{ $labels.instance }}"
 
   - alert: 站点1h可用性低于80%
-    expr: sum_over_time(probe_success[1h])/count_over_time(probe_success[1h]) * 100 < 80
+    expr: sum_over_time(probe_success{job="blackbox_exporter"}[1h])/count_over_time(probe_success{job="blackbox_exporter"}[1h]) * 100 < 80
     for: 3m
     labels:
       alertype: domain
@@ -91,7 +91,7 @@ def get_rules():
       description: "{{ $labels.env }}_{{ $labels.name }}({{ $labels.project }})：站点1h可用性：{{ $value | humanize }}%\\n> {{ $labels.instance }}"
 
   - alert: 站点状态异常
-    expr: (probe_success == 0 and probe_http_status_code > 499) or probe_http_status_code == 0
+    expr: (probe_success{job="blackbox_exporter"} == 0 and probe_http_status_code > 499) or probe_http_status_code == 0
     for: 1m
     labels:
       alertype: domain
