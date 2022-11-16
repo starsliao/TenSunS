@@ -41,9 +41,8 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-      <el-checkbox v-model="loginForm.Ldapchecked" label="启动ldap验证" border class="ldap" />
+      <!-- <el-checkbox v-model="loginForm.Ldapchecked" label="启动ldap验证" border class="ldap" /> -->
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登 录</el-button>
-
     </el-form>
     <div align="center" class="title-container">
       <span style="font-size:12px" class="title">{{ VER }}</span>
@@ -177,7 +176,7 @@ $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .ldap{
-  margin-bottom: 10px;
+  margin-bottom: 9px;
 }
 
 .login-container {

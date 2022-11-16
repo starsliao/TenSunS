@@ -28,16 +28,22 @@ class User(Resource):
         args = parser.parse_args()
         username = args.get('username')
         password = args.get('password')
-        ldap = args.get('ldap')
+        #ldap = args.get('ldap')
+        ldap = False if username == 'admin' else 'True'
         #ldap认证
         if user_opt == 'login' and ldap == "True":
             print("ldap")
             ldap_obj = Ldap()
             ldap_result = ldap_obj.authpass(username,password)
-            if ldap_result:
+            if ldap_result == 1:
                 token = str(s.dumps(admin_passwd), encoding="utf-8")
                 return {"code": 20000, "data": {"token": "Bearer " + token,"username":username}}
-            return {"code": 40000, "data": "ldap校验失败！"}
+            elif ldap_result == 0:
+                return {"code": 40000, "data": "LDAP未开启。"}
+            elif ldap_result == 2:
+                return {"code": 40000, "data": "该LDAP用户不在白名单内。"}
+            else:
+                return {"code": 40000, "data": "LDAP用户密码错误！"}
         else:
             if user_opt == 'login':
                 print("非ldap")

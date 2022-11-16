@@ -1,7 +1,7 @@
 """
 截取前端ldap信息存入consul
 """
-from units import consul_kv
+from units import consul_kv,myaes
 
 
 class Ldap_Consul():
@@ -12,6 +12,7 @@ class Ldap_Consul():
     @staticmethod
     def set_consul_args(**kwargs):
         kwargs['port'] = int(kwargs.get("port"))
+        kwargs['password'] = myaes.encrypt(kwargs.get("password"))
         result = consul_kv.put_kv(f'ConsulManager/ldap/report', {**kwargs})
         if result:
             return True
@@ -31,4 +32,6 @@ class Ldap_Consul():
         return result.get("ConsulManager/ldap/report").get("ldap_url"),\
                result.get("ConsulManager/ldap/report").get("port"),\
                result.get("ConsulManager/ldap/report").get("rule"),\
-               result.get("ConsulManager/ldap/report").get("password")
+               myaes.decrypt(result.get("ConsulManager/ldap/report").get("password")),\
+               result.get("ConsulManager/ldap/report").get("ldapusr"),\
+               result.get("ConsulManager/ldap/report").get("allow")

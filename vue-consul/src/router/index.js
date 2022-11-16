@@ -237,12 +237,23 @@ export const constantRoutes = [
   {
     path: '/settings',
     component: Layout,
-    children: [{
-      path: 'index',
-      name: '全局配置',
-      component: () => import('@/views/ldap/index'),
-      meta: { title: '全局配置', icon: 'el-icon-chat-line-square' }
-    }]
+    redirect: '/settings/ldap',
+    name: '系统设置',
+    meta: { title: '系统设置', icon: 'el-icon-setting' },
+    children: [
+      {
+        path: 'ldap',
+        name: '统一认证',
+        component: () => import('@/views/ldap/index'),
+        meta: { title: '统一认证', icon: 'el-icon-lock' }
+      },
+      {
+        path: 'user',
+        name: '用户管理',
+        component: () => import('@/views/ldap/index'),
+        meta: { title: '用户管理', icon: 'el-icon-user' }
+      }
+    ]
   },
   {
     path: '/link',

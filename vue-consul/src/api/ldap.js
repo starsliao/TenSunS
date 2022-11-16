@@ -7,3 +7,15 @@ export function setldap(data) {
     data: data
   })
 }
+export function getLdap() {
+  return request({
+    url: '/api/ldap/config',
+    method: 'get'
+  })
+}
+export function delLdap() {
+  return request({
+    url: '/api/ldap/config',
+    method: 'delete'
+  })
+}

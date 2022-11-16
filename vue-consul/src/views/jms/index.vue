@@ -23,7 +23,7 @@
           <el-input v-model="jms_config.url" placeholder="http开头" style="width: 390px;" />
         </el-form-item>
         <el-form-item label="JumpServer Token">
-          <el-input v-model="jms_config.token" placeholder="请输入Admin Token" style="width: 390px;" show-password />
+          <el-input v-model="jms_config.token" type="password" placeholder="请输入Admin Token" style="width: 390px;" />
         </el-form-item>
         <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
         <h3>全局通用主机【管理用户】信息：</h3>

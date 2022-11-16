@@ -9,28 +9,33 @@ from units.ldap.ldap_consul import Ldap_Consul
 
 class Ldap(object):
     def __init__(self,**args):
-        self.ldap_url,self.port,self.rule,self.password = Ldap_Consul.get_consul_args(**args)
-        server = Server(self.ldap_url,port=self.port, get_info=ALL,connect_timeout=5)
-        self.conn = Connection(server, user=self.rule, password=self.password, auto_bind=True)
-
-
-
+        ldap_dict = Ldap_Consul.get_consul_args(**args)
+        if ldap_dict:
+            self.ldap_url,self.port,self.rule,self.password,self.ldapusr,self.allow = ldap_dict
+            server = Server(self.ldap_url,port=self.port, get_info=ALL,connect_timeout=5)
+            self.conn = Connection(server, user=self.rule, password=self.password, auto_bind=True)
+        else:
+            self.allow = ''
     #校验登录
     def authpass(self, username, password):
-        server = Server(self.ldap_url,port=self.port, get_info=ALL,connect_timeout=5)
-        conn = Connection(server, user="uid={0},xxxxxxxxxxxxx".format(username),
-                            password="{0}".format(password),
-                            check_names=True, lazy=False, raise_exceptions=False)
-        try:
-            conn.bind()
-        except Exception:
-            conn.bind()
+        if self.allow == '':
+            return 0
+        if self.allow == '*' or username.lower() in self.allow.lower().split(','):
+            ldap_username = self.ldapusr.format(username=username)
+            print('ldapuser:',ldap_username,flush=True)
+            server = Server(self.ldap_url,port=self.port, get_info=ALL,connect_timeout=5)
+            conn = Connection(server, user=ldap_username, password=password, check_names=True, lazy=False, raise_exceptions=False)
+            try:
+                conn.bind()
+            except Exception:
+                conn.bind()
 
-        if conn.result["description"] == "success":
-            data = True
+            if conn.result["description"] == "success":
+                data = 1
+            else:
+                data = 3
         else:
-            data = False
-
+            data = 2
         return data
 
 

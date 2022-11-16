@@ -4,6 +4,15 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/11/16" placement="top">
+        <el-card>
+          <h4>v0.10.0</h4>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增LDAP登录支持，可设置用户白名单！感谢<el-link :underline="false" type="primary" href="https://github.com/dbdocker" target="_blank">@dbdocker</el-link>贡献代码！</p>
+          <p>修复RDS资源使用率采集bug。</p>
+          <p>修复新版JumpServer同步删除失败的bug。</p>
+          <p>修复mysql告警规则bug。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/11/13" placement="top">
         <el-card>
           <h4>v0.9.6</h4>
