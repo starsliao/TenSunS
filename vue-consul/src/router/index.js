@@ -250,7 +250,7 @@ export const constantRoutes = [
       {
         path: 'user',
         name: '用户管理',
-        component: () => import('@/views/ldap/index'),
+        component: () => import('@/views/ldap/user'),
         meta: { title: '用户管理', icon: 'el-icon-user' }
       }
     ]
