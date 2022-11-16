@@ -73,7 +73,7 @@ def get_rules():
 - name: Domain
   rules:
   - alert: 站点可用性
-    expr: probe_success == 0
+    expr: probe_success{job="blackbox_exporter"} == 0
     for: 1m
     labels:
       alertype: domain
