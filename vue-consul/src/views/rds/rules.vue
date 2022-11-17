@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { getRdsRules } from '@/api/node-exporter'
+import { getRdsRules } from '@/api/rds'
 export default {
   data() {
     return {

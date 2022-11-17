@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getRdsServicesList, getRdsConfig, getJobRds } from '@/api/node-exporter'
+import { getRdsServicesList, getRdsConfig, getJobRds } from '@/api/rds'
 export default {
   data() {
     return {

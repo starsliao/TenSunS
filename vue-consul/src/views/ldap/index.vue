@@ -28,7 +28,7 @@
           <el-form-item style="text-align: center">
             <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
             <!-- <el-button @click="resetForm('ruleForm')">重置表单</el-button> -->
-            <el-button type="danger" @click="delForm()">删除DLAP</el-button>
+            <el-button type="danger" @click="delForm()">删除LDAP</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>

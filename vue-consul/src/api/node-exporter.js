@@ -40,13 +40,6 @@ export function getResList(job_id) {
   })
 }
 
-export function getJobRds() {
-  return request({
-    url: '/api/nodes/jobrds',
-    method: 'get'
-  })
-}
-
 export function getJobEcs() {
   return request({
     url: '/api/nodes/jobecs',
@@ -56,26 +49,6 @@ export function getJobEcs() {
 export function getServicesList() {
   return request({
     url: '/api/nodes/ecs_services',
-    method: 'get'
-  })
-}
-export function getRdsServicesList() {
-  return request({
-    url: '/api/nodes/rds_services',
-    method: 'get'
-  })
-}
-
-export function getRdsConfig(services_dict) {
-  return request({
-    url: '/api/nodes/rdspconfig',
-    method: 'post',
-    data: { services_dict }
-  })
-}
-export function getRdsRules() {
-  return request({
-    url: '/api/nodes/rdsrules',
     method: 'get'
   })
 }
