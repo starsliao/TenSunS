@@ -92,6 +92,8 @@
           <el-select v-model="ecsJob.vendor" placeholder="请选择" @change="ecsJob.region=[]">
             <el-option v-for="item in vendors" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
+          <span v-if="ecsJob.vendor === 'huaweicloud'"><br><font size="3px" color="#ff0000">需要开通企业项目(更多-企业-项目管理)</font></span>
+          <span v-if="ecsJob.vendor === 'alicloud'">已支持采集ECS标签</span>
         </el-form-item>
         <el-form-item prop="account">
           <span slot="label">
@@ -123,7 +125,9 @@
             <el-checkbox label="rds">MySQL</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-
+        <el-form-item v-if="restype.includes('ecs') && ecsJob.vendor === 'alicloud'" label="优先获取外网IP" prop="isextip">
+          <el-checkbox v-model="ecsJob.isextip">(仅支持阿里云ECS)</el-checkbox>
+        </el-form-item>
         <el-form-item prop="proj_interval">
           <span slot="label">
             <span class="span-box">
@@ -170,7 +174,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="修改密钥">
-          <el-switch v-model="editJob.akskswitch" />
+          <el-switch v-model="editJob.akskswitch" active-text="仅修改时选择" />
         </el-form-item>
         <el-form-item v-if="editJob.akskswitch" label="Access Key" prop="ak">
           <el-input v-model="editJob.ak" placeholder="请输AccessKey ID" />
@@ -192,7 +196,9 @@
             <el-checkbox label="rds">MySQL</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-
+        <el-form-item v-if="editJob.restype.includes('ecs') && editJob.vendor === 'alicloud'" label="优先获取外网IP" prop="isextip">
+          <el-checkbox v-model="editJob.isextip">(仅支持阿里云ECS)</el-checkbox>
+        </el-form-item>
         <el-form-item prop="proj_interval">
           <span slot="label">
             <span class="span-box">
@@ -377,6 +383,7 @@ export default {
       this.listLoading = true
       findGroup(vendor, account, region).then(response => {
         this.editJob.restype = response.restype
+        this.editJob.isextip = response.isextip
         this.editJob.proj_interval = response.interval.proj_interval
         this.editJob.ecs_interval = response.interval.ecs_interval
         this.editJob.rds_interval = response.interval.rds_interval
@@ -384,14 +391,14 @@ export default {
       })
     },
     handleEdit() {
-      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20 }
+      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20, isextip: false }
       getCloud().then(response => {
         this.cloud_dict = response.cloud_dict
       })
       this.editFormVisible = true
     },
     handleCreate() {
-      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20 }
+      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, isextip: false }
       this.ecsJob.account = this.query.account
       this.newFormVisible = true
     },

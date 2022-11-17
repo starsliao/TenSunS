@@ -124,7 +124,7 @@ def group(account):
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/group', data)
 
-def ecs(account,region):
+def ecs(account,region,isextip=False):
     ak,sk = consul_kv.get_aksk('alicloud',account)
     now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
@@ -145,11 +145,17 @@ def ecs(account,region):
             ecs = client.describe_instances(describe_instances_request)
             ecs_list = ecs.body.instances.to_map()['Instance']
             ecs_dict_temp = {i['InstanceId']:{
-                'name':i['InstanceName'],'group':group_dict.get(i['ResourceGroupId'],'无'),'ostype':i['OSType'].lower(),
-                'status':i['Status'],'region':region,
-                'ip':i["InnerIpAddress"]["IpAddress"] if len(i["InnerIpAddress"]["IpAddress"]) != 0 else i['NetworkInterfaces']['NetworkInterface'][0]['PrimaryIpAddress'],
+                'name':i['InstanceName'],'group':group_dict.get(i['ResourceGroupId'],'无'),'ostype':i['OSType'].lower(),'status':i['Status'],'region':region,
+                'ip':i["InnerIpAddress"]["IpAddress"][0] if i["InnerIpAddress"]["IpAddress"] else i['NetworkInterfaces']['NetworkInterface'][0]['PrimaryIpAddress'],
                 'cpu':f"{i['Cpu']}核",'mem':f"{str(round(i['Memory']/1024,1)).rstrip('.0')}GB",'exp':i['ExpiredTime'].split('T')[0],'ecstag': i.get('Tags',{}).get('Tag',[])
                 }for i in ecs_list}
+
+            if isextip:
+                for i in ecs_list:
+                    try:
+                        ecs_dict_temp[i['InstanceId']]['ip'] = i['PublicIpAddress']['IpAddress'][0] if i['PublicIpAddress']['IpAddress'] else i["EipAddress"]["IpAddress"]
+                    except:
+                        pass
             ecs_dict.update(ecs_dict_temp)
             next_token = ecs.body.next_token
 

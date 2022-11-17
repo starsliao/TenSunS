@@ -23,6 +23,9 @@ def deljob(jobid):
 def modjob_interval(jobid,job_interval):
     Scheduler.modify_job(jobid,trigger='interval',minutes=job_interval)
 
+def modjob_args(jobid,args):
+    Scheduler.modify_job(jobid,args=args)
+
 def addjob(job_id,job_func,job_args,job_interval):
     Scheduler.add_job(id=job_id, func=job_func, args=job_args, trigger='interval',
                       minutes=job_interval, replace_existing=True)
@@ -97,7 +100,10 @@ class Jobs(Resource):
                     for reg in job_dict['region']:
                         res_job_id = f"{job_dict['vendor']}/{job_dict['account']}/{res}/{reg}"
                         res_job_func = f"__main__:{job_dict['vendor']}.{res}"
-                        res_job_args = [job_dict['account'],reg]
+                        if reg == 'ecs':
+                            res_job_args = [job_dict['account'],reg,job_dict['isextip']]
+                        else:
+                            res_job_args = [job_dict['account'],reg]
                         res_job_interval = int(job_dict[f'{res}_interval'])
                         Scheduler.add_job(id=res_job_id, func=res_job_func, args=res_job_args, trigger='interval',
                                           minutes=res_job_interval, replace_existing=True)

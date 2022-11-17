@@ -126,7 +126,7 @@ def group(account):
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/group', data)
 
-def ecs(account,region):
+def ecs(account,region,isextip=False):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
     now = datetime.datetime.now().strftime('%m.%d/%H:%M')
     group_dict = consul_kv.get_value(f'ConsulManager/assets/huaweicloud/group/{account}')

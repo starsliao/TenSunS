@@ -114,7 +114,7 @@ def group(account):
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/group', data)
 
-def ecs(account,region):
+def ecs(account,region,isextip=False):
     from tencentcloud.cvm.v20170312 import cvm_client, models
     ak,sk = consul_kv.get_aksk('tencent_cloud',account)
     now = datetime.datetime.now().strftime('%m.%d/%H:%M')

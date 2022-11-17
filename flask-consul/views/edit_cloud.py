@@ -3,7 +3,7 @@ from flask_restful import reqparse, Resource, Api
 from flask_apscheduler import APScheduler
 from config import vendors,regions
 from units import token_auth,consul_kv
-from .jobs import deljob,addjob,runjob,modjob_interval
+from .jobs import deljob,addjob,runjob,modjob_interval,modjob_args
 import json
 blueprint = Blueprint('edit_cloud',__name__)
 api = Api(blueprint)
@@ -34,16 +34,18 @@ class Edit(Resource):
             region = args['region']
             restype = ['group']
             interval = {'proj_interval': 60, 'ecs_interval': 5, 'rds_interval': 5}
+            isextip = False
             for i in self.job_list:
                 if f'{vendor}/{account}/group' == i['id']:
                     interval['proj_interval'] = i['minutes']
                 elif f'{vendor}/{account}/ecs/{region}' == i['id']:
                     restype.append('ecs')
                     interval['ecs_interval'] = i['minutes']
+                    isextip = i["args"][-1] if len(i["args"]) == 3 else False
                 elif f'{vendor}/{account}/rds/{region}' == i['id']:
                     restype.append('rds')
                     interval['rds_interval'] = i['minutes']
-            return {'code': 20000, 'restype': restype, 'interval': interval}
+            return {'code': 20000, 'restype': restype, 'interval': interval, 'isextip': isextip}
     def post(self,stype):
         if stype == 'commit':
             args = parser.parse_args()
@@ -52,6 +54,7 @@ class Edit(Resource):
             account = editjob_dict['account']
             region = editjob_dict['region']
             restype = editjob_dict['restype']
+            isextip = editjob_dict['isextip']
             proj_interval = int(editjob_dict['proj_interval'])
             ecs_interval = int(editjob_dict['ecs_interval'])
             rds_interval = int(editjob_dict['rds_interval'])
@@ -74,11 +77,17 @@ class Edit(Resource):
                 isecs = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/ecs/{region}']
                 if len(isecs) == 1:
                     if ecs_interval != isecs[0]['minutes']:
+                        isecs[0]['minutes'] = ecs_interval
                         consul_kv.put_kv(f'ConsulManager/jobs/{ecs_jobid}',isecs[0])
                         modjob_interval(ecs_jobid,ecs_interval)
+
+                    if len(isecs[0]['args']) != 3 or isextip != isecs[0]['args'][2]:
+                        isecs[0]['args'][2] = isextip
+                        consul_kv.put_kv(f'ConsulManager/jobs/{ecs_jobid}',isecs[0])
+                        modjob_args(ecs_jobid,isecs[0]['args'])
                 else:
                     job_func = f"__main__:{vendor}.ecs"
-                    job_args = [account,region]
+                    job_args = [account,region,isextip]
                     job_interval = ecs_interval
                     addjob(ecs_jobid, job_func, job_args, job_interval)      
                     job_dict = {'id':ecs_jobid,'func':job_func,'args':job_args,'minutes':job_interval,
@@ -95,6 +104,7 @@ class Edit(Resource):
                 isrds = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/rds/{region}']
                 if len(isrds) == 1:
                     if rds_interval != isrds[0]['minutes']:
+                        isrds[0]['minutes'] = rds_interval
                         consul_kv.put_kv(f'ConsulManager/jobs/{rds_jobid}',isrds[0])
                         modjob_interval(rds_jobid,rds_interval)
                 else:
