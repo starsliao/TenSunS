@@ -124,7 +124,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前CPU使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前CPU使用率:{{ $value }}% \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_内存使用率过高
     expr: mysql_mem_util * on (iid) group_right mysql_up > 85
@@ -132,7 +132,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前内存使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前内存使用率:{{ $value }}% \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_磁盘使用率过高
     expr: mysql_disk_util * on (iid) group_right mysql_up > 90
@@ -140,7 +140,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前磁盘使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前磁盘使用率:{{ $value }}% \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_IO使用率过高
     expr: mysql_io_util * on (iid) group_right mysql_up > 90
@@ -148,7 +148,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前IO使用率:{{ $value }}% \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL当前IO使用率:{{ $value }}% \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_is_down
     expr: mysql_up == 0
@@ -156,7 +156,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is down. \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is down. \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_慢查询过多
     expr: delta(mysql_global_status_slow_queries[1m]) > 60
@@ -164,7 +164,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：每分钟慢查询:{{ $value }} \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：每分钟慢查询:{{ $value }} \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_当前活跃的连接数过多
     expr: mysql_global_status_threads_running > 100
@@ -172,7 +172,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：当前活跃的连接数:{{ $value }} \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：当前活跃的连接数:{{ $value }} \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_当前updating状态的线程过多
     expr: mysql_info_schema_processlist_threads{state=~"updating"} > 100
@@ -180,7 +180,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：当前updating状态的线程:{{ $value }} \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：当前updating状态的线程:{{ $value }} \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_High_QPS
     expr: irate(mysql_global_status_questions[3m]) > 30000
@@ -188,7 +188,7 @@ groups:
     labels:
       severity: warning
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：Mysql QPS:{{ $value | humanize }} \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：Mysql QPS:{{ $value | humanize }} \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_Too_Many_Connections
     expr: irate(mysql_global_status_threads_connected[3m]) > 1000
@@ -196,7 +196,7 @@ groups:
     labels:
       severity: warning
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：Mysql Connections:{{ $value | humanize }} \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：Mysql Connections:{{ $value | humanize }} \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_主从IO线程运行状态异常
     expr: mysql_slave_status_master_server_id > 0 and ON (instance) mysql_slave_status_slave_io_running == 0
@@ -204,7 +204,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL Slave IO thread not running \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL Slave IO thread not running \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
   
   - alert: MySQL_主从SQL线程运行状态异常
     expr: mysql_slave_status_master_server_id > 0 and ON (instance) mysql_slave_status_slave_sql_running == 0
@@ -212,7 +212,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL Slave SQL thread not running \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL Slave SQL thread not running \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_主从复制延迟过高
     expr: mysql_slave_status_seconds_behind_master > 3
@@ -220,7 +220,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：主从复制延迟当前:{{ $value | humanize }}s \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：主从复制延迟当前:{{ $value | humanize }}s \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 
   - alert: MySQL_is_Restart
     expr: mysql_global_status_uptime <600
@@ -228,7 +228,7 @@ groups:
     labels:
       severity: critical
     annotations:
-      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is Restart. \\n> {{ $labels.iid }}"
+      description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is Restart. \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 """
     return {"code": 20000, "rules": rules}
 
