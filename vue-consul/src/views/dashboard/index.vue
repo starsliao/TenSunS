@@ -4,10 +4,19 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/11/18" placement="top">
+        <el-card>
+          <h4>v0.10.2</h4>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增：ECS同步支持设置优先使用公网IP(仅阿里云)。</p>
+          <p>优化：LDAP登录支持设置用户白名单。</p>
+          <p>修复：编辑云资源修改时间间隔不生效。</p>
+          <p>优化：mysql告警规则增加输出实例信息。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/11/16" placement="top">
         <el-card>
           <h4>v0.10.0</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增LDAP登录支持，可设置用户白名单！感谢<el-link :underline="false" type="primary" href="https://github.com/dbdocker" target="_blank">@dbdocker</el-link>贡献代码！</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增LDAP登录支持，感谢<el-link :underline="false" type="primary" href="https://github.com/dbdocker" target="_blank">@dbdocker</el-link>贡献代码！</p>
           <p>修复RDS资源使用率采集bug。</p>
           <p>修复新版JumpServer同步删除失败的bug。</p>
           <p>修复mysql告警规则bug。</p>
