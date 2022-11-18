@@ -58,6 +58,7 @@ class Edit(Resource):
             proj_interval = int(editjob_dict['proj_interval'])
             ecs_interval = int(editjob_dict['ecs_interval'])
             rds_interval = int(editjob_dict['rds_interval'])
+            redis_interval = int(editjob_dict['redis_interval'])
             print(editjob_dict)
             if editjob_dict['akskswitch']:
                 ak = editjob_dict['ak']
@@ -73,6 +74,7 @@ class Edit(Resource):
 
             ecs_jobid = f'{vendor}/{account}/ecs/{region}'
             rds_jobid = f'{vendor}/{account}/rds/{region}'
+            redis_jobid = f'{vendor}/{account}/redis/{region}'
             if 'ecs' in restype:
                 isecs = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/ecs/{region}']
                 if len(isecs) == 1:
@@ -82,7 +84,10 @@ class Edit(Resource):
                         modjob_interval(ecs_jobid,ecs_interval)
 
                     if len(isecs[0]['args']) != 3 or isextip != isecs[0]['args'][2]:
-                        isecs[0]['args'][2] = isextip
+                        try:
+                            isecs[0]['args'][2] = isextip
+                        except:
+                            isecs[0]['args'].append(isextip)
                         consul_kv.put_kv(f'ConsulManager/jobs/{ecs_jobid}',isecs[0])
                         modjob_args(ecs_jobid,isecs[0]['args'])
                 else:
@@ -121,5 +126,28 @@ class Edit(Resource):
                     deljob(rds_jobid)
                 except:
                     pass
+
+            if 'redis' in restype:
+                isredis = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/redis/{region}']
+                if len(isredis) == 1:
+                    if redis_interval != isredis[0]['minutes']:
+                        isredis[0]['minutes'] = redis_interval
+                        consul_kv.put_kv(f'ConsulManager/jobs/{redis_jobid}',isredis[0])
+                        modjob_interval(redis_jobid,redis_interval)
+                else:
+                    job_func = f"__main__:{vendor}.redis"
+                    job_args = [account,region]
+                    job_interval = redis_interval
+                    addjob(redis_jobid, job_func, job_args, job_interval)
+                    job_dict = {'id':redis_jobid,'func':job_func,'args':job_args,'minutes':job_interval,
+                                "trigger": "interval","replace_existing": True}
+                    consul_kv.put_kv(f'ConsulManager/jobs/{redis_jobid}',job_dict)
+            else:
+                try:
+                    consul_kv.del_key(f'ConsulManager/jobs/{redis_jobid}')
+                    deljob(redis_jobid)
+                except:
+                    pass
+
             return {'code': 20000, 'data': f'{vendor}/{account}/{region}：编辑成功！'}
 api.add_resource(Edit, '/api/edit/<stype>')

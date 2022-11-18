@@ -86,7 +86,7 @@
       </el-table>
     </el-dialog>
 
-    <el-dialog title="新增云资源" :visible.sync="newFormVisible" width="40%">
+    <el-dialog title="新增云资源" :visible.sync="newFormVisible" width="45%">
       <el-form ref="dataForm" :rules="rules" :model="ecsJob" label-position="right" label-width="auto" style="width: 90%; margin-left: 1px;">
         <el-form-item label="云厂商" prop="vendor">
           <el-select v-model="ecsJob.vendor" placeholder="请选择" @change="ecsJob.region=[]">
@@ -123,6 +123,7 @@
             <el-checkbox label="group" disabled>分组</el-checkbox>
             <el-checkbox label="ecs">ECS</el-checkbox>
             <el-checkbox label="rds">MySQL</el-checkbox>
+            <el-checkbox label="redis">REDIS</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="restype.includes('ecs') && ecsJob.vendor === 'alicloud'" label="优先获取外网IP" prop="isextip">
@@ -145,6 +146,9 @@
         <el-form-item v-if="restype.includes('rds')" label="MySQL同步间隔(分钟)" prop="rds_interval">
           <el-input v-model="ecsJob.rds_interval" />
         </el-form-item>
+        <el-form-item v-if="restype.includes('redis')" label="REDIS同步间隔(分钟)" prop="redis_interval">
+          <el-input v-model="ecsJob.redis_interval" />
+        </el-form-item>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -160,7 +164,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="编辑云资源" :visible.sync="editFormVisible" width="40%">
+    <el-dialog title="编辑云资源" :visible.sync="editFormVisible" width="45%">
       <el-form ref="dataForm" :rules="rules" :model="editJob" label-position="right" label-width="auto" style="width: 90%; margin-left: 1px;">
         <el-form-item label="云厂商" prop="vendor">
           <el-select v-model="editJob.vendor" placeholder="请选择" @change="editJob.region=[];editJob.account=''">
@@ -194,6 +198,7 @@
             <el-checkbox label="group" disabled>分组</el-checkbox>
             <el-checkbox label="ecs">ECS</el-checkbox>
             <el-checkbox label="rds">MySQL</el-checkbox>
+            <el-checkbox label="redis">REDIS</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="editJob.restype.includes('ecs') && editJob.vendor === 'alicloud'" label="优先获取外网IP" prop="isextip">
@@ -215,6 +220,9 @@
         </el-form-item>
         <el-form-item v-if="editJob.restype.includes('rds')" label="MySQL同步间隔(分钟)" prop="rds_interval">
           <el-input v-model="editJob.rds_interval" />
+        </el-form-item>
+        <el-form-item v-if="editJob.restype.includes('redis')" label="REDIS同步间隔(分钟)" prop="redis_interval">
+          <el-input v-model="editJob.redis_interval" />
         </el-form-item>
       </el-form>
 
@@ -333,7 +341,7 @@ export default {
         ]
       },
 
-      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20 },
+      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20 },
       editJob: { restype: ['group'] },
       cloud_dict: {},
       upjob: { jobid: '', interval: '' },
@@ -361,6 +369,8 @@ export default {
         return 'success-row'
       } else if (row.itype === 'rds') {
         return 'warning-row'
+      } else if (row.itype === 'redis') {
+        return 'info-row'
       }
       return ''
     },
@@ -387,18 +397,19 @@ export default {
         this.editJob.proj_interval = response.interval.proj_interval
         this.editJob.ecs_interval = response.interval.ecs_interval
         this.editJob.rds_interval = response.interval.rds_interval
+        this.editJob.redis_interval = response.interval.redis_interval
         this.listLoading = false
       })
     },
     handleEdit() {
-      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20, isextip: false }
+      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20, isextip: false }
       getCloud().then(response => {
         this.cloud_dict = response.cloud_dict
       })
       this.editFormVisible = true
     },
     handleCreate() {
-      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, isextip: false }
+      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20, isextip: false }
       this.ecsJob.account = this.query.account
       this.newFormVisible = true
     },
@@ -525,5 +536,8 @@ export default {
   }
   .el-table .warning-row {
     background: oldlace;
+  }
+  .el-table .info-row {
+    background: #f0f8ff;
   }
 </style>

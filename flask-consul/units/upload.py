@@ -47,6 +47,22 @@ def importconsul(row,imptype):
                          'name':name,'instance':instance,'os':os},
                 "check": {"tcp": instance,"interval": "60s"}
             }
+        elif imptype == 'selfredis':
+            vendor,account,region,group,name,instance,os = row
+            print(row)
+            sid = f"{vendor}/{account}/{region}/{group}@{name}"
+            ip = instance.split(':')[0]
+            port = instance.split(':')[1]
+            data = {
+                "id": sid,
+                "name": 'selfredis_exporter',
+                'Address': ip,
+                'port': int(port),
+                "tags": [vendor,os],
+                "Meta": {'vendor':vendor,'account':account,'region':region,'group':group,
+                         'name':name,'instance':instance,'os':os},
+                "check": {"tcp": instance,"interval": "60s"}
+            }
     except Exception as e:
         print("【import】导入失败",e,flush=True)
         return {"code": 50000, "data": f"导入内容格式异常！{row}"} 
