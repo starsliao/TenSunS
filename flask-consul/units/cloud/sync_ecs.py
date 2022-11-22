@@ -27,11 +27,11 @@ def w2consul(vendor,account,region,ecs_dict):
         #对consul中关机的ecs做标记。
         if v['status'] in ['SHUTOFF','Stopped','STOPPED']:
             off = off + 1
-            tags = ['shutoff', region]
+            tags = ['OFF', v['ostype'], region]
             stat = 'off'
         else:
             on = on + 1
-            tags = [v['ostype'],region]
+            tags = ['ON', v['ostype'], region]
             stat = 'on'
         custom_ecs = consul_kv.get_value(f'ConsulManager/assets/sync_ecs_custom/{iid}')
         port = custom_ecs.get('port')

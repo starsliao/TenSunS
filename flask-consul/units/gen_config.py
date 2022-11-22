@@ -1,5 +1,74 @@
 from config import consul_token,consul_url
 
+def redis_config(region_list,cm_exporter,services_list,exporter):
+    region_str = '\n      - '.join([i.replace('/redis','') for i in region_list])
+    consul_server = consul_url.split("/")[2]
+    exporter_config = f"""
+  - job_name: 'ConsulManager-REDIS'
+    scrape_interval: 30s
+    scrape_timeout: 15s
+    static_configs:
+    - targets:
+      - {region_str}
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __metrics_path__
+        regex: (.*)
+        replacement: /api/cloud_redis_metrics/${{1}}
+      - target_label: __address__
+        replacement: {cm_exporter}
+"""
+    configs = f"""
+  - job_name: redis_exporter
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /scrape
+    consul_sd_configs:
+      - server: '{consul_server}'
+        token: '{consul_token}'
+        refresh_interval: 30s
+        services: {services_list}
+        tags: ['ON']
+    relabel_configs:
+      - source_labels: [__meta_consul_service_address,__meta_consul_service_port]
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        target_label: __param_target
+        replacement: $1:$2
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: {exporter}
+      - source_labels: ['__meta_consul_service_metadata_vendor']
+        target_label: vendor
+      - source_labels: ['__meta_consul_service_metadata_region']
+        target_label: region
+      - source_labels: ['__meta_consul_service_metadata_group']
+        target_label: group
+      - source_labels: ['__meta_consul_service_metadata_account']
+        target_label: account
+      - source_labels: ['__meta_consul_service_metadata_name']
+        target_label: name
+      - source_labels: ['__meta_consul_service_metadata_iid']
+        target_label: iid
+      - source_labels: ['__meta_consul_service_metadata_mem']
+        target_label: mem
+      - source_labels: ['__meta_consul_service_metadata_itype']
+        target_label: itype
+      - source_labels: ['__meta_consul_service_metadata_ver']
+        target_label: ver
+"""
+    if not services_list:
+        return {'code': 20000,'configs': '请选择需要Prometheus从Conusl自动发现的MySQL组' }
+    if services_list and exporter == '':
+        return {'code': 20000,'configs': '您已经选择了需要Prometheus从Conusl自动发现MySQL组，\n请输入Redis_Exporter的地址和端口，例如：10.0.0.26:9121' }
+    if region_list and cm_exporter == '':
+        return {'code': 20000,'configs': '您已经选择了需要从云监控采集基础指标(CPU、内存、磁盘、IO)的MySQL组，\n请输入ConsulManager地址和端口，例如：10.0.0.26:1026' }
+
+    if region_list:
+        return {'code': 20000,'configs': exporter_config + configs }
+    else:
+        return {'code': 20000,'configs': configs }
+
 def rds_config(region_list,cm_exporter,services_list,exporter):
     region_str = '\n      - '.join([i.replace('/rds','') for i in region_list])
     consul_server = consul_url.split("/")[2]
@@ -28,6 +97,7 @@ def rds_config(region_list,cm_exporter,services_list,exporter):
         token: '{consul_token}'
         refresh_interval: 30s
         services: {services_list}
+        tags: ['ON']
     relabel_configs:
       - source_labels: [__meta_consul_service_address,__meta_consul_service_port]
         regex: ([^:]+)(?::\d+)?;(\d+)
@@ -87,7 +157,7 @@ def ecs_config(services_list,ostype_list):
         token: '{consul_token}'
         refresh_interval: 30s
         services: {services_list}
-        tags: ['{ostype}']
+        tags: ['{ostype}','ON']
     relabel_configs:
       - source_labels: ['__meta_consul_service']
         target_label: cservice
@@ -231,6 +301,123 @@ groups:
       description: "{{ $labels.group }}_{{ $labels.name }}：MySQL database is Restart. \\n> {{ $labels.instance }}\\n> {{ $labels.iid }}"
 """
     return {"code": 20000, "rules": rules}
+
+def get_redisrules():
+    rules = """
+groups:
+- name: REDIS-Alert
+  rules:
+  - alert: RedisDown
+    expr: redis_up == 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis down (instance {{ $labels.instance }})
+      description: "Redis instance is down\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisMissingMaster
+    expr: (count(redis_instance_info{role="master"}) or vector(0)) < 1
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis missing master (instance {{ $labels.instance }})
+      description: "Redis cluster has no node marked as master.\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisTooManyMasters
+    expr: count(redis_instance_info{role="master"}) > 1
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis too many masters (instance {{ $labels.instance }})
+      description: "Redis cluster has too many nodes marked as master.\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisDisconnectedSlaves
+    expr: count without (instance, job) (redis_connected_slaves) - sum without (instance, job) (redis_connected_slaves) - 1 > 1
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis disconnected slaves (instance {{ $labels.instance }})
+      description: "Redis not replicating for all slaves. Consider reviewing the redis replication status.\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisReplicationBroken
+    expr: delta(redis_connected_slaves[1m]) < 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis replication broken (instance {{ $labels.instance }})
+      description: "Redis instance lost a slave\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisClusterFlapping
+    expr: changes(redis_connected_slaves[1m]) > 1
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis cluster flapping (instance {{ $labels.instance }})
+      description: "Changes have been detected in Redis replica connection. This can occur when replica nodes lose connection to the master and reconnect (a.k.a flapping).\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisMissingBackup
+    expr: time() - redis_rdb_last_save_timestamp_seconds > 60 * 60 * 24
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis missing backup (instance {{ $labels.instance }})
+      description: "Redis has not been backuped for 24 hours\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  # The exporter must be started with --include-system-metrics flag or REDIS_EXPORTER_INCL_SYSTEM_METRICS=true environment variable.
+  - alert: RedisOutOfSystemMemory
+    expr: redis_memory_used_bytes / redis_total_system_memory_bytes * 100 > 90
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Redis out of system memory (instance {{ $labels.instance }})
+      description: "Redis is running out of system memory (> 90%)\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisOutOfConfiguredMaxmemory
+    expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 90
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Redis out of configured maxmemory (instance {{ $labels.instance }})
+      description: "Redis is running out of configured maxmemory (> 90%)\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisTooManyConnections
+    expr: redis_connected_clients > 100
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Redis too many connections (instance {{ $labels.instance }})
+      description: "Redis instance has too many connections\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisNotEnoughConnections
+    expr: redis_connected_clients < 5
+    for: 2m
+    labels:
+      severity: warning
+    annotations:
+      summary: Redis not enough connections (instance {{ $labels.instance }})
+      description: "Redis instance should have more connections (> 5)\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+
+  - alert: RedisRejectedConnections
+    expr: increase(redis_rejected_connections_total[1m]) > 0
+    for: 0m
+    labels:
+      severity: critical
+    annotations:
+      summary: Redis rejected connections (instance {{ $labels.instance }})
+      description: "Some connections to Redis has been rejected\\n  VALUE = {{ $value }}\\n  LABELS = {{ $labels }}"
+"""
+    return {"code": 20000, "rules": rules}
+
 
 def get_rules():
     rules = """

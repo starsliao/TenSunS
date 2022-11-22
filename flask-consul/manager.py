@@ -8,7 +8,7 @@ if consul_kv.get_kv_dict(skey_path) == {}:
     consul_kv.put_kv(skey_path,{'sk':''.join(str(uuid.uuid4()).split('-'))})
 
 from views import login, blackbox, consul, jobs, nodes, selfnode, selfrds, selfredis, avd, exp, jms, edit_cloud, ldap, rds, redis
-from views.prom import cloud_mysql_metrics
+from views.prom import cloud_metrics
 from units.cloud import huaweicloud,alicloud,tencent_cloud
 from units.avd import avd_list
 from units.jms import sync_jms
@@ -29,7 +29,7 @@ app.register_blueprint(avd.blueprint)
 app.register_blueprint(exp.blueprint)
 app.register_blueprint(jms.blueprint)
 app.register_blueprint(edit_cloud.blueprint)
-app.register_blueprint(cloud_mysql_metrics.blueprint)
+app.register_blueprint(cloud_metrics.blueprint)
 app.register_blueprint(ldap.blueprint)
 app.register_blueprint(rds.blueprint)
 app.register_blueprint(redis.blueprint)

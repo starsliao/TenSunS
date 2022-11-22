@@ -27,11 +27,11 @@ def w2consul(vendor,account,region,rds_dict):
         #对consul中关机的rds做标记。
         if v['status'] in ['SHUTDOWN']:
             off = off + 1
-            tags = ['shutoff',v['itype'],v['ver'], region]
+            tags = ['OFF',v['itype'],v['ver'], region]
             stat = 'off'
         else:
             on = on + 1
-            tags = [v['itype'],v['ver'],region]
+            tags = ['ON',v['itype'],v['ver'],region]
             stat = 'on'
         custom_rds = consul_kv.get_value(f'ConsulManager/assets/sync_rds_custom/{iid}')
         port = custom_rds.get('port')

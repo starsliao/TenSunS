@@ -47,21 +47,21 @@
     >
       <el-table-column type="index" align="center" />
       <el-table-column prop="group" label="分组" sortable align="center" width="150" show-overflow-tooltip />
-      <el-table-column prop="name" label="名称" sortable align="center" width="220" show-overflow-tooltip />
-      <el-table-column prop="instance" label="实例" sortable align="center" width="180">
+      <el-table-column prop="name" label="名称" sortable align="center" width="180" show-overflow-tooltip />
+      <el-table-column prop="instance" label="实例" sortable align="center">
         <template slot-scope="{row}">
           <span style="font-weight:bold">{{ row.instance }} </span>
           <el-tooltip style="diaplay:inline" effect="dark" placement="top">
-            <div slot="content"> 域名：{{ row.domain }}</div>
+            <div slot="content"> IP：{{ row.ip }}</div>
             <i class="el-icon-info" />
           </el-tooltip>
         </template>
       </el-table-column>
       <el-table-column prop="ver" label="版本" sortable align="center" width="80" />
       <el-table-column prop="mem" label="内存" sortable align="center" width="90" />
-      <el-table-column prop="exp" label="到期日" sortable align="center" width="100" />
-      <el-table-column prop="itype" label="类型" sortable align="center" show-overflow-tooltip />
-      <el-table-column prop="iid" label="实例ID" sortable align="center" show-overflow-tooltip />
+      <el-table-column prop="exp" label="到期日" sortable align="center" width="90" />
+      <el-table-column prop="itype" label="类型" sortable align="center" width="120" show-overflow-tooltip />
+      <el-table-column prop="iid" label="实例ID" sortable align="center" width="150" show-overflow-tooltip />
       <el-table-column label="操作" align="center" width="120" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
           <el-button type="primary" size="mini" @click="handleUpdate(row.iid)">

@@ -27,11 +27,11 @@ def w2consul(vendor,account,region,redis_dict):
         #对consul中关机的redis做标记。
         if v['status'] in ['SHUTDOWN']:
             off = off + 1
-            tags = ['shutoff',v['itype'],v['ver'], region]
+            tags = ['OFF', v['itype'], v['ver'], region]
             stat = 'off'
         else:
             on = on + 1
-            tags = [v['itype'],v['ver'],region]
+            tags = ['ON', v['itype'], v['ver'], region]
             stat = 'on'
         custom_redis = consul_kv.get_value(f'ConsulManager/assets/sync_redis_custom/{iid}')
         port = custom_redis.get('port')
@@ -39,7 +39,7 @@ def w2consul(vendor,account,region,redis_dict):
         if port == None:
             port = v['port']
         if ip == None:
-            ip = v['ip']
+            ip = v['domain']
         instance = f'{ip}:{port}'
         data = {
             'id': iid,
@@ -58,7 +58,8 @@ def w2consul(vendor,account,region,redis_dict):
                 'vendor': vendors.get(vendor,'未找到'),
                 'mem': v['mem'],
                 'ver': v['ver'],
-                'domain':v['domain'],
+                'ip':v['ip'],
+                'exp':v['exp'],
                 'stat': stat
             },
             "check": {
