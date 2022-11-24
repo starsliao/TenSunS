@@ -25,7 +25,7 @@ def w2consul(vendor,account,region,rds_dict):
     for k,v in rds_dict.items():
         iid = k
         #对consul中关机的rds做标记。
-        if v['status'] in ['SHUTDOWN']:
+        if v['status'] in ['SHUTDOWN','非运行中']:
             off = off + 1
             tags = ['OFF',v['itype'],v['ver'], region]
             stat = 'off'

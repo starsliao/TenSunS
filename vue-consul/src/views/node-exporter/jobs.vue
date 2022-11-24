@@ -14,7 +14,7 @@
       <el-option v-for="item in itype_list" :key="item" :label="item" :value="item" />
     </el-select>
 
-    <el-tooltip class="item" effect="light" content="清空查询条件" placement="top">
+    <el-tooltip effect="light" content="清空查询条件" placement="top">
       <el-button class="filter-item" style="margin-left: 10px;" type="info" icon="el-icon-delete" circle @click="resetData" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-s-promotion" @click="handleCreate">
@@ -24,7 +24,7 @@
       编辑云资源
     </el-button>
     <div style="float: right;">
-      <el-tooltip class="item" effect="light" content="刷新当前页面" placement="top">
+      <el-tooltip effect="light" content="刷新当前页面" placement="top">
         <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="fetchData" />
       </el-tooltip>
     </div>

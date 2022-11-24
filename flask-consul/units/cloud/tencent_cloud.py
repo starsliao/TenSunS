@@ -10,6 +10,7 @@ import sys,datetime,hashlib
 from units import consul_kv
 from units.cloud import sync_ecs
 from units.cloud import sync_rds
+from units.cloud import sync_redis
 from units.cloud import notify
 
 def exp(account,collect_days,notify_days,notify_amount):
@@ -214,3 +215,52 @@ def rds(account,region):
     except Exception as e:
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
+
+def redis(account,region):
+    from tencentcloud.redis.v20180412 import redis_client, models
+    ak,sk = consul_kv.get_aksk('tencent_cloud',account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/tencent_cloud/group/{account}')
+    try:
+        cred = credential.Credential(ak, sk)
+        httpProfile = HttpProfile()
+        httpProfile.endpoint = "redis.tencentcloudapi.com"
+
+        clientProfile = ClientProfile()
+        clientProfile.httpProfile = httpProfile
+        client = redis_client.RedisClient(cred, region, clientProfile)
+        req = models.DescribeInstancesRequest()
+        params = {"Limit": 1000}
+        req.from_json_string(json.dumps(params))
+        resp = client.DescribeInstances(req)
+        redis_list = resp.InstanceSet
+        total = resp.TotalCount
+        redis_dict = {i.InstanceId:{'name':i.InstanceName,
+                             'domain':i.WanIp,
+                             'ip':i.WanIp,
+                             'port':i.Port,
+                             'region':region,
+                             'group':group_dict.get(str(i.ProjectId),'无'),
+                             'status': '运行中' if i.Status == 2 else '非运行中',
+                             'itype':{6:'主从',7:'集群',8:'主从',9:'集群'}.get(i.Type,i.Type),
+                             'ver':i.CurrentRedisVersion,
+                             'exp': '按量' if i.DeadlineTime == "0000-00-00 00:00:00" else i.DeadlineTime.split(' ')[0],
+                             'mem':f"{i.Size}MB",
+                            } for i in redis_list}
+        count = len(redis_dict)
+        off,on = sync_redis.w2consul('tencent_cloud',account,region,redis_dict)
+        data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'redis同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)
+        print('【JOB】===>', 'tencent_cloud_redis', account,region, data, flush=True)
+    except TencentCloudSDKException as err:
+        print(err, flush=True)
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}')
+        if data == {}:
+            data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
+        else:
+            data['update'] = f'失败'
+            data['msg'] = str(err)
+        consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)
+    except Exception as e:
+        data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)

@@ -13,7 +13,7 @@
       <el-select v-model="listQuery.group" filterable placeholder="分组/环境" clearable style="width: 120px" class="filter-item">
         <el-option v-for="item in group_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-tooltip class="item" effect="light" content="点击清空查询条件" placement="top">
+      <el-tooltip effect="light" content="点击清空查询条件" placement="top">
         <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="handleReset" />
       </el-tooltip>
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
@@ -34,7 +34,7 @@
         :show-file-list="false"
         :multiple="false"
       >
-        <el-tooltip class="item" effect="light" content="点击【导出】可获取导入模板" placement="top">
+        <el-tooltip effect="light" content="点击【导出】可获取导入模板" placement="top">
           <el-button v-waves style="margin-left: 9px;margin-top: 0px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
             导入
           </el-button>

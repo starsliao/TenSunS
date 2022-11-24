@@ -4,7 +4,7 @@
       <el-option v-for="item in jobrds_list" :key="item" :label="item" :value="item" />
     </el-select>
     <el-checkbox v-model="checked" style="margin-left: 10px;" label="仅显示修改过的" border @change="cstRdsList(jobrds_name,checked)" />
-    <el-tooltip class="item" effect="light" content="刷新当前RDS列表" placement="top">
+    <el-tooltip effect="light" content="刷新当前RDS列表" placement="top">
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="fetchEcs(jobrds_name)" />
     </el-tooltip>
     <div style="float: right;margin-left: 10px;">

@@ -5,7 +5,7 @@
     <el-select v-model="services_name" placeholder="请选择 Services" filterable collapse-tags style="width: 250px" class="filter-item" @change="fetchData(services_name)">
       <el-option v-for="item in services_name_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-tooltip class="item" effect="light" content="刷新当前Services" placement="top">
+    <el-tooltip effect="light" content="刷新当前Services" placement="top">
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="fetchData(services_name)" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">

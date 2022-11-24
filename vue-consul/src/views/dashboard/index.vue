@@ -4,6 +4,17 @@
       <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/11/25" placement="top">
+        <el-card>
+          <h4>v0.11.0</h4>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增：Redis监控接入：支持同步华为云、阿里云、腾讯云的Redis信息到Consul并接入到Prometheus监控！(支持自定义IP端口)</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增：自建Redis管理界面，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />新增：由于Redis_Exporter无法监控到云REDIS的CPU、内存等信息的使用情况，<strong>所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
+          <p>新增：从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。</p>
+          <p>优化了开关机资源写入consul的标签及Prometheus同步的逻辑，您需要重新生成ECS的Prometheus配置。</p>
+          <p>修复：导入按钮上移的BUG。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/11/18" placement="top">
         <el-card>
           <h4>v0.10.2</h4>

@@ -9,7 +9,7 @@
     <el-select v-model="query.account" placeholder="账户" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
       <el-option v-for="item in account_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-tooltip class="item" effect="light" content="查询所有" placement="top">
+    <el-tooltip effect="light" content="查询所有" placement="top">
       <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-magic-stick" circle @click="resetData" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">接入JumpServer</el-button>

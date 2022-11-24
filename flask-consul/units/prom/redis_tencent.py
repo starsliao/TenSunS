@@ -27,17 +27,20 @@ def exporter(vendor,account,region):
         for i in metric_name_dict.keys():
             for rediss in redis_list_10:
                 starttime = (datetime.now() + timedelta(minutes=-1)).strftime('%Y-%m-%dT%H:%M:%S+08:00')
-                ins_list = [{"Dimensions":[{"Name":"InstanceId","Value":x}]} for x in rediss]
+                ins_list = [{"Dimensions":[{"Name":"instanceid","Value":x}]} for x in rediss]
                 params = {"Namespace":"QCE/REDIS_MEM","MetricName":i,"Period":60,"StartTime":starttime,"Instances":ins_list}
                 req.from_json_string(json.dumps(params))
                 resp = client.GetMonitorData(req)
                 metric_list = resp.DataPoints
                 for metrics in metric_list:
-                    iid = metrics.Dimensions[0].Value
-                    value = metrics.Values[-1]
-                    ts = metrics.Timestamps[-1]*1000
-                    prom_metric_name = metric_name_dict[i][0].split()[2]
-                    metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(value)} {ts}') 
+                    try:
+                        iid = metrics.Dimensions[0].Value
+                        value = metrics.Values[-1]
+                        ts = metrics.Timestamps[-1]*1000
+                        prom_metric_name = metric_name_dict[i][0].split()[2]
+                        metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(value)} {ts}')
+                    except Exception as e:
+                        print("【redis_tencent：prom-metrics-ERROR】",str(e),flush=True)
         prom_metric_list = []
         for x in metric_name_dict.values():
             prom_metric_list = prom_metric_list + x
