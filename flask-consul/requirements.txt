@@ -19,9 +19,10 @@ huaweicloudsdkrds==3.1.11
 huaweicloudsdkces==3.1.11
 huaweicloudsdkdcs==3.1.11
 alibabacloud_resourcemanager20200331==2.1.1
-alibabacloud_ecs20140526==2.1.1
-alibabacloud_rds20140815==2.1.1
-alibabacloud_bssopenapi20171214==2.0.5
+alibabacloud_ecs20140526==2.1.3
+alibabacloud_rds20140815==2.1.2
+alibabacloud_r_kvstore20150101==2.20.7
+alibabacloud_bssopenapi20171214==2.0.6
 aliyun-python-sdk-cms==7.0.32
 tencentcloud-sdk-python-common==3.0.770
 tencentcloud-sdk-python-cvm==3.0.770

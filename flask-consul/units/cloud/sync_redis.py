@@ -25,7 +25,7 @@ def w2consul(vendor,account,region,redis_dict):
     for k,v in redis_dict.items():
         iid = k
         #对consul中关机的redis做标记。
-        if v['status'] in ['SHUTDOWN']:
+        if v['status'] in ['SHUTDOWN','Unavailable','Inactive','Released']:
             off = off + 1
             tags = ['OFF', v['itype'], v['ver'], region]
             stat = 'off'

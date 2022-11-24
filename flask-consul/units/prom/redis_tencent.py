@@ -12,21 +12,23 @@ def exporter(vendor,account,region):
     cred = credential.Credential(ak,sk)
     client = monitor_client.MonitorClient(cred, region)
     req = models.GetMonitorDataRequest()
-    metric_name_dict = {"CpuUseRate":["# HELP mysql_cpu_util CPU使用率","# TYPE mysql_cpu_util gauge"],
-                        "MemoryUseRate":["# HELP mysql_mem_util 内存使用率","# TYPE mysql_mem_util gauge"],
-                        "VolumeRate":["# HELP mysql_disk_util 磁盘使用率","# TYPE mysql_disk_util gauge"],
-                        "IopsUseRate":["# HELP mysql_io_util 磁盘I/O使用率","# TYPE mysql_io_util gauge"],
-                        "ConnectionUseRate":["# HELP mysql_conn_util 连接数使用率","# TYPE mysql_conn_util gauge"]
+    metric_name_dict = {"CpuMaxUtil":["# HELP redis_cpu_util 实例中节点最大CPU使用率","# TYPE redis_cpu_util gauge"],
+                        "MemMaxUtil":["# HELP redis_mem_util 实例中节点最大内存使用率","# TYPE redis_mem_util gauge"],
+                        "ConnectionsUtil":["# HELP redis_conn_util 连接使用率","# TYPE redis_conn_util gauge"],
+                        "CmdBigValue":["# HELP redis_big_count 每秒请求命令大小超过32KB的执行次数","# TYPE redis_big_count gauge"],
+                        "CmdSlow":["# HELP redis_slow_count 执行时延大于slowlog-log-slower-than配置的命令次数","# TYPE redis_slow_count gauge"],
+                        "InFlowLimit":["# HELP redis_inlimit_count 入流量触发限流的次数","# TYPE redis_inlimit_count gauge"],
+                        "OutFlowLimit":["# HELP redis_outlimit_count 出流量触发限流的次数","# TYPE redis_outlimit_count gauge"]
                        }
-    rds_list = consul_kv.get_services_list_by_region(f'{vendor}_{account}_rds',region)
-    rds_list = list(rds_list)
-    rds_list_10 = [rds_list[i:i + 10] for i in range(0, len(rds_list), 10)]
+    redis_list = consul_kv.get_services_list_by_region(f'{vendor}_{account}_redis',region)
+    redis_list = list(redis_list)
+    redis_list_10 = [redis_list[i:i + 10] for i in range(0, len(redis_list), 10)]
     try:
         for i in metric_name_dict.keys():
-            for rdss in rds_list_10:
+            for rediss in redis_list_10:
                 starttime = (datetime.now() + timedelta(minutes=-1)).strftime('%Y-%m-%dT%H:%M:%S+08:00')
-                ins_list = [{"Dimensions":[{"Name":"InstanceId","Value":x}]} for x in rdss]
-                params = {"Namespace":"QCE/CDB","MetricName":i,"Period":60,"StartTime":starttime,"Instances":ins_list}
+                ins_list = [{"Dimensions":[{"Name":"InstanceId","Value":x}]} for x in rediss]
+                params = {"Namespace":"QCE/REDIS_MEM","MetricName":i,"Period":60,"StartTime":starttime,"Instances":ins_list}
                 req.from_json_string(json.dumps(params))
                 resp = client.GetMonitorData(req)
                 metric_list = resp.DataPoints

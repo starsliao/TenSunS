@@ -14,10 +14,10 @@ def exporter(vendor,account,region):
         .build()
     metric_name_dict = {"rds001_cpu_util":["# HELP mysql_cpu_util CPU使用率","# TYPE mysql_cpu_util gauge"],
                         "rds002_mem_util":["# HELP mysql_mem_util 内存使用率","# TYPE mysql_mem_util gauge"],
-                        "rds003_iops":["# HELP mysql_iops_count 每秒I/O请求数","# TYPE mysql_iops_count gauge"],
                         "rds039_disk_util":["# HELP mysql_disk_util 磁盘使用率","# TYPE mysql_disk_util gauge"],
                         "rds074_slow_queries":["# HELP mysql_slow_queries 每分钟慢SQL","# TYPE mysql_slow_queries gauge"],
-                        "rds081_vm_ioutils":["# HELP mysql_io_util 磁盘I/O使用率","# TYPE mysql_io_util gauge"]
+                        "rds081_vm_ioutils":["# HELP mysql_io_util 磁盘I/O使用率","# TYPE mysql_io_util gauge"],
+                        "rds072_conn_usage":["# HELP mysql_conn_util 连接数使用率","# TYPE mysql_conn_util gauge"]
                        }
     metric_body_list = []
     now = int(datetime.now().timestamp()*1000)

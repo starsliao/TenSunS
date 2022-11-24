@@ -15,7 +15,8 @@ def exporter(vendor,account,region):
     metric_name_dict = {"CpuUsage":["# HELP mysql_cpu_util CPU使用率","# TYPE mysql_cpu_util gauge"],
                         "MemoryUsage":["# HELP mysql_mem_util 内存使用率","# TYPE mysql_mem_util gauge"],
                         "DiskUsage":["# HELP mysql_disk_util 磁盘使用率","# TYPE mysql_disk_util gauge"],
-                        "IOPSUsage":["# HELP mysql_io_util 磁盘I/O使用率","# TYPE mysql_io_util gauge"]
+                        "IOPSUsage":["# HELP mysql_io_util 磁盘I/O使用率","# TYPE mysql_io_util gauge"],
+                        "ConnectionUsage":["# HELP mysql_conn_util 连接数使用率","# TYPE mysql_conn_util gauge"]
                        }
     for i in metric_name_dict.keys():
         request_rdsmonit.set_MetricName(i)

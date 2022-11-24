@@ -17,7 +17,7 @@ def exporter(vendor,account,region):
                         "keyspace_hits_perc":["# HELP redis_hits_util 缓存命中率","# TYPE redis_hits_util gauge"],
                         "total_connections_received":["# HELP redis_newconn_count 每分钟新建的连接数","# TYPE redis_newconn_count gauge"],
                         "rx_controlled":["# HELP redis_rx_controlled 每分钟被流控的次数","# TYPE redis_rx_controlled gauge"],
-                        "is_slow_log_exist":["# HELP redis_slow_log 慢日志情况","# TYPE redis_slow_log gauge"]
+                        "is_slow_log_exist":["# HELP redis_slow_log 慢日志情况","# TYPE redis_slow_log gauge"],
                        }
     metric_body_list = []
     now = int(datetime.now().timestamp()*1000)
@@ -28,7 +28,7 @@ def exporter(vendor,account,region):
                 metric_body_list.append(MetricInfo(namespace="SYS.DCS",metric_name=i,dimensions=[MetricsDimension(name="dcs_instance_id",value=id)]))
 
         request = BatchListMetricDataRequest()
-        request.body = BatchListMetricDataRequestBody(to=now,_from=now-120000,filter="max",period="1",metrics=metric_body_list)
+        request.body = BatchListMetricDataRequestBody(to=now,_from=now-180000,filter="max",period="1",metrics=metric_body_list)
         #print(now-300000,now)
         response = client.batch_list_metric_data(request).to_dict()
         for i in response['metrics']:

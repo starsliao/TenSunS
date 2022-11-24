@@ -11,12 +11,12 @@ from alibabacloud_bssopenapi20171214.client import Client as BssOpenApi20171214C
 from alibabacloud_bssopenapi20171214 import models as bss_open_api_20171214_models
 from alibabacloud_rds20140815.client import Client as Rds20140815Client
 from alibabacloud_rds20140815 import models as rds_20140815_models
+from alibabacloud_r_kvstore20150101 import models as r_kvstore_20150101_models
+from alibabacloud_r_kvstore20150101.client import Client as R_kvstore20150101Client
 
 import sys,datetime,hashlib
 from units import consul_kv,consul_svc
-from units.cloud import sync_ecs
-from units.cloud import sync_rds
-from units.cloud import notify
+from units.cloud import sync_ecs,sync_rds,sync_redis,notify
 
 def exp(account,collect_days,notify_days,notify_amount):
     #print(f"=====【阿里云：余额与到期日统计开始：{account}】", flush=True)
@@ -177,6 +177,56 @@ def ecs(account,region,isextip=False):
     except Exception as e:
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}', data)
+
+def redis(account,region):
+    ak,sk = consul_kv.get_aksk('alicloud',account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
+
+    config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
+    config.endpoint = 'r-kvstore.aliyuncs.com'
+    client = R_kvstore20150101Client(config)
+
+    try:
+        runtime = util_models.RuntimeOptions()
+        describe_instances_request = r_kvstore_20150101_models.DescribeInstancesRequest(
+            page_size=100,
+            region_id=region
+        )
+        redisbaseinfo = client.describe_instances_with_options(describe_instances_request, runtime)
+        redisbase_list = redisbaseinfo.body.to_map()['Instances']["KVStoreInstance"]
+
+        redis_dict = {i['InstanceId']:{'name':i.get('InstanceName',f"未命名{i['InstanceId']}"),
+                                       'domain':i['ConnectionDomain'],
+                                       'ip':i['PrivateIp'],
+                                       'port':i['Port'],
+                                       'region':region,
+                                       'group':group_dict.get(i['ResourceGroupId'],'无'),
+                                       'status':i['InstanceStatus'],
+                                       'itype':i['ArchitectureType'],
+                                       'ver':i['EngineVersion'],
+                                       'mem':f"{i['Capacity']}MB",
+                                       'exp': '-' if i['EndTime'] == None else i['EndTime'].split('T')[0]
+                                      } for i in redisbase_list}
+
+        count = len(redis_dict)
+        off,on = sync_redis.w2consul('alicloud',account,region,redis_dict)
+        data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'redis同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
+        print('【JOB】===>', 'alicloud_redis', account,region, data, flush=True)
+    except TeaException as e:
+        emsg = e.message.split('. ',1)[0]
+        print("【code:】",e.code,"\n【message:】",emsg, flush=True)
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}')
+        if data == {}:
+            data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
+        else:
+            data['update'] = f'失败{e.code}'
+            data['msg'] = emsg
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
+    except Exception as e:
+        data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
 
 def rds(account,region):
     ak,sk = consul_kv.get_aksk('alicloud',account)

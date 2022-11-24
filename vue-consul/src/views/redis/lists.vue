@@ -59,7 +59,7 @@
       </el-table-column>
       <el-table-column prop="ver" label="版本" sortable align="center" width="80" />
       <el-table-column prop="mem" label="内存" sortable align="center" width="90" />
-      <el-table-column prop="exp" label="到期日" sortable align="center" width="90" />
+      <el-table-column prop="exp" label="到期日" sortable align="center" width="95" />
       <el-table-column prop="itype" label="类型" sortable align="center" width="120" show-overflow-tooltip />
       <el-table-column prop="iid" label="实例ID" sortable align="center" width="150" show-overflow-tooltip />
       <el-table-column label="操作" align="center" width="120" class-name="small-padding fixed-width">
