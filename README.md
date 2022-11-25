@@ -38,14 +38,12 @@
 
 - ✔**当前已支持对接阿里云、腾讯云、华为云。**
 
-  - ✔支持多云ECS的**资源、分组、标签**自动同步到Consul(提供Prometheus自动发现)。
+  - ✔支持多云ECS/MySQL/Redis的**资源、分组、标签**自动同步到Consul并接入到Prometheus自动发现！(并提供云资源信息查询与自定义页面)
   - ✔支持多云ECS信息自动同步到**JumpServer**。
-  - ✔支持多云MySQL资源信息自动同步到Consul(提供Prometheus自动发现)。
-  - ✔支持作为Exporter：Prometheus可直接从云厂商采集部分MySQL指标。(弥补Mysqld_Exporter无法获取部分云MySQL指标的问题)
+  - ✔支持作为Exporter：Prometheus增加ConsulManager的JOB后可抓取云厂商的部分MySQL/Redis指标。(弥补原生Exporter无法获取部分云MySQL/Redis指标的问题)
   - ✔支持多云**账户余额**与云资源**到期日**设置阈值告警通知。
-- 支持自建主机接入WEB管理，并支持WEB批量导入自建主机到Consul。
-- 提供了可查询分组、ECS、MySQL信息的页面，指标中加入了到期日等信息。
-- 提供了按需生成Prometheus配置与ECS、MySQL告警规则的功能。
+- ✔支持自建主机/MySQL/Redis接入WEB管理，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！
+- 提供了按需生成Prometheus配置与ECS/MySQL/Redis告警规则的功能。
 - 设计了多个支持同步的各字段展示的Node_Exporter、Mysqld_Exporter Grafana看板。
 - **提供了一个支持1对多目标的Mysqld_exporter(官方main分支编译)：[使用1个mysqld_exporter就可以监控所有的MySQL了！](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md)**
 
