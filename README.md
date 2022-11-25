@@ -27,7 +27,7 @@
 ## 🦄概述
 >**ConsulManager**是一个使用Flask+Vue开发的WEB运维平台，弥补了Consul官方UI对Services管理的不足；并且基于Consul的服务发现与键值存储：实现了各云厂商资源与Prometheus的无缝同步，以及对各类监控资源的优雅管理与展示。
 
-## 🌈实现功能
+## 🌈功能描述
 ### 🎡1. Consul管理(比官方更优雅的Consul Web UI)
 - 支持Consul Services的增删改查，可以批量删除Service。
 - 直观的查看每个Services实例的信息，及整体Services的健康状态。
@@ -60,6 +60,8 @@
 - 功能开启即可采集最新30个漏洞列表。
 - 每小时采集一次，发现新漏洞立即推送到群机器人。
 - 支持企微、钉钉、飞书群机器人通知。
+
+---
 
 ## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
 
