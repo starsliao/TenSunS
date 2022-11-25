@@ -72,7 +72,7 @@
   - **`consul_url`**：consul的URL(http开头，/v1要保留)
   - **`admin_passwd`**：登录ConsulManager Web的admin密码
 - 启动：`docker-compose pull && docker-compose up -d`
-- 访问：`http://{IP}:1026`，使用配置的变量`admin_passwd`登录
+- 访问：`http://{IP}:1026`，使用配置的变量 **`admin_passwd`** 登录
 
 ## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
 
@@ -102,11 +102,11 @@
 
 ---
 ## 🥇最佳实践
-- ### [ConsulManager：实践与FAQ](https://github.com/starsliao/ConsulManager/tree/main/docs)
-- ### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
-- ### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
-- ### [应用场景3：如何把云主机自动同步到JumpServer](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md)
-- ### [应用场景4：使用1个mysqld_exporter监控所有的MySQL实例](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md)
+- #### [ConsulManager：实践与FAQ](https://github.com/starsliao/ConsulManager/tree/main/docs)
+- #### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
+- #### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
+- #### [应用场景3：如何把云主机自动同步到JumpServer](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md)
+- #### [应用场景4：使用1个mysqld_exporter监控所有的MySQL实例](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md)
 
 
 ## 💖特别鸣谢
