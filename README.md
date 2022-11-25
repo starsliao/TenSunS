@@ -28,12 +28,12 @@
 >**ConsulManager**是一个使用Flask+Vue开发的WEB运维平台，弥补了Consul官方UI对Services管理的不足；并且基于Consul的服务发现与键值存储：实现了各云厂商资源与Prometheus的无缝同步，以及对各类监控资源的优雅管理与展示。
 
 ## 🌈实现功能
-### 🎡Consul管理(比官方更优雅的Consul Web UI)
+### 🎡1. Consul管理(比官方更优雅的Consul Web UI)
 - 支持Consul Services的增删改查，可以批量删除Service。
 - 直观的查看每个Services实例的信息，及整体Services的健康状态。
 - 可以便捷的对Services实例的Tags、Meta、健康检查配置管理与查询。
 
-### 💎云资源监控管理
+### 💎2. 云资源监控管理
 >**基于Consul实现Prometheus监控目标的自动发现。**
 
 - ✔**当前已支持对接阿里云、腾讯云、华为云。**
@@ -47,7 +47,7 @@
 - 设计了多个支持同步的各字段展示的Node_Exporter、Mysqld_Exporter Grafana看板。
 - **提供了一个支持1对多目标的Mysqld_exporter(官方main分支编译)：[使用1个mysqld_exporter就可以监控所有的MySQL了！](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md)**
 
-### 🚀站点与接口监控管理
+### 🚀3. 站点与接口监控管理
 >**基于Consul + Prometheus + Blackbox_Exporter实现站点的自动发现与监控。**
 
 - 使用Web页面即可对监控目标增删改查，支持站点的分级分组查询管理。
@@ -55,7 +55,7 @@
 - 提供了Blackbox的配置、Prometheus的配置以及Prometheus站点监控的告警规则。
 - 设计了一个支持各分级分组字段展示的Blackbox_Exporter Grafana看板。
 
-### 💫高危漏洞采集与实时告警
+### 💫4. 高危漏洞采集与实时告警
 - 增加了高危风险漏洞采集与实时告警通知功能。
 - 功能开启即可采集最新30个漏洞列表。
 - 每小时采集一次，发现新漏洞立即推送到群机器人。
