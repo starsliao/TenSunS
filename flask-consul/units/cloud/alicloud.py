@@ -30,6 +30,7 @@ def exp(account,collect_days,notify_days,notify_amount):
     wecomwh = exp_config.get('wecomwh','')
     dingdingwh = exp_config.get('dingdingwh','')
     feishuwh = exp_config.get('feishuwh','')
+    isatall = exp_config.get('isatall', True)
     try:
         amount_response = client.query_account_balance()
         if amount_response.body.success:
@@ -44,11 +45,11 @@ def exp(account,collect_days,notify_days,notify_amount):
                 if exp_config['switch'] and exp_config.get('wecom',False):
                     notify.wecom(wecomwh,content)
                 if exp_config['switch'] and exp_config.get('dingding',False):
-                    notify.dingding(dingdingwh,content)
+                    notify.dingding(dingdingwh,content,isatall)
                 if exp_config['switch'] and exp_config.get('feishu',False):
                     title = '阿里云余额不足通知'
                     md = content
-                    notify.feishu(feishuwh,title,md)
+                    notify.feishu(feishuwh,title,md,isatall)
         else:
             print(f'查询失败，Code:{amount_response.body.code}, 信息:{amount_response.body.message}, requestId:{amount_response.body.request_id}', flush=True)
     except Exception as e:
