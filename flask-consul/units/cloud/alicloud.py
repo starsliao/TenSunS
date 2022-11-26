@@ -88,11 +88,11 @@ def exp(account,collect_days,notify_days,notify_amount):
         if exp_config['switch'] and exp_config.get('wecom',False):
             notify.wecom(wecomwh,content)
         if exp_config['switch'] and exp_config.get('dingding',False):
-            notify.dingding(dingdingwh,content)
+            notify.dingding(dingdingwh,content,isatall)
         if exp_config['switch'] and exp_config.get('feishu',False):
             title = '阿里云资源到期通知'
             md = content
-            notify.feishu(feishuwh,title,md)
+            notify.feishu(feishuwh,title,md,isatall)
     #print(f"=====【阿里云：余额与到期日统计结束：{account}】", flush=True)
 
 def group(account):

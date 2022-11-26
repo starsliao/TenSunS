@@ -64,6 +64,7 @@ def exp(account,collect_days,notify_days,notify_amount):
         wecomwh = exp_config.get('wecomwh','')
         dingdingwh = exp_config.get('dingdingwh','')
         feishuwh = exp_config.get('feishuwh','')
+        isatall = exp_config.get('isatall', True)
         if notify_dict != {}:
             msg = [f'### 华为云账号 {account}：\n### 以下资源到期日小于 {notify_days} 天：']
             for k,v in notify_dict.items():
@@ -72,21 +73,21 @@ def exp(account,collect_days,notify_days,notify_amount):
             if exp_config['switch'] and exp_config.get('wecom',False):
                 notify.wecom(wecomwh,content)
             if exp_config['switch'] and exp_config.get('dingding',False):
-                notify.dingding(dingdingwh,content)
+                notify.dingding(dingdingwh,content,isatall)
             if exp_config['switch'] and exp_config.get('feishu',False):
                 title = '华为云资源到期通知'
                 md = content
-                notify.feishu(feishuwh,title,md)
+                notify.feishu(feishuwh,title,md,isatall)
         if amount_dict != {}:
             content = f'### 华为云账号 {account}：\n### 可用余额：<font color=\"#ff0000\">{amount}</font> 元'
             if exp_config['switch'] and exp_config.get('wecom',False):
                 notify.wecom(wecomwh,content)
             if exp_config['switch'] and exp_config.get('dingding',False):
-                notify.dingding(dingdingwh,content)
+                notify.dingding(dingdingwh,content,isatall)
             if exp_config['switch'] and exp_config.get('feishu',False):
                 title = '华为云余额不足通知'
                 md = content
-                notify.feishu(feishuwh,title,md)
+                notify.feishu(feishuwh,title,md,isatall)
 
     except exceptions.ClientRequestException as e:
         print(e.status_code)
