@@ -150,4 +150,4 @@
 
 ---
 
-![](https://starsl.cn/static/img/wegroups.png)
+![](https://starsl.cn/static/img/wegroups.png?v2)
