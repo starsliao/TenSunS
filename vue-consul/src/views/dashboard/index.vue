@@ -1,7 +1,10 @@
 <template>
   <div class="dashboard-container">
+    <el-alert type="success" center close-text="朕知道了">
+      <el-link type="success" href="https://github.com/starsliao/ConsulManager#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" target="_blank">🥇最佳实践：ConsulManager应用场景与使用帮助</el-link>
+    </el-alert><br>
     <el-badge :value="1" class="mark">
-      <el-link :underline="false" type="primary" icon="el-icon-star-on" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">StarsL.cn</el-link>
+      <el-link :underline="false" type="primary" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
       <el-timeline-item timestamp="2022/11/28" placement="top">
