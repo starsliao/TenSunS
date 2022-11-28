@@ -28,8 +28,10 @@ def redis_config(region_list,cm_exporter,services_list,exporter):
         token: '{consul_token}'
         refresh_interval: 30s
         services: {services_list}
-        tags: ['ON']
     relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*OFF.*
+        action: drop
       - source_labels: [__meta_consul_service_address,__meta_consul_service_port]
         regex: ([^:]+)(?::\d+)?;(\d+)
         target_label: __param_target
@@ -97,8 +99,10 @@ def rds_config(region_list,cm_exporter,services_list,exporter):
         token: '{consul_token}'
         refresh_interval: 30s
         services: {services_list}
-        tags: ['ON']
     relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*OFF.*
+        action: drop
       - source_labels: [__meta_consul_service_address,__meta_consul_service_port]
         regex: ([^:]+)(?::\d+)?;(\d+)
         target_label: __param_target
@@ -157,8 +161,11 @@ def ecs_config(services_list,ostype_list):
         token: '{consul_token}'
         refresh_interval: 30s
         services: {services_list}
-        tags: ['{ostype}','ON']
+        tags: ['{ostype}']
     relabel_configs:
+      - source_labels: [__meta_consul_tags]
+        regex: .*OFF.*
+        action: drop
       - source_labels: ['__meta_consul_service']
         target_label: cservice
       - source_labels: ['__meta_consul_service_metadata_vendor']
