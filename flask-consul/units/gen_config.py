@@ -58,6 +58,8 @@ def redis_config(region_list,cm_exporter,services_list,exporter):
         target_label: itype
       - source_labels: ['__meta_consul_service_metadata_ver']
         target_label: ver
+      - source_labels: ['__meta_consul_service_metadata_exp']
+        target_label: exp
 """
     if not services_list:
         return {'code': 20000,'configs': '请选择需要Prometheus从Conusl自动发现的MySQL组' }
