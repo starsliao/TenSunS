@@ -32,7 +32,7 @@ export default {
       jobredis_list: [],
       exporter: '',
       cm_exporter: '',
-      configs: '该功能用于生成Prometheus的两个JOB配置，生成后请复制到Prometheus配置中：\n\n1. 选择需要同步的账号，Prometheus即可自动发现该账号下的所有REDIS实例。\n\n2. 由于Redis_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！\n   选择需要采集指标的REDIS账号区域，即可生成Prometheus的JOB配置。'
+      configs: '该功能用于生成Prometheus的两个JOB配置，生成后请复制到Prometheus配置中：\n\n1. 选择需要同步的账号，Prometheus即可自动发现该账号下的所有REDIS实例。\n\n2. 由于Redis_Exporter无法监控到云Redis的CPU、部分云资源使用率的情况，所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！\n   选择需要采集指标的REDIS账号区域，即可生成Prometheus的JOB配置。'
     }
   },
   created() {
