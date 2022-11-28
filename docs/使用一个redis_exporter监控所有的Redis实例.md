@@ -50,6 +50,7 @@ services:
 - docker-compose中挂载配置文件文件的本地路径注意根据实际情况修改。
 - 配置文件的格式为json，每行一个实例的信息格式为："redis://`实例地址端口`":"`redis密码`"
 - `实例地址端口`请查看`云REDIS列表`或`自建redis管理`的`实例`字段。
+- 如redis无密码，保留空双引号即可`""`。
 
 启动：`docker-compose up -d`
 
