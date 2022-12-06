@@ -1,6 +1,5 @@
 from huaweicloudsdkcore.auth.credentials import BasicCredentials
 from huaweicloudsdkces.v1.region.ces_region import CesRegion
-from huaweicloudsdkcore.exceptions import exceptions
 from huaweicloudsdkces.v1 import *
 from datetime import datetime
 from units import consul_kv
@@ -22,33 +21,25 @@ def exporter(vendor,account,region):
     metric_body_list = []
     now = int(datetime.now().timestamp()*1000)
     redis_list = consul_kv.get_services_list_by_region(f'{vendor}_{account}_redis',region)
-    try:
-        for i in metric_name_dict.keys():
-            for id in redis_list:
-                metric_body_list.append(MetricInfo(namespace="SYS.DCS",metric_name=i,dimensions=[MetricsDimension(name="dcs_instance_id",value=id)]))
+    for i in metric_name_dict.keys():
+        for id in redis_list:
+            metric_body_list.append(MetricInfo(namespace="SYS.DCS",metric_name=i,dimensions=[MetricsDimension(name="dcs_instance_id",value=id)]))
 
-        request = BatchListMetricDataRequest()
-        request.body = BatchListMetricDataRequestBody(to=now,_from=now-180000,filter="max",period="1",metrics=metric_body_list)
-        #print(now-300000,now)
-        response = client.batch_list_metric_data(request).to_dict()
-        for i in response['metrics']:
-            id= i['dimensions'][0]['value']
-            try:
-                value = i['datapoints'][-1]['max']
-                ts = i['datapoints'][-1]['timestamp']
-            except:
-                value = -1
-                ts = now
-            metric = i['metric_name']
-            prom_metric_name = metric_name_dict[metric][0].split()[2]
-            metric_name_dict[metric].append(f'{prom_metric_name}{{iid="{id}"}} {float(value)} {ts}')
-        prom_metric_list = []
-        for x in metric_name_dict.values():
-            prom_metric_list = prom_metric_list + x
-        return prom_metric_list
-    except exceptions.ClientRequestException as e:
-        print(e.status_code,flush=True)
-        print(e.request_id,flush=True)
-        print(e.error_code,flush=True)
-        print(e.error_msg,flush=True)
-
+    request = BatchListMetricDataRequest()
+    request.body = BatchListMetricDataRequestBody(to=now,_from=now-180000,filter="max",period="1",metrics=metric_body_list)
+    response = client.batch_list_metric_data(request).to_dict()
+    for i in response['metrics']:
+        id= i['dimensions'][0]['value']
+        try:
+            value = i['datapoints'][-1]['max']
+            ts = i['datapoints'][-1]['timestamp']
+        except:
+            value = -1
+            ts = now
+        metric = i['metric_name']
+        prom_metric_name = metric_name_dict[metric][0].split()[2]
+        metric_name_dict[metric].append(f'{prom_metric_name}{{iid="{id}"}} {float(value)} {ts}')
+    prom_metric_list = []
+    for x in metric_name_dict.values():
+        prom_metric_list = prom_metric_list + x
+    return prom_metric_list

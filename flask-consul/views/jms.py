@@ -5,6 +5,7 @@ from units import token_auth,consul_kv,myaes
 from config import vendors
 import json
 from .jobs import deljob,addjob,runjob,getjob
+from units.config_log import *
 blueprint = Blueprint('jms',__name__)
 api = Api(blueprint)
 
@@ -105,7 +106,7 @@ class Jms(Resource):
                     custom_ecs_dict = json.loads(custom_ecs_info)
                     consul_kv.put_kv('ConsulManager/jms/custom_ecs_info',custom_ecs_dict)
                 except Exception as e:
-                    print(e,flush=True)
+                    logger.error(f'{e}')
                     return {'code': 50000, 'data': 'Json解析错误，请检查！'}
             else:
                 consul_kv.put_kv('ConsulManager/jms/custom_ecs_info',{})

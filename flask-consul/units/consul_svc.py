@@ -2,7 +2,7 @@ import requests,json
 import sys 
 sys.path.append("..") 
 from config import consul_token,consul_url
-
+from units.config_log import *
 headers = {'X-Consul-Token': consul_token}
 
 def get_sid(iid):
@@ -26,6 +26,6 @@ def add_sid(instance_dict):
     if reg.status_code == 200:
         return {"code": 20000, "data": f"增加成功！"}
     else:
-        print(f"{reg.status_code}:{reg.text}")
+        logger.info(f"{reg.status_code}:{reg.text}")
         return {"code": 50000, "data": f"{reg.status_code}:{reg.text}"}
 

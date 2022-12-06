@@ -17,9 +17,10 @@ from alibabacloud_r_kvstore20150101.client import Client as R_kvstore20150101Cli
 import sys,datetime,hashlib
 from units import consul_kv,consul_svc
 from units.cloud import sync_ecs,sync_rds,sync_redis,notify
+from units.config_log import *
 
 def exp(account,collect_days,notify_days,notify_amount):
-    #print(f"=====【阿里云：余额与到期日统计开始：{account}】", flush=True)
+    logger.debug(f"=====【阿里云：余额与到期日统计开始：{account}】")
     ak,sk = consul_kv.get_aksk('alicloud',account)
     now = datetime.datetime.utcnow().strftime('%Y-%m-%dT16:00:00Z')
     collect = (datetime.datetime.utcnow() + datetime.timedelta(days=collect_days+1)).strftime('%Y-%m-%dT16:00:00Z')
@@ -37,7 +38,7 @@ def exp(account,collect_days,notify_days,notify_amount):
             available_amount = amount_response.body.data.available_amount
             amount = float(available_amount.replace(',',''))
             consul_kv.put_kv(f'ConsulManager/exp/lists/alicloud/{account}/amount',{'amount':amount})
-            #print('alicloud',account,f'可用余额:{available_amount}', flush=True)
+            logger.debug(f'alicloud {account} 可用余额:{available_amount}')
             amount_dict = {}
             if amount < notify_amount:
                 amount_dict = {'amount':amount}
@@ -51,9 +52,9 @@ def exp(account,collect_days,notify_days,notify_amount):
                     md = content
                     notify.feishu(feishuwh,title,md,isatall)
         else:
-            print(f'查询失败，Code:{amount_response.body.code}, 信息:{amount_response.body.message}, requestId:{amount_response.body.request_id}', flush=True)
+            logger.error(f'查询失败，Code:{amount_response.body.code}, 信息:{amount_response.body.message}, requestId:{amount_response.body.request_id}')
     except Exception as e:
-        print('==ERROR==',e,flush=True)
+        logger.error(f'==ERROR=={e}')
         raise
     query_available_instances_request = bss_open_api_20171214_models.QueryAvailableInstancesRequest(renew_status='ManualRenewal',end_time_start=now,end_time_end=collect)
     runtime = util_models.RuntimeOptions()
@@ -62,7 +63,7 @@ def exp(account,collect_days,notify_days,notify_amount):
         exp_list = exp.body.to_map()['Data']['InstanceList']
     except Exception as e:
         #exp_list = []
-        print('==ERROR==',e,flush=True)
+        logger.error(f'==ERROR=={e}')
         raise
     exp_dict = {}
     isnotify_list = consul_kv.get_keys_list(f'ConsulManager/exp/isnotify/alicloud/{account}')
@@ -93,7 +94,7 @@ def exp(account,collect_days,notify_days,notify_amount):
             title = '阿里云资源到期通知'
             md = content
             notify.feishu(feishuwh,title,md,isatall)
-    #print(f"=====【阿里云：余额与到期日统计结束：{account}】", flush=True)
+    logger.debug(f"=====【阿里云：余额与到期日统计结束：{account}】")
 
 def group(account):
     ak,sk = consul_kv.get_aksk('alicloud',account)
@@ -110,10 +111,10 @@ def group(account):
         count = len(group_dict)
         data = {'count':count,'update':now,'status':20000,'msg':f'同步资源组成功！总数：{count}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/group', data)
-        print('【JOB】===>', 'alicloud_group', account, data, flush=True)
+        logger.info(f'【JOB】===>alicloud_group {account} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        print("【code:】",e.code,"\n【message:】",emsg, flush=True)
+        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/group')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -164,10 +165,10 @@ def ecs(account,region,isextip=False):
         off,on = sync_ecs.w2consul('alicloud',account,region,ecs_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'ECS同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}', data)
-        print('【JOB】===>', 'alicloud_ecs', account,region, data, flush=True)
+        logger.info(f'【JOB】===>alicloud_ecs {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        print("【code:】",e.code,"\n【message:】",emsg, flush=True)
+        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -214,10 +215,10 @@ def redis(account,region):
         off,on = sync_redis.w2consul('alicloud',account,region,redis_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'redis同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
-        print('【JOB】===>', 'alicloud_redis', account,region, data, flush=True)
+        logger.info(f'【JOB】===>alicloud_redis {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        print("【code:】",e.code,"\n【message:】",emsg, flush=True)
+        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -276,10 +277,10 @@ def rds(account,region):
         off,on = sync_rds.w2consul('alicloud',account,region,rds_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'rds同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
-        print('【JOB】===>', 'alicloud_rds', account,region, data, flush=True)
+        logger.info(f'【JOB】===>alicloud_rds {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        print("【code:】",e.code,"\n【message:】",emsg, flush=True)
+        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}

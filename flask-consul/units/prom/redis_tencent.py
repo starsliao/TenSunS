@@ -2,10 +2,10 @@ import json
 from tencentcloud.common import credential
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
-from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 from tencentcloud.monitor.v20180724 import monitor_client, models
 from datetime import datetime,timedelta
 from units import consul_kv
+from units.config_log import *
 
 def exporter(vendor,account,region):
     ak,sk = consul_kv.get_aksk(vendor,account)
@@ -23,27 +23,24 @@ def exporter(vendor,account,region):
     redis_list = consul_kv.get_services_list_by_region(f'{vendor}_{account}_redis',region)
     redis_list = list(redis_list)
     redis_list_10 = [redis_list[i:i + 10] for i in range(0, len(redis_list), 10)]
-    try:
-        for i in metric_name_dict.keys():
-            for rediss in redis_list_10:
-                starttime = (datetime.now() + timedelta(minutes=-1)).strftime('%Y-%m-%dT%H:%M:%S+08:00')
-                ins_list = [{"Dimensions":[{"Name":"instanceid","Value":x}]} for x in rediss]
-                params = {"Namespace":"QCE/REDIS_MEM","MetricName":i,"Period":60,"StartTime":starttime,"Instances":ins_list}
-                req.from_json_string(json.dumps(params))
-                resp = client.GetMonitorData(req)
-                metric_list = resp.DataPoints
-                for metrics in metric_list:
-                    try:
-                        iid = metrics.Dimensions[0].Value
-                        value = metrics.Values[-1]
-                        ts = metrics.Timestamps[-1]*1000
-                        prom_metric_name = metric_name_dict[i][0].split()[2]
-                        metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(value)} {ts}')
-                    except Exception as e:
-                        print("【redis_tencent：prom-metrics-ERROR】",str(e),flush=True)
-        prom_metric_list = []
-        for x in metric_name_dict.values():
-            prom_metric_list = prom_metric_list + x
-        return prom_metric_list
-    except TencentCloudSDKException as err:
-        print(err)
+    for i in metric_name_dict.keys():
+        for rediss in redis_list_10:
+            starttime = (datetime.now() + timedelta(minutes=-1)).strftime('%Y-%m-%dT%H:%M:%S+08:00')
+            ins_list = [{"Dimensions":[{"Name":"instanceid","Value":x}]} for x in rediss]
+            params = {"Namespace":"QCE/REDIS_MEM","MetricName":i,"Period":60,"StartTime":starttime,"Instances":ins_list}
+            req.from_json_string(json.dumps(params))
+            resp = client.GetMonitorData(req)
+            metric_list = resp.DataPoints
+            for metrics in metric_list:
+                try:
+                    iid = metrics.Dimensions[0].Value
+                    value = metrics.Values[-1]
+                    ts = metrics.Timestamps[-1]*1000
+                    prom_metric_name = metric_name_dict[i][0].split()[2]
+                    metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(value)} {ts}')
+                except Exception as e:
+                    logger.error(f"【redis_tencent：prom-metrics-ERROR】{e}")
+    prom_metric_list = []
+    for x in metric_name_dict.values():
+        prom_metric_list = prom_metric_list + x
+    return prom_metric_list

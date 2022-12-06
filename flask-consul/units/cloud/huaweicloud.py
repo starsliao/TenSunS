@@ -6,16 +6,17 @@ from huaweicloudsdkeps.v1 import *
 from huaweicloudsdkbss.v2 import *
 from huaweicloudsdkecs.v2 import *
 from huaweicloudsdkecs.v2.region.ecs_region import EcsRegion
-from huaweicloudsdkrds.v3 import *
-from huaweicloudsdkrds.v3.region.rds_region import RdsRegion
 from huaweicloudsdkdcs.v2 import *
 from huaweicloudsdkdcs.v2.region.dcs_region import DcsRegion
+from huaweicloudsdkrds.v3 import *
+from huaweicloudsdkrds.v3.region.rds_region import RdsRegion
 import sys,datetime,hashlib
 from units import consul_kv
 from units.cloud import sync_ecs
 from units.cloud import sync_rds
 from units.cloud import sync_redis
 from units.cloud import notify
+from units.config_log import *
 
 def exp(account,collect_days,notify_days,notify_amount):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
@@ -90,10 +91,10 @@ def exp(account,collect_days,notify_days,notify_amount):
                 notify.feishu(feishuwh,title,md,isatall)
 
     except exceptions.ClientRequestException as e:
-        print(e.status_code)
-        print(e.request_id)
-        print(e.error_code)
-        print(e.error_msg)
+        logger.error(e.status_code)
+        logger.error(e.request_id)
+        logger.error(e.error_code)
+        logger.error(e.error_msg)
 
 def group(account):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
@@ -113,12 +114,12 @@ def group(account):
         count = len(group_dict)
         data = {'count':count,'update':now,'status':20000,'msg':f'同步企业项目成功！总数：{count}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/group', data)
-        print('【JOB】===>', 'huaweicloud_group', account, data, flush=True)
+        logger.info(f'【JOB】===>huaweicloud_group {account} {data}')
     except exceptions.ClientRequestException as e:
-        print(e.status_code, flush=True)
-        print(e.request_id, flush=True)
-        print(e.error_code, flush=True)
-        print(e.error_msg, flush=True)
+        logger.error(e.status_code)
+        logger.error(e.request_id)
+        logger.error(e.error_code)
+        logger.error(e.error_msg)
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/group')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'msg':e.error_msg}
@@ -157,12 +158,12 @@ def ecs(account,region,isextip=False):
         off,on = sync_ecs.w2consul('huaweicloud',account,region,ecs_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'ECS同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/ecs/{region}', data)
-        print('【JOB】===>', 'huaweicloud_ecs', account,region, data, flush=True)
+        logger.info(f'【JOB】===>huaweicloud_ecs {account} {region} {data}')
     except exceptions.ClientRequestException as e:
-        print(e.status_code, flush=True)
-        print(e.request_id, flush=True)
-        print(e.error_code, flush=True)
-        print(e.error_msg, flush=True)
+        logger.error(e.status_code)
+        logger.error(e.request_id)
+        logger.error(e.error_code)
+        logger.error(e.error_msg)
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/ecs/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'on':0,'off':0,'msg':e.error_msg}
@@ -203,17 +204,17 @@ def rds(account,region):
                              'mem':f"{i['mem']}GB",
                              'disk':f"{i['volume']['size']}GB",
                              'exp': '-' if i['expiration_time'] == None else i['expiration_time'].split('T')[0]
-                            } for i in info}
+                            } for i in info if i['datastore']['type'] == 'MySQL'}
         count = len(rds_dict)
         off,on = sync_rds.w2consul('huaweicloud',account,region,rds_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'RDS同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/rds/{region}', data)
-        print('【JOB】===>', 'huaweicloud_rds', account,region, data, flush=True)
+        logger.info(f'【JOB】===>huaweicloud_rds {account} {region} {data}')
     except exceptions.ClientRequestException as e:
-        print(e.status_code, flush=True)
-        print(e.request_id, flush=True)
-        print(e.error_code, flush=True)
-        print(e.error_msg, flush=True)
+        logger.error(e.status_code)
+        logger.error(e.request_id)
+        logger.error(e.error_code)
+        logger.error(e.error_msg)
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'on':0,'off':0,'msg':e.error_msg}
@@ -257,12 +258,12 @@ def redis(account,region):
         off,on = sync_redis.w2consul('huaweicloud',account,region,redis_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'REDIS同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/redis/{region}', data)
-        print('【JOB】===>', 'huaweicloud_redis', account,region, data, flush=True)
+        logger.info(f'【JOB】===>huaweicloud_redis {account} {region} {data}')
     except exceptions.ClientRequestException as e:
-        print(e.status_code, flush=True)
-        print(e.request_id, flush=True)
-        print(e.error_code, flush=True)
-        print(e.error_msg, flush=True)
+        logger.error(e.status_code)
+        logger.error(e.request_id)
+        logger.error(e.error_code)
+        logger.error(e.error_msg)
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'on':0,'off':0,'msg':e.error_msg}

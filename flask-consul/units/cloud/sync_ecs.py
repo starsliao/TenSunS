@@ -2,6 +2,7 @@
 import requests,json
 from units import consul_kv
 from config import consul_token,consul_url,vendors,regions
+from units.config_log import *
 headers = {'X-Consul-Token': consul_token}
 geturl = f'{consul_url}/agent/services'
 delurl = f'{consul_url}/agent/service/deregister'
@@ -18,9 +19,9 @@ def w2consul(vendor,account,region,ecs_dict):
     for del_ecs in [x for x in consul_ecs_iid_list if x not in ecs_dict.keys()]:
         dereg = requests.put(f'{delurl}/{del_ecs}', headers=headers)
         if dereg.status_code == 200:
-            print({"code": 20000,"data": f"{account}-删除成功！"}, flush=True)
+            logger.info(f"code: 20000, data: {account}-删除成功！")
         else:
-            print({"code": 50000,"data": f'{dereg.status_code}:{dereg.text}'}, flush=True)
+            logger.info(f"code: 50000, data: {dereg.status_code}:{dereg.text}")
     off,on = 0,0
     for k,v in ecs_dict.items():
         iid = k
@@ -75,8 +76,6 @@ def w2consul(vendor,account,region,ecs_dict):
         reg = requests.put(puturl, headers=headers, data=json.dumps(data))
         if reg.status_code == 200:
             pass
-            #print({f"{account}:code": 20000,"data": "增加成功！"}, flush=True)
         else:
-            print({f"{account}:code": 50000,"data": f'{reg.status_code}:{reg.text}'}, flush=True)
-            #return {"code": 50000,"data": f'{reg.status_code}:{reg.text}'}
+            logger.info(f"{account}:code: 5000, data: {reg.status_code}:{reg.text}")
     return off,on

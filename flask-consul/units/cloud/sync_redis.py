@@ -18,9 +18,9 @@ def w2consul(vendor,account,region,redis_dict):
     for del_redis in [x for x in consul_redis_iid_list if x not in redis_dict.keys()]:
         dereg = requests.put(f'{delurl}/{del_redis}', headers=headers)
         if dereg.status_code == 200:
-            print({"code": 20000,"data": f"{account}-删除成功！"}, flush=True)
+            logger.info(f"code: 20000, data: {account}-删除成功！")
         else:
-            print({"code": 50000,"data": f'{dereg.status_code}:{dereg.text}'}, flush=True)
+            logger.info(f"code: 50000, data: {dereg.status_code}:{dereg.text}")
     off,on = 0,0
     for k,v in redis_dict.items():
         iid = k
@@ -70,8 +70,6 @@ def w2consul(vendor,account,region,redis_dict):
         reg = requests.put(puturl, headers=headers, data=json.dumps(data))
         if reg.status_code == 200:
             pass
-            #print({f"{account}:code": 20000,"data": "增加成功！"}, flush=True)
         else:
-            print({f"{account}:code": 50000,"data": f'{reg.status_code}:{reg.text}'}, flush=True)
-            #return {"code": 50000,"data": f'{reg.status_code}:{reg.text}'}
+            logger.info(f"{account}:code: 5000, data: {reg.status_code}:{reg.text}")
     return off,on

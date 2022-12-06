@@ -5,6 +5,7 @@ from config import vendors,regions
 from units import token_auth,consul_kv
 from .jobs import deljob,addjob,runjob,modjob_interval,modjob_args
 import json
+from units.config_log import *
 blueprint = Blueprint('edit_cloud',__name__)
 api = Api(blueprint)
 
@@ -59,7 +60,7 @@ class Edit(Resource):
             ecs_interval = int(editjob_dict['ecs_interval'])
             rds_interval = int(editjob_dict['rds_interval'])
             redis_interval = int(editjob_dict['redis_interval'])
-            print(editjob_dict)
+            logger.info(f'{editjob_dict}')
             if editjob_dict['akskswitch']:
                 ak = editjob_dict['ak']
                 sk = editjob_dict['sk']

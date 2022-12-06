@@ -5,7 +5,7 @@ sys.path.append("..")
 from units import token_auth,blackbox_manager
 from werkzeug.datastructures import FileStorage
 from units import upload
-
+from units.config_log import *
 blueprint = Blueprint('blackbox',__name__)
 api = Api(blueprint)
 
@@ -27,7 +27,7 @@ class Upload(Resource):
         try:
             return upload.read_execl(file.read(),'blackbox')
         except Exception as e:
-            print("【blackbox】导入失败",e,flush=True)
+            logger.error(f"【blackbox】导入失败,{e}")
             return {"code": 50000, "data": f"导入失败！"}
 
 class GetAllList(Resource):

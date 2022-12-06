@@ -8,10 +8,8 @@ import sys,datetime,hashlib
 #sys.path.append("..")
 #import consul_kv,sync_ecs
 from units import consul_kv
-from units.cloud import sync_ecs
-from units.cloud import sync_rds
-from units.cloud import sync_redis
-from units.cloud import notify
+from units.cloud import sync_ecs,sync_rds,sync_redis,notify
+from units.config_log import *
 
 def exp(account,collect_days,notify_days,notify_amount):
     from tencentcloud.billing.v20180709 import billing_client, models
@@ -79,7 +77,7 @@ def exp(account,collect_days,notify_days,notify_amount):
                 md = content
                 notify.feishu(feishuwh,title,md,isatall)
     except TencentCloudSDKException as err:
-        print(err)
+        logger.error(f'{err}')
 
 def group(account):
     from tencentcloud.dcdb.v20180411 import dcdb_client, models
@@ -102,9 +100,9 @@ def group(account):
         count = len(group_dict)
         data = {'count':count,'update':now,'status':20000,'msg':f'同步资源组成功！总数：{count}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/group', data)
-        print('【JOB】===>', 'tencent_cloud_group', account, data, flush=True)
+        logger.info(f'【JOB】===>tencent_cloud_group {account} {data}')
     except TencentCloudSDKException as err:
-        print(err, flush=True)
+        logger.error(f'{err}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/group')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -152,9 +150,9 @@ def ecs(account,region,isextip=False):
         off,on = sync_ecs.w2consul('tencent_cloud',account,region,ecs_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'ECS同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}', data)
-        print('【JOB】===>', 'tencent_cloud_ecs', account,region, data, flush=True)
+        logger.info(f'【JOB】===>tencent_cloud_ecs {account} {region} {data}')
     except TencentCloudSDKException as err:
-        print(err, flush=True)
+        logger.error(f'{err}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -203,9 +201,9 @@ def rds(account,region):
         off,on = sync_rds.w2consul('tencent_cloud',account,region,rds_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'rds同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
-        print('【JOB】===>', 'tencent_cloud_rds', account,region, data, flush=True)
+        logger.info(f'【JOB】===>tencent_cloud_rds {account} {region} {data}')
     except TencentCloudSDKException as err:
-        print(err, flush=True)
+        logger.error(f'{err}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -252,9 +250,9 @@ def redis(account,region):
         off,on = sync_redis.w2consul('tencent_cloud',account,region,redis_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'redis同步成功！总数：{count}，开机：{on}，关机：{off}'}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)
-        print('【JOB】===>', 'tencent_cloud_redis', account,region, data, flush=True)
+        logger.info(f'【JOB】===>tencent_cloud_redis {account} {region} {data}')
     except TencentCloudSDKException as err:
-        print(err, flush=True)
+        logger.error(f'{err}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}

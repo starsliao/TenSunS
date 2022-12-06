@@ -6,6 +6,7 @@ sys.path.append("..")
 from config import admin_passwd
 from units import token_auth, consul_kv
 from units.ldap.LdapUser import Ldap
+from units.config_log import *
 secret_key = consul_kv.get_value('ConsulManager/assets/secret/skey')['sk']
 s = TimedJSONWebSignatureSerializer(secret_key,expires_in=28800)
 
@@ -32,7 +33,7 @@ class User(Resource):
         ldap = False if username == 'admin' else 'True'
         #ldap认证
         if user_opt == 'login' and ldap == "True":
-            print("ldap")
+            logger.info("ldap")
             ldap_obj = Ldap()
             ldap_result = ldap_obj.authpass(username,password)
             if ldap_result == 1:
@@ -46,7 +47,7 @@ class User(Resource):
                 return {"code": 40000, "data": "LDAP用户密码错误！"}
         else:
             if user_opt == 'login':
-                print("非ldap")
+                logger.info("非ldap")
                 if password == admin_passwd:
                     token = str(s.dumps(admin_passwd),encoding="utf-8")
                     return {"code": 20000,"data": {"token": "Bearer " + token,"username":username}}

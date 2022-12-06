@@ -2,6 +2,7 @@ import sys,requests,hashlib,json
 from datetime import datetime
 from bs4 import BeautifulSoup
 from units import consul_kv
+from units.config_log import *
 
 def get_avd():
     avd_url = 'https://avd.aliyun.com'
@@ -23,13 +24,13 @@ def get_avd():
         avd_dict['avd_time'] = avd[3].getText(strip=True)
         avd_dict['avd_stat'] = avd[4].select('button')[1].attrs['title']
         if index == 0 and avd_dict == last_avd:
-            print('【JOB】===>','avd_list','未采集到新漏洞。',flush=True)
+            logger.info('【JOB】===> avd_list 未采集到新漏洞。')
             break
         else:
             avd_dict['avd_collect'] = now
             consul_kv.put_kv(f'ConsulManager/avd/list/{index}',avd_dict)
             if index == 0:
-                print('【JOB】===>','avd_list',avd_dict,flush=True)
+                logger.info(f'【JOB】===> avd_list {avd_dict}')
                 avd_switch = consul_kv.get_value('ConsulManager/avd/switch')
                 wecomwh = avd_switch.get('wecomwh','')
                 dingdingwh = avd_switch.get('dingdingwh','')
@@ -60,14 +61,14 @@ def wecom(webhook,content):
     params = {'msgtype': 'markdown', 'markdown': {'content' : content}}
     data = bytes(json.dumps(params), 'utf-8')
     response = requests.post(webhook, headers=headers, data=data)
-    print('【wecom】',response.json(),flush=True)
+    logger.info(f'【wecom】{response.json()}')
 
 def dingding(webhook,content):
     headers = {'Content-Type': 'application/json'}
     params = {"msgtype":"markdown","markdown":{"title":"漏洞告警","text":content},"at":{"isAtAll":True}}
     data = bytes(json.dumps(params), 'utf-8')
     response = requests.post(webhook, headers=headers, data=data)
-    print('【dingding】',response.json(),flush=True)
+    logger.info(f'【dingding】{response.json()}')
 
 def feishu(webhook,title,md):
     headers = {'Content-Type': 'application/json'}
@@ -76,4 +77,4 @@ def feishu(webhook,title,md):
                        "elements": [{"tag": "markdown","content": f"{md}\n<at id=all></at>",}]}}
     data = json.dumps(params)
     response = requests.post(webhook, headers=headers, data=data)
-    print('【feishu】',response.json(),flush=True)
+    logger.info(f'【feishu】{response.json()}')

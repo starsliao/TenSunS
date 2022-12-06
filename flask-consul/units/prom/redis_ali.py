@@ -1,6 +1,4 @@
 from aliyunsdkcore.client import AcsClient
-from aliyunsdkcore.acs_exception.exceptions import ClientException
-from aliyunsdkcore.acs_exception.exceptions import ServerException
 from aliyunsdkcms.request.v20190101.DescribeMetricLastRequest import DescribeMetricLastRequest
 from datetime import datetime
 from units import consul_kv

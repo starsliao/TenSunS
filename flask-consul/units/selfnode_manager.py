@@ -2,6 +2,7 @@ import requests,json
 import sys 
 sys.path.append("..") 
 from config import consul_token,consul_url
+from units.config_log import *
 
 headers = {'X-Consul-Token': consul_token}
 
@@ -67,6 +68,6 @@ def del_service(vendor,account,region,group,name):
     if reg.status_code == 200:
         return {"code": 20000, "data": f"【{sid}】删除成功！"}
     else:
-        print(f"{reg.status_code}【{sid}】{reg.text}")
+        logger.info(f"{reg.status_code}【{sid}】{reg.text}")
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 

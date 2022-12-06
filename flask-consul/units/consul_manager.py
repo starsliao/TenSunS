@@ -2,6 +2,7 @@ import requests,json
 import sys 
 sys.path.append("..") 
 from config import consul_token,consul_url
+from units.config_log import *
 
 headers = {'X-Consul-Token': consul_token}
 
@@ -112,7 +113,7 @@ def add_instance(instance_dict):
             
     del instance_dict['metaInfo']
     del instance_dict['checkInfo']
-    print(instance_dict, flush=True)
+    logger.info(f'{instance_dict}')
 
     reg = requests.put(f'{consul_url}/agent/service/register', headers=headers, data=json.dumps(instance_dict))
     if reg.status_code == 200:

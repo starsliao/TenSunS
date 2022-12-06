@@ -1,11 +1,6 @@
-"""
-ldap 用户认证
-"""
-
 from ldap3 import Server, Connection, ALL
-
 from units.ldap.ldap_consul import Ldap_Consul
-
+from units.config_log import *
 
 class Ldap(object):
     def __init__(self,**args):
@@ -22,7 +17,7 @@ class Ldap(object):
             return 0
         if self.allow == '*' or username.lower() in self.allow.lower().split(','):
             ldap_username = self.ldapusr.format(username=username)
-            print('ldapuser:',ldap_username,flush=True)
+            logger.info(f'ldapuser: {ldap_username}')
             server = Server(self.ldap_url,port=self.port, get_info=ALL,connect_timeout=5)
             conn = Connection(server, user=ldap_username, password=password, check_names=True, lazy=False, raise_exceptions=False)
             try:
@@ -78,13 +73,13 @@ class Ldap(object):
                                {'cn': "user1", 'sn': 'user1',"employeeType":"developer",
                                 'gidNumber': 501, 'homeDirectory': '/home/users/{0}', 'uidNumber': 5000,"givenName":"user1",
                                 "loginShell":"/bin/bash",'displayName': "测试用户",'userPassword': "111111", 'mail': 'user1@qq.com'}),
-        print(c)
+        logger.info(c)
 
 
     #删除用户
     def delete_user(self):
         c = self.conn.delete('cn=xxx,ou=People,dc=xxx,dc=com')
-        print(c)
+        logger.info(c)
 
     # def __del__(self):
     #     self.conn.delete()
@@ -93,4 +88,4 @@ class Ldap(object):
 if __name__ == '__main__':
     ldap = Ldap()
     result = ldap.delete_user()
-    print(result)
+    logger.info(result)

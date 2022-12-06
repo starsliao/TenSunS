@@ -4,7 +4,7 @@ from flask_apscheduler import APScheduler
 #import sys
 #sys.path.append("..")
 from units import token_auth,consul_kv,gen_config,consul_svc
-
+from units.config_log import *
 blueprint = Blueprint('rds',__name__)
 api = Api(blueprint)
 
@@ -86,7 +86,7 @@ class Rds(Resource):
                 consul_svc.add_sid(sid_dict)
                 return {'code': 20000, 'data': '自定义实例信息修改成功！'}
             except Exception as e:
-                print(e,flush=True)
+                logger.error(f'{e}')
                 return {'code': 50000, "data": '提交自定义实例信息格式错误！'}
 
 api.add_resource(Rds, '/api/rds/<stype>')

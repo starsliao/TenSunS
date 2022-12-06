@@ -1,6 +1,7 @@
 from flask_httpauth import HTTPTokenAuth
 from itsdangerous import TimedJSONWebSignatureSerializer
 from units import consul_kv
+from units.config_log import *
 secret_key = consul_kv.get_value('ConsulManager/assets/secret/skey')['sk']
 s = TimedJSONWebSignatureSerializer(secret_key,expires_in=28800)
 auth = HTTPTokenAuth()
@@ -10,7 +11,7 @@ def verify_token(token):
     try:
         data = s.loads(token)
     except Exception as e:
-        print("【login】认证异常",e,flush=True)
+        logger.error(f"【login】认证异常,{e}")
         return False
     return True
 

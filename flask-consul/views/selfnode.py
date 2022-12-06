@@ -5,7 +5,7 @@ sys.path.append("..")
 from units import token_auth,selfnode_manager
 from werkzeug.datastructures import FileStorage
 from units import upload
-
+from units.config_log import *
 blueprint = Blueprint('selfnode',__name__)
 api = Api(blueprint)
 
@@ -29,7 +29,7 @@ class Upload(Resource):
         try:
             return upload.read_execl(file.read(),'selfnode')
         except Exception as e:
-            print("【selfnode】导入失败",e,flush=True)
+            logger.error(f"【selfnode】导入失败,{e}")
             return {"code": 50000, "data": f"导入失败！"}
 
 class GetAllList(Resource):
@@ -44,7 +44,7 @@ class SelfnodeApi(Resource):
         return selfnode_manager.get_service()
     def post(self):
         args = parser.parse_args()
-        print('=======\n',args,flush=True)
+        logger.info(f'=======\n,{args}')
         return selfnode_manager.add_service(args['vendor'],args['account'],args['region'],
                                             args['group'],args['name'],args['ip'],args['port'],args['os'])
     def put(self):

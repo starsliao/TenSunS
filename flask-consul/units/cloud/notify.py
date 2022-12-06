@@ -1,17 +1,18 @@
 import requests,json
+from units.config_log import *
 def wecom(webhook,content):
     headers = {'Content-Type': 'application/json'}
     params = {'msgtype': 'markdown', 'markdown': {'content' : content}}
     data = bytes(json.dumps(params), 'utf-8')
     response = requests.post(webhook, headers=headers, data=data)
-    print('【wecom】',response.json(),flush=True)
+    logger.info(f'【wecom】{response.json()}')
 
 def dingding(webhook,content,isatall=True):
     headers = {'Content-Type': 'application/json'}
     params = {"msgtype":"markdown","markdown":{"title":"资源告警","text":content},"at":{"isAtAll":isatall}}
     data = bytes(json.dumps(params), 'utf-8')
     response = requests.post(webhook, headers=headers, data=data)
-    print('【dingding】',response.json(),flush=True)
+    logger.info(f'【dingding】{response.json()}')
 
 def feishu(webhook,title,md,isatall=True):
     headers = {'Content-Type': 'application/json'}
@@ -21,4 +22,4 @@ def feishu(webhook,title,md,isatall=True):
                        "elements": [{"tag": "markdown","content": f"{md}\n{atall}",}]}}
     data = json.dumps(params)
     response = requests.post(webhook, headers=headers, data=data)
-    print('【feishu】',response.json(),flush=True)
+    logger.info(f'【feishu】{response.json()}')
