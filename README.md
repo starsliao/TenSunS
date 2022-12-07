@@ -119,8 +119,8 @@
 
 ### 💰赞赏
 ##### 🥇榜一大哥：**@浩哥**
-##### 🥈榜二大哥：**@Swancavalier** **@南城阿宇**
-##### 🥉榜三大哥：**@新的奇迹** **@李宫俊**  **@小明SQLBOY**
+##### 🥈榜二大哥：**@南城阿宇** **@weibw**
+##### 🥉榜三大哥：**@新的奇迹** **@李宫俊**  **@小明SQLBOY** **@Swancavalier**
 ##### 🏆榜N大哥：
 @mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209  @Runner91  @烂泥  @ASL·D·阿威  @惊雷  @默读自我  @MiracleWong
 
@@ -132,7 +132,7 @@
 ---
 
 ### 🎃提交bug
-@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  [@Show_Lo](https://github.com/ShowXian)  @郑不错  @init
+@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  [@Show_Lo](https://github.com/ShowXian)  @郑不错  @init  @weibw
 
 ---
 
