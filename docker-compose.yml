@@ -11,6 +11,7 @@ services:
       consul_token: xxxxx-xxxxx-xxxxx
       consul_url: http://x.x.x.x:8500/v1
       admin_passwd: xxxxxxxx
+      log_level: INFO
   nginx-consul:
     image: swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:latest
     container_name: nginx-consul
