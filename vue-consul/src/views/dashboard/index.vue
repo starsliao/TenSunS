@@ -7,6 +7,24 @@
       <el-link :underline="false" type="primary" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2022/12/12" placement="top">
+        <el-card>
+          <h4>v0.12.0</h4>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />修复：自建ECS/RDS/Redis：增加同SID(前5个字段相同)的实例导致，之前增加的同SID实例被替换掉的问题。</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />修复：站点与接口监控、自建ECS/RDS/Redis：实例字段中有特殊字符会无法删除的问题。</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>以上2个改动可能会引起上述菜单功能兼容性问题：如果出现更新或删除自定义实例失败，请执行以下操作：</strong></p>
+          <ul>
+            <li>在相应的实例管理页面，使用导出功能导出实例列表。</li>
+            <li>进入<strong>Consul管理-实例管理</strong>菜单，选择相应的服务组，全选删除所有的实例。</li>
+            <li>再返回相应的实例管理页面，重新执行导入操作。</li>
+          </ul>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />优化：<el-link :underline="false" type="primary" href="https://grafana.com/grafana/dashboards/17320-1-mysqld-exporter-dashboard/" target="_blank">Mysqld Exporter Grafana Dashboard</el-link>，兼容自建MySQL与云RDS，都能正常展示CPU、内存、磁盘等部分Mysqld_Exporter不提供的指标：</p>
+          <ul>
+            <li>自建Mysql：从node-exporter中获取以上信息，通过instance的IP部分进行关联。</li>
+            <li>云DRS：从ConsulManager-MySQL中获取，会根据实例ID进行关联。(数据来自云监控，从ConsulManager的Prometheus配置生成菜单中可生成配置。)</li>
+          </ul>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2022/11/28" placement="top">
         <el-card>
           <h4>v0.11.1</h4>
@@ -236,5 +254,8 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+li {
+  margin: 20px 0;
 }
 </style>

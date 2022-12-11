@@ -1,6 +1,4 @@
-import requests,json
-import sys 
-sys.path.append("..") 
+import requests,json,re
 from config import consul_token,consul_url
 from units.config_log import *
 
@@ -22,6 +20,7 @@ def get_hosts():
                 'free':f'{round(info["Disk"]["free"]/1024**3)}GB','used':f'{round(info["Disk"]["used"]/1024**3)}GB','usedPercent':f'{pdisk}%'}
         return {'code': 20000,'host':host,'cpu':cpu,'memory':memory,'disk':disk, 'pmem':pmem, 'pdisk':pdisk}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 def get_services():
     url = f'{consul_url}/internal/ui/services'
@@ -40,6 +39,7 @@ def get_services_nameonly():
         info.pop('consul')
         return {'code': 20000,'services_name':list(info.keys())}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 def get_instances(service_name):
     url = f'{consul_url}/health/service/{service_name}'
@@ -68,17 +68,21 @@ def get_instances(service_name):
             instances_list.append(instance_dict)
         return {'code': 20000,'instances':instances_list}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
-def del_instance(service_id):
-    reg = requests.put(f'{consul_url}/agent/service/deregister/{service_id}', headers=headers)
+def del_instance(sid):
+    reg = requests.put(f'{consul_url}/agent/service/deregister/{sid}', headers=headers)
     if reg.status_code == 200:
-        return {"code": 20000, "data": f"【{service_id}】删除成功！"}
+        logger.debug(f"【{sid}】删除成功！")
+        return {"code": 20000, "data": f"【{sid}】删除成功！"}
     else:
-        return {"code": 50000, "data": f"{reg.status_code}【{service_id}】{reg.text}"}
+        logger.error(f"{reg.status_code}【{sid}】{reg.text}")
+        return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 
 def add_instance(instance_dict):
-    sid = instance_dict['ID']
+    sid = instance_dict['ID'].strip()
+    sid = re.sub('[[ \]`~!\\\#$^&*=|"{}\':;?\t\n]','_',sid)
     if '//' in sid or sid.startswith('/') or sid.endswith('/'):
         return {"code": 50000, "data": f"服务ID【{sid}】首尾不能包含'/'，并且不能包含两个连续的'/'"}
     isMeta = instance_dict['metaInfo']['isMeta']
@@ -119,5 +123,6 @@ def add_instance(instance_dict):
     if reg.status_code == 200:
         return {"code": 20000, "data": f"【{sid}】增加成功！"}
     else:
+        logger.error(f"{reg.status_code}【{sid}】{reg.text}")
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 

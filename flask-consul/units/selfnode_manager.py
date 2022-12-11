@@ -1,6 +1,6 @@
-import requests,json
-import sys 
-sys.path.append("..") 
+import requests,json,re
+#import sys
+#sys.path.append("..")
 from config import consul_token,consul_url
 from units.config_log import *
 
@@ -23,6 +23,7 @@ def get_all_list(vendor,account,region,group):
         return {'code': 20000,'all_list':all_list,'vendor_list':vendor_list,
                 'account_list':account_list,'region_list':region_list,'group_list':group_list}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
 def get_service():
@@ -37,12 +38,14 @@ def get_service():
         return {'code': 20000,'all_list':all_list,'vendor_list':vendor_list,
                 'account_list':account_list,'region_list':region_list,'group_list':group_list}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
 def add_service(vendor,account,region,group,name,ip,port,os):
     if port is None or name is None:
         return {"code": 50000, "data": f"名称或IP不能为空！"}
-    sid = f"{vendor}/{account}/{region}/{group}@{name}"
+    sid = f"{vendor}/{account}/{region}/{group}@{name}".strip()
+    sid = re.sub('[[ \]`~!\\\#$^&*=|"{}\':;?\t\n]','_',sid)
     instance = f'{ip}:{port}'
     if '//' in sid or sid.startswith('/') or sid.endswith('/'):
         return {"code": 50000, "data": f"服务ID【{sid}】首尾不能包含'/'，并且不能包含两个连续的'/'"}
@@ -60,14 +63,17 @@ def add_service(vendor,account,region,group,name,ip,port,os):
     if reg.status_code == 200:
         return {"code": 20000, "data": f"【{sid}】增加成功！"}
     else:
+        logger.error(f"{reg.status_code}【{sid}】{reg.text}")
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 
 def del_service(vendor,account,region,group,name):
-    sid = f"{vendor}/{account}/{region}/{group}@{name}"
+    sid = f"{vendor}/{account}/{region}/{group}@{name}".strip()
+    sid = re.sub('[[ \]`~!\\\#$^&*=|"{}\':;?\t\n]','_',sid)
     reg = requests.put(f'{consul_url}/agent/service/deregister/{sid}', headers=headers)
     if reg.status_code == 200:
+        logger.debug(f"【{sid}】删除成功！")
         return {"code": 20000, "data": f"【{sid}】删除成功！"}
     else:
-        logger.info(f"{reg.status_code}【{sid}】{reg.text}")
+        logger.error(f"{reg.status_code}【{sid}】{reg.text}")
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 

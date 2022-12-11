@@ -1,5 +1,6 @@
-import requests,json,consul_kv
+import requests,json,consul_kv,re
 from config import consul_token,consul_url
+from units.config_log import *
 
 headers = {'X-Consul-Token': consul_token}
 init_module_list = ['http_2xx','http_4xx','tcp_connect','icmp','http200igssl','httpNoRedirect4ssl','http_5xx','http_post_2xx','ssh_banner']
@@ -24,6 +25,7 @@ def get_all_list(module,company,project,env):
         return {'code': 20000,'all_list':all_list,'module_list':module_list,
                 'company_list':company_list,'project_list':project_list,'env_list':env_list}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
 def get_service():
@@ -42,10 +44,12 @@ def get_service():
         return {'code': 20000,'all_list':all_list,'module_list':module_list,
                 'company_list':company_list,'project_list':project_list,'env_list':env_list}
     else:
+        logger.error(f"{response.status_code}：{response.text}")
         return {'code': 50000, 'data': f'{response.status_code}:{response.text}'}
 
 def add_service(module,company,project,env,name,instance):
-    sid = f"{module}/{company}/{project}/{env}@{name}"
+    sid = f"{module}/{company}/{project}/{env}@{name}".strip()
+    sid = re.sub('[[ \]`~!\\\#$^&*=|"{}\':;?\t\n]','_',sid)
     if '//' in sid or sid.startswith('/') or sid.endswith('/'):
         return {"code": 50000, "data": f"服务ID【{sid}】首尾不能包含'/'，并且不能包含两个连续的'/'"}
     data = {
@@ -58,14 +62,18 @@ def add_service(module,company,project,env,name,instance):
     if reg.status_code == 200:
         return {"code": 20000, "data": f"【{sid}】增加成功！"}
     else:
+        logger.error(f"{reg.status_code}【{sid}】{reg.text}") 
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 
 def del_service(module,company,project,env,name):
-    sid = f"{module}/{company}/{project}/{env}@{name}"
+    sid = f"{module}/{company}/{project}/{env}@{name}".strip()
+    sid = re.sub('[[ \]`~!\\\#$^&*=|"{}\':;?\t\n]','_',sid)
     reg = requests.put(f'{consul_url}/agent/service/deregister/{sid}', headers=headers)
     if reg.status_code == 200:
+        logger.debug(f"【{sid}】删除成功！")
         return {"code": 20000, "data": f"【{sid}】删除成功！"}
     else:
+        logger.error(f"{reg.status_code}【{sid}】{reg.text}")
         return {"code": 50000, "data": f"{reg.status_code}【{sid}】{reg.text}"}
 
 def get_rules():

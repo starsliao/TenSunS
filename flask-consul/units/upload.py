@@ -35,7 +35,7 @@ def importconsul(row,imptype):
         elif imptype == 'selfrds':
             vendor,account,region,group,name,instance,os = row
             logger.info(row)
-            sid = f"{vendor}/{account}/{region}/{group}@{name}"
+            sid = f"{vendor}/{account}/{region}/{group}@{name}@rds"
             ip = instance.split(':')[0]
             port = instance.split(':')[1]
             data = {
@@ -51,7 +51,7 @@ def importconsul(row,imptype):
         elif imptype == 'selfredis':
             vendor,account,region,group,name,instance,os = row
             logger.info(row)
-            sid = f"{vendor}/{account}/{region}/{group}@{name}"
+            sid = f"{vendor}/{account}/{region}/{group}@{name}@redis"
             ip = instance.split(':')[0]
             port = instance.split(':')[1]
             data = {
@@ -96,7 +96,7 @@ def read_execl(file_contents,imptype):
                 j = i.strip()
                 j = '_' if j == '' else j
                 if i != row[5]:
-                    j = re.sub('[[ \]`~!\\\#$^/&*=|"{}\':;?]','_',j)
+                    j = re.sub('[[ \]`~!\\\#$^/&*=|"{}\':;?\t\n]','_',j)
                 nrow.append(j)
         imp = importconsul(nrow,imptype)
         if imp['code'] == 50000:
