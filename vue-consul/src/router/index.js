@@ -183,37 +183,37 @@ export const constantRoutes = [
           }
         ]
       },
-      { 
+      {
         path: 'redis',
         name: 'REDIS',
         component: () => import('@/views/redis/index'),
         meta: { title: 'REDIS管理', icon: 'el-icon-guide' },
         children: [
-          { 
+          {
             path: 'lists',
             name: '云REDIS列表',
             component: () => import('@/views/redis/lists'),
             meta: { title: '云REDIS列表', icon: 'el-icon-cloudy' }
           },
-          { 
+          {
             path: 'self',
             name: '自建REDIS管理',
             component: () => import('@/views/redis/self'),
             meta: { title: '自建REDIS管理', icon: 'el-icon-s-platform' }
           },
-          { 
+          {
             path: 'pconfig',
             name: 'redis-pconfig',
             component: () => import('@/views/redis/pconfig'),
             meta: { title: 'Prometheus 配置', icon: 'el-icon-set-up' }
           },
-          { 
+          {
             path: 'rules',
             name: 'redis-rules',
             component: () => import('@/views/redis/rules'),
             meta: { title: '告警规则', icon: 'el-icon-bell' }
           },
-          { 
+          {
             path: 'grafana',
             name: 'redis-grafana',
             component: () => import('@/views/redis/grafana'),

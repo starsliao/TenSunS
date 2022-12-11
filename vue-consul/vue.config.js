@@ -15,6 +15,7 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 // port = 9528 npm run dev OR npm run dev --port = 9528
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
@@ -50,6 +51,16 @@ module.exports = {
   configureWebpack: {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
+    plugins: [
+      new CompressionWebpackPlugin({
+        algorithm: 'gzip',
+        test: /\.js$|\.html$|\.css$/,
+        filename: '[path][base].gz',
+        minRatio: 1,
+        threshold: 10240,
+        deleteOriginalAssets: false
+      })
+    ],
     name: name,
     resolve: {
       alias: {

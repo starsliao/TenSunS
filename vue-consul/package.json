@@ -40,6 +40,7 @@
     "babel-jest": "28.1.2",
     "babel-plugin-dynamic-import-node": "2.3.3",
     "chalk": "2.4.2",
+    "compression-webpack-plugin": "^6.1.1",
     "connect": "3.6.6",
     "eslint": "6.7.2",
     "eslint-plugin-vue": "6.2.2",

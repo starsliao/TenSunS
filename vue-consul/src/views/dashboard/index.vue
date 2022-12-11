@@ -23,6 +23,7 @@
             <li>自建Mysql：从node-exporter中获取以上信息，通过instance的IP部分进行关联。</li>
             <li>云DRS：从ConsulManager-MySQL中获取，会根据实例ID进行关联。(数据来自云监控，从ConsulManager的Prometheus配置生成菜单中可生成配置。)</li>
           </ul>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />优化：开启前端资源gzip压缩！</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/11/28" placement="top">
