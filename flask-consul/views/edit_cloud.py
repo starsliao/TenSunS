@@ -16,11 +16,11 @@ parser.add_argument('region',type=str)
 parser.add_argument('editJob',type=dict)
 class Edit(Resource):
     decorators = [token_auth.auth.login_required]
-    job_list = list(consul_kv.get_kv_dict(f'ConsulManager/jobs').values())
     def get(self,stype):
+        job_list = list(consul_kv.get_kv_dict(f'ConsulManager/jobs').values())
         if stype == 'cloud':
             cloud_dict = {}
-            for i in self.job_list:
+            for i in job_list:
                 vendor,account = i['id'].split('/')[0:2]
                 if vendor in cloud_dict:
                     if account not in cloud_dict[vendor]:
@@ -34,9 +34,9 @@ class Edit(Resource):
             account = args['account']
             region = args['region']
             restype = ['group']
-            interval = {'proj_interval': 60, 'ecs_interval': 5, 'rds_interval': 5}
+            interval = {'proj_interval': 60, 'ecs_interval': 10, 'rds_interval': 20, 'redis_interval': 20}
             isextip = False
-            for i in self.job_list:
+            for i in job_list:
                 if f'{vendor}/{account}/group' == i['id']:
                     interval['proj_interval'] = i['minutes']
                 elif f'{vendor}/{account}/ecs/{region}' == i['id']:
@@ -46,8 +46,12 @@ class Edit(Resource):
                 elif f'{vendor}/{account}/rds/{region}' == i['id']:
                     restype.append('rds')
                     interval['rds_interval'] = i['minutes']
+                elif f'{vendor}/{account}/redis/{region}' == i['id']:
+                    restype.append('redis')
+                    interval['redis_interval'] = i['minutes']
             return {'code': 20000, 'restype': restype, 'interval': interval, 'isextip': isextip}
     def post(self,stype):
+        job_list = list(consul_kv.get_kv_dict(f'ConsulManager/jobs').values())
         if stype == 'commit':
             args = parser.parse_args()
             editjob_dict = args['editJob']
@@ -66,7 +70,7 @@ class Edit(Resource):
                 sk = editjob_dict['sk']
                 consul_kv.put_aksk(editjob_dict['vendor'],editjob_dict['account'],ak,sk)
 
-            jobgroup = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/group'][0]
+            jobgroup = [x for x in job_list if x['id'] == f'{vendor}/{account}/group'][0]
             if proj_interval != jobgroup['minutes']:
                 jobgroup['minutes'] = proj_interval
                 jobid = f'{vendor}/{account}/group'
@@ -77,7 +81,7 @@ class Edit(Resource):
             rds_jobid = f'{vendor}/{account}/rds/{region}'
             redis_jobid = f'{vendor}/{account}/redis/{region}'
             if 'ecs' in restype:
-                isecs = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/ecs/{region}']
+                isecs = [x for x in job_list if x['id'] == f'{vendor}/{account}/ecs/{region}']
                 if len(isecs) == 1:
                     if ecs_interval != isecs[0]['minutes']:
                         isecs[0]['minutes'] = ecs_interval
@@ -107,7 +111,7 @@ class Edit(Resource):
                     pass        
 
             if 'rds' in restype:
-                isrds = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/rds/{region}']
+                isrds = [x for x in job_list if x['id'] == f'{vendor}/{account}/rds/{region}']
                 if len(isrds) == 1:
                     if rds_interval != isrds[0]['minutes']:
                         isrds[0]['minutes'] = rds_interval
@@ -129,7 +133,7 @@ class Edit(Resource):
                     pass
 
             if 'redis' in restype:
-                isredis = [x for x in self.job_list if x['id'] == f'{vendor}/{account}/redis/{region}']
+                isredis = [x for x in job_list if x['id'] == f'{vendor}/{account}/redis/{region}']
                 if len(isredis) == 1:
                     if redis_interval != isredis[0]['minutes']:
                         isredis[0]['minutes'] = redis_interval

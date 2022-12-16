@@ -100,7 +100,7 @@ class Jobs(Resource):
                     for reg in job_dict['region']:
                         res_job_id = f"{job_dict['vendor']}/{job_dict['account']}/{res}/{reg}"
                         res_job_func = f"__main__:{job_dict['vendor']}.{res}"
-                        if reg == 'ecs':
+                        if res == 'ecs':
                             res_job_args = [job_dict['account'],reg,job_dict['isextip']]
                         else:
                             res_job_args = [job_dict['account'],reg]
