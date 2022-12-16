@@ -54,7 +54,7 @@ class Jobs(Resource):
                 pass
             else:
                 continue
-            region = i['args'][-1] if len(i['args']) == 2 else 'none'
+            region = i['args'][1] if len(i['args']) >= 2 else 'none'
             interval = i['minutes']
             if f'ConsulManager/record/jobs/{i["id"]}' in job_count_dict:
                 count = job_count_dict[f'ConsulManager/record/jobs/{i["id"]}']['count']
