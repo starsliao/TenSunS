@@ -1,5 +1,6 @@
 # 使用一个redis_exporter监控所有的Redis实例
-### 一、如何在ConsulManager中接入云厂商的Redis
+### 一、如何在ConsulManager中接入redis
+#### 1. 接入云厂商的Redis
 1. 新增云账号的情况：目前新增时，支持多选区域，以及选择增加的资源类型，勾选REDIS即可接入自动同步云REDIS，记得设置好同步间隔。
 
 ![图片](https://user-images.githubusercontent.com/3349611/204356330-330865fd-6eea-48eb-88e1-757e7ea4a0b1.png)
@@ -18,7 +19,7 @@
 4. 同步完成后，可在`云资源管理`-`REDIS管理`-`云REDIS列表`，查看同步的云redis信息以及自定义实例监控的IP和端口（再次同步不会覆盖实例自定义的IP端口信息）。
 ![图片](https://user-images.githubusercontent.com/3349611/204357662-09f44475-9545-4667-abf1-29bbb78a4935.png)
 
-#### 接入自建redis
+#### 2. 接入自建redis
 1. 进入`云资源管理`-`REDIS管理`-`自建REDIS管理`，即可新增或批量导入自建的redis列表。
 ![图片](https://user-images.githubusercontent.com/3349611/208393735-bb7a0ee2-59ef-4a0c-8430-a5c32552d7cc.png)
 
