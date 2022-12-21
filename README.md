@@ -75,7 +75,7 @@
 
 ##### 3.使用k8s来部署ConsulManager
 ##### 创建命名空间
-- `kubectl create namespace`
+- `kubectl create namespace consulmanager`
 ##### 部署consulmanager服务
 - `kubectl apply -f consulmanager.yaml`
 
