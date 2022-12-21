@@ -73,10 +73,10 @@
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的变量 **`admin_passwd`** 登录
 
-##### k8s部署
-###### 1.创建命名空间
+#### k8s部署
+##### 1.创建命名空间
 - `kubectl create namespace`
-###### 1.部署consulmanager
+##### 2.部署consulmanager
 - `kubectl apply -f consulmanager.yaml`
 
 ## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
