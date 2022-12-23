@@ -200,7 +200,7 @@ def redis(account,region):
 
         redis_dict = {i['InstanceId']:{'name':i.get('InstanceName',f"未命名{i['InstanceId']}"),
                                        'domain':i['ConnectionDomain'],
-                                       'ip':i['PrivateIp'],
+                                       'ip':i.get('PrivateIp','null'),
                                        'port':i['Port'],
                                        'region':region,
                                        'group':group_dict.get(i['ResourceGroupId'],'无'),
