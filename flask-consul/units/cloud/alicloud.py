@@ -14,7 +14,7 @@ from alibabacloud_rds20140815 import models as rds_20140815_models
 from alibabacloud_r_kvstore20150101 import models as r_kvstore_20150101_models
 from alibabacloud_r_kvstore20150101.client import Client as R_kvstore20150101Client
 
-import sys,datetime,hashlib
+import sys,datetime,hashlib,math
 from units import consul_kv,consul_svc
 from units.cloud import sync_ecs,sync_rds,sync_redis,notify
 from units.config_log import *
@@ -188,17 +188,21 @@ def redis(account,region):
     config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
     config.endpoint = 'r-kvstore.aliyuncs.com'
     client = R_kvstore20150101Client(config)
-
+    PageNumber = 1
+    nextpage = True
+    redis_dict = {}
+    runtime = util_models.RuntimeOptions()
     try:
-        runtime = util_models.RuntimeOptions()
-        describe_instances_request = r_kvstore_20150101_models.DescribeInstancesRequest(
-            page_size=100,
-            region_id=region
-        )
-        redisbaseinfo = client.describe_instances_with_options(describe_instances_request, runtime)
-        redisbase_list = redisbaseinfo.body.to_map()['Instances']["KVStoreInstance"]
+        while nextpage:
+            describe_instances_request = r_kvstore_20150101_models.DescribeInstancesRequest(
+                page_size=50,
+                region_id=region,
+                page_number=PageNumber
+            )
+            redisbaseinfo = client.describe_instances_with_options(describe_instances_request, runtime)
+            redisbase_list = redisbaseinfo.body.to_map()['Instances']["KVStoreInstance"]
 
-        redis_dict = {i['InstanceId']:{'name':i.get('InstanceName',f"未命名{i['InstanceId']}"),
+            redis_dict_temp = {i['InstanceId']:{'name':i.get('InstanceName',f"未命名{i['InstanceId']}"),
                                        'domain':i['ConnectionDomain'],
                                        'ip':i.get('PrivateIp','null'),
                                        'port':i['Port'],
@@ -210,6 +214,13 @@ def redis(account,region):
                                        'mem':f"{i['Capacity']}MB",
                                        'exp': '-' if i['EndTime'] == None else i['EndTime'].split('T')[0]
                                       } for i in redisbase_list}
+            redis_dict.update(redis_dict_temp)
+            if PageNumber == 1:
+                total = redisbaseinfo.body.to_map()['TotalCount']
+                pages = math.ceil(total/50)
+            PageNumber += 1
+            if PageNumber > pages:
+                nextpage = False
 
         count = len(redis_dict)
         off,on = sync_redis.w2consul('alicloud',account,region,redis_dict)
@@ -218,7 +229,7 @@ def redis(account,region):
         logger.info(f'【JOB】===>alicloud_redis {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -227,6 +238,7 @@ def redis(account,region):
             data['msg'] = emsg
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
     except Exception as e:
+        logger.error(str(e))
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
 
@@ -239,21 +251,26 @@ def rds(account,region):
     config.endpoint = 'rds.aliyuncs.com'
     client = Rds20140815Client(config)
 
+    next_token = '0'
+    rds_dict = {}
+    runtime = util_models.RuntimeOptions()
     try:
-        runtime = util_models.RuntimeOptions()
-        describe_dbinstances_request = rds_20140815_models.DescribeDBInstancesRequest(
-            max_results=100,
-            region_id=region
-        )
-        rdsbaseinfo = client.describe_dbinstances_with_options(describe_dbinstances_request, runtime)
-        rdsbase_list = rdsbaseinfo.body.to_map()['Items']["DBInstance"]
+        while next_token != '':
+            if next_token == '0':
+                describe_dbinstances_request = rds_20140815_models.DescribeDBInstancesRequest(
+                    max_results=100,
+                    region_id=region
+                )
+            else:
+                describe_dbinstances_request = rds_20140815_models.DescribeDBInstancesRequest(
+                    max_results=100,
+                    region_id=region,
+                    next_token=next_token
+                )
+            rdsbaseinfo = client.describe_dbinstances_with_options(describe_dbinstances_request, runtime)
+            rdsbase_list = rdsbaseinfo.body.to_map()['Items']["DBInstance"]
 
-
-        describe_dbinstances_as_csv_request = rds_20140815_models.DescribeDBInstancesAsCsvRequest(region_id=region)
-        rdsplusinfo = client.describe_dbinstances_as_csv_with_options(describe_dbinstances_as_csv_request, runtime)
-        rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
-
-        rds_dict = {i['DBInstanceId']:{'name':i.get('DBInstanceDescription',f"未命名{i['DBInstanceId']}"),
+            rds_dict_temp = {i['DBInstanceId']:{'name':i.get('DBInstanceDescription',f"未命名{i['DBInstanceId']}"),
                                        'domain':i['ConnectionString'],
                                        'ip':i['ConnectionString'],
                                        'port':3306,
@@ -262,17 +279,27 @@ def rds(account,region):
                                        'status':i['DBInstanceStatus'],
                                        'itype':i['DBInstanceType'],
                                        'ver':i['EngineVersion'],
-                                       'exp': '-' if i['ExpireTime'] == None else i['ExpireTime'].split('T')[0]
+                                       'exp': '-' if i['ExpireTime'] == None else i['ExpireTime'].split('T')[0],
+                                       'cpu':'无','mem':'无','disk':'无'
                                       } for i in rdsbase_list}
+            rds_dict.update(rds_dict_temp)
+            next_token = rdsbaseinfo.body.next_token
 
-        rds_plus = {i['DBInstanceId']:{'port':int(i['Port']),
+        try:
+            describe_dbinstances_as_csv_request = rds_20140815_models.DescribeDBInstancesAsCsvRequest(region_id=region)
+            rdsplusinfo = client.describe_dbinstances_as_csv_with_options(describe_dbinstances_as_csv_request, runtime)
+            rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
+
+            rds_plus = {i['DBInstanceId']:{'port':int(i['Port']),
                                        'cpu':f"{i['DBInstanceCPU']}核",
                                        'mem':f"{round(i['DBInstanceMemory']/1024)}GB",
                                        'disk':f"{i['DBInstanceStorage']}GB"
                                       } for i in rdsplus_list}
-        for k,v in rds_plus.items():
-            rds_dict[k].update(v)
-
+            for k,v in rds_plus.items():
+                rds_dict[k].update(v)
+        except Exception as e:
+            logger.error('DescribeDBInstancesAsCsvRequest ERROR' + str(e))
+            
         count = len(rds_dict)
         off,on = sync_rds.w2consul('alicloud',account,region,rds_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'rds同步成功！总数：{count}，开机：{on}，关机：{off}'}
@@ -280,7 +307,7 @@ def rds(account,region):
         logger.info(f'【JOB】===>alicloud_rds {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -289,5 +316,6 @@ def rds(account,region):
             data['msg'] = emsg
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
     except Exception as e:
+        logger.error(str(e))
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
