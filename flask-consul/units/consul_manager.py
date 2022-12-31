@@ -1,4 +1,4 @@
-import requests,json,re
+import requests,json,re,traceback
 from config import consul_token,consul_url
 from units.config_log import *
 
@@ -94,7 +94,8 @@ def add_instance(instance_dict):
         try:
             metaJson = json.loads(instance_dict['metaInfo']['metaJson'])
             instance_dict['meta'] = metaJson
-        except:
+        except Exception as e:
+            logger.error(f'{e}\n{traceback.format_exc()}')
             return {"code": 50000, "data": "Meta必须JSON字符串格式！"}
     if isCheck:
         ctype = instance_dict['checkInfo']['ctype']

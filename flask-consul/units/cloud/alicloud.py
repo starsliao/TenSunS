@@ -14,7 +14,7 @@ from alibabacloud_rds20140815 import models as rds_20140815_models
 from alibabacloud_r_kvstore20150101 import models as r_kvstore_20150101_models
 from alibabacloud_r_kvstore20150101.client import Client as R_kvstore20150101Client
 
-import sys,datetime,hashlib,math
+import sys,datetime,hashlib,math,traceback
 from units import consul_kv,consul_svc
 from units.cloud import sync_ecs,sync_rds,sync_redis,notify
 from units.config_log import *
@@ -54,7 +54,7 @@ def exp(account,collect_days,notify_days,notify_amount):
         else:
             logger.error(f'查询失败，Code:{amount_response.body.code}, 信息:{amount_response.body.message}, requestId:{amount_response.body.request_id}')
     except Exception as e:
-        logger.error(f'==ERROR=={e}')
+        logger.error(f'==ERROR=={e}\n{traceback.format_exc()}')
         raise
     query_available_instances_request = bss_open_api_20171214_models.QueryAvailableInstancesRequest(renew_status='ManualRenewal',end_time_start=now,end_time_end=collect)
     runtime = util_models.RuntimeOptions()
@@ -63,7 +63,7 @@ def exp(account,collect_days,notify_days,notify_amount):
         exp_list = exp.body.to_map()['Data']['InstanceList']
     except Exception as e:
         #exp_list = []
-        logger.error(f'==ERROR=={e}')
+        logger.error(f'==ERROR=={e}\n{traceback.format_exc()}')
         raise
     exp_dict = {}
     isnotify_list = consul_kv.get_keys_list(f'ConsulManager/exp/isnotify/alicloud/{account}')
@@ -114,7 +114,7 @@ def group(account):
         logger.info(f'【JOB】===>alicloud_group {account} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
+        logger.error(f"【code:】{e.code}\n【message:】{emsg}\n{traceback.format_exc()}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/group')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -123,6 +123,7 @@ def group(account):
             data['msg'] = emsg
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/group', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/group', data)
 
@@ -168,7 +169,7 @@ def ecs(account,region,isextip=False):
         logger.info(f'【JOB】===>alicloud_ecs {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        logger.error(f"【code:】{e.code}\n【message:】{emsg}")
+        logger.error(f"【code:】{e.code}\n【message:】{emsg}\n{traceback.format_exc()}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -177,6 +178,7 @@ def ecs(account,region,isextip=False):
             data['msg'] = emsg
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/ecs/{region}', data)
 
@@ -229,7 +231,7 @@ def redis(account,region):
         logger.info(f'【JOB】===>alicloud_redis {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        logger.error(f"【code:】{e.code}\n【message:】{e.message}")
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}\n{traceback.format_exc()}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -238,7 +240,7 @@ def redis(account,region):
             data['msg'] = emsg
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
     except Exception as e:
-        logger.error(str(e))
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/redis/{region}', data)
 
@@ -298,7 +300,7 @@ def rds(account,region):
             for k,v in rds_plus.items():
                 rds_dict[k].update(v)
         except Exception as e:
-            logger.error('DescribeDBInstancesAsCsvRequest ERROR' + str(e))
+            logger.error('DescribeDBInstancesAsCsvRequest ERROR' + f'{e}\n{traceback.format_exc()}')
             
         count = len(rds_dict)
         off,on = sync_rds.w2consul('alicloud',account,region,rds_dict)
@@ -307,7 +309,7 @@ def rds(account,region):
         logger.info(f'【JOB】===>alicloud_rds {account} {region} {data}')
     except TeaException as e:
         emsg = e.message.split('. ',1)[0]
-        logger.error(f"【code:】{e.code}\n【message:】{e.message}")
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}\n{traceback.format_exc()}")
         data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.code}','status':50000,'msg':emsg}
@@ -316,6 +318,6 @@ def rds(account,region):
             data['msg'] = emsg
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
     except Exception as e:
-        logger.error(str(e))
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)

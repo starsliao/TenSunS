@@ -1,10 +1,9 @@
-import json
 from tencentcloud.common import credential
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.common.exception.tencent_cloud_sdk_exception import TencentCloudSDKException
 
-import sys,datetime,hashlib
+import sys,datetime,hashlib,json,traceback
 #sys.path.append("..")
 #import consul_kv,sync_ecs
 from units import consul_kv
@@ -76,8 +75,8 @@ def exp(account,collect_days,notify_days,notify_amount):
                 title = '腾讯云余额不足通知'
                 md = content
                 notify.feishu(feishuwh,title,md,isatall)
-    except TencentCloudSDKException as err:
-        logger.error(f'{err}')
+    except TencentCloudSDKException as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
 
 def group(account):
     from tencentcloud.dcdb.v20180411 import dcdb_client, models
@@ -102,7 +101,7 @@ def group(account):
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/group', data)
         logger.info(f'【JOB】===>tencent_cloud_group {account} {data}')
     except TencentCloudSDKException as err:
-        logger.error(f'{err}')
+        logger.error(f'{err}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/group')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -111,6 +110,7 @@ def group(account):
             data['msg'] = str(err)
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/group', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/group', data)
 
@@ -152,7 +152,7 @@ def ecs(account,region,isextip=False):
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}', data)
         logger.info(f'【JOB】===>tencent_cloud_ecs {account} {region} {data}')
     except TencentCloudSDKException as err:
-        logger.error(f'{err}')
+        logger.error(f'{err}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -161,6 +161,7 @@ def ecs(account,region,isextip=False):
             data['msg'] = str(err)
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/ecs/{region}', data)
 
@@ -203,7 +204,7 @@ def rds(account,region):
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
         logger.info(f'【JOB】===>tencent_cloud_rds {account} {region} {data}')
     except TencentCloudSDKException as err:
-        logger.error(f'{err}')
+        logger.error(f'{err}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -212,6 +213,7 @@ def rds(account,region):
             data['msg'] = str(err)
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/rds/{region}', data)
 
@@ -252,7 +254,7 @@ def redis(account,region):
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)
         logger.info(f'【JOB】===>tencent_cloud_redis {account} {region} {data}')
     except TencentCloudSDKException as err:
-        logger.error(f'{err}')
+        logger.error(f'{err}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败','status':50000,'msg':str(err)}
@@ -261,5 +263,6 @@ def redis(account,region):
             data['msg'] = str(err)
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/tencent_cloud/{account}/redis/{region}', data)

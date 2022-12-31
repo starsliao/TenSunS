@@ -10,7 +10,7 @@ from huaweicloudsdkdcs.v2 import *
 from huaweicloudsdkdcs.v2.region.dcs_region import DcsRegion
 from huaweicloudsdkrds.v3 import *
 from huaweicloudsdkrds.v3.region.rds_region import RdsRegion
-import sys,datetime,hashlib
+import sys,datetime,hashlib,traceback
 from units import consul_kv
 from units.cloud import sync_ecs
 from units.cloud import sync_rds
@@ -94,7 +94,7 @@ def exp(account,collect_days,notify_days,notify_amount):
         logger.error(e.status_code)
         logger.error(e.request_id)
         logger.error(e.error_code)
-        logger.error(e.error_msg)
+        logger.error(f'{e.error_msg}\n{traceback.format_exc()}')
 
 def group(account):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
@@ -119,7 +119,7 @@ def group(account):
         logger.error(e.status_code)
         logger.error(e.request_id)
         logger.error(e.error_code)
-        logger.error(e.error_msg)
+        logger.error(f'{e.error_msg}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/group')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'msg':e.error_msg}
@@ -128,6 +128,7 @@ def group(account):
             data['msg'] = e.error_msg
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/group', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/group', data)
 
@@ -163,7 +164,7 @@ def ecs(account,region,isextip=False):
         logger.error(e.status_code)
         logger.error(e.request_id)
         logger.error(e.error_code)
-        logger.error(e.error_msg)
+        logger.error(f'{e.error_msg}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/ecs/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'on':0,'off':0,'msg':e.error_msg}
@@ -172,6 +173,7 @@ def ecs(account,region,isextip=False):
             data['msg'] = e.error_msg
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/ecs/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/ecs/{region}', data)
 
@@ -214,7 +216,7 @@ def rds(account,region):
         logger.error(e.status_code)
         logger.error(e.request_id)
         logger.error(e.error_code)
-        logger.error(e.error_msg)
+        logger.error(f'{e.error_msg}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/rds/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'on':0,'off':0,'msg':e.error_msg}
@@ -223,6 +225,7 @@ def rds(account,region):
             data['msg'] = e.error_msg
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/rds/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/rds/{region}', data)
 
@@ -263,7 +266,7 @@ def redis(account,region):
         logger.error(e.status_code)
         logger.error(e.request_id)
         logger.error(e.error_code)
-        logger.error(e.error_msg)
+        logger.error(f'{e.error_msg}\n{traceback.format_exc()}')
         data = consul_kv.get_value(f'ConsulManager/record/jobs/huaweicloud/{account}/redis/{region}')
         if data == {}:
             data = {'count':'无','update':f'失败{e.status_code}','status':50000,'on':0,'off':0,'msg':e.error_msg}
@@ -272,6 +275,7 @@ def redis(account,region):
             data['msg'] = e.error_msg
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/redis/{region}', data)
     except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/huaweicloud/{account}/redis/{region}', data)
 

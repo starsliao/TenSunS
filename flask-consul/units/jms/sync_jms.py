@@ -5,10 +5,11 @@ from units.config_log import *
 #创建node
 def create_node(jms_url,headers,now,node_id,cloud,account):
     node_url = f"{jms_url}/api/v1/assets/nodes/{node_id}/children/"
+    logger.debug(f'{node_url}==>{headers}')
     jms_node_list = requests.request("GET", node_url, headers=headers).json()
     if type(jms_node_list) == dict:
-        detail = jms_node_list.get('detail','ERROR')
-        logger.info(f'  【JMS】{detail}')
+        detail = jms_node_list.get('detail','未知ERROR')
+        logger.error(f'  【JMS】{detail}\n{node_url}==>{headers}')
         data = {'count': '失败','update':now,'status':50000,'msg':f'同步资源失败！{detail}'}
         consul_kv.put_kv(f'ConsulManager/record/jms/{cloud}/{account}', data)
     cloud_group_dict = consul_kv.get_value(f'ConsulManager/assets/{cloud}/group/{account}')
@@ -16,7 +17,7 @@ def create_node(jms_url,headers,now,node_id,cloud,account):
     for k,v in cloud_group_dict.items():
         if v not in [i['value'] for i in jms_node_list]:
             response = requests.request("POST", node_url, headers=headers, data = json.dumps({'value': v}))
-            logger.info(f'  【JMS】新增组===>{v}{response.status_code}')
+            logger.debug(f'  【JMS】新增组===>{v},{response.status_code}')
     reget_node_list = requests.request("GET", node_url, headers=headers).json()
     new_node_dict = {i['value']:i['id'] for i in reget_node_list}
     return new_node_dict
@@ -32,7 +33,7 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
     del_ecs_list = [v['id'] for k,v in jms_ecs_dict.items() if k not in [i['ip'] for i in ecs_dict.values()]]
     for del_ecs in del_ecs_list:
         response = requests.request("DELETE", f'{ecs_url}{del_ecs}/', headers=headers)
-        logger.info(f'  【JMS】删除主机:{del_ecs}{response.status_code}')
+        logger.info(f'  【JMS】删除主机:{del_ecs},{response.status_code}')
 
     #增加/更新缺少的主机
     for k,v in ecs_dict.items():
@@ -67,12 +68,12 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
                 jms_group = '无' if jms_ecs_dict[ip]['node'].split('/')[-1] == '未分组' else jms_ecs_dict[ip]['node'].split('/')[-1]
                 if jms_ecs_dict[ip]['name'] != iname or jms_group != v['ent']:
                     response = requests.request("PUT", f"{ecs_url}{jms_ecs_dict[ip]['id']}/", headers=headers, data = json.dumps(payload))
-                    logger.info(f"  【JMS】update：主机名:{response.json()['hostname']}{response.status_code}")
+                    logger.info(f"  【JMS】update：主机名:{response.json()['hostname']},{response.status_code}")
             else:
                 response = requests.request("POST", ecs_url, headers=headers, data = json.dumps(payload))
                 logger.info(f"  【JMS】add：主机名:{iname} {ip}【{response.json()['hostname']}，{response.status_code}】")
         except Exception as e:
-            logger.error(f'【update_jms ERROR】{e}')
+            logger.error(f'【update_jms ERROR】{e}\n{traceback.format_exc()}')
             logger.error(f'{response.json()}')
     return ecs_ip_dict
 
@@ -106,7 +107,7 @@ def del_node(jms_url,headers,now,node_id,cloud,account):
             else:
                 del_node_url = f"{jms_url}/api/v1/assets/nodes/{i['meta']['data']['id']}/"
             response = requests.request("DELETE", del_node_url, headers=headers)
-            logger.info("  【JMS】删除空组===>{i['name']},{response.status_code}")
+            logger.debug(f"  【JMS】删除空组===>{i['name']},{response.status_code}")
     ecs_count_url = f"{jms_url}/api/v1/assets/assets/?node={node_id}&limit=1&offset=1"
     ecs_count = requests.request("GET", ecs_count_url, headers=headers).json()['count']
     data = {'count':ecs_count,'update':now,'status':20000,'msg':f'同步资源成功！总数：{ecs_count}'}

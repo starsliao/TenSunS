@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask_restful import reqparse, Resource, Api
-import sys
+import sys,traceback
 sys.path.append("..")
 from units import token_auth,selfnode_manager
 from werkzeug.datastructures import FileStorage
@@ -29,7 +29,7 @@ class Upload(Resource):
         try:
             return upload.read_execl(file.read(),'selfnode')
         except Exception as e:
-            logger.error(f"【selfnode】导入失败,{e}")
+            logger.error(f"【selfnode】导入失败,{e}\n{traceback.format_exc()}")
             return {"code": 50000, "data": f"导入失败！"}
 
 class GetAllList(Resource):

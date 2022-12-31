@@ -3,7 +3,7 @@ from flask_restful import reqparse, Resource, Api
 from flask_apscheduler import APScheduler
 from units import token_auth,consul_kv,myaes
 from config import vendors
-import json
+import json,traceback
 from .jobs import deljob,addjob,runjob,getjob
 from units.config_log import *
 blueprint = Blueprint('jms',__name__)
@@ -106,7 +106,7 @@ class Jms(Resource):
                     custom_ecs_dict = json.loads(custom_ecs_info)
                     consul_kv.put_kv('ConsulManager/jms/custom_ecs_info',custom_ecs_dict)
                 except Exception as e:
-                    logger.error(f'{e}')
+                    logger.error(f'{e}\n{traceback.format_exc()}')
                     return {'code': 50000, 'data': 'Json解析错误，请检查！'}
             else:
                 consul_kv.put_kv('ConsulManager/jms/custom_ecs_info',{})
@@ -140,7 +140,13 @@ class Jms(Resource):
             jms_job_args = [vendor,account]
 
             addjob(jms_job_id,jms_job_func,jms_job_args,interval)
-            runjob(jms_job_id)
+            try:
+                runjob(jms_job_id)
+            except Exception as e:
+                deljob(jms_job_id)
+                logger.error(f'{e}\n{traceback.format_exc()}\n【{vendor}/{account}】同步功能开启失败！')
+                return {'code': 50000, 'data': f'【{vendor}/{account}】同步功能开启失败，请查看后端日志！'}
+
             jms_job_dict = {'id':jms_job_id,'func':jms_job_func,'args':jms_job_args,'minutes':interval,
                             'trigger': 'interval','replace_existing': True}
             consul_kv.put_kv(f'ConsulManager/jms/jobs/{vendor}/{account}',jms_job_dict)

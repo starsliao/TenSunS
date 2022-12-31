@@ -3,6 +3,7 @@ from flask_restful import reqparse, Resource, Api
 from flask_apscheduler import APScheduler
 #import sys
 #sys.path.append("..")
+import traceback
 from units import token_auth,consul_kv,gen_config,consul_svc
 from units.config_log import *
 blueprint = Blueprint('nodes',__name__)
@@ -97,7 +98,7 @@ class Nodes(Resource):
                 consul_svc.add_sid(sid_dict)
                 return {'code': 20000, 'data': '自定义实例信息修改成功！'}
             except Exception as e:
-                logger.error(f'{e}')
+                logger.error(f'{e}\n{traceback.format_exc()}')
                 return {'code': 50000, "data": '提交自定义实例信息格式错误！'}
 
 

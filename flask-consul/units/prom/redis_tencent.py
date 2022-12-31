@@ -1,4 +1,4 @@
-import json
+import json,traceback
 from tencentcloud.common import credential
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
@@ -39,7 +39,7 @@ def exporter(vendor,account,region):
                     prom_metric_name = metric_name_dict[i][0].split()[2]
                     metric_name_dict[i].append(f'{prom_metric_name}{{iid="{iid}"}} {float(value)} {ts}')
                 except Exception as e:
-                    logger.error(f"【redis_tencent：prom-metrics-ERROR】{e}")
+                    logger.error(f"【redis_tencent：prom-metrics-ERROR】{e}\n{traceback.format_exc()}")
     prom_metric_list = []
     for x in metric_name_dict.values():
         prom_metric_list = prom_metric_list + x

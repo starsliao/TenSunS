@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import requests, json
+import requests, json, traceback
 import xlrd,re,sys
 sys.path.append("..")
 from config import consul_token,consul_url
@@ -65,7 +65,7 @@ def importconsul(row,imptype):
                 "check": {"tcp": instance,"interval": "60s"}
             }
     except Exception as e:
-        logger.error(f"【import】导入失败,{e}")
+        logger.error(f"【import】导入失败,{e}\n{traceback.format_exc()}")
         return {"code": 50000, "data": f"导入内容格式异常！{row}"} 
     headers = {'X-Consul-Token': consul_token}
 
