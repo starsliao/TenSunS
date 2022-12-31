@@ -68,7 +68,7 @@
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的变量 **`admin_passwd`** 登录
 
-##### 3.使用K8S来部署ConsulManager
+##### 2. 使用K8S来部署ConsulManager
 ```
 # 编辑 k8s-deploy.yaml
 1. 修改24、40行的x.x.x.x为Consul的IP。
