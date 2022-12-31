@@ -2,19 +2,28 @@ kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: flask-consul
-  namespace: consulmanager
   labels:
-    service: flask-consul
+    app: flask-consul
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: flask-consul
+      app: flask-consul
   template:
     metadata:
       labels:
-        service: flask-consul
+        app: flask-consul
     spec:
+      initContainers:
+        - name: wait-for-consul
+          image: busybox
+          command:
+            - sh
+            - '-c'
+            - >-
+              for i in $(seq 1 60); do nc -z -w3 x.x.x.x 8500 && exit 0 ||
+              sleep 5; done; exit 1
+          imagePullPolicy: IfNotPresent
       containers:
         - name: flask-consul
           image: 'swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:latest'
@@ -24,11 +33,11 @@ spec:
               protocol: TCP
           env:
             - name: admin_passwd
-              value: Admin@123
+              value: 'xxxxxxxx'
             - name: consul_token
-              value: 27f38cb5-76b1-11dd-ba75-85d6aae1647e
+              value: xxxx-xxxx-xxxx-xxxx
             - name: consul_url
-              value: 'http://192.168.31.150:8500/v1'
+              value: 'http://x.x.x.x:8500/v1'
             - name: log_level
               value: INFO
             - name: TZ
@@ -40,35 +49,33 @@ kind: Service
 apiVersion: v1
 metadata:
   name: flask-consul
-  namespace: consulmanager
   labels:
     app: flask-consul
 spec:
   ports:
-    - name: http-2060
+    - name: http-2026
       protocol: TCP
       port: 2026
       targetPort: 2026
   selector:
-    service: flask-consul
+    app: flask-consul
   type: ClusterIP
 ---
 kind: Deployment
 apiVersion: apps/v1
 metadata:
   name: nginx-consul
-  namespace: consulmanager
   labels:
-    service: nginx-consul
+    app: nginx-consul
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: nginx-consul
+      app: nginx-consul
   template:
     metadata:
       labels:
-        service: nginx-consul
+        app: nginx-consul
     spec:
       containers:
         - name: nginx-consul
@@ -80,30 +87,22 @@ spec:
           env:
             - name: TZ
               value: Asia/Shanghai
-          resources:
-            limits:
-              cpu: '1'
-              memory: 1Gi
-            requests:
-              cpu: '1'
-              memory: 1Gi
           imagePullPolicy: Always
       restartPolicy: Always
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: nginx-consul
-  namespace: consulmanager
+  name: consulmanager
   labels:
-    service: nginx-consul
+    service: consulmanager
 spec:
   ports:
     - name: nginx-consul
       protocol: TCP
       port: 1026
       targetPort: 1026
-      nodePort: 31800
+      nodePort: 31026
   selector:
-    service: nginx-consul
+    app: nginx-consul
   type: NodePort
