@@ -68,7 +68,7 @@
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的变量 **`admin_passwd`** 登录
 
-##### 2. 使用K8S来部署ConsulManager
+##### 3. 你也可以使用K8S来部署ConsulManager
 ```
 # 编辑 k8s-deploy.yaml
 1. 修改24、40行的x.x.x.x为Consul的IP。
@@ -76,6 +76,7 @@
 3. 修改38行为Consul的访问token。
 4. 执行以下命令部署：
 kubectl apply -n 命名空间 -f k8s-deploy.yaml
+5. 浏览器访问Service：consulmanager（NodeIP+NodePort）。
 ```
 
 ## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
