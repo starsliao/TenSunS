@@ -9,6 +9,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
+
 ## 🏷目录
 * [🚀概述](#概述)
 * [🌈功能描述](#功能描述)
