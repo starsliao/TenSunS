@@ -1,4 +1,4 @@
-import datetime,requests,json
+import datetime,requests,json,traceback
 from units import consul_kv,consul_manager,myaes
 from units.config_log import *
 
@@ -68,10 +68,10 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
                 jms_group = '无' if jms_ecs_dict[ip]['node'].split('/')[-1] == '未分组' else jms_ecs_dict[ip]['node'].split('/')[-1]
                 if jms_ecs_dict[ip]['name'] != iname or jms_group != v['ent']:
                     response = requests.request("PUT", f"{ecs_url}{jms_ecs_dict[ip]['id']}/", headers=headers, data = json.dumps(payload))
-                    logger.info(f"  【JMS】update：主机名:{response.json()['hostname']},{response.status_code}")
+                    logger.info(f"  【JMS】update：主机名:{response.json().get('hostname',response.json())}，{response.status_code}")
             else:
                 response = requests.request("POST", ecs_url, headers=headers, data = json.dumps(payload))
-                logger.info(f"  【JMS】add：主机名:{iname} {ip}【{response.json()['hostname']}，{response.status_code}】")
+                logger.info(f"  【JMS】add：主机名:{iname} {ip}【{response.json().get('hostname',response.json())}，{response.status_code}】")
         except Exception as e:
             logger.error(f'【update_jms ERROR】{e}\n{traceback.format_exc()}')
             logger.error(f'{response.json()}')

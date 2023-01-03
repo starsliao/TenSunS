@@ -149,14 +149,17 @@ def ecs(account,region,isextip=False):
             ecs_list = ecs.body.instances.to_map()['Instance']
             ecs_dict_temp = {i['InstanceId']:{
                 'name':i['InstanceName'],'group':group_dict.get(i['ResourceGroupId'],'无'),'ostype':i['OSType'].lower(),'status':i['Status'],'region':region,
-                'ip':i["InnerIpAddress"]["IpAddress"][0] if i["InnerIpAddress"]["IpAddress"] else i['NetworkInterfaces']['NetworkInterface'][0]['PrimaryIpAddress'],
+                'ip':i["InnerIpAddress"]["IpAddress"][0] if i["InnerIpAddress"]["IpAddress"] else i['NetworkInterfaces']['NetworkInterface'][0].get('PrimaryIpAddress','NoneInnerIp'),
                 'cpu':f"{i['Cpu']}核",'mem':f"{str(round(i['Memory']/1024,1)).rstrip('.0')}GB",'exp':i['ExpiredTime'].split('T')[0],'ecstag': i.get('Tags',{}).get('Tag',[])
                 }for i in ecs_list}
 
             if isextip:
                 for i in ecs_list:
                     try:
-                        ecs_dict_temp[i['InstanceId']]['ip'] = i['PublicIpAddress']['IpAddress'][0] if i['PublicIpAddress']['IpAddress'] else i["EipAddress"]["IpAddress"]
+                        if i['PublicIpAddress']['IpAddress']:
+                            ecs_dict_temp[i['InstanceId']]['ip'] = i['PublicIpAddress']['IpAddress'][0]
+                        elif i["EipAddress"]["IpAddress"] != '':
+                            ecs_dict_temp[i['InstanceId']]['ip'] = i["EipAddress"]["IpAddress"]
                     except:
                         pass
             ecs_dict.update(ecs_dict_temp)
