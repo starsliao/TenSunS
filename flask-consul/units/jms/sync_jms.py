@@ -26,7 +26,11 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
     #比较云主机与JMS中对应node的主机列表，删除jms中多余的主机
     ecs_url = f"{jms_url}/api/v1/assets/assets/"
     reget_ecs_list = requests.request("GET", f'{ecs_url}?node={node_id}', headers=headers).json()
-    jms_ecs_dict = {i['ip']:{'name':i['hostname'],'id':i['id'],'comment':i['comment'],'node':i['nodes_display'][0]} for i in reget_ecs_list}
+    try:
+        jms_ecs_dict = {i['ip']:{'name':i['hostname'],'id':i['id'],'comment':i['comment'],'node':i['nodes_display'][0]} for i in reget_ecs_list}
+    except:
+        jms_ecs_dict = {i['ip']:{'name':i['hostname'],'id':i['id'],'comment':i['comment'],'node':i['nodes'][0]} for i in reget_ecs_list}
+
     ecs_list = consul_manager.get_instances(f'{cloud}_{account}_ecs')['instances']
     ecs_ip_dict = {i['address']:i['meta'][0]['name'] for i in ecs_list}
     ecs_dict = {i['ID']:{'name':i['meta'][0]['name'],'ip':i['address'],'ent':i['meta'][0]['group'],'ostype':i['meta'][0]['os'],'region':i['meta'][0]['region'],'vendor':i['meta'][0]['vendor']} for i in ecs_list}
