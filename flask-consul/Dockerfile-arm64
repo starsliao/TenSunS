@@ -1,5 +1,4 @@
 FROM arm64v8/python:3.10.9
-ADD  sources.list /etc/apt
 ADD . /flask
 WORKDIR /flask
 RUN pip3 install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple --no-cache-dir
