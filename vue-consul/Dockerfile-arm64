@@ -1,0 +1,9 @@
+FROM node:14-buster AS builder
+ADD . /vue
+WORKDIR /vue
+RUN npm install --registry=https://registry.npm.taobao.org && npm run build:prod
+
+FROM llody/nginx:1.22.0-base
+WORKDIR /www
+COPY --from=builder /vue/http-ops.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /vue/dist dist/
