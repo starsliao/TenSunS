@@ -1,10 +1,10 @@
 ### 查后端实时日志（先进入docker-compose.yml所在目录）
 ```
-docker-compose logs --tail=10 -f flask-consul
+docker-compose logs --tail=50 -f flask-consul
 ```
 ### 查前端实时日志（先进入docker-compose.yml所在目录）
 ```
-docker-compose logs --tail=10 -f flask-vue
+docker-compose logs --tail=50 -f nginx-consul
 ```
 ### 检查consul连接是否正常？
 ```
@@ -13,7 +13,7 @@ docker-compose exec flask-consul sh
 # 如果flask-consul容器无法正常启动，可以进入nginx-consul容器测试
 docker-compose exec nginx-consul sh
 # 执行检查:
-nc -vz {ip} 8500
+nc -vz {consul_ip} 8500
 ```
 ### blackbox_exporter监控某个站点有异常，如何debug
 - 在blackbox检测该站点的链接末尾加上`&debug=true`，请求即可，例如：
