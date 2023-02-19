@@ -12,8 +12,9 @@ docker-compose logs --tail=50 -f nginx-consul
 - 可以检查下iptables防火墙规则，设置允许访问8500端口：
 ```
 # 参考命令
-iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8500 -j ACCEPT
 firewall-cmd --zone=public --add-port=8500/tcp --permanent
+或
+iptables -A INPUT -p tcp -m state --state NEW -m tcp --dport 8500 -j ACCEPT
 ```
 
 ### 检查consul连接是否正常？
