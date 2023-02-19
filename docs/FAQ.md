@@ -10,6 +10,8 @@ docker-compose logs --tail=10 -f flask-vue
 ```
 # 进入容器：
 docker-compose exec flask-consul sh
+# 如果flask-consul容器无法正常启动，可以进入nginx-consul容器测试
+docker-compose exec nginx-consul sh
 # 执行检查:
 nc -vz {ip} 8500
 ```
