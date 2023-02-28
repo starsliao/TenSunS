@@ -58,6 +58,6 @@ consul acl bootstrap
 
 ### consul kv 备份还原
 ```
-consul kv export --http-addr=http://127.0.0.1:8500 -token=admin-token '' > consul_kv_bak.json
-consul kv import --http-addr=http://127.0.0.1:8500 -token=admin-token @consul_kv_bak.json
+consul kv export --http-addr=http://127.0.0.1:8500 -token=管理员token '' > consul_kv_bak.json
+consul kv import --http-addr=http://127.0.0.1:8500 -token=管理员token @consul_kv_bak.json
 ```
