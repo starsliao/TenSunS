@@ -34,6 +34,7 @@ acl = {
 #### 启动服务
 
 ```bash
+mkdir /opt/consul
 chown -R consul:consul /opt/consul  #注意下数据目录的权限。
 systemctl enable consul.service
 systemctl start consul.service
