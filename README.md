@@ -67,6 +67,8 @@
   - **`admin_passwd`**：登录ConsulManager Web的admin密码
 - 启动：`docker-compose pull && docker-compose up -d`
 - 访问：`http://{IP}:1026`，使用配置的变量 **`admin_passwd`** 登录
+##### 安装使用中遇到问题，请参考：[FAQ](https://github.com/starsliao/ConsulManager/blob/main/docs/FAQ.md)
+
 
 ##### 3. 你也可以使用K8S来部署ConsulManager
 ```
