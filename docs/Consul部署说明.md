@@ -1,13 +1,14 @@
 #### 安装
+##### 注意：暂时不兼容consul-1.15.x的版本，已安装1.15.x版本的请先卸载后安装以下版本。
 
 ```bash
 # 使用yum部署consul
 yum install -y yum-utils
 yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
-yum -y install consul
+yum -y install consul-1.14.5-1
 # 如果yum下载失败，可以直接下载RPM包安装
-wget https://rpm.releases.hashicorp.com/RHEL/7/x86_64/stable/consul-1.13.3-1.x86_64.rpm
-rpm -ivh ./consul-1.13.3-1.x86_64.rpm
+wget https://rpm.releases.hashicorp.com/RHEL/7/x86_64/stable/consul-1.14.5-1.x86_64.rpm
+rpm -ivh ./consul-1.14.5-1.x86_64.rpm
 ``` 
 
 #### 配置
