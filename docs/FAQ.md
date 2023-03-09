@@ -6,7 +6,7 @@ docker-compose logs --tail=50 -f flask-consul
 ```
 docker-compose logs --tail=50 -f nginx-consul
 ```
-### 后端报错requests.exceptions.ConnectionError: HTTPConnectionPool(host='xxx', port=8500)
+### 后端启动报错requests.exceptions.ConnectionError: HTTPConnectionPool(host='xxx', port=8500)
 ![图片](https://user-images.githubusercontent.com/3349611/219944354-7be4c686-ff8e-4a03-8939-0fd6dedfb1b7.png)
 - 这是由于flask-consul容器无法连接到consul服务端，请检查容器到consul的网络是否通。
 - 可以检查下iptables防火墙规则，设置允许访问8500端口：
