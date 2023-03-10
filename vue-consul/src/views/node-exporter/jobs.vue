@@ -179,7 +179,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="修改密钥">
-          <el-switch v-model="editJob.akskswitch" active-text="仅修改时选择" />
+          <el-switch v-model="editJob.akskswitch" active-text="需要修改密钥时选择" />
         </el-form-item>
         <el-form-item v-if="editJob.akskswitch" label="Access Key" prop="ak">
           <el-input v-model="editJob.ak" placeholder="请输AccessKey ID" />
@@ -327,7 +327,8 @@ export default {
           { value: 'us-west-1', label: '美国(硅谷)' },
           { value: 'eu-west-1', label: '英国(伦敦)' },
           { value: 'ap-southeast-1', label: '新加坡' },
-          { value: 'ap-northeast-1', label: '日本(东京)' }
+          { value: 'ap-northeast-1', label: '日本(东京)' },
+          { value: 'ap-south-1', label: '印度(孟买)' }
         ],
         tencent_cloud: [
           { value: 'ap-nanjing', label: '华东地区(南京)' },
