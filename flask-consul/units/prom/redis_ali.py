@@ -3,6 +3,7 @@ from aliyunsdkcms.request.v20190101.DescribeMetricLastRequest import DescribeMet
 from datetime import datetime
 from units import consul_kv
 import json
+from units.config_log import *
 
 def exporter(vendor,account,region):
     ak,sk = consul_kv.get_aksk(vendor,account)
@@ -19,7 +20,11 @@ def exporter(vendor,account,region):
     for i in metric_name_dict.keys():
         request_redismonit.set_MetricName(i)
         response_redismonit = json.loads(client_redismonit.do_action_with_exception(request_redismonit))
-        instance = json.loads(response_redismonit["Datapoints"])
+        try:
+            instance = json.loads(response_redismonit["Datapoints"])
+        except:
+            logger.error(f"{response_redismonit}")
+            instance = []
         prom_metric_name = metric_name_dict[i][0].split()[2]
         for j in instance:
             iid,max,ts = j["instanceId"],j["Maximum"],j["timestamp"]
