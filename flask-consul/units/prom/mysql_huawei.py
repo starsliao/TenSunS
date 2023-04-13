@@ -3,6 +3,8 @@ from huaweicloudsdkces.v1.region.ces_region import CesRegion
 from huaweicloudsdkces.v1 import *
 from datetime import datetime
 from units import consul_kv
+from units.config_log import *
+
 def exporter(vendor,account,region):
     ak,sk = consul_kv.get_aksk(vendor,account)
     credentials = BasicCredentials(ak, sk)
@@ -23,21 +25,26 @@ def exporter(vendor,account,region):
     for i in metric_name_dict.keys():
         for rdsid in rds_list:
             metric_body_list.append(MetricInfo(namespace="SYS.RDS",metric_name=i,dimensions=[MetricsDimension(name="rds_cluster_id",value=rdsid)]))
-
+            
     request = BatchListMetricDataRequest()
-    request.body = BatchListMetricDataRequestBody(to=now,_from=now-180000,filter="max",period="1",metrics=metric_body_list)
-    response = client.batch_list_metric_data(request).to_dict()
-    for i in response['metrics']:
-        rdsid= i['dimensions'][0]['value']
-        try:
-            value = i['datapoints'][-1]['max']
-            ts = i['datapoints'][-1]['timestamp']
-        except:
-            value = -1
-            ts = now
-        metric = i['metric_name']
-        prom_metric_name = metric_name_dict[metric][0].split()[2]
-        metric_name_dict[metric].append(f'{prom_metric_name}{{iid="{rdsid}"}} {float(value)} {ts}')
+    metrics_len = len(metric_body_list)
+    logger.info(f"metric_body_list长度(实例数*指标数): {metrics_len}")
+    
+    for i in range(0, metrics_len, 400):
+        sub_metric_list = metric_body_list[i:i+400]
+        request.body = BatchListMetricDataRequestBody(to=now,_from=now-180000,filter="max",period="1",metrics=sub_metric_list)
+        response = client.batch_list_metric_data(request).to_dict()
+        for i in response['metrics']:
+            rdsid= i['dimensions'][0]['value']
+            try:
+                value = i['datapoints'][-1]['max']
+                ts = i['datapoints'][-1]['timestamp']
+            except:
+                value = -1
+                ts = now
+            metric = i['metric_name']
+            prom_metric_name = metric_name_dict[metric][0].split()[2]
+            metric_name_dict[metric].append(f'{prom_metric_name}{{iid="{rdsid}"}} {float(value)} {ts}')
     prom_metric_list = []
     for x in metric_name_dict.values():
         prom_metric_list = prom_metric_list + x
