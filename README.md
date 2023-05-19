@@ -133,7 +133,7 @@ kubectl apply -n 命名空间 -f k8s-deploy.yaml
 ##### 🥈榜二大哥：**@南城阿宇** **@weibw**
 ##### 🥉榜三大哥：**@新的奇迹** **@李宫俊** **@锋** **@小明SQLBOY** **@Swancavalier**
 ##### 🏆榜N大哥：
-@mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209  @Runner91  @烂泥  @ASL·D·阿威  @惊雷  @默读自我  @MiracleWong
+@老叶 @mac🐬 🌈  @Stephen  @蔡志昆  @风与尘的誓约  @Initᯤ⁶ᴳ  @254209  @Runner91  @烂泥  @ASL·D·阿威  @惊雷  @默读自我  @MiracleWong
 
 ---
 
