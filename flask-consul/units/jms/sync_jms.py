@@ -27,9 +27,9 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
     ecs_url = f"{jms_url}/api/v1/assets/assets/"
     reget_ecs_list = requests.request("GET", f'{ecs_url}?node={node_id}', headers=headers).json()
     try:
-        jms_ecs_dict = {i['ip']:{'name':i['hostname'],'id':i['id'],'comment':i['comment'],'node':i['nodes_display'][0]} for i in reget_ecs_list}
+        jms_ecs_dict = {i.get('ip',i.get('address','IPNOTFOUND')):{'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'comment':i['comment'],'node':i['nodes_display'][0]} for i in reget_ecs_list}
     except:
-        jms_ecs_dict = {i['ip']:{'name':i['hostname'],'id':i['id'],'comment':i['comment'],'node':i['nodes'][0]} for i in reget_ecs_list}
+        jms_ecs_dict = {i.get('ip',i.get('address','IPNOTFOUND')):{'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'comment':i['comment'],'node':i['nodes'][0]} for i in reget_ecs_list}
 
     ecs_list = consul_manager.get_instances(f'{cloud}_{account}_ecs')['instances']
     ecs_ip_dict = {i['address']:i['meta'][0]['name'] for i in ecs_list}
@@ -59,6 +59,8 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
         payload = {
             "ip": ip,
             "hostname": iname,
+            "address": ip,
+            "name": iname,
             "protocols": protocols,
             "platform": platform,
             "is_active": True,
@@ -88,11 +90,11 @@ def del_jms_repip(jms_url,headers,node_id,ecs_ip_dict):
     rep_jmsecs_list = []
     new_jms_list = requests.request("GET", f'{ecs_url}?node={node_id}', headers=headers).json()
     for i in new_jms_list:
-        if i['ip'] not in temp_jmsecs_dict:
-            temp_jmsecs_dict[i['ip']] = {'name':i['hostname'],'id':i['id'],'ip':i['ip']}
+        if i.get('ip',i.get('address','IPNOTFOUND')) not in temp_jmsecs_dict:
+            temp_jmsecs_dict[i.get('ip',i.get('address','IPNOTFOUND'))] = {'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'ip':i.get('ip',i.get('address','IPNOTFOUND'))}
         else:
-            rep_jmsecs_list.append(temp_jmsecs_dict[i['ip']])
-            rep_jmsecs_list.append({'name':i['hostname'],'id':i['id'],'ip':i['ip']})
+            rep_jmsecs_list.append(temp_jmsecs_dict[i.get('ip',i.get('address','IPNOTFOUND'))])
+            rep_jmsecs_list.append({'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'ip':i.get('ip',i.get('address','IPNOTFOUND'))})
     
     for j in rep_jmsecs_list:
         if j['name'] != ecs_ip_dict.get(j['ip']):
