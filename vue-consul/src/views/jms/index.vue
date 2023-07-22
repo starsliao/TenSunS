@@ -22,6 +22,12 @@
         <el-form-item label="JumpServer URL">
           <el-input v-model="jms_config.url" placeholder="http开头" style="width: 390px;" />
         </el-form-item>
+        <el-form-item label="JumpServer 版本">
+          <el-select v-model="jms_config.ver" placeholder="版本" style="width: 100px" class="filter-item">
+            <el-option key="V2" label="V2" value="V2" />
+            <el-option key="V3" label="V3" value="V3" />
+          </el-select>
+        </el-form-item>
         <el-form-item label="JumpServer Token">
           <el-input v-model="jms_config.token" type="password" placeholder="请输入Admin Token" style="width: 390px;" />
         </el-form-item>
@@ -107,7 +113,7 @@ import { getJmsList, getJmsConfig, postJmsConfig, postJmsSwitch, postJmsSync } f
 export default {
   data() {
     return {
-      jms_config: { url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '', custom_ecs_info: '' },
+      jms_config: { ver: 'V2', url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '', custom_ecs_info: '' },
       listLoading: false,
       dialogFormVisible: false,
       query: { vendor: '', account: '' },

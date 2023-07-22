@@ -22,7 +22,7 @@ def create_node(jms_url,headers,now,node_id,cloud,account):
     new_node_dict = {i['value']:i['id'] for i in reget_node_list}
     return new_node_dict
 
-def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info):
+def update_jms_ecs(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info):
     #比较云主机与JMS中对应node的主机列表，删除jms中多余的主机
     ecs_url = f"{jms_url}/api/v1/assets/assets/"
     reget_ecs_list = requests.request("GET", f'{ecs_url}?node={node_id}', headers=headers).json()
@@ -56,11 +56,24 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
                         protocols = custom_info[ostype][0]
                         platform = ostype.title()
                         admin_user = custom_info[ostype][1]
-        payload = {
-            "ip": ip,
-            "hostname": iname,
+        if jms_ver == 'V3':
+            ecs_url = f"{jms_url}/api/v1/assets/hosts/"
+            proto,port = protocols[0].split('/')
+            payload = {
             "address": ip,
             "name": iname,
+            "protocols": [{"name": proto,"port": port}],
+            "platform": '5' if platform == 'Windows' else '1',
+            "is_active": True,
+            "domain": "",
+            "accounts":[{"template": admin_user.strip()}],
+            "nodes": [nodes],
+            "comment": comment
+            }
+        else:
+            payload = {
+            "ip": ip,
+            "hostname": iname,
             "protocols": protocols,
             "platform": platform,
             "is_active": True,
@@ -68,7 +81,7 @@ def update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,
             "admin_user": admin_user.strip(),
             "nodes": [nodes],
             "comment": comment
-        }
+            }
         try:
             if ip in jms_ecs_dict.keys():
                 jms_group = '无' if jms_ecs_dict[ip]['node'].split('/')[-1] == '未分组' else jms_ecs_dict[ip]['node'].split('/')[-1]
@@ -131,11 +144,12 @@ def run(cloud,account):
 
     jms = consul_kv.get_value('ConsulManager/jms/jms_info')
     jms_url = jms.get('url')
+    jms_ver = jms.get('ver','V2')
     token = myaes.decrypt(jms.get('token'))
     headers = {'Content-Type': 'application/json','Authorization': f"Token {token}"}
 
     new_node_dict = create_node(jms_url,headers,now,node_id,cloud,account)
-    ecs_ip_dict = update_jms_ecs(jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info)
+    ecs_ip_dict = update_jms_ecs(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_info,custom_ecs_info)
     del_jms_repip(jms_url,headers,node_id,ecs_ip_dict)
     del_node(jms_url,headers,now,node_id,cloud,account)
     logger.info(f'【JOB】===>{cloud},{account},JMS同步完成')

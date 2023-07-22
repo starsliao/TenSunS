@@ -84,7 +84,7 @@ class Jms(Resource):
                 winuid = ecs_info['windows'][-1]
                 token = myaes.decrypt(jms_info['token'])
                 custom_ecs_json = json.dumps(custom_ecs_info, indent=8) if custom_ecs_info != {} else ''
-                jms_config = {'url': jms_info['url'], 'token': token, 
+                jms_config = {'url': jms_info['url'], 'token': token, 'ver': jms_info.get('ver','V2'),
                     'linuxport': linuxport, 'linuxuid': linuxuid, 
                     'winport': winport, 'winuid': winuid, 'custom_ecs_info':custom_ecs_json}
             else:
@@ -95,7 +95,7 @@ class Jms(Resource):
             args = parser.parse_args()
             jms_config = args['jms_config']
             token = myaes.encrypt(jms_config['token'])
-            jms_info = {'url': jms_config['url'], 'token': token}
+            jms_info = {'url': jms_config['url'], 'token': token, 'ver': jms_config.get('ver','V2')}
             consul_kv.put_kv('ConsulManager/jms/jms_info', jms_info)
             ecs_info = {"linux": [[f"ssh/{jms_config['linuxport']}"],jms_config['linuxuid']],
                 "windows": [[f"rdp/{jms_config['winport']}"],jms_config['winuid']]}
