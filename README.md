@@ -31,7 +31,7 @@
 - 直观的查看每个Services实例的信息，及整体Services的健康状态。
 - 可以便捷的对Services实例的Tags、Meta、健康检查配置管理与查询。
 
-### 💎2. 自建与云资源监控管理
+### 💎2. 自建与云资源监控管理(ECS/RDS/Redis)
 >**基于Consul实现Prometheus监控目标的自动发现。**
 
 - ✔**当前已支持对接阿里云、腾讯云、华为云。**
@@ -40,7 +40,7 @@
   - ⭐支持多云ECS信息自动同步到**JumpServer**。
   - ⭐支持作为Exporter：Prometheus增加ConsulManager的JOB后可抓取云厂商的部分MySQL/Redis指标。(弥补原生Exporter无法获取部分云MySQL/Redis指标的问题)
   - 支持多云**账户余额**与云资源**到期日**设置阈值告警通知。
-- 支持自建主机/MySQL/Redis接入WEB管理，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！
+- **支持自建主机/MySQL/Redis**接入WEB管理，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！
 - 提供了按需生成Prometheus配置与ECS/MySQL/Redis告警规则的功能。
 - 设计了多个支持同步的各字段展示的Node_Exporter、Mysqld_Exporter、Redis_Exporter Grafana看板。
 
