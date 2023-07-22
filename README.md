@@ -142,13 +142,8 @@ kubectl apply -n 命名空间 -f k8s-deploy.yaml
 
 ---
 
-### 🎃提交bug
-@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  [@Show_Lo](https://github.com/ShowXian)  @郑不错  @init  @weibw  @Martin
-
----
-
-### 📢提供建议
-[@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator) @烂泥
+### 🎃提交bug与建议
+@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  [@Show_Lo](https://github.com/ShowXian)  @郑不错  @init  @weibw  @Martin @MiracleWong [@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator) @烂泥
 
 ---
 
@@ -157,4 +152,4 @@ kubectl apply -n 命名空间 -f k8s-deploy.yaml
 
 ---
 
-# 💖感谢伟大的[Flask](https://github.com/pallets/flask)、[VUE](https://github.com/vuejs/vue)、[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+## 💖感谢伟大的[Flask](https://github.com/pallets/flask)、[VUE](https://github.com/vuejs/vue)、[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
