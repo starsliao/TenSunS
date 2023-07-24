@@ -127,8 +127,8 @@
             <el-checkbox label="redis">REDIS</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item v-if="restype.includes('ecs') && ecsJob.vendor === 'alicloud'" label="优先获取外网IP" prop="isextip">
-          <el-checkbox v-model="ecsJob.isextip">(仅支持阿里云ECS)</el-checkbox>
+        <el-form-item v-if="restype.includes('ecs')" label="优先获取外网IP" prop="isextip">
+          <el-checkbox v-model="ecsJob.isextip">(仅支持ECS)</el-checkbox>
         </el-form-item>
         <el-form-item prop="proj_interval">
           <span slot="label">
@@ -202,8 +202,8 @@
             <el-checkbox label="redis">REDIS</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item v-if="editJob.restype.includes('ecs') && editJob.vendor === 'alicloud'" label="优先获取外网IP" prop="isextip">
-          <el-checkbox v-model="editJob.isextip">(仅支持阿里云ECS)</el-checkbox>
+        <el-form-item v-if="editJob.restype.includes('ecs')" label="优先获取外网IP" prop="isextip">
+          <el-checkbox v-model="editJob.isextip">(仅支持ECS)</el-checkbox>
         </el-form-item>
         <el-form-item prop="proj_interval">
           <span slot="label">

@@ -155,6 +155,17 @@ def ecs(account,region,isextip=False):
                              'mem':f"{str(round(int(i['flavor']['ram'])/1024,1)).rstrip('.0')}GB",
                              'exp': '-'
                             } for i in info}
+
+        if isextip:
+            for i in info:
+                try:
+                    pubip_list = [x.addr for x in i['addresses'][i['metadata']['vpc_id']] if 'floating' in str(x)]
+                    if pubip_list:
+                        ecs_dict[i['id']]['ip'] = pubip_list[0]
+                    else:
+                        pass
+                except:
+                    pass
         count = len(ecs_dict)
         off,on = sync_ecs.w2consul('huaweicloud',account,region,ecs_dict)
         data = {'count':count,'update':now,'status':20000,'on':on,'off':off,'msg':f'ECS同步成功！总数：{count}，开机：{on}，关机：{off}'}

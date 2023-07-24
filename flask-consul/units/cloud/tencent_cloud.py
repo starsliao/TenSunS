@@ -131,11 +131,13 @@ def ecs(account,region,isextip=False):
         offset = 0
         total = 0
         ecs_dict = {}
+        ecs_list_temp = []
         while offset <= total:
             params = {"Offset": offset, "Limit": 100}
             req.from_json_string(json.dumps(params))
             resp = client.DescribeInstances(req)
             ecs_list = resp.InstanceSet
+            ecs_list_temp.extend(ecs_list)
             total = resp.TotalCount
             ecs_dict_temp = {i.InstanceId:{'name':i.InstanceName,'group':group_dict.get(str(i.Placement.ProjectId),'无'),
                 'ostype': 'windows' if 'win' in i.OsName.lower() else 'linux',
@@ -145,6 +147,16 @@ def ecs(account,region,isextip=False):
                 } for i in ecs_list}
             offset = offset + 100
             ecs_dict.update(ecs_dict_temp)
+
+        if isextip:
+            for i in ecs_list_temp:
+                try:
+                    if i.PublicIpAddresses:
+                        ecs_dict[i.InstanceId]['ip'] = i.PublicIpAddresses[0]
+                    else:
+                        pass
+                except:
+                    pass
 
         count = len(ecs_dict)
         off,on = sync_ecs.w2consul('tencent_cloud',account,region,ecs_dict)
