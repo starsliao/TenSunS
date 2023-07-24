@@ -27,6 +27,7 @@
             <el-option key="V2" label="V2" value="V2" />
             <el-option key="V3" label="V3" value="V3" />
           </el-select>
+          <span v-if="jms_config.ver === 'V3'"><font size="3px" color="#ff0000">请更新JumpServer到3.5及以上版本</font></span>
         </el-form-item>
         <el-form-item label="JumpServer Token">
           <el-input v-model="jms_config.token" type="password" placeholder="请输入Admin Token" style="width: 390px;" />
