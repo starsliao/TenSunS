@@ -9,6 +9,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
+![tensuns](https://github.com/starsliao/ConsulManager/assets/3349611/eb86432e-e167-43c5-ac36-e76f0d60959b)
 
 **注意:（暂时最高支持Consul v1.14.x，请勿使用Consul v1.15.x）（[docs/Consul部署说明.md](https://github.com/starsliao/ConsulManager/blob/main/docs/Consul%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md)）**
 
