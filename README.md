@@ -12,8 +12,6 @@
 
 ![tensuns](https://github.com/starsliao/ConsulManager/assets/3349611/eb86432e-e167-43c5-ac36-e76f0d60959b)
 
-**注意:（暂时最高支持Consul v1.14.x，请勿使用Consul v1.15.x）（[docs/Consul部署说明.md](https://github.com/starsliao/ConsulManager/blob/main/docs/Consul%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md)）**
-
 
 ## 🏷目录
 * [🚀概述](#概述)
@@ -63,7 +61,7 @@
 ---
 
 ## 💾部署说明
-##### 1. ConsulManager需要依赖`Consul`，请先完成Consul的部署。（暂时最高支持Consul v1.14.5）（[docs/Consul部署说明.md](https://github.com/starsliao/ConsulManager/blob/main/docs/Consul%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md)）
+##### 1. ConsulManager需要依赖`Consul`，请先完成Consul的部署。（[docs/Consul部署说明.md](https://github.com/starsliao/ConsulManager/blob/main/docs/Consul%E9%83%A8%E7%BD%B2%E8%AF%B4%E6%98%8E.md)）
 ##### 2. 使用`docker-compose`来部署ConsulManager
 - 下载：`wget https://starsl.cn/static/img/docker-compose.yml`（仓库根目录下`docker-compose.yml`）
 - 编辑：`docker-compose.yml`，修改3个环境变量：
