@@ -45,7 +45,7 @@ acl = {
 
 ```bash
 mkdir /opt/consul
-chown -R consul:consul /opt/consul  #注意下数据目录的权限。
+chown -R consul:consul /opt/consul
 systemctl enable consul.service
 systemctl start consul.service
 ```
