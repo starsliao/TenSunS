@@ -38,7 +38,7 @@
 
 - ✔**当前已支持对接阿里云、腾讯云、华为云。**
 
-  - ⭐支持多云ECS/MySQL/Redis的**资源、分组、标签**自动同步到Consul并接入到Prometheus自动发现！(并提供云资源信息查询与自定义页面)
+  - ⭐支持多云ECS/RDS/Redis的**资源、分组、标签**自动同步到Consul并接入到Prometheus自动发现！(并提供云资源信息查询与自定义页面)
   - ⭐支持多云ECS信息自动同步到**JumpServer**。
   - ⭐支持多云**账户余额**与云资源**到期日**设置阈值告警通知。
   - ⭐支持作为Exporter接入Prometheus：Prometheus增加ConsulManager的JOB后可抓取云厂商的部分MySQL/Redis指标。(弥补原生Exporter无法获取部分云MySQL/Redis指标的问题)
