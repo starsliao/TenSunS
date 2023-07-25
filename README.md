@@ -10,7 +10,7 @@
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
 
-![tensuns](https://github.com/starsliao/ConsulManager/tensuns.png)
+![tensuns](https://github.com/starsliao/ConsulManager/tensuns-arch.png)
 
 ## 🏷目录
 * [🚀概述](#概述)
