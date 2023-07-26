@@ -1,7 +1,11 @@
 #!/bin/bash
 uuid=`uuidgen`
-passwd="tensuns"
+echo ""
 read -p "请设置登录后羿运维平台的admin密码：" passwd
+if [ -z $passwd ]; then
+  passwd="tensuns"
+  echo -e "\n未输入，使用默认密码：\033[31;1mtensuns\033[0m\n"
+fi
 
 cat <<EOF > 1.consul-deploy.yaml
 apiVersion: v1
