@@ -19,7 +19,7 @@ uuidgen
 > 编辑配置文件`/etc/consul.d/consul.hcl`
 ```bash
 data_dir = "/opt/consul"
-log_level = "warn"
+log_level = "error"
 
 # 服务器有多个IP启动会报错请增加这行配置:填写服务器IP,如果启动或运行有报错,可以尝试去掉这行
 advertise_addr = "192.168.x.x"
@@ -27,6 +27,13 @@ advertise_addr = "192.168.x.x"
 client_addr = "0.0.0.0"
 ui_config{
   enabled = true
+}
+ports = {
+  grpc = -1
+  https = -1
+  dns = -1
+  grpc_tls = -1
+  serf_wan = -1
 }
 server = true
 bootstrap_expect=1
