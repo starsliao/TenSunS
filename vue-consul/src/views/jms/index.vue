@@ -34,6 +34,7 @@
         </el-form-item>
         <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
         <h3>全局通用主机【管理用户】信息：</h3>
+        <span v-if="jms_config.ver === 'V3'"><font size="3px" color="#ff0000">JumpServer3.x请使用账号模板的ID：登录JumpServer-账号管理-账号模板-选择账号-基本信息-ID</font></span>
         <div class="demo-input-suffix">
           <h4>Linux：</h4>
           ssh端口：<el-input v-model="jms_config.linuxport" style="width: 72px;" />
