@@ -59,8 +59,10 @@ acl = {
 ```bash
 mkdir /opt/consul
 chown -R consul:consul /opt/consul
+sed -i 's/Type=notify/Type=exec/g' /usr/lib/systemd/system/consul.service
+systemctl daemon-reload
 systemctl enable consul.service
-systemctl start consul.service
+systemctl restart consul.service
 ```
 
 ### consul kv 备份还原
