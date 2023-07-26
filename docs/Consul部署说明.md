@@ -16,7 +16,7 @@ rpm -ivh ./consul-1.16.0-1.x86_64.rpm
 ```bash
 uuidgen
 ```
-> 编辑配置文件`/etc/consul.d/consul.hcl`
+> `/etc/consul.d/consul.hcl`完整配置内容
 ```bash
 data_dir = "/opt/consul"
 log_level = "error"
