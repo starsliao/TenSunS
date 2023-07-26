@@ -34,7 +34,7 @@ acl = {
   enabled = true
   default_policy = "deny"
   enable_token_persistence = true
-  tokens = {
+  tokens {
     initial_management = "生成的UUID"
     agent = "生成的UUID,和上面保持一致"
   }
