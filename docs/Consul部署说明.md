@@ -21,7 +21,7 @@ uuidgen
 data_dir = "/opt/consul"
 log_level = "error"
 
-# 服务器有多个IP启动会报错请增加这行配置:填写服务器IP,如果启动或运行有报错,可以尝试去掉这行
+# 服务器有多个IP启动会报错请增加这行配置：填写服务器IP。
 advertise_addr = "192.168.x.x"
 
 client_addr = "0.0.0.0"
@@ -34,6 +34,12 @@ ports = {
   dns = -1
   grpc_tls = -1
   serf_wan = -1
+}
+peering {
+  enabled = false
+}
+connect {
+  enabled = false
 }
 server = true
 bootstrap_expect=1
