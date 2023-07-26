@@ -7,10 +7,16 @@
       <el-link :underline="false" type="primary" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2023/07/26" placement="top">
+        <el-card>
+          <h4>v0.12.8</h4>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />支持了最新版的Consul，更新了Consul的部署文档。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2023/07/24" placement="top">
         <el-card>
           <h4>v0.12.7</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />兼容JumpServer3.x，支持同步ECS到JumpServer3.x资产管理</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />兼容JumpServer3.x，支持同步ECS到JumpServer3.x资产管理。</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/12/12" placement="top">
