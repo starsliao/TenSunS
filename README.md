@@ -22,7 +22,7 @@
 * [💖特别鸣谢](#特别鸣谢)
 
 ## 🦄概述
->**ConsulManager**是一个使用Flask+Vue开发，基于Consul的WEB运维平台，弥补了Consul官方UI对Services管理的不足；并且基于Consul的服务发现与键值存储：实现了Prometheus自动发现多云厂商各资源信息，基于Blackbox对站点监控的可视化维护，以及对自建与云上资源的优雅管理与展示。
+>**ConsulManager**是一个使用Flask+Vue开发，基于Consul的WEB运维平台，弥补了Consul官方UI对Services管理的不足；并且基于Consul的服务发现与键值存储：实现了Prometheus自动发现多云厂商各资源信息；基于Blackbox对站点监控的可视化维护；以及对自建与云上资源的优雅管理与展示。
 
 ## 🌈功能描述
 ### 🎡1. Consul管理(比官方更优雅的Consul Web UI)
