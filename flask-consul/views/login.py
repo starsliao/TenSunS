@@ -1,7 +1,8 @@
 from flask import Blueprint
 from flask_restful import reqparse, Resource, Api
 from itsdangerous import TimedJSONWebSignatureSerializer
-import sys
+from werkzeug.datastructures import FileStorage
+import sys,base64,traceback
 sys.path.append("..")
 from config import admin_passwd
 from units import token_auth, consul_kv
@@ -17,7 +18,40 @@ parser = reqparse.RequestParser()
 parser.add_argument('username',type=str)
 parser.add_argument('password',type=str)
 parser.add_argument('ldap',type=str)
+parser.add_argument('file',type=FileStorage, location="files", help="File is wrong.")
 
+class Logo(Resource):
+    @token_auth.auth.login_required
+    def post(self, logo_opt):
+        if logo_opt == 'biglogo':
+            consul_kv_path = 'ConsulManager/img/biglogo'
+            isbig = True
+        elif logo_opt == 'smallogo':
+            consul_kv_path = 'ConsulManager/img/smallogo'
+            isbig = False
+        img = parser.parse_args().get("file")
+        try:
+            b64img = base64.b64encode(img.read()).decode('utf-8')
+            consul_kv.put_kv(consul_kv_path,b64img)
+            consul_kv.put_kv(f'ConsulManager/img/isbig',isbig)
+            return {"code": 20000, "data": f"导入成功！"}
+        except Exception as e:
+            logger.error(f"【logo】导入失败,{e}\n{traceback.format_exc()}")
+            return {"code": 50000, "data": f"导入失败！"}
+    def get(self, logo_opt):
+        if logo_opt == 'logo':
+            isbig = consul_kv.get_value(f'ConsulManager/img/isbig')
+            if isbig == {}:
+                isbig = True
+            if isbig:
+                consul_kv_path = 'ConsulManager/img/biglogo'
+            else:
+                consul_kv_path = 'ConsulManager/img/smallogo'
+            b64logo = consul_kv.get_value(consul_kv_path)
+            if b64logo:
+                return {"code": 20000, "isbig": isbig, "data": 'data:image/png;base64,' + b64logo}
+            else:
+                return {"code": 20000, "isbig": isbig, "data": 'default'}
 class User(Resource):
     @token_auth.auth.login_required
     def get(self, user_opt):
@@ -58,3 +92,5 @@ class User(Resource):
                 return {"code": 20000,"data": "success"}
 
 api.add_resource(User, '/api/user/<user_opt>')
+api.add_resource(Logo,'/api/login/<logo_opt>')
+

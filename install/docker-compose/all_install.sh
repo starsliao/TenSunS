@@ -35,7 +35,7 @@ acl = {
   }
 }
 EOF
-
+chmod 777 -R $tsspath/consul/config
 cat <<EOF > $tsspath/docker-compose.yaml
 version: '3.6'
 services:

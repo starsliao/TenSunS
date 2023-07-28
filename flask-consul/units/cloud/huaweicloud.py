@@ -173,7 +173,7 @@ def ecs(account,region,isextip=False):
                              'ostype':i['metadata']['os_type'].lower(),
                              'cpu':i['flavor']['vcpus'] + '核',
                              'mem':f"{str(round(int(i['flavor']['ram'])/1024,1)).rstrip('.0')}GB",
-                             'exp': exp_dict[i['id']]
+                             'exp': exp_dict.get(i['id'], '-')
                             } for i in info}
 
         if isextip:

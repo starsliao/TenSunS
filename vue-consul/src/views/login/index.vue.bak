@@ -1,15 +1,10 @@
 <template>
   <div class="login-container">
-    <div v-if="isbig" class="title-container" style="text-align:center">
-      <br><br>
-      <img :src="loginlogo" width="720" height="330">
-      <br><br>
-    </div>
-    <div v-else class="title-container" style="text-align:center; padding: 160px 70px 0;">
-      <img :src="loginlogo" width="100" height="100"><br><br><br><br>
-      <h3 style="font-size:45px" class="title">Consul Manager</h3><br>
-    </div>
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" style="padding: 10px 70px 0;">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+      <div class="title-container" style="text-align:center">
+        <img :src="loginlogo" width="100" height="100"><br><br><br>
+        <h3 style="font-size:45px" class="title">后羿运维平台</h3><br><br>
+      </div>
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
@@ -58,8 +53,7 @@
 
 <script>
 import { logo } from '@/api/login'
-import smallogo from '@/assets/login_images/SLH.png'
-import biglogo from '@/assets/login_images/tensuns.png'
+import logosl from '@/assets/login_images/SLH.png'
 export default {
   name: 'Login',
   data() {
@@ -90,7 +84,6 @@ export default {
       loading: false,
       passwordType: 'password',
       loginlogo: '',
-      isbig: true,
       redirect: undefined
     }
   },
@@ -109,16 +102,9 @@ export default {
     getlogo() {
       logo().then(response => {
         if (response.data === 'default') {
-          if (response.isbig === true) {
-            this.loginlogo = biglogo
-            this.isbig = true
-          } else {
-            this.loginlogo = smallogo
-            this.isbig = false
-          }
+          this.loginlogo = logosl
         } else {
           this.loginlogo = response.data
-          this.isbig = response.isbig
         }
       })
     },

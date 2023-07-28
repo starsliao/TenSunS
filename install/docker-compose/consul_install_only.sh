@@ -33,7 +33,7 @@ acl = {
   }
 }
 EOF
-
+chmod 777 -R /opt/consul/config
 cat <<EOF > /opt/consul/docker-compose.yaml
 version: '3.6'
 services:

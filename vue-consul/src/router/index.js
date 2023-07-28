@@ -280,6 +280,12 @@ export const constantRoutes = [
     meta: { title: '系统设置', icon: 'el-icon-setting' },
     children: [
       {
+        path: 'logo',
+        name: '修改Logo',
+        component: () => import('@/views/ldap/logo'),
+        meta: { title: '修改Logo', icon: 'el-icon-lock' }
+      },
+      {
         path: 'ldap',
         name: '统一认证',
         component: () => import('@/views/ldap/index'),
