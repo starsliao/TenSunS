@@ -139,7 +139,7 @@ kubectl apply -n 命名空间 -f k8s-deploy.yaml
 ---
 
 ### ✅提交代码
-[@dbdocker](https://github.com/dbdocker)
+[@dbdocker](https://github.com/dbdocker) [@anatsking](https://github.com/anatsking)
 
 ---
 
