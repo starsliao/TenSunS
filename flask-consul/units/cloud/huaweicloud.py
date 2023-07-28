@@ -17,6 +17,7 @@ from units.cloud import sync_rds
 from units.cloud import sync_redis
 from units.cloud import notify
 from units.config_log import *
+from units import consul_kv,consul_svc
 
 def exp(account,collect_days,notify_days,notify_amount):
     ak,sk = consul_kv.get_aksk('huaweicloud',account)
@@ -138,6 +139,25 @@ def ecs(account,region,isextip=False):
     group_dict = consul_kv.get_value(f'ConsulManager/assets/huaweicloud/group/{account}')
     credentials = BasicCredentials(ak, sk)
     try:
+        paycredentials = GlobalCredentials(ak, sk)
+        payclient = BssClient.new_builder() \
+            .with_credentials(paycredentials) \
+            .with_region(BssRegion.value_of("cn-north-1")) \
+            .build()
+        payrequest = ListPayPerUseCustomerResourcesRequest()
+        listQueryResourcesReqStatusListbody = [2]
+        payrequest.body = QueryResourcesReq(
+            limit=500,
+            status_list=listQueryResourcesReqStatusListbody,
+            only_main_resource=1
+        )
+        exp_list = payclient.list_pay_per_use_customer_resources(payrequest).to_dict()['data']
+        #logger.info(exp_list)
+        exp_dict = {}
+        for i in exp_list:
+            if i['service_type_code'].replace('hws.service.type.',''):
+               #exp_dict[i['resource_id']] = datetime.datetime.strptime(i['expire_time'],'%Y-%m-%d')
+               exp_dict[i['resource_id']] = i['expire_time'].split('T')[0]
         client = EcsClient.new_builder() \
             .with_credentials(credentials) \
             .with_region(EcsRegion.value_of(region)) \
@@ -153,7 +173,7 @@ def ecs(account,region,isextip=False):
                              'ostype':i['metadata']['os_type'].lower(),
                              'cpu':i['flavor']['vcpus'] + '核',
                              'mem':f"{str(round(int(i['flavor']['ram'])/1024,1)).rstrip('.0')}GB",
-                             'exp': '-'
+                             'exp': exp_dict[i['id']]
                             } for i in info}
 
         if isextip:
