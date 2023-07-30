@@ -64,10 +64,11 @@
 ## 💾部署说明
 #### 💥新增基于docker/K8S的一键部署脚本,Consul独立部署脚本,安装脚本统一放置install目录
 ##### 基于docker-compose安装
-- [`install/docker-compose/all_install.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/all_install.sh):
-  1. 服务器需要先安装好**docker和docker-compose**
-  2. 运行该脚本后会使用docker-compose启动TenSunS和Consul,安装路径是:/ops/tensuns
-  3. 脚本运行完成后会有使用提示及自动生成登录密码
+- [`install/docker-compose/all_install.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/all_install.sh)（**推荐**）:
+  1. **前提**服务器需要先安装好**docker和docker-compose**
+  2. **一键安装**：`curl -s https://starsl.cn/static/img/all_install.sh|sudo bash`
+  3. 运行该脚本后会使用docker-compose启动TenSunS和Consul,安装路径是:/ops/tensuns
+  4. 脚本运行完成后会有使用提示及自动生成登录密码
 
 - [`install/docker-compose/consul_install_only.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/consul_install_only.sh) 独立的Consul安装脚本
 - [`install/docker-compose/tensuns_install_only.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/tensuns_install_only.sh) 独立的TenSunS安装脚本（已经有Consul的用户可以使用这个脚本）
