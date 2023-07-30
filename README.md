@@ -12,6 +12,8 @@
 
 ![tensuns-arch](https://github.com/starsliao/ConsulManager/blob/main/screenshot/tensuns-arch.png)
 
+- **登录后你可以在`系统设置`中来`自定义登录页`：[欢迎Show出你的登录页](https://github.com/starsliao/TenSunS/issues/75)。**
+- **如果你觉得本项目还不错，[烦请在这里留下脚印](https://github.com/starsliao/TenSunS/issues/74)，简单登记下，也可以分享您的使用经验与实践，感谢支持！**
 ## 🏷目录
 * [🚀概述](#概述)
 * [🌈功能描述](#功能描述)
@@ -78,7 +80,7 @@
 - 所有安装方式Consul的管理token会自动生成，可以在Consul的配置文件或TenSunS的docker-compose中查看。
 - 已经部署Consul的用户可以在TenSunS的docker-compose.yaml或者K8S yaml文件的环境变量部分找到:`consul_token`,`consul_url`,并配置上你的Consul信息;环境变量`admin_passwd`是TenSunS登录admin账号的密码。
 - **安装使用中遇到问题，以及问题排查，请参考：[FAQ](https://github.com/starsliao/ConsulManager/blob/main/docs/FAQ.md)**
-##### 活动
+##### 🎉活动
 - **登录后你可以在`系统设置`中来`自定义登录页`：[欢迎Show出你的登录页](https://github.com/starsliao/TenSunS/issues/75)。**
 - **如果你觉得本项目还不错，[烦请在这里留下脚印](https://github.com/starsliao/TenSunS/issues/74)，简单登记下，也可以分享您的使用经验与实践，感谢支持！**
 
