@@ -10,7 +10,7 @@
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
 
-![tensuns-arch](https://github.com/starsliao/ConsulManager/blob/main/screenshot/tensuns-arch.png)
+![tensuns-arch](https://raw.githubusercontent.com/starsliao/TenSunS/main/screenshot/tensuns-arch.png)
 
 - **v1.0.0开始支持自定义登录页，登录后你可以在`系统设置`中自定义登录页：[欢迎Show出你的登录页](https://github.com/starsliao/TenSunS/issues/75)。**
 - **如果你觉得本项目还不错，[烦请在这里留下脚印](https://github.com/starsliao/TenSunS/issues/74)，简单登记下，也可以分享您的使用经验与实践，感谢支持！**
