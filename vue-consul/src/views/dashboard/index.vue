@@ -19,7 +19,7 @@
           <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />支持阿里/华为/腾讯云采集ECS外网IP功能</p>
           <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />支持华为云ECS采集到期日指标</p>
           <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />优化云ECS资源推送到JumpServer3.x资产管理</p>
-          <p><el-button type="info" size="mini" icon="el-icon-star-off" circle />优化自建资源/站点监控查询分页</p> 
+          <p><el-button type="info" size="mini" icon="el-icon-star-off" circle />优化自建资源/站点监控查询分页</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2023/07/26" placement="top">

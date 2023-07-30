@@ -18,6 +18,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('username',type=str)
 parser.add_argument('password',type=str)
 parser.add_argument('title',type=str)
+parser.add_argument('height',type=str)
 parser.add_argument('ldap',type=str)
 parser.add_argument('file',type=FileStorage, location="files", help="File is wrong.")
 
@@ -25,6 +26,9 @@ class Logo(Resource):
     @token_auth.auth.login_required
     def post(self, logo_opt):
         if logo_opt == 'nologo':
+            height = parser.parse_args().get("height")
+            height = '450' if height == "" else height
+            consul_kv.put_kv('ConsulManager/img/logoheight',height)
             consul_kv.put_kv('ConsulManager/img/biglogo','R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
             consul_kv.put_kv('ConsulManager/img/isbig',True)
             return {"code": 20000, "data": "设置成功！"}
@@ -75,7 +79,11 @@ class Logo(Resource):
                 consul_kv_path = 'ConsulManager/img/smallogo'
             b64logo = consul_kv.get_value(consul_kv_path)
             if b64logo:
-                return {"code": 20000, "isbig": isbig, "data": 'data:image/png;base64,' + b64logo}
+                if b64logo == 'R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7':
+                    logoheight = consul_kv.get_value('ConsulManager/img/logoheight')
+                    return {"code": 20000, "isbig": isbig, "data": 'data:image/png;base64,' + b64logo, "logoheight": logoheight}
+                else:
+                    return {"code": 20000, "isbig": isbig, "data": 'data:image/png;base64,' + b64logo}
             else:
                 return {"code": 20000, "isbig": isbig, "data": 'default'}
         elif logo_opt == 'title':

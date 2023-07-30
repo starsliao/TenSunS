@@ -7,10 +7,11 @@ export function logo() {
   })
 }
 
-export function postnologo() {
+export function postnologo(height) {
   return request({
     url: '/api/login/nologo',
-    method: 'post'
+    method: 'post',
+    data: { height }
   })
 }
 

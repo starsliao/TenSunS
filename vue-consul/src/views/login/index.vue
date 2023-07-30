@@ -95,7 +95,7 @@ export default {
       loginbgimg: '',
       logintitle: 'T e n S u n S',
       isbig: true,
-      height: 330,
+      height: '330',
       redirect: undefined
     }
   },
@@ -125,7 +125,7 @@ export default {
           }
         } else {
           if (response.data === 'data:image/png;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7') {
-            this.height = 450
+            this.height = response.logoheight
           }
           this.loginlogo = response.data
           this.isbig = response.isbig

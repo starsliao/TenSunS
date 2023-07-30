@@ -68,19 +68,39 @@
         <br><el-button type="primary" @click="setresmall">恢复默认LOGO风格</el-button>
       </div></el-col>
     </el-row><br>
-    <el-divider><i class="el-icon-s-promotion" /></el-divider>
+    <el-divider><i class="el-icon-s-promotion" />展示名称</el-divider>
     <el-form :inline="true" :model="formtitle" class="demo-form-inline">
-      &nbsp;&nbsp;<el-form-item label="登录页名称">
-                    <el-input v-model="formtitle.title" placeholder="请输入" />
-                  </el-form-item>
+      <el-form-item>
+        <span slot="label">
+          <span class="span-box">
+            &nbsp;&nbsp;<span>登录页名称</span>
+            <el-tooltip style="diaplay:inline" effect="dark" content="登录页面展示的名称,仅在LOGO风格的时候会展示名称。" placement="top">
+              <i class="el-icon-info" />
+            </el-tooltip>
+          </span>
+        </span>
+        <el-input v-model="formtitle.title" placeholder="默认显示:TenSunS" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="setitle">设置名称</el-button>
       </el-form-item>
       <el-form-item>
         &nbsp;&nbsp;&nbsp;&nbsp;<el-button type="info" icon="el-icon-refresh-left" @click="setretitle">恢复默认名称</el-button>
       </el-form-item>
+      <el-divider><i class="el-icon-s-promotion" />壁纸模式</el-divider>
       <el-form-item>
-        &nbsp;&nbsp;&nbsp;&nbsp;<el-button type="warning" icon="el-icon-magic-stick" @click="setnologo">进入壁纸模式</el-button>
+        <span slot="label">
+          <span class="span-box">
+            &nbsp;&nbsp;<span>登录框位置</span>
+            <el-tooltip style="diaplay:inline" effect="dark" content="登录框位置仅壁纸模式可用，默认位置的值是450，增大该值，登录框位置下移。" placement="top">
+              <i class="el-icon-info" />
+            </el-tooltip>
+          </span>
+        </span>
+        <el-input v-model="formtitle.height" placeholder="壁纸模式默认位置值:450" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="warning" icon="el-icon-magic-stick" @click="setnologo">设置并进入壁纸模式</el-button>
       </el-form-item>
     </el-form>
 
@@ -97,7 +117,7 @@ export default {
       imageUrl1: '',
       imageUrl2: '',
       imageUrl3: '',
-      formtitle: { title: '' }
+      formtitle: { title: '', height: '' }
     }
   },
   methods: {
@@ -123,7 +143,7 @@ export default {
     },
 
     setnologo() {
-      postnologo().then(response => {
+      postnologo(this.formtitle.height).then(response => {
         this.$message.success(response.data)
       })
     },
