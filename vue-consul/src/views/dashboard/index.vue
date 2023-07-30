@@ -1,12 +1,27 @@
 <template>
   <div class="dashboard-container">
     <el-alert type="success" center close-text="朕知道了">
-      <el-link type="success" href="https://github.com/starsliao/ConsulManager#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" target="_blank">🥇最佳实践：ConsulManager应用场景与使用帮助</el-link>
+      <el-link type="success" href="https://github.com/starsliao/TenSunS#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" target="_blank">🏆TenSunS应用场景与使用帮助</el-link>
     </el-alert><br>
     <el-badge :value="1" class="mark">
-      <el-link :underline="false" type="primary" href="https://github.com/starsliao/ConsulManager" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
+      <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2023/07/31" placement="top">
+        <el-card>
+          <h4>v1.0.0</h4>
+          <p>🚩ConsulManager更名：<strong>后羿（TenSunS）</strong>,发布v1.0.0</p>
+          <p>🥇更新License为:WTFPL,全部权利授予使用者,无任何限制与要求</p>
+          <p>🌟新增自定义登录页,可在系统设置中修改横幅/LOGO/名称/壁纸,支持多种展示风格</p>
+          <p>🚀新增基于docker/K8S的一键部署脚本,Consul独立部署脚本,安装脚本统一放置install目录</p>
+          <p>💠新增架构图,便于使用者了解TenSunS整体架构</p>
+          <p>🎉新增使用登记,分享您的使用经验与实践</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />支持阿里/华为/腾讯云采集ECS外网IP功能</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />支持华为云ECS采集到期日指标</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />优化云ECS资源推送到JumpServer3.x资产管理</p>
+          <p><el-button type="info" size="mini" icon="el-icon-star-off" circle />优化自建资源/站点监控查询分页</p> 
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2023/07/26" placement="top">
         <el-card>
           <h4>v0.12.8</h4>

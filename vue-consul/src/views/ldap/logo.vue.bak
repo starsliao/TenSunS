@@ -1,0 +1,152 @@
+<template>
+  <div>
+    <el-upload
+      class="avatar-uploader"
+      action="/api/login/bgimg"
+      :headers="myHeaders"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload"
+    >
+      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon" />
+    </el-upload>
+    <el-upload
+      class="avatar-uploader"
+      action="/api/login/biglogo"
+      :headers="myHeaders"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload"
+    >
+      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon" />
+    </el-upload>
+
+    <el-upload
+      class="avatar-uploader"
+      action="/api/login/smallogo"
+      :headers="myHeaders"
+      :show-file-list="false"
+      :on-success="handleAvatarSuccess"
+      :before-upload="beforeAvatarUpload"
+    >
+      <img v-if="imageUrl" :src="imageUrl" class="avatar">
+      <i v-else class="el-icon-plus avatar-uploader-icon" />
+    </el-upload>
+
+    <el-form :inline="true" :model="formtitle" class="demo-form-inline">
+      <el-form-item label="登录页名称">
+        <el-input v-model="formtitle.title" placeholder="请输入" />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="setitle">设置名称</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="setretitle">恢复默认名称</el-button>
+      </el-form-item>
+      <br>
+      <el-form-item>
+        <el-button type="primary" @click="setnologo">壁纸模式</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="setrebig">恢复默认横幅</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="setresmall">恢复默认Logo</el-button>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="setrebgimg">恢复默认壁纸</el-button>
+      </el-form-item>
+    </el-form>
+
+  </div>
+</template>
+
+<script>
+import { postitle, postnologo, rebig, resmall, rebgimg, retitle } from '@/api/login'
+
+export default {
+  data() {
+    return {
+      myHeaders: { Authorization: this.$store.getters.token },
+      imageUrl: '',
+      formtitle: { title: '' }
+    }
+  },
+  methods: {
+    setrebig() {
+      rebig().then(response => {
+        this.$message.success(response.data)
+      })
+    },
+    setresmall() {
+      resmall().then(response => {
+        this.$message.success(response.data)
+      })
+    },
+    setrebgimg() {
+      rebgimg().then(response => {
+        this.$message.success(response.data)
+      })
+    },
+    setretitle() {
+      retitle().then(response => {
+        this.$message.success(response.data)
+      })
+    },
+
+    setnologo() {
+      postnologo().then(response => {
+        this.$message.success(response.data)
+      })
+    },
+    setitle() {
+      postitle(this.formtitle.title).then(response => {
+        this.$message.success(response.data)
+      })
+    },
+    handleAvatarSuccess(res, file) {
+      this.imageUrl = URL.createObjectURL(file.raw)
+      this.$message.success('LOGO设置成功!')
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 < 512
+      if (!isJPG) {
+        this.$message.error('上传LOGO图片只能是 JPG/PNG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传LOGO图片大小不能超过 512KB!')
+      }
+      return isJPG && isLt2M
+    }
+  }
+}
+</script>
+
+<style>
+  .avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+</style>

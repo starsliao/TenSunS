@@ -275,15 +275,15 @@ export const constantRoutes = [
   {
     path: '/settings',
     component: Layout,
-    redirect: '/settings/ldap',
+    redirect: '/settings/logo',
     name: '系统设置',
     meta: { title: '系统设置', icon: 'el-icon-setting' },
     children: [
       {
         path: 'logo',
-        name: '修改Logo',
+        name: '自定义登录页',
         component: () => import('@/views/ldap/logo'),
-        meta: { title: '修改Logo', icon: 'el-icon-lock' }
+        meta: { title: '自定义登录页', icon: 'el-icon-ice-cream' }
       },
       {
         path: 'ldap',

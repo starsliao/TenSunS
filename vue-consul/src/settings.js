@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Consul Manager',
+  title: '后羿 - TenSunS',
 
   /**
    * @type {boolean} true | false

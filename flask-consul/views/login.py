@@ -17,30 +17,56 @@ api = Api(blueprint)
 parser = reqparse.RequestParser()
 parser.add_argument('username',type=str)
 parser.add_argument('password',type=str)
+parser.add_argument('title',type=str)
 parser.add_argument('ldap',type=str)
 parser.add_argument('file',type=FileStorage, location="files", help="File is wrong.")
 
 class Logo(Resource):
     @token_auth.auth.login_required
     def post(self, logo_opt):
-        if logo_opt == 'biglogo':
+        if logo_opt == 'nologo':
+            consul_kv.put_kv('ConsulManager/img/biglogo','R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7')
+            consul_kv.put_kv('ConsulManager/img/isbig',True)
+            return {"code": 20000, "data": "设置成功！"}
+        elif logo_opt == 'title':
+            title = parser.parse_args().get("title")
+            consul_kv.put_kv('ConsulManager/img/logintitle',title)
+            return {"code": 20000, "data": "设置成功！"}
+        elif logo_opt == 'rebig':
+            consul_kv.del_key('ConsulManager/img/biglogo')
+            consul_kv.put_kv('ConsulManager/img/isbig',True)
+            return {"code": 20000, "data": "设置成功！"}
+        elif logo_opt == 'resmall':
+            consul_kv.del_key('ConsulManager/img/smallogo')
+            consul_kv.put_kv('ConsulManager/img/isbig',False)
+            return {"code": 20000, "data": "设置成功！"}
+        elif logo_opt == 'rebgimg':
+            consul_kv.del_key('ConsulManager/img/bgimg')
+            return {"code": 20000, "data": "设置成功！"}
+        elif logo_opt == 'retitle':
+            consul_kv.del_key('ConsulManager/img/logintitle')
+            return {"code": 20000, "data": "设置成功！"}
+
+        elif logo_opt == 'biglogo':
             consul_kv_path = 'ConsulManager/img/biglogo'
-            isbig = True
+            consul_kv.put_kv('ConsulManager/img/isbig',True)
         elif logo_opt == 'smallogo':
             consul_kv_path = 'ConsulManager/img/smallogo'
-            isbig = False
+            consul_kv.put_kv('ConsulManager/img/isbig',False)
+        elif logo_opt == 'bgimg':
+            consul_kv_path = 'ConsulManager/img/bgimg'
+
         img = parser.parse_args().get("file")
         try:
             b64img = base64.b64encode(img.read()).decode('utf-8')
             consul_kv.put_kv(consul_kv_path,b64img)
-            consul_kv.put_kv(f'ConsulManager/img/isbig',isbig)
-            return {"code": 20000, "data": f"导入成功！"}
+            return {"code": 20000, "data": "导入成功！"}
         except Exception as e:
             logger.error(f"【logo】导入失败,{e}\n{traceback.format_exc()}")
-            return {"code": 50000, "data": f"导入失败！"}
+            return {"code": 50000, "data": "导入失败！"}
     def get(self, logo_opt):
         if logo_opt == 'logo':
-            isbig = consul_kv.get_value(f'ConsulManager/img/isbig')
+            isbig = consul_kv.get_value('ConsulManager/img/isbig')
             if isbig == {}:
                 isbig = True
             if isbig:
@@ -52,6 +78,19 @@ class Logo(Resource):
                 return {"code": 20000, "isbig": isbig, "data": 'data:image/png;base64,' + b64logo}
             else:
                 return {"code": 20000, "isbig": isbig, "data": 'default'}
+        elif logo_opt == 'title':
+            title = consul_kv.get_value('ConsulManager/img/logintitle')
+            if title:
+                return {"code": 20000, "data": title}
+            else:
+                return {"code": 20000, "data": 'default'}
+        elif logo_opt == 'bgimg':
+            bgimg = consul_kv.get_value('ConsulManager/img/bgimg')
+            if bgimg:
+                return {"code": 20000, "data": 'data:image/png;base64,' + bgimg}
+            else:
+                return {"code": 20000, "data": 'default'}
+
 class User(Resource):
     @token_auth.auth.login_required
     def get(self, user_opt):

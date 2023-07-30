@@ -11,7 +11,6 @@ from huaweicloudsdkdcs.v2.region.dcs_region import DcsRegion
 from huaweicloudsdkrds.v3 import *
 from huaweicloudsdkrds.v3.region.rds_region import RdsRegion
 import sys,datetime,hashlib,traceback
-from units import consul_kv
 from units.cloud import sync_ecs
 from units.cloud import sync_rds
 from units.cloud import sync_redis
