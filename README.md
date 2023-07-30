@@ -6,7 +6,7 @@
 [![GitHub Stargazers](https://img.shields.io/github/stars/starsliao/ConsulManager?color=ff69b4)](https://github.com/starsliao/ConsulManager/stargazers)
 [![Python](https://img.shields.io/badge/python-%3C=v3.10-3776ab)](https://nodejs.org)
 [![Node.js](https://img.shields.io/badge/node.js-%3E=v14-229954)](https://nodejs.org)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-WTFPL-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
 [![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
 
