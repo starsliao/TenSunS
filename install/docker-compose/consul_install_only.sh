@@ -38,10 +38,12 @@ cat <<EOF > /opt/consul/docker-compose.yaml
 version: '3.6'
 services:
   consul:
-    image: hashicorp/consul:1.16
+    image: swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:latest
     hostname: consul
     container_name: consul
     restart: always
+    ports:
+      - "8500:8500"
     volumes:
       - /opt/consul/data:/consul/data
       - /opt/consul/config:/consul/config

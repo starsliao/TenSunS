@@ -44,6 +44,8 @@ services:
     container_name: consul
     hostname: consul
     restart: always
+    ports:
+      - "8500:8500"
     volumes:
      - $tsspath/consul/data:/consul/data
      - $tsspath/consul/config:/consul/config

@@ -76,7 +76,7 @@ spec:
             name: consul-config
       containers:
         - name: consul
-          image: hashicorp/consul:1.16
+          image: 'swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:latest'
           ports:
             - name: http
               containerPort: 8500
