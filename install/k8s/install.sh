@@ -159,7 +159,7 @@ spec:
             - sh
             - '-c'
             - >-
-              for i in \$(seq 1 60); do nc -z -w3 consul 8500 && exit 0 ||
+              for i in $(seq 1 60); do nc -z -w3 consul 8500 && exit 0 ||
               sleep 5; done; exit 1
           imagePullPolicy: IfNotPresent
       containers:
