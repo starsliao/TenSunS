@@ -57,7 +57,7 @@ def add_service(vendor,account,region,group,name,ip,port,os):
             "tags": [vendor,os],
             "Meta": {'vendor':vendor,'account':account,'region':region,'group':group,
                      'name':name,'instance':instance,'os':os},
-            "check": {"tcp": instance,"interval": "60s"}
+            #"check": {"tcp": instance,"interval": "60s"}
            }
     reg = requests.put(f'{consul_url}/agent/service/register', headers=headers, data=json.dumps(data))
     if reg.status_code == 200:
