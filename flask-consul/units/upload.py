@@ -30,7 +30,7 @@ def importconsul(row,imptype):
                 "tags": [vendor,os],
                 "Meta": {'vendor':vendor,'account':account,'region':region,'group':group,
                          'name':name,'instance':instance,'os':os},
-                "check": {"tcp": instance,"interval": "60s"}
+                #"check": {"tcp": instance,"interval": "60s"}
             }
         elif imptype == 'selfrds':
             vendor,account,region,group,name,instance,os = row
