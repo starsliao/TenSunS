@@ -64,15 +64,13 @@ class Logo(Resource):
         try:
             b64img = base64.b64encode(img.read()).decode('utf-8')
             consul_kv.put_kv(consul_kv_path,b64img)
-            return {"code": 20000, "data": "导入成功！"}
+            return {"code": 20000, "data": "LOGO设置成功！"}
         except Exception as e:
             logger.error(f"【logo】导入失败,{e}\n{traceback.format_exc()}")
-            return {"code": 50000, "data": "导入失败！"}
+            return {"code": 50000, "data": "LOGO导入失败！"}
     def get(self, logo_opt):
         if logo_opt == 'logo':
             isbig = consul_kv.get_value('ConsulManager/img/isbig')
-            if isbig == {}:
-                isbig = True
             if isbig:
                 consul_kv_path = 'ConsulManager/img/biglogo'
             else:

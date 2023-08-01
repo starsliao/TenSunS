@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '后羿 - TenSunS',
+  title: 'TenSunS',
 
   /**
    * @type {boolean} true | false

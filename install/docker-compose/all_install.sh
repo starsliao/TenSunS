@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH=$PATH:/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 tsspath="/opt/tensuns"
 uuid=`uuidgen`
 adminpwd=`uuidgen|awk -F- '{print $1}'`

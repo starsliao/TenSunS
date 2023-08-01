@@ -1,13 +1,13 @@
 <template>
   <div class="login-container" :style="{ 'background-image': 'url(' + loginbgimg + ')' }">
-    <div v-if="isbig" class="title-container" style="text-align:center">
+    <div v-if="isbig" class="title-container" style="text-align:center; padding: 160px 70px 0;">
       <br><br>
       <img :src="loginlogo" width="720" :height=height>
       <br><br>
     </div>
-    <div v-else class="title-container" style="text-align:center; padding: 160px 70px 0;">
-      <img :src="loginlogo" width="100" height="100"><br><br><br><br>
-      <h3 style="font-size:45px" class="title">{{ logintitle }}</h3><br>
+    <div v-else class="title-container" style="text-align:center; padding: 260px 70px 0;">
+      <img :src="loginlogo" width="100" height="100"><br><br><br>
+      <h1 style="font-size:40px" class="title">{{ logintitle }}</h1>
     </div>
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" style="padding: 10px 100px 0;">
       <el-form-item prop="username">
@@ -17,7 +17,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -34,7 +34,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -45,7 +45,7 @@
         </span>
       </el-form-item>
       <!-- <el-checkbox v-model="loginForm.Ldapchecked" label="启动ldap验证" border class="ldap" /> -->
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登 录</el-button>
+      <el-button :loading="loading" type="primary" round class="login-button" @click.native.prevent="handleLogin">登 录</el-button>
     </el-form>
     <div align="center" class="title-container">
       <span style="font-size:12px" class="title">{{ VER }}</span>
@@ -93,7 +93,7 @@ export default {
       passwordType: 'password',
       loginlogo: '',
       loginbgimg: '',
-      logintitle: 'T e n S u n S',
+      logintitle: 'Welcome to TenSunS',
       isbig: true,
       height: '330',
       redirect: undefined
@@ -219,11 +219,24 @@ $cursor: #fff;
     }
   }
 
+  .login-button {
+    width:60%;
+    display: block;
+    margin: 0 auto;
+    margin-bottom:15px;
+    border: 0px solid rgba(255, 255, 255, 0);
+    background: rgba(0, 0, 0, 0.2);
+  }
   .el-form-item {
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 0px solid rgba(255, 255, 255, 0);
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     color: #454545;
+  }
+  .el-form-item__content {
+    line-height: 33px;
+    position: relative;
+    font-size: 14px
   }
 }
 </style>

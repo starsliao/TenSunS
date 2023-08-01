@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-alert type="success" center close-text="朕知道了">
-      图片大小不能超过512KB,建议使用<el-link type="primary" href="https://tinypng.com/" target="_blank">TinyPNG</el-link>在线压缩图片
+      图片大小不能超过380KB,建议使用<el-link type="primary" href="https://tinypng.com/" target="_blank">TinyPNG</el-link>在线压缩图片
     </el-alert>
     <el-row>
       <el-col :span="8" align='center'><div class="grid-content bg-purple">
@@ -154,24 +154,36 @@ export default {
     },
     handleAvatarSuccess1(res, file) {
       this.imageUrl1 = URL.createObjectURL(file.raw)
-      this.$message.success('LOGO设置成功!')
+      if (res.code === 20000) {
+        this.$message.success(res.data)
+      } else {
+        this.$message.error(res.data)
+      }
     },
     handleAvatarSuccess2(res, file) {
       this.imageUrl2 = URL.createObjectURL(file.raw)
-      this.$message.success('LOGO设置成功!')
+      if (res.code === 20000) {
+        this.$message.success(res.data)
+      } else {
+        this.$message.error(res.data)
+      }
     },
     handleAvatarSuccess3(res, file) {
       this.imageUrl3 = URL.createObjectURL(file.raw)
-      this.$message.success('LOGO设置成功!')
+      if (res.code === 20000) {
+        this.$message.success(res.data)
+      } else {
+        this.$message.error(res.data)
+      }
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-      const isLt2M = file.size / 1024 < 512
+      const isLt2M = file.size / 1024 < 380
       if (!isJPG) {
         this.$message.error('上传LOGO图片只能是 JPG/PNG 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传LOGO图片大小不能超过 512KB!')
+        this.$message.error('上传LOGO图片大小不能超过 380KB!')
       }
       return isJPG && isLt2M
     }
