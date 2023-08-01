@@ -7,6 +7,16 @@
       <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2023/08/01" placement="top">
+        <el-card>
+          <h4>v1.0.1</h4>
+          <p>修改默认登录页背景</p>
+          <p>修改默认登录页名称</p>
+          <p>修改默认登录页为LOGO+名称风格</p>
+          <p>修复上传图片成功,不展示的问题</p>
+          <p>优化docker一键安装脚本,并默认开启Consul的8500端口</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2023/07/31" placement="top">
         <el-card>
           <h4>v1.0.0</h4>
