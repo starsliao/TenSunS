@@ -68,7 +68,7 @@
 - [`install/docker-compose/all_install.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/all_install.sh)（**推荐**）:
   1. **前提**服务器需要先安装好**docker和docker-compose**
   2. **一键安装**：`curl -s https://starsl.cn/static/img/all_install.sh|sudo bash`
-  3. 运行该脚本后会使用docker-compose启动TenSunS和Consul,安装路径是:/ops/tensuns
+  3. 运行该脚本后会使用docker-compose启动TenSunS和Consul,安装路径是:/opt/tensuns
   4. 脚本运行完成后会有使用提示及自动生成登录密码,**打开浏览器立刻登录TenSunS,开始体验吧!**
 
 - [`install/docker-compose/consul_install_only.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/consul_install_only.sh) 独立的Consul安装脚本
