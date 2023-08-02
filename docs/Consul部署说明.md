@@ -70,3 +70,21 @@ systemctl restart consul.service
 consul kv export --http-addr=http://127.0.0.1:8500 -token=xxxxxxxx '' > consul_kv_bak.json
 consul kv import --http-addr=http://127.0.0.1:8500 -token=xxxxxxxx @consul_kv_bak.json
 ```
+
+---
+
+## 历史版本配置记录
+
+### 安装后首次获取登录Token（记录SecretID，即为Consul登录的Token）
+```bash
+consul acl bootstrap|grep SecretID
+```
+### 忘记global-management Token，重新生成
+```
+# 记录最后的reset index: xx
+consul acl bootstrap
+# 进入consul数据目录执行
+echo 13 > acl-bootstrap-reset
+# 重新创建一个global-management Token
+consul acl bootstrap
+```
