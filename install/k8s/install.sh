@@ -74,6 +74,9 @@ spec:
         - name: consul-config
           configMap:
             name: consul-config
+        - name: consul-data
+          persistentVolumeClaim:
+            claimName: consul-data
       containers:
         - name: consul
           image: 'swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:latest'
