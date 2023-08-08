@@ -19,8 +19,11 @@
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
         新增
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-download" @click="handleDownload">
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-download" @click="handleDownload(false)">
         导出
+      </el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="info" icon="el-icon-notebook-2" @click="handleDownload(true)">
+        模板下载
       </el-button>
       <el-upload
         style="margin-right: 9px;"
@@ -523,12 +526,12 @@ export default {
         })
       })
     },
-    handleDownload() {
+    handleDownload(templateOnly) {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['机房/公司', '租户/部门', '区域/项目', '分组/环境', '名称', '实例(IP:端口)', '系统(linux/windows)']
         const filterVal = ['vendor', 'account', 'region', 'group', 'name', 'instance', 'os']
-        const data = this.formatJson(filterVal)
+        const data = templateOnly ? [] : this.formatJson(filterVal)
         excel.export_json_to_excel({
           header: tHeader,
           data,
