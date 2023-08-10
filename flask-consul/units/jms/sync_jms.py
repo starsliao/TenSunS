@@ -17,6 +17,8 @@ def create_node(jms_url,headers,now,node_id,cloud,account):
     for k,v in cloud_group_dict.items():
         if v not in [i['value'] for i in jms_node_list]:
             response = requests.request("POST", node_url, headers=headers, data = json.dumps({'value': v}))
+            if response.status_code != 201:
+                logger.error(f'  【JMS】创建分组失败，可能的原因：JumpServer URL 有重定向，请使用直连地址。')
             logger.debug(f'  【JMS】新增组===>{v},{response.status_code}')
     reget_node_list = requests.request("GET", node_url, headers=headers).json()
     new_node_dict = {i['value']:i['id'] for i in reget_node_list}
