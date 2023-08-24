@@ -224,7 +224,7 @@ def rds(account,region):
         info = client.list_instances(request).to_dict()['instances']
 
         rds_dict = {i['id']:{'name':i['name'],
-                             'domain':i['private_dns_names'][0],
+                             'domain':i['private_dns_names'][0] if i['private_dns_names'] else i['private_ips'][0],
                              'ip':i['private_ips'][0],
                              'port':i['port'],
                              'region':region,
