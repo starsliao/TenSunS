@@ -12,11 +12,11 @@ rpm -ivh ./consul-1.16.0-1.x86_64.rpm
 ``` 
 
 #### 配置
-> 执行以下命令获取UUID,填写到下面配置末尾部分,作为最高权限的token
+- **执行以下命令获取UUID,填写到下面配置末尾部分,作为最高权限的token**
 ```bash
 uuidgen
 ```
-> `/etc/consul.d/consul.hcl`完整配置内容
+> 清空`/etc/consul.d/consul.hcl`,并使用以下完整配置内容
 ```bash
 data_dir = "/opt/consul"
 log_level = "error"
@@ -64,27 +64,12 @@ systemctl daemon-reload
 systemctl enable consul.service
 systemctl restart consul.service
 ```
+### 验证: 访问Consul自带WEB页面
+- 浏览器访问Consul的8500端口
+- 使用生成的UUID登录
 
 ### consul kv 备份还原
 ```
 consul kv export --http-addr=http://127.0.0.1:8500 -token=xxxxxxxx '' > consul_kv_bak.json
 consul kv import --http-addr=http://127.0.0.1:8500 -token=xxxxxxxx @consul_kv_bak.json
-```
-
----
-
-## 历史版本配置记录
-
-### 安装后首次获取登录Token（记录SecretID，即为Consul登录的Token）
-```bash
-consul acl bootstrap|grep SecretID
-```
-### 忘记global-management Token，重新生成
-```
-# 记录最后的reset index: xx
-consul acl bootstrap
-# 进入consul数据目录执行
-echo 13 > acl-bootstrap-reset
-# 重新创建一个global-management Token
-consul acl bootstrap
 ```
