@@ -1,4 +1,4 @@
-#### 安装
+### 安装
 > 以下为CentOS7安装说明,其它系统安装部分请参考官网:
 > https://developer.hashicorp.com/consul/downloads
 ```bash
@@ -11,12 +11,12 @@ wget https://rpm.releases.hashicorp.com/RHEL/7/x86_64/stable/consul-1.16.0-1.x86
 rpm -ivh ./consul-1.16.0-1.x86_64.rpm
 ``` 
 
-#### 配置
+### 配置
 - **执行以下命令获取UUID,填写到下面配置末尾部分,作为最高权限的token**
 ```bash
 uuidgen
 ```
-> 清空`/etc/consul.d/consul.hcl`,并使用以下完整配置内容
+- **清空`/etc/consul.d/consul.hcl`,并使用以下完整配置内容**
 ```bash
 data_dir = "/opt/consul"
 log_level = "error"
@@ -54,7 +54,7 @@ acl = {
 }
 ```
 
-#### 启动服务
+### 启动服务
 
 ```bash
 mkdir /opt/consul
@@ -67,6 +67,8 @@ systemctl restart consul.service
 ### 验证: 访问Consul自带WEB页面
 - 浏览器访问Consul的8500端口
 - 使用生成的UUID登录
+
+---
 
 ### consul kv 备份还原
 ```
