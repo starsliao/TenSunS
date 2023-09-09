@@ -264,11 +264,13 @@ def rds(account,region):
             if next_token == '0':
                 describe_dbinstances_request = rds_20140815_models.DescribeDBInstancesRequest(
                     max_results=100,
+                    engine='MySQL',
                     region_id=region
                 )
             else:
                 describe_dbinstances_request = rds_20140815_models.DescribeDBInstancesRequest(
                     max_results=100,
+                    engine='MySQL',
                     region_id=region,
                     next_token=next_token
                 )
