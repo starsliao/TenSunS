@@ -76,7 +76,8 @@
 ##### 基于K8S安装
 - [`install/k8s/install.sh`](https://github.com/starsliao/TenSunS/blob/main/install/k8s/install.sh)：
   1. 运行后需要设置admin用户的密码。
-  2. 脚本执行完成后**只会生成TenSunS的安装yaml文件和Consul的安装yaml文件**，不会做其它操作，需要执行`kubectl apply`命令来安装。TenSunS是无状态的，有一个初始化容器检查consul连接是否成功，所以建议先安装Consul。Conusl是StatefulSet，需要先配置好存储（volumeClaimTemplates），默认是华为云自动创建存储的配置例子，请自行参考修改。
+  2. 脚本执行完成后**只会生成TenSunS的安装yaml文件和Consul的安装yaml文件**，不会做其它操作，需要执行`kubectl apply`命令来安装。
+     >TenSunS是无状态的，有一个初始化容器检查consul连接是否成功，所以建议先安装Consul。Consul是StatefulSet，需要先配置好存储（volumeClaimTemplates），默认是华为云自动创建存储的配置例子，请自行参考修改。
   3. 完成安装后即可使用任意K8S节点IP+31026端口访问，调用的service是tensuns。
 ##### 注意
 - 所有安装方式Consul的管理token会自动生成，可以在Consul的配置文件或TenSunS的docker-compose中查看。
