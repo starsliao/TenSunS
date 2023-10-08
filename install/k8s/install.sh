@@ -77,6 +77,8 @@ spec:
       containers:
         - name: consul
           image: 'swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:latest'
+          args:
+            - agent
           ports:
             - name: http
               containerPort: 8500
