@@ -1,7 +1,7 @@
 ## 2023-10-8前使用该install.sh脚本在K8S部署consul的同学请注意.
 1. **完成第3步操作前不要删除consul的pod,也不要重启consul,否则会造成所有Consul KV数据丢失**
 2. 使用kubectl进入conusl的容器`kubectl exec -i -t -n tensuns consul-0 -c consul -- sh -c "sh"`
-3. 备份consul的KV存储数据
+3. 备份consul的KV存储数据(确保你部署的consul使用了持久化存储,以下命令会备份到持久化存储映射的目录下:`/consul/data/`.)
 ```
 consul kv export --http-addr=http://127.0.0.1:8500 -token=$(cat /consul/config/consul.hcl|grep agent|awk -F\" '{print $2}') '' > /consul/data/consul_kv_bak.json
 ```
