@@ -217,7 +217,7 @@ def redis(account,region):
                                        'itype':i['ArchitectureType'],
                                        'ver':i['EngineVersion'],
                                        'mem':f"{i['Capacity']}MB",
-                                       'exp': '-' if i['EndTime'] == None else i['EndTime'].split('T')[0]
+                                       'exp': '-' if i.get('EndTime',None) == None else i.get('EndTime','-T').split('T')[0]
                                       } for i in redisbase_list}
             redis_dict.update(redis_dict_temp)
             if PageNumber == 1:
