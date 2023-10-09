@@ -286,7 +286,7 @@ def rds(account,region):
                                        'status':i['DBInstanceStatus'],
                                        'itype':i['DBInstanceType'],
                                        'ver':i['EngineVersion'],
-                                       'exp': '-' if i['ExpireTime'] == None else i['ExpireTime'].split('T')[0],
+                                       'exp': '-' if i.get('ExpireTime',None) == None else i.get('ExpireTime','-T').split('T')[0],
                                        'cpu':'无','mem':'无','disk':'无'
                                       } for i in rdsbase_list}
             rds_dict.update(rds_dict_temp)
