@@ -4,9 +4,15 @@ from units import consul_kv
 import uuid
 from units.config_log import *
 
+
+
 skey_path = 'ConsulManager/assets/secret/skey'
 if consul_kv.get_kv_dict(skey_path) == {}:
-    consul_kv.put_kv(skey_path,{'sk':''.join(str(uuid.uuid4()).split('-'))})
+    from datetime import datetime
+    now = datetime.strftime(datetime.now(), '%Y-%m-%d_%H-%M-%S')
+    skeyuid = ''.join(str(uuid.uuid4()).split('-'))
+    consul_kv.put_kv(skey_path,{'sk':skeyuid})
+    consul_kv.put_kv(skey_path + now,{'sk':skeyuid})
 
 from views import login, blackbox, consul, jobs, nodes, selfnode, selfrds, selfredis, avd, exp, jms, edit_cloud, ldap, rds, redis
 from views.prom import cloud_metrics
