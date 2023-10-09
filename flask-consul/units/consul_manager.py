@@ -4,6 +4,20 @@ from units.config_log import *
 
 headers = {'X-Consul-Token': consul_token}
 
+def get_consul_ver():
+    url = f'{consul_url}/operator/autopilot/state'
+    response = requests.get(url, headers=headers, timeout=2)
+    response.encoding='utf-8'
+    if response.status_code == 200:
+        logger.info(f'【consul】请求成功, 认证成功: {consul_url} ')
+        return True
+    elif response.status_code == 403:
+        logger.error(f'【consul】连接正常: {consul_url}【认证失败】请检查consul token!')
+        return False
+    else:
+        logger.error(f'【consul】连接失败 {response.status_code}: {consul_url}, 请检查consul状态以及网络是否正常!')
+        return False
+
 def get_hosts():
     url = f'{consul_url}/agent/host'
     response = requests.get(url, headers=headers)

@@ -7,6 +7,15 @@
       <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2023/10/10" placement="top">
+        <el-card>
+          <h4>v1.0.2</h4>
+          <p>修复K8S部署consul无法持久化KV信息的bug<el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS/tree/main/install/k8s" target="_blank">【查看明细】</el-link></p>
+          <p>修复同步阿里云Redis实例报错"失败：'EndTime'"的bug</p>
+          <p>修复采集RDS会采集到非MySql数据库的bug</p>
+          <p>优化启动后端检查consul状态和初始化skey的逻辑</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2023/08/01" placement="top">
         <el-card>
           <h4>v1.0.1</h4>

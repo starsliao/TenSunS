@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 from flask import Flask
-from units import consul_kv
-import uuid
+from units import consul_kv,consul_manager
+import uuid,sys
 from units.config_log import *
 
+if consul_manager.get_consul_ver() == False:
+    sys.exit("请求consul异常, 程序退出.")
 
-
-skey_path = 'ConsulManager/assets/secret/skey'
-if consul_kv.get_kv_dict(skey_path) == {}:
+skey_path = 'ConsulManager/assets/secret/'
+if consul_kv.get_kv_dict(skey_path + 'skey') == {}:
     from datetime import datetime
     now = datetime.strftime(datetime.now(), '%Y-%m-%d_%H-%M-%S')
     skeyuid = ''.join(str(uuid.uuid4()).split('-'))
-    consul_kv.put_kv(skey_path,{'sk':skeyuid})
-    consul_kv.put_kv(skey_path + now,{'sk':skeyuid})
+    consul_kv.put_kv(skey_path + 'skey',{'sk':skeyuid})
+    consul_kv.put_kv(f'{skey_path}bak-skey{now}',{'sk':skeyuid})
+    logger.warning(f"【初始化SKey完成】")        
 
 from views import login, blackbox, consul, jobs, nodes, selfnode, selfrds, selfredis, avd, exp, jms, edit_cloud, ldap, rds, redis
 from views.prom import cloud_metrics
