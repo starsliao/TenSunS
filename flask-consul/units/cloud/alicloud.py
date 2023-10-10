@@ -303,7 +303,8 @@ def rds(account,region):
                                        'disk':f"{i['DBInstanceStorage']}GB"
                                       } for i in rdsplus_list}
             for k,v in rds_plus.items():
-                rds_dict[k].update(v)
+                if k in rds_dict:
+                    rds_dict[k].update(v)
         except Exception as e:
             logger.error('DescribeDBInstancesAsCsvRequest ERROR' + f'{e}\n{traceback.format_exc()}')
             
