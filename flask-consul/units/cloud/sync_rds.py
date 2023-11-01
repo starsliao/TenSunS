@@ -65,7 +65,8 @@ def w2consul(vendor,account,region,rds_dict):
                 'ver': v['ver'],
                 'domain':v['domain'],
                 'exp': v['exp'],
-                'stat': stat
+                'stat': stat,
+                'team': v.get('team','无')
             },
             "check": {
                 "tcp": f"{ip}:{port}",
