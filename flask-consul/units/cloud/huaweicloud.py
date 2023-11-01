@@ -235,7 +235,8 @@ def rds(account,region):
                              'cpu':f"{i['cpu']}核",
                              'mem':f"{i['mem']}GB",
                              'disk':f"{i['volume']['size']}GB",
-                             'exp': '-' if i['expiration_time'] == None else i['expiration_time'].split('T')[0]
+                             'exp': '-' if i['expiration_time'] == None else i['expiration_time'].split('T')[0],
+                             'team': {'team':x.get('value') for x in i['tags'] if x.get('key') == 'team'}.get('team','无')
                             } for i in info if i['datastore']['type'] == 'MySQL'}
         count = len(rds_dict)
         off,on = sync_rds.w2consul('huaweicloud',account,region,rds_dict)
