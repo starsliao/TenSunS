@@ -73,6 +73,7 @@ def exp(account,collect_days,notify_days,notify_amount):
         notify_id = hashlib.md5(str(i).encode(encoding='UTF-8')).hexdigest()
         endtime = datetime.datetime.strptime(i['EndTime'],'%Y-%m-%dT%H:%M:%SZ') + datetime.timedelta(hours=8)
         endtime_str = endtime.strftime('%Y-%m-%d')
+        logger.debug(f"{i['ProductCode']} {i['InstanceID']}")
         iname = consul_svc.get_sid(i['InstanceID'])['instance']['Meta']['name'] if i['ProductCode'] == 'ecs' else 'Null'
         exp_dict[i['InstanceID']] = {'Region':i.get('Region','Null'),'Product':i['ProductCode'],
             'Name':iname,'EndTime':endtime_str,'notify_id':notify_id,
