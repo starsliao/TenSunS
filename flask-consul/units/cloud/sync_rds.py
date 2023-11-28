@@ -2,6 +2,7 @@
 import requests,json
 from units import consul_kv
 from config import consul_token,consul_url,vendors,regions
+from units.config_log import *
 headers = {'X-Consul-Token': consul_token}
 geturl = f'{consul_url}/agent/services'
 delurl = f'{consul_url}/agent/service/deregister'
