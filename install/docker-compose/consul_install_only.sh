@@ -48,8 +48,6 @@ services:
       - /opt/consul/data:/consul/data
       - /opt/consul/config:/consul/config
       - /usr/share/zoneinfo/PRC:/etc/localtime
-    ports:
-      - "8500:8500"
     command: "agent"
     networks:
       - TenSunS
