@@ -64,7 +64,7 @@
 ## 💾部署说明
 #### ♨TenSunS 版本更新只需在`docker-compose.yaml`所在目录执行`docker-compose pull && docker-compose up -d`即可完成更新。
 #### 💥新增基于docker/K8S的一键部署脚本,Consul独立部署脚本,安装脚本统一放置install目录
-##### 基于docker-compose安装（记得先安装好docker和docker-compose）
+##### 基于docker-compose安装
 - [`install/docker-compose/all_install.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/all_install.sh)（**推荐**）:
   1. **前提**服务器需要先安装好**docker和docker-compose**
   2. **一键安装**：`curl -s https://starsl.cn/static/img/all_install.sh|sudo bash`
