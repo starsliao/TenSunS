@@ -144,7 +144,8 @@
 ---
 
 ### 🎃提交bug与建议
-@会飞的鱼  [@奈](https://github.com/Wp516781950)  @Swancavalier  [@Show_Lo](https://github.com/ShowXian)  @郑不错  @init  @weibw  @Martin @MiracleWong [@dong9205](https://github.com/dong9205)  [@dissipator](https://github.com/dissipator) @烂泥 [@SkipperSky](https://github.com/klllmxx)
+@会飞的鱼 [@奈](https://github.com/Wp516781950) @Swancavalier [@Show_Lo](https://github.com/ShowXian) @郑不错 @init @weibw  @Martin @MiracleWong [@dong9205](https://github.com/dong9205) [@dissipator](https://github.com/dissipator) @烂泥 [@SkipperSky](https://github.com/klllmxx)
+
 ---
 
 ### 🏆开源推荐
