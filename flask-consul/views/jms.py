@@ -53,7 +53,7 @@ class Jms(Resource):
                         count_on = count_on + 1
                     cpu = int(i['cpu'].replace('核',''))
                     count_cpu = count_cpu + cpu
-                    mem = int(i['mem'].replace('GB',''))
+                    mem = float(i['mem'].replace('GB',''))
                     count_mem = count_mem + mem
 
                 jms_job = consul_kv.get_value(f"ConsulManager/jms/jobs/{vendor}/{account}")
