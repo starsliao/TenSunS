@@ -7,12 +7,18 @@ headers = {'X-Consul-Token': consul_token}
 def get_consul_ver():
     url = f'{consul_url}/operator/autopilot/state'
     response = requests.get(url, headers=headers, timeout=2)
+    if response.status_code == 404:
+        url = f'{consul_url}/operator/autopilot/health'
+        response = requests.get(url, headers=headers, timeout=2)
     response.encoding='utf-8'
     if response.status_code == 200:
         logger.info(f'【consul】请求成功, 认证成功: {consul_url} ')
         return True
     elif response.status_code == 403:
         logger.error(f'【consul】连接正常: {consul_url}【认证失败】请检查consul token!')
+        return False
+    elif response.status_code == 404:
+        logger.error(f'【consul】连接异常 {response.status_code}: {consul_url}, 您的consul版本可能过低!')
         return False
     else:
         logger.error(f'【consul】连接失败 {response.status_code}: {consul_url}, 请检查consul状态以及网络是否正常!')
