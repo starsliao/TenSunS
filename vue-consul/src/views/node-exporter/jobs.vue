@@ -339,7 +339,13 @@ export default {
           { value: 'ap-chengdu', label: '西南地区(成都)' },
           { value: 'ap-chongqing', label: '西南地区(重庆)' },
           { value: 'ap-hongkong', label: '港澳台地区(中国香港)' },
-          { value: 'ap-tokyo', label: '亚太地区(东京)' }
+          { value: 'ap-tokyo', label: '亚太东北(东京)' },
+          { value: 'ap-seoul', label: '亚太东北(首尔)' },
+          { value: 'ap-singapore', label: '亚太东南(新加坡)' },
+          { value: 'ap-mumbai', label: '亚太南部(孟买)' },
+          { value: 'na-ashburn', label: '美国东部(弗吉尼亚)' },
+          { value: 'na-siliconvalley', label: '美国西部(硅谷)' },
+          { value: 'eu-frankfurt', label: '欧洲地区(法兰克福)' }
         ]
       },
 

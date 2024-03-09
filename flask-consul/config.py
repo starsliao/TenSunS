@@ -50,6 +50,12 @@ regions = {
         "ap-chengdu": "西南地区(成都)",
         "ap-chongqing": "西南地区(重庆)",
         "ap-hongkong": "港澳台地区(中国香港)",
-        "ap-tokyo": "亚太地区(东京)",
+        "ap-tokyo": "亚太东北(东京)",
+        "ap-seoul": "亚太东北(首尔)",
+        "ap-singapore": "亚太东南(新加坡)",
+        "ap-mumbai": "亚太南部(孟买)",
+        "na-ashburn": "美国东部(弗吉尼亚)",
+        "na-siliconvalley": "美国西部(硅谷)",
+        "eu-frankfurt": "欧洲地区(法兰克福)",
     },
 }

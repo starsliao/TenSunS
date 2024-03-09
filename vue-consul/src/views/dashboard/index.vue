@@ -7,10 +7,19 @@
       <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2024/03/09" placement="top">
+        <el-card>
+          <h4>v1.0.3</h4>
+          <p>修复jumpserver同步中统计总内存不能处理float的bug</p>
+          <p>兼容低版本consul缺失consul状态检查API的问题</p>
+          <p>更新前端NGINX版本为1.24</p>
+          <p>增加腾讯云部分海外区域</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2023/10/10" placement="top">
         <el-card>
           <h4>v1.0.2</h4>
-          <p>修复K8S部署consul无法持久化KV信息的bug<el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS/tree/main/install/k8s" target="_blank">【查看明细】</el-link></p>
+          <p>💥严重：修复K8S部署consul无法持久化KV信息的bug<el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS/tree/main/install/k8s" target="_blank">【查看明细】</el-link></p>
           <p>修复同步阿里云Redis实例报错"失败：'EndTime'"的bug</p>
           <p>修复采集RDS会采集到非MySql数据库的bug</p>
           <p>优化启动后端检查consul状态和初始化skey的逻辑</p>
