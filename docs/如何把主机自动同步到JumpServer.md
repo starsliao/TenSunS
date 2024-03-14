@@ -2,9 +2,9 @@
 - [云主机自动同步JumpServer能做什么？](#云主机自动同步jumpserver能做什么)
 - [同步JumpServer功能如何开启？](#同步jumpserver功能如何开启)
 - [如何获取JumpServer永久token？](#如何获取jumpserver永久token)
-- [什么是JumpServer的管理用户(新版jumpserver叫特权用户)？](#什么是JumpServer的管理用户(新版jumpserver叫特权用户)？)
-- [接入JumpServer时，`全局通用主机【管理用户】信息`该如何填写？](#接入jumpserver时全局通用主机管理用户信息该如何填写)
-- [接入JumpServer时，`全局特殊主机【管理用户】信息`该如何填写？](#接入jumpserver时全局特殊主机管理用户信息该如何填写)
+- [什么是JumpServer的管理用户（v3版叫账号模版或特权用户）？](#什么是JumpServer的管理用户（v3版叫账号模版或特权用户）？)
+- [接入JumpServer时，全局通用主机【管理用户】信息该如何填写？](#接入jumpserver时全局通用主机管理用户信息该如何填写)
+- [接入JumpServer时，全局特殊主机【管理用户】信息该如何填写？](#接入jumpserver时全局特殊主机管理用户信息该如何填写)
 - [接入JumpServer操作完成之后，我该做什么？](#接入jumpserver操作完成之后我该做什么)
 - [高级设置：不同云账号有不同的jumpserver管理账户的场景能否支持？](#高级设置不同云账号有不同的jumpserver管理账户的场景能否支持)
 
@@ -28,35 +28,35 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 ```
 - 该账号没有创建过token的执行以下命令：`u.create_private_token()`
 - 该账号已经创建过token的执行以下命令：`u.private_token`
-- 记录`PrivateToken: `后面的部分，最后的`>`不要。
+- 记录`PrivateToken: `后面的部分。(最后的`>`不要)
 
-
-
-## 什么是JumpServer的管理用户(新版jumpserver叫特权用户)？
-- 管理用户(新版jumpserver叫特权用户)是资产（被控服务器）上的 root，或拥有 NOPASSWD: ALL sudo 权限的用户， JumpServer 使用该用户来 `推送系统用户`、`获取资产硬件信息` 等。
-- 创建资产的时候需要给每台ECS选择一个管理用户(新版jumpserver叫特权用户)：
+## 什么是JumpServer的管理用户（v3版叫账号模版或特权用户）？
+- 管理用户(v3版叫账号模版 或 特权用户)是资产（被控服务器）上的 root，或拥有 NOPASSWD: ALL sudo 权限的用户， JumpServer 使用该用户来 `推送系统用户`、`获取资产硬件信息` 等。
+- 为了方便您也可以只使用管理用户(v3版叫账号模版 或 特权用户)，不创建推送账户；但要注意在使用JumpServer登陆该资源后，即是管理账号，权限是sudo root。
+- 手动创建资产的时候需要给每台ECS选择一个管理用户(v3版叫账号模版 或 特权用户)，**注意：必须先在ECS上创建好这个账户，JumpServer才能管理这台ECS。**
 <img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://user-images.githubusercontent.com/3349611/180855383-ec4a76b3-9354-4485-b0f6-17b5b9c2a8d7.png">
 
-## 注意:JumpServer3.x不再用`管理账号`,请在`管理用户ID`填写`账号模版`的ID即可。
+## 注意:JumpServer3.x不再用`管理账号`，请在`管理用户ID`填写`账号模版`的ID即可。
+
 >JumpServer3.x请使用账号模板的ID：登录JumpServer-账号管理-账号模板-选择账号-基本信息-ID
 <img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://github.com/starsliao/ConsulManager/assets/3349611/895e08f1-8a0d-4f8e-b8f5-81ee2ee6b11b">
 
 ## 接入JumpServer时，`全局通用主机【管理用户】信息`该如何填写？
 <img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://user-images.githubusercontent.com/3349611/180858510-b2b4ac0f-bc01-4c8e-a948-f3f26338037e.png">
 
-- 全局通用是指：全局是指所有的云账号，一般情况下所有的ECS会使用一个统一的管理用户(新版jumpserver叫特权用户)来方便管理ECS。
-- **Linux**：需要创建一个有root权限的管理用户(新版jumpserver叫特权用户)。
-- **Windows**：可以不需要管理用户(新版jumpserver叫特权用户)，创建一个，账号密码随意填写即可（**也可以不创建，直接使用Linux的管理用户(新版jumpserver叫特权用户)的ID**）。
+- 全局通用是指：全局是指所有的云账号，一般情况下所有的ECS会使用一个统一的管理用户(v3版叫账号模版 或 特权用户)来方便管理ECS。
+- **Linux**：需要创建一个有root权限的管理用户(v3版叫账号模版 或 特权用户)。
+- **Windows**：需要创建一个有管理员权限的管理用户(v3版叫账号模版 或 特权用户)。(v2版本可以随意选择一个管理用户，当登录失败时会提示你输入用户名密码)
 - **端口**：即为ssh（linux）或者远程桌面（windows）的端口。
-- **管理用户ID**：即管理用户的ID，不是用户名；点击刚创建的管理用户(新版jumpserver叫特权用户)即可看到ID。
+- **管理用户ID**：即管理用户的ID，不是用户名；点击刚创建的管理用户(v3版叫账号模版 或 特权用户)即可看到ID。
 <img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://user-images.githubusercontent.com/3349611/180858937-856a7f9a-afa9-46d5-a15d-514f13063af5.png">
 
-- 配置完成之后所有的Linux主机都会使用对应的Linux端口和Linux管理用户(新版jumpserver叫特权用户)。
+- 配置完成之后，所有的ECS信息同步到JumpServer时都会使用相应的端口和管理用户(v3版叫账号模版 或 特权用户)。
 
 ## 接入JumpServer时，`全局特殊主机【管理用户】信息`该如何填写？
 <img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://user-images.githubusercontent.com/3349611/180859728-6c1e7c41-ea75-4efa-98ca-6b26266d71e7.png">
 
-- 对于部分主机可能会使用特殊的端口以及管理用户(新版jumpserver叫特权用户)的情况，所以我们支持了根据主机名称关键字来匹配不同的登录端口和管理用户(新版jumpserver叫特权用户)的功能。
+- 对于部分主机可能会使用特殊的端口以及管理用户(v3版叫账号模版 或 特权用户)的情况，所以我们支持了根据主机名称关键字来匹配不同的登录端口和管理用户(v3版叫账号模版 或 特权用户)的功能。
 - 实例如下：
 ```
 {
@@ -81,7 +81,7 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 说明：
 - 填写的内容必须是一个Json格式。
 - 最外层的key：`xxxaaa`、`xxxbbb`表示主机名的关键字，包含该关键字的主机均有效。
-- 每个最外层key的value为固定格式：有windows或者linux系统的端口和管理用户(新版jumpserver叫特权用户)ID，您只需要更换掉对应的端口号及管理用户(新版jumpserver叫特权用户)ID即可。
+- 每个最外层key的value为固定格式：有windows或者linux系统的端口和管理用户(v3版叫账号模版 或 特权用户)ID，您只需要更换掉对应的端口号及管理用户(v3版叫账号模版 或 特权用户)ID即可。
 
 ## 接入JumpServer操作完成之后，我该做什么？
 - 完成接入后，您将看到已经接入过数据源的云厂商账号的信息，包括整体的系统、资源、状态信息，如图：
@@ -93,15 +93,15 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 - 同步完成后，即可在界面上看到资源数和同步的ECS数量，**注意：JumpServer中已有的同名主机不会同步**，如数量不一致，可在日志从查看同名主机信息。
 - 最后，可以登录JumpServer，找到对应到节点，查看同步后的主机信息，会根据云资源的分组信息把所有的ECS存放到对应的分组目录。
 
-**注意：云主机自动同步JumpServer功能仅是自动化了创建资产的操作，每台云主机的系统用户，还需要根据JumpServer的配置来创建或者推送。**
+**注意：云主机自动同步JumpServer功能仅是自动化了创建资产的操作，每台云主机的管理用户(v3版叫账号模版 或 特权用户)，还需要用户自行在ECS中创建好；有使用账户推送(系统用户)的需要根据JumpServer的配置来自动或手动推送。**
 
 ---
 
 ## 高级设置：不同云账号有不同的jumpserver管理账户的场景能否支持？
 ### 目前web界面上不支持这样的场景，不过后端是已经支持的，所以可以直接修改consul KV的方式来实现。
 - 访问consul的webUI `http://x.x.x.x:8500/ui/dc1/kv/ConsulManager/jms/`
-- 该目录下可以看到2个键：全局管理用户(新版jumpserver叫特权用户)信息：`ecs_info`，全局特殊管理用户(新版jumpserver叫特权用户)信息：`custom_ecs_info`
+- 该目录下可以看到2个键：全局管理用户(v3版叫账号模版 或 特权用户)信息：`ecs_info`，全局特殊管理用户(v3版叫账号模版 或 特权用户)信息：`custom_ecs_info`
 - 进入改目录下对应的云厂商以及云账户的目录
 - 把上面提到了两个键复制到云账户的目录下即可，并修改为需要的内容即可，注意内容的格式保持不变。
-- 下次同步时候会优先读取云账户目录下的管理用户(新版jumpserver叫特权用户)信息。（需要登录jumpserver删掉已同步的主机。）
+- 下次同步时候会优先读取云账户目录下的管理用户(v3版叫账号模版 或 特权用户)信息。（需要登录jumpserver删掉已同步的主机。）
 - 我会尽快把这个功能做到web界面上。
