@@ -39,6 +39,7 @@ regions = {
         "ap-southeast-1": "新加坡",
         "ap-northeast-1": "日本(东京)",
         "ap-south-1": "印度(孟买)",
+        "ap-southeast-7": "泰国(曼谷)",
     },
     "tencent_cloud": {
         "none": "无",
