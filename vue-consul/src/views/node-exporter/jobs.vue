@@ -328,7 +328,8 @@ export default {
           { value: 'eu-west-1', label: '英国(伦敦)' },
           { value: 'ap-southeast-1', label: '新加坡' },
           { value: 'ap-northeast-1', label: '日本(东京)' },
-          { value: 'ap-south-1', label: '印度(孟买)' }
+          { value: 'ap-south-1', label: '印度(孟买)' },
+          { value: 'ap-southeast-7', label: '泰国(曼谷)' }
         ],
         tencent_cloud: [
           { value: 'ap-nanjing', label: '华东地区(南京)' },
