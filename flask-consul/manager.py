@@ -18,7 +18,7 @@ if consul_kv.get_kv_dict(skey_path + 'skey') == {}:
 
 from views import login, blackbox, consul, jobs, nodes, selfnode, selfrds, selfredis, avd, exp, jms, edit_cloud, ldap, rds, redis
 from views.prom import cloud_metrics
-from units.cloud import huaweicloud,alicloud,tencent_cloud
+from units.cloud import huaweicloud,alicloud,tencent_cloud,awscloud
 from units.avd import avd_list
 from units.jms import sync_jms
 
