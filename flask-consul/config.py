@@ -5,8 +5,12 @@ consul_url = os.environ.get('consul_url','http://10.5.148.67:8500/v1')
 admin_passwd = os.environ.get('admin_passwd','123456')
 log_level = os.environ.get('log_level','INFO')
 
-vendors = {'alicloud': '阿里云','tencent_cloud': '腾讯云','huaweicloud': '华为云'}
+vendors = {'alicloud': '阿里云','tencent_cloud': '腾讯云','huaweicloud': '华为云', 'awscloud': 'AWS云'}
 regions = {
+    "awscloud":{
+        "none": "无",
+        "ap-northeast-1": "亚太地区(东京)",
+    },
     "huaweicloud": {
         "none": "无",
         "cn-east-3": "华东-上海一",

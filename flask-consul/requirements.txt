@@ -32,3 +32,4 @@ tencentcloud-sdk-python-dcdb==3.0.779
 tencentcloud-sdk-python-billing==3.0.779
 tencentcloud-sdk-python-monitor==3.0.779
 tencentcloud-sdk-python-redis==3.0.779
+boto3==1.23.10

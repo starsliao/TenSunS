@@ -296,9 +296,13 @@ export default {
       },
       vendors: [{ value: 'alicloud', label: '阿里云' },
         { value: 'tencent_cloud', label: '腾讯云' },
-        { value: 'huaweicloud', label: '华为云' }],
+        { value: 'huaweicloud', label: '华为云' },
+        { value: 'awscloud', label: 'AWS云'}],
 
       regions: {
+        awscloud:[
+          { value: 'ap-northeast-1', label: '亚太地区(东京)'}
+        ],
         huaweicloud: [
           { value: 'cn-east-3', label: '华东-上海一' },
           { value: 'cn-east-2', label: '华东-上海二' },
