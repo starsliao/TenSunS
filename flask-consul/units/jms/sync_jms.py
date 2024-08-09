@@ -2,6 +2,12 @@ import datetime,requests,json,traceback
 from units import consul_kv,consul_manager,myaes
 from units.config_log import *
 
+def exist_ssh_port(port,protocols):
+    for protocol in protocols:
+        if protocol.get('name') == 'ssh':
+            return protocol.get('port', port) if protocol.get('port') != port else port
+    return port
+
 #创建node
 def create_node(jms_url,headers,now,node_id,cloud,account):
     node_url = f"{jms_url}/api/v1/assets/nodes/{node_id}/children/"
@@ -29,9 +35,9 @@ def update_jms_ecs(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,e
     ecs_url = f"{jms_url}/api/v1/assets/assets/"
     reget_ecs_list = requests.request("GET", f'{ecs_url}?node={node_id}', headers=headers).json()
     try:
-        jms_ecs_dict = {i.get('ip',i.get('address','IPNOTFOUND')):{'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'comment':i['comment'],'node':i['nodes_display'][0]} for i in reget_ecs_list}
+        jms_ecs_dict = {i.get('ip',i.get('address','IPNOTFOUND')):{'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'protocols': i['protocols'],'comment':i['comment'],'node':i['nodes_display'][0]} for i in reget_ecs_list}
     except:
-        jms_ecs_dict = {i.get('ip',i.get('address','IPNOTFOUND')):{'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'comment':i['comment'],'node':i['nodes'][0]} for i in reget_ecs_list}
+        jms_ecs_dict = {i.get('ip',i.get('address','IPNOTFOUND')):{'name':i.get('hostname',i.get('name','NAMENOTFOUND')),'id':i['id'],'protocols': i['protocols'],'comment':i['comment'],'node':i['nodes'][0]} for i in reget_ecs_list}
 
     ecs_list = consul_manager.get_instances(f'{cloud}_{account}_ecs')['instances']
     ecs_ip_dict = {i['address']:i['meta'][0]['name'] for i in ecs_list}
@@ -60,7 +66,8 @@ def update_jms_ecs(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,e
                         admin_user = custom_info[ostype][1]
         if jms_ver == 'V3':
             ecs_url = f"{jms_url}/api/v1/assets/hosts/"
-            proto,port = protocols[0].split('/')
+            proto,proto_port = protocols[0].split('/')
+            port = exist_ssh_port(proto_port, jms_ecs_dict.get(ip, {}).get("protocols", []))
             payload = {
             "address": ip,
             "name": iname,
