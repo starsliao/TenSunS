@@ -9,7 +9,16 @@ vendors = {'alicloud': '阿里云','tencent_cloud': '腾讯云','huaweicloud': '
 regions = {
     "awscloud":{
         "none": "无",
-        "ap-northeast-1": "亚太地区(东京)",
+        "us-east-1": "美国东部（弗吉尼亚州北部）",
+        "us-west-1": "美国西部（北加利福尼亚）",
+        "ap-east-1": "亚太地区（香港）",
+        "ap-south-1": "亚太地区（孟买）",
+        "ap-northeast-2": "亚太地区（首尔）",
+        "ap-southeast-1": "亚太地区（新加坡）",
+        "ap-northeast-1": "亚太地区（东京）",
+        "eu-central-1": "欧洲（法兰克福）",
+        "eu-west-2": "欧洲（伦敦）",
+        "eu-west-3": "欧洲（巴黎）",
     },
     "huaweicloud": {
         "none": "无",
