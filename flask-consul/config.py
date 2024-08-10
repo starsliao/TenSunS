@@ -6,6 +6,7 @@ admin_passwd = os.environ.get('admin_passwd','123456')
 log_level = os.environ.get('log_level','INFO')
 
 vendors = {'alicloud': '阿里云','tencent_cloud': '腾讯云','huaweicloud': '华为云', 'awscloud': 'AWS云'}
+# https://aws.amazon.com/cn/about-aws/global-infrastructure/regional-product-services
 regions = {
     "awscloud":{
         "none": "无",
