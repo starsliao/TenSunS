@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM registry.cn-shenzhen.aliyuncs.com/starsl/python:3.10-alpine
 ADD . /flask
 WORKDIR /flask
 RUN sed -i 's/dl-cdn.alpinelinux.org/repo.huaweicloud.com/g' /etc/apk/repositories \
