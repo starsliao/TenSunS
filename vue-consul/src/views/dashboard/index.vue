@@ -7,6 +7,13 @@
       <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2024/08/10" placement="top">
+        <el-card>
+          <h4>v1.1.0-beta</h4>
+          <p>🚩增加对接AWS云的EC2、RDS、ElastiCache支持</p>
+          <p>支持在jumpserver修改ssh端口号后同步不失效</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2024/03/09" placement="top">
         <el-card>
           <h4>v1.0.3</h4>
