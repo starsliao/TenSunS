@@ -301,7 +301,16 @@ export default {
 
       regions: {
         awscloud:[
-          { value: 'ap-northeast-1', label: '亚太地区(东京)'}
+          { value: 'us-east-1', label: '美国东部（弗吉尼亚州北部）'},
+          { value: 'us-west-1', label: '美国西部（北加利福尼亚）'},
+          { value: 'ap-east-1', label: '亚太地区（香港）'},
+          { value: 'ap-south-1', label: '亚太地区（孟买）'},
+          { value: 'ap-northeast-2', label: '亚太地区（首尔）'},
+          { value: 'ap-southeast-1', label: '亚太地区（新加坡）'},
+          { value: 'ap-northeast-1', label: '亚太地区（东京）'},
+          { value: 'eu-central-1', label: '欧洲（法兰克福）'},
+          { value: 'eu-west-2', label: '欧洲（伦敦）'},
+          { value: 'eu-west-3', label: '欧洲（巴黎）'}
         ],
         huaweicloud: [
           { value: 'cn-east-3', label: '华东-上海一' },
