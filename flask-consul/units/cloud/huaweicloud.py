@@ -106,7 +106,7 @@ def group(account):
             .with_region(EpsRegion.value_of("cn-north-4")) \
             .build()
         request = ListEnterpriseProjectRequest()
-        request.status = 1
+        # request.status = 1
         request.offset = 0
         info = client.list_enterprise_project(request).to_dict()['enterprise_projects']
         group_dict = {i['id']:i['name'] for i in info}
