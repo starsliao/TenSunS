@@ -77,7 +77,7 @@ def rds_config(region_list,cm_exporter,services_list,exporter):
     region_str = '\n      - '.join([i.replace('/rds','') for i in region_list])
     consul_server = consul_url.split("/")[2]
     exporter_config = f"""
-  - job_name: 'ConsulManager-MySQL'
+  - job_name: 'TenSunS-MySQL'
     scrape_interval: 30s
     scrape_timeout: 15s
     static_configs:
