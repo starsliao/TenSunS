@@ -83,7 +83,7 @@
           <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />优化：<el-link :underline="false" type="primary" href="https://grafana.com/grafana/dashboards/17320-1-mysqld-exporter-dashboard/" target="_blank">Mysqld Exporter Grafana Dashboard</el-link>，兼容自建MySQL与云RDS，都能正常展示CPU、内存、磁盘等部分Mysqld_Exporter不提供的指标：</p>
           <ul>
             <li>自建Mysql：从node-exporter中获取以上信息，通过instance的IP部分进行关联。</li>
-            <li>云DRS：从ConsulManager-MySQL中获取，会根据实例ID进行关联。(数据来自云监控，从ConsulManager的Prometheus配置生成菜单中可生成配置。)</li>
+            <li>云DRS：从TenSunS-MySQL中获取，会根据实例ID进行关联。(数据来自云监控，从TenSunS的Prometheus配置生成菜单中可生成配置。)</li>
           </ul>
           <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />优化：开启前端资源gzip压缩！</p>
         </el-card>
@@ -99,7 +99,7 @@
           <h4>v0.11.0</h4>
           <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增：Redis监控接入：支持同步华为/阿里/腾讯云的Redis信息到Consul并接入Prometheus监控！(支持自定义IP端口)(已有账户可在<strong>接入云厂商-编辑云资源</strong>窗口增加REDIS接入即可。)</p>
           <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增：自建Redis管理界面，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！</p>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />新增：由于Redis_Exporter无法监控到云REDIS的CPU、内存等信息的使用情况，<strong>所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />新增：由于Redis_Exporter无法监控到云REDIS的CPU、内存等信息的使用情况，<strong>所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
           <p>新增：从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。</p>
           <p>优化：ECS开关机写入consul的标签及Prometheus同步的逻辑，您需要重新生成各资源的Prometheus配置，获得更好的体验。</p>
           <p>修复：导入按钮上移的BUG。</p>
@@ -128,7 +128,7 @@
           <h4>v0.9.6</h4>
           <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增自建Mysql管理界面，支持增删改查、批量导入导出，自动同步到Consul，接入到Prometheus监控！</p>
           <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />由于Mysqld_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，<strong>所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />由于Mysqld_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，<strong>所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
           <p>优化了MySQL的Grafana监控看板，兼容云Mysql和自建MySQL。</p>
           <p>增加了ECS和RDS的Prometheus告警规则。</p>
         </el-card>
@@ -136,7 +136,7 @@
       <el-timeline-item timestamp="2022/11/03" placement="top">
         <el-card>
           <h4>v0.9.2</h4>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />镜像存储更换到华为云，请查看仓库根目录下的<el-link href="https://github.com/starsliao/ConsulManager/blob/main/docker-compose.yml" target="_blank">docker-compose.yml</el-link>，更新您的镜像地址。</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />镜像存储更换到华为云，请查看仓库根目录下的<el-link href="https://github.com/starsliao/TenSunS/blob/main/docker-compose.yml" target="_blank">docker-compose.yml</el-link>，更新您的镜像地址。</p>
           <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
           <p>更新了阿里云、华为云、腾讯云的SDK。</p>
           <p>优化了菜单展示，资源分类更加直观。</p>
@@ -238,8 +238,8 @@
           <p>修正了一个修改Consul实例健康检查不能生效的bug。</p>
           <p>优化了多个展示信息的说明，与帮助文档的描述，以及增加了鸣谢信息。</p>
           <p>更新了登录界面。</p>
-          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景1：如何优雅的基于Consul自动同步ECS主机监控</el-link></p>
-          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景2：如何优雅的使用Consul管理Blackbox站点监控</el-link></p>
+          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/TenSunS/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景1：如何优雅的基于Consul自动同步ECS主机监控</el-link></p>
+          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/TenSunS/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景2：如何优雅的使用Consul管理Blackbox站点监控</el-link></p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/2/23" placement="top">
