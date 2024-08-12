@@ -4,7 +4,7 @@ def redis_config(region_list,cm_exporter,services_list,exporter):
     region_str = '\n      - '.join([i.replace('/redis','') for i in region_list])
     consul_server = consul_url.split("/")[2]
     exporter_config = f"""
-  - job_name: 'ConsulManager-REDIS'
+  - job_name: 'TenSunS-REDIS'
     scrape_interval: 30s
     scrape_timeout: 15s
     static_configs:
@@ -66,7 +66,7 @@ def redis_config(region_list,cm_exporter,services_list,exporter):
     if services_list and exporter == '':
         return {'code': 20000,'configs': '您已经选择了需要Prometheus从Conusl自动发现REDIS组，\n请输入Redis_Exporter的地址和端口，例如：10.0.0.26:9121' }
     if region_list and cm_exporter == '':
-        return {'code': 20000,'configs': '您已经选择了需要从云监控采集基础指标(CPU、内存、云资源使用率)的REDIS组，\n请输入ConsulManager地址和端口，例如：10.0.0.26:1026' }
+        return {'code': 20000,'configs': '您已经选择了需要从云监控采集基础指标(CPU、内存、云资源使用率)的REDIS组，\n请输入TenSunS地址和端口，例如：10.0.0.26:1026' }
 
     if region_list:
         return {'code': 20000,'configs': exporter_config + configs }
@@ -141,7 +141,7 @@ def rds_config(region_list,cm_exporter,services_list,exporter):
     if services_list and exporter == '':
         return {'code': 20000,'configs': '您已经选择了需要Prometheus从Conusl自动发现MySQL组，\n请输入Mysql_Exporter的地址和端口，例如：10.0.0.26:9104' }
     if region_list and cm_exporter == '':
-        return {'code': 20000,'configs': '您已经选择了需要从云监控采集基础指标(CPU、内存、磁盘、IO)的MySQL组，\n请输入ConsulManager地址和端口，例如：10.0.0.26:1026' }
+        return {'code': 20000,'configs': '您已经选择了需要从云监控采集基础指标(CPU、内存、磁盘、IO)的MySQL组，\n请输入TenSunS地址和端口，例如：10.0.0.26:1026' }
 
     if region_list:
         return {'code': 20000,'configs': exporter_config + configs }
