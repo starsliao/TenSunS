@@ -7,7 +7,7 @@
     <el-select v-model="jobrds" multiple placeholder="选择需要采集指标的MySQL组" filterable collapse-tags clearable style="width: 260px" class="filter-item">
       <el-option v-for="item in jobrds_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-input v-model="cm_exporter" placeholder="ConsulManager IP端口" clearable style="width: 190px;" class="filter-item" />&nbsp;&nbsp;
+    <el-input v-model="cm_exporter" placeholder="TenSunS Web IP端口" clearable style="width: 190px;" class="filter-item" />&nbsp;&nbsp;
     <el-button class="filter-item" type="primary" icon="el-icon-magic-stick" @click="fetchRdsConfig">
       生成配置
     </el-button>
