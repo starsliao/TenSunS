@@ -1,12 +1,12 @@
 <div align="center">
 
 [![StarsL.cn](https://img.shields.io/badge/website-StarsL.cn-orange)](https://starsl.cn)
-[![Commits](https://img.shields.io/github/commit-activity/m/starsliao/ConsulManager?color=ffff00)](https://github.com/starsliao/ConsulManager/commits/main)
-[![open issues](http://isitmaintained.com/badge/open/starsliao/ConsulManager.svg)](https://github.com/starsliao/ConsulManager/issues)
+[![Commits](https://img.shields.io/github/commit-activity/m/starsliao/TenSunS?color=ffff00)](https://github.com/starsliao/TenSunS/commits/main)
+[![open issues](http://isitmaintained.com/badge/open/starsliao/TenSunS.svg)](https://github.com/starsliao/TenSunS/issues)
 [![Python](https://img.shields.io/badge/python-%3C=v3.10-3776ab)](https://nodejs.org)
 [![Node.js](https://img.shields.io/badge/node.js-%3E=v14-229954)](https://nodejs.org)
-[![GitHub license](https://img.shields.io/badge/license-WTFPL-blueviolet)](https://github.com/starsliao/ConsulManager/blob/main/LICENSE)
-[![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/ConsulManager.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
+[![GitHub license](https://img.shields.io/badge/license-WTFPL-blueviolet)](https://github.com/starsliao/TenSunS/blob/main/LICENSE)
+[![OSCS Status](https://www.oscs1024.com/platform/badge/starsliao/TenSunS.svg?size=small)](https://www.murphysec.com/dr/Zoyt5g0huRavAtItj2)
 </div>
 
 ![tensuns-arch](https://raw.githubusercontent.com/starsliao/TenSunS/main/screenshot/tensuns-arch.png)
@@ -39,7 +39,7 @@
   - ⭐支持多云ECS/RDS/Redis的**资源、分组、标签**自动同步到Consul并接入到Prometheus自动发现！(并提供云资源信息查询与自定义页面)
   - ⭐支持多云ECS信息自动同步到**JumpServer**。
   - ⭐支持多云**账户余额**与云资源**到期日**设置阈值告警通知。
-  - ⭐支持作为Exporter接入Prometheus：Prometheus增加ConsulManager的JOB后可抓取云厂商的部分MySQL/Redis指标。(弥补原生Exporter无法获取部分云MySQL/Redis指标的问题)
+  - ⭐支持作为Exporter接入Prometheus：Prometheus增加TenSunS的JOB后可抓取云厂商的部分MySQL/Redis指标。(弥补原生Exporter无法获取部分云MySQL/Redis指标的问题)
 - ✔**支持自建主机/MySQL/Redis**接入WEB管理，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！
 - ✔提供了按需生成Prometheus配置与ECS/MySQL/Redis告警规则的功能。
 - ✔设计了多个支持同步的各字段展示的Node_Exporter、Mysqld_Exporter、Redis_Exporter Grafana看板。
@@ -81,32 +81,32 @@
 ##### 注意
 - 所有安装方式Consul的管理token会自动生成，可以在Consul的配置文件或TenSunS的docker-compose中查看。
 - 已经部署Consul的用户可以在TenSunS的docker-compose.yaml或者K8S yaml文件的环境变量部分找到:`consul_token`,`consul_url`,并配置上你的Consul信息;环境变量`admin_passwd`是TenSunS登录admin账号的密码。
-- **安装使用中遇到问题，以及问题排查，请参考：[FAQ](https://github.com/starsliao/ConsulManager/blob/main/docs/FAQ.md)**
+- **安装使用中遇到问题，以及问题排查，请参考：[FAQ](https://github.com/starsliao/TenSunS/blob/main/docs/FAQ.md)**
 ##### 🎉活动
 - **登录后你可以在`系统设置`中来`自定义登录页`：[欢迎Show出你的登录页](https://github.com/starsliao/TenSunS/issues/75)。**
 - **如果你觉得本项目还不错，[烦请在这里留下脚印](https://github.com/starsliao/TenSunS/issues/74)，简单登记下，也可以分享您的使用经验与实践，感谢支持！**
 
-## 📌[更新记录](https://github.com/starsliao/ConsulManager/releases)
+## 📌[更新记录](https://github.com/starsliao/TenSunS/releases)
 
-## 🎨截图预览（[点击查看完整截图](https://github.com/starsliao/ConsulManager/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
+## 🎨截图预览（[点击查看完整截图](https://github.com/starsliao/TenSunS/tree/main/screenshot#%E6%88%AA%E5%9B%BE)）
 
 <details><summary>💥点击展开</summary>
   
 ### Consul Web Manager 界面
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/consul3.PNG)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/screenshot/consul3.PNG)
 ### 多云ECS同步Consul界面
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/ecs1.PNG)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/screenshot/ecs1.PNG)
 ### 多云ECS同步JumpServer界面
 ![图片](https://user-images.githubusercontent.com/3349611/180870935-56e536d2-0b71-4803-b5f8-0839a241c79a.png)
 ### Node Exporter Dashboard 截图
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node1.png)
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/node2.png)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/vue-consul/public/node1.png)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/vue-consul/public/node2.png)
 ### Blackbox Manager 界面
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/blackbox1.PNG)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/screenshot/blackbox1.PNG)
 ### Blackbox Exporter Dashboard 截图
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/vue-consul/public/blackbox.png)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/vue-consul/public/blackbox.png)
 ### 高危漏洞采集与通知 界面
-![](https://raw.githubusercontent.com/starsliao/ConsulManager/main/screenshot/bug.png)
+![](https://raw.githubusercontent.com/starsliao/TenSunS/main/screenshot/bug.png)
 ##### 钉钉告警通知
 ![图片](https://user-images.githubusercontent.com/3349611/173263960-4d69fff9-82fe-42a1-ba18-4c78775cf35e.png)
 
@@ -114,12 +114,12 @@
 
 ---
 ## 🥇最佳实践
-- #### [TenSunS：实践与FAQ](https://github.com/starsliao/ConsulManager/tree/main/docs)
-- #### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
-- #### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
-- #### [应用场景3：如何把云主机自动同步到JumpServer](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md)
-- #### [应用场景4：使用1个mysqld_exporter监控所有的MySQL实例](https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md)
-- #### [应用场景5：使用1个redis_exporter监控所有的Redis实例](https://github.com/starsliao/ConsulManager/blob/main/docs/%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAredis_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84Redis%E5%AE%9E%E4%BE%8B.md)
+- #### [TenSunS：实践与FAQ](https://github.com/starsliao/TenSunS/tree/main/docs)
+- #### [应用场景1：如何优雅的基于Consul自动同步ECS主机监控](https://github.com/starsliao/TenSunS/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md)
+- #### [应用场景2：如何优雅的使用Consul管理Blackbox站点监控](https://github.com/starsliao/TenSunS/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md)
+- #### [应用场景3：如何把云主机自动同步到JumpServer](https://github.com/starsliao/TenSunS/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md)
+- #### [应用场景4：使用1个mysqld_exporter监控所有的MySQL实例](https://github.com/starsliao/TenSunS/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md)
+- #### [应用场景5：使用1个redis_exporter监控所有的Redis实例](https://github.com/starsliao/TenSunS/blob/main/docs/%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAredis_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84Redis%E5%AE%9E%E4%BE%8B.md)
 
 
 ## 💖特别鸣谢
