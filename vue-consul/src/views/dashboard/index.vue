@@ -1,17 +1,21 @@
 <template>
   <div class="dashboard-container">
     <el-alert type="success" center close-text="朕知道了">
-      <el-link type="success" href="https://github.com/starsliao/TenSunS#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5" target="_blank">🏆TenSunS应用场景与使用帮助</el-link>
+      <el-link type="success" href="https://github.com/starsliao/TenSunS#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"
+        target="_blank">🏆TenSunS应用场景与使用帮助</el-link>
     </el-alert><br>
     <el-badge :value="1" class="mark">
-      <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank" class="dashboard-text">🚀StarsL.cn</el-link>
+      <el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS" target="_blank"
+        class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
       <el-timeline-item timestamp="2024/08/10" placement="top">
         <el-card>
-          <h4>v1.1.0-beta</h4>
-          <p>🚩增加对接AWS云的EC2、RDS、ElastiCache支持</p>
+          <h4>v1.1.0</h4>
+          <p>🚩增加接入AWS云的EC2、RDS、ElastiCache支持（🙇Thank you <el-link :underline="true" type="primary"
+              href="https://github.com/406226161" target="_blank">@406226161</el-link>）</p>
           <p>支持在jumpserver修改ssh端口号后同步不失效</p>
+          <p>修复华为云企业项目禁用后更新资源失败的问题</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2024/03/09" placement="top">
@@ -26,7 +30,8 @@
       <el-timeline-item timestamp="2023/10/10" placement="top">
         <el-card>
           <h4>v1.0.2</h4>
-          <p>💥严重：修复K8S部署consul无法持久化KV信息的bug<el-link :underline="false" type="primary" href="https://github.com/starsliao/TenSunS/tree/main/install/k8s" target="_blank">【查看明细】</el-link></p>
+          <p>💥严重：修复K8S部署consul无法持久化KV信息的bug<el-link :underline="false" type="primary"
+              href="https://github.com/starsliao/TenSunS/tree/main/install/k8s" target="_blank">【查看明细】</el-link></p>
           <p>修复同步阿里云Redis实例报错"失败：'EndTime'"的bug</p>
           <p>修复采集RDS会采集到非MySql数据库的bug</p>
           <p>优化启动后端检查consul状态和初始化skey的逻辑</p>
@@ -66,21 +71,28 @@
       <el-timeline-item timestamp="2023/07/24" placement="top">
         <el-card>
           <h4>v0.12.7</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />兼容JumpServer3.x，支持同步ECS到JumpServer3.x资产管理。</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off"
+              circle />兼容JumpServer3.x，支持同步ECS到JumpServer3.x资产管理。</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/12/12" placement="top">
         <el-card>
           <h4>v0.12.0</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />修复：自建ECS/RDS/Redis：增加同SID(前5个字段相同)的实例导致，之前增加的同SID实例被替换掉的问题。</p>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />修复：站点与接口监控、自建ECS/RDS/Redis：实例字段中有特殊字符会无法删除的问题。</p>
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>以上2个改动可能会引起上述菜单功能兼容性问题：如果出现更新或删除自定义实例失败，请执行以下操作：</strong></p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off"
+              circle />修复：自建ECS/RDS/Redis：增加同SID(前5个字段相同)的实例导致，之前增加的同SID实例被替换掉的问题。</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off"
+              circle />修复：站点与接口监控、自建ECS/RDS/Redis：实例字段中有特殊字符会无法删除的问题。</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>以上2个改动可能会引起上述菜单功能兼容性问题：如果出现更新或删除自定义实例失败，请执行以下操作：</strong>
+          </p>
           <ul>
             <li>在相应的实例管理页面，使用导出功能导出实例列表。</li>
             <li>进入<strong>Consul管理-实例管理</strong>菜单，选择相应的服务组，全选删除所有的实例。</li>
             <li>再返回相应的实例管理页面，重新执行导入操作。</li>
           </ul>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />优化：<el-link :underline="false" type="primary" href="https://grafana.com/grafana/dashboards/17320-1-mysqld-exporter-dashboard/" target="_blank">Mysqld Exporter Grafana Dashboard</el-link>，兼容自建MySQL与云RDS，都能正常展示CPU、内存、磁盘等部分Mysqld_Exporter不提供的指标：</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />优化：<el-link :underline="false"
+              type="primary" href="https://grafana.com/grafana/dashboards/17320-1-mysqld-exporter-dashboard/"
+              target="_blank">Mysqld Exporter Grafana
+              Dashboard</el-link>，兼容自建MySQL与云RDS，都能正常展示CPU、内存、磁盘等部分Mysqld_Exporter不提供的指标：</p>
           <ul>
             <li>自建Mysql：从node-exporter中获取以上信息，通过instance的IP部分进行关联。</li>
             <li>云DRS：从TenSunS-MySQL中获取，会根据实例ID进行关联。(数据来自云监控，从TenSunS的Prometheus配置生成菜单中可生成配置。)</li>
@@ -91,15 +103,21 @@
       <el-timeline-item timestamp="2022/11/28" placement="top">
         <el-card>
           <h4>v0.11.1</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增：Redis Exporter Grafana Dashboard，基于官方版本汉化，增加总览页，优化重要指标展示。</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增：Redis Exporter Grafana
+            Dashboard，基于官方版本汉化，增加总览页，优化重要指标展示。</p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/11/25" placement="top">
         <el-card>
           <h4>v0.11.0</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增：Redis监控接入：支持同步华为/阿里/腾讯云的Redis信息到Consul并接入Prometheus监控！(支持自定义IP端口)(已有账户可在<strong>接入云厂商-编辑云资源</strong>窗口增加REDIS接入即可。)</p>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增：自建Redis管理界面，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！</p>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />新增：由于Redis_Exporter无法监控到云REDIS的CPU、内存等信息的使用情况，<strong>所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off"
+              circle />新增：Redis监控接入：支持同步华为/阿里/腾讯云的Redis信息到Consul并接入Prometheus监控！(支持自定义IP端口)(已有账户可在<strong>接入云厂商-编辑云资源</strong>窗口增加REDIS接入即可。)
+          </p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off"
+              circle />新增：自建Redis管理界面，支持增删改查、批量导入导出，自动同步到Consul并接入到Prometheus监控！</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off"
+              circle />新增：由于Redis_Exporter无法监控到云REDIS的CPU、内存等信息的使用情况，<strong>所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】
+          </p>
           <p>新增：从Consul同步RDS到Prometheus的配置生成界面，可生成Prometheus的配置。</p>
           <p>优化：ECS开关机写入consul的标签及Prometheus同步的逻辑，您需要重新生成各资源的Prometheus配置，获得更好的体验。</p>
           <p>修复：导入按钮上移的BUG。</p>
@@ -117,7 +135,9 @@
       <el-timeline-item timestamp="2022/11/16" placement="top">
         <el-card>
           <h4>v0.10.0</h4>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增LDAP登录支持，感谢<el-link :underline="false" type="primary" href="https://github.com/dbdocker" target="_blank">@dbdocker</el-link>贡献代码！</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />新增LDAP登录支持，感谢<el-link
+              :underline="false" type="primary" href="https://github.com/dbdocker"
+              target="_blank">@dbdocker</el-link>贡献代码！</p>
           <p>修复RDS资源使用率采集bug。</p>
           <p>修复新版JumpServer同步删除失败的bug。</p>
           <p>修复mysql告警规则bug。</p>
@@ -126,9 +146,13 @@
       <el-timeline-item timestamp="2022/11/13" placement="top">
         <el-card>
           <h4>v0.9.6</h4>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />新增自建Mysql管理界面，支持增删改查、批量导入导出，自动同步到Consul，接入到Prometheus监控！</p>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />由于Mysqld_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，<strong>所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off"
+              circle />新增自建Mysql管理界面，支持增删改查、批量导入导出，自动同步到Consul，接入到Prometheus监控！</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off"
+              circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off"
+              circle />由于Mysqld_Exporter无法监控到云数据库的CPU、内存、磁盘的使用情况，<strong>所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！</strong>【直接在Prometheus配置菜单即可生成配置。】
+          </p>
           <p>优化了MySQL的Grafana监控看板，兼容云Mysql和自建MySQL。</p>
           <p>增加了ECS和RDS的Prometheus告警规则。</p>
         </el-card>
@@ -136,8 +160,11 @@
       <el-timeline-item timestamp="2022/11/03" placement="top">
         <el-card>
           <h4>v0.9.2</h4>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />镜像存储更换到华为云，请查看仓库根目录下的<el-link href="https://github.com/starsliao/TenSunS/blob/main/docker-compose.yml" target="_blank">docker-compose.yml</el-link>，更新您的镜像地址。</p>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />镜像存储更换到华为云，请查看仓库根目录下的<el-link
+              href="https://github.com/starsliao/TenSunS/blob/main/docker-compose.yml"
+              target="_blank">docker-compose.yml</el-link>，更新您的镜像地址。</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off"
+              circle />增加RDS云数据库监控接入：支持同步华为云、阿里云、腾讯云的RDS信息到Consul并接入到Prometheus监控！</p>
           <p>更新了阿里云、华为云、腾讯云的SDK。</p>
           <p>优化了菜单展示，资源分类更加直观。</p>
           <p>增加了MySQL的Grafana监控看板。</p>
@@ -220,7 +247,8 @@
       <el-timeline-item timestamp="2022/5/8" placement="top">
         <el-card>
           <h4>v0.5.1</h4>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> Node 主机监控可以方便在页面上管理自建主机了，增加后记得重新生成Prometheus配置，复选上selfnode_exporter。</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> Node
+            主机监控可以方便在页面上管理自建主机了，增加后记得重新生成Prometheus配置，复选上selfnode_exporter。</p>
           <p>优化了导入脚本，并且支持了自建主机的批量导入。</p>
           <p>云主机同步增加了部分国外的区域。</p>
           <p>web页面的描述做了优化，修复了一些bug。</p>
@@ -229,17 +257,24 @@
       <el-timeline-item timestamp="2022/4/7" placement="top">
         <el-card>
           <h4>v0.5.0</h4>
-          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle /> 增加ECS云主机监控：支持自动同步阿里、腾讯、华为云的ECS、分组信息到Consul并接入到Prometheus监控！并更新了对应的Grafana看板。</p>
+          <p><el-button type="success" size="mini" icon="el-icon-star-off" circle />
+            增加ECS云主机监控：支持自动同步阿里、腾讯、华为云的ECS、分组信息到Consul并接入到Prometheus监控！并更新了对应的Grafana看板。</p>
           <p>增加了从Consul同步ECS，站点信息到Prometheus的配置生成界面，可生成Prometheus的配置。</p>
           <p>增加了Blackbox的配置信息与Prometheus告警规则信息生成页面。</p>
           <p>优化了Blackbox接入Prometheus的配置，只需配置1个job即可接入所有类型的站点监控，并更新了对应的Grafana看板。(使用旧版本配置的请参考新文档配置)</p>
-          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle /> 更新了站点监控的grafana看板，增加了URL筛选，查询关联所有图表，并支持展示单job的配置方式。</p>
-          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle /> 更新了主机监控的grafana看板，可匹配自动同步方式采集ECS信息字段的展示， 优化了大量图表，使用新版表格重建，新增健康评分概念，并新增了整体资源消耗信息的一些图表。</p>
+          <p><el-button type="primary" size="mini" icon="el-icon-star-off" circle />
+            更新了站点监控的grafana看板，增加了URL筛选，查询关联所有图表，并支持展示单job的配置方式。</p>
+          <p><el-button type="warning" size="mini" icon="el-icon-star-off" circle />
+            更新了主机监控的grafana看板，可匹配自动同步方式采集ECS信息字段的展示， 优化了大量图表，使用新版表格重建，新增健康评分概念，并新增了整体资源消耗信息的一些图表。</p>
           <p>修正了一个修改Consul实例健康检查不能生效的bug。</p>
           <p>优化了多个展示信息的说明，与帮助文档的描述，以及增加了鸣谢信息。</p>
           <p>更新了登录界面。</p>
-          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/TenSunS/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景1：如何优雅的基于Consul自动同步ECS主机监控</el-link></p>
-          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary" href="https://github.com/starsliao/TenSunS/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景2：如何优雅的使用Consul管理Blackbox站点监控</el-link></p>
+          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary"
+              href="https://github.com/starsliao/TenSunS/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md"
+              target="_blank">应用场景1：如何优雅的基于Consul自动同步ECS主机监控</el-link></p>
+          <p><el-button type="primary" plain size="small" icon="el-icon-s-promotion" circle /> <el-link type="primary"
+              href="https://github.com/starsliao/TenSunS/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md"
+              target="_blank">应用场景2：如何优雅的使用Consul管理Blackbox站点监控</el-link></p>
         </el-card>
       </el-timeline-item>
       <el-timeline-item timestamp="2022/2/23" placement="top">
@@ -275,8 +310,8 @@
           <p>新增筛选功能：可以根据名称或实例来进行关键字筛选</p>
           <p>新增清空查询条件按钮</p>
           <p>简化了web界面新增操作： </p>
-          <p>  选择选项查询后，点击新增或自动填写好选择的选项</p>
-          <p>  增加确认并新增按钮，可以自动填上之前填写的前4个字段</p>
+          <p> 选择选项查询后，点击新增或自动填写好选择的选项</p>
+          <p> 增加确认并新增按钮，可以自动填上之前填写的前4个字段</p>
           <p>新增批量删除功能</p>
           <p>新增分页功能</p>
         </el-card>
@@ -313,11 +348,13 @@ export default {
   &-container {
     margin: 30px;
   }
+
   &-text {
     font-size: 30px;
     line-height: 46px;
   }
 }
+
 li {
   margin: 20px 0;
 }

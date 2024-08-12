@@ -1,5 +1,5 @@
 # 使用一个redis_exporter监控所有的Redis实例
-### 一、如何在ConsulManager中接入redis
+### 一、如何在TenSunS中接入redis
 #### 1. 接入云厂商的Redis
 1. 新增云账号的情况：目前新增时，支持多选区域，以及选择增加的资源类型，勾选REDIS即可接入自动同步云REDIS，记得设置好同步间隔。
 
@@ -63,7 +63,7 @@ services:
 ### 三、如何接入到Prometheus
 点击菜单`云资源管理`-`REDIS管理`-`prometheus配置`：
 - 在右侧选择需要加入监控的云账号REDIS组，并且输入redis_exporter的IP和端口，点击生成配置，即可复制生成的JOB内容到prometheus。
-- 由于Redis_Exporter无法监控到云数据库的CPU、部分资源使用率的情况，所以ConsulManager开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！选择需要采集指标的REDIS账号区域，ConsulManager地址和端口，即可生成Prometheus的JOB配置。
+- 由于Redis_Exporter无法监控到云数据库的CPU、部分资源使用率的情况，所以TenSunS开发了Exporter功能，配置到Prometheus即可直接从云厂商采集到这些指标！选择需要采集指标的REDIS账号区域，TenSunS地址和端口，即可生成Prometheus的JOB配置。
 
 ![图片](https://user-images.githubusercontent.com/3349611/204361542-c922963d-e79e-4ffd-8e3b-d752bd198d7b.png)
 

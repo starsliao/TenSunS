@@ -1,44 +1,42 @@
 <template>
   <div class="app-container">
     <el-alert type="success" center close-text="朕知道了">
-      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
+      <el-link icon="el-icon-warning" type="success"
+        href="https://github.com/starsliao/TenSunS/blob/main/docs/blackbox%E7%AB%99%E7%82%B9%E7%9B%91%E6%8E%A7.md"
+        target="_blank">应用场景：如何优雅的使用Consul管理Blackbox站点监控</el-link>
     </el-alert>
     <div class="filter-container" style="flex: 1;display: flex;align-items: center;height: 50px;">
-      <el-select v-model="listQuery.module" placeholder="监控类型" clearable collapse-tags style="width: 150px" class="filter-item">
+      <el-select v-model="listQuery.module" placeholder="监控类型" clearable collapse-tags style="width: 150px"
+        class="filter-item">
         <el-option v-for="item in module_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-select v-model="listQuery.company" placeholder="公司部门" clearable style="width: 150px" class="filter-item">
         <el-option v-for="item in company_list" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select v-model="listQuery.project" filterable placeholder="项目" clearable style="width: 150px" class="filter-item">
+      <el-select v-model="listQuery.project" filterable placeholder="项目" clearable style="width: 150px"
+        class="filter-item">
         <el-option v-for="item in project_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-select v-model="listQuery.env" filterable placeholder="环境" clearable style="width: 120px" class="filter-item">
         <el-option v-for="item in env_list" :key="item" :label="item" :value="item" />
       </el-select>
       <el-tooltip effect="light" content="点击清空查询条件" placement="top">
-        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="handleReset" />
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle
+          @click="handleReset" />
       </el-tooltip>
       <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">
         新增
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-download" @click="handleDownload">
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="success" icon="el-icon-download"
+        @click="handleDownload">
         导出
       </el-button>
-      <el-upload
-        style="margin-right: 10px;"
-        class="upload-demo"
-        action="/api/blackbox/upload"
-        :headers="myHeaders"
-        :on-success="success"
-        :on-error="error"
-        accept=".xlsx"
-        :before-upload="handleBeforeUpload"
-        :show-file-list="false"
-        :multiple="false"
-      >
+      <el-upload style="margin-right: 10px;" class="upload-demo" action="/api/blackbox/upload" :headers="myHeaders"
+        :on-success="success" :on-error="error" accept=".xlsx" :before-upload="handleBeforeUpload"
+        :show-file-list="false" :multiple="false">
         <el-tooltip effect="light" content="点击【导出】可获取导入模板" placement="top">
-          <el-button v-waves style="margin-left: 10px;margin-top: 0px;" :loading="downloadLoading" class="filter-item" type="warning" icon="el-icon-upload2">
+          <el-button v-waves style="margin-left: 10px;margin-top: 0px;" :loading="downloadLoading" class="filter-item"
+            type="warning" icon="el-icon-upload2">
             导入
           </el-button>
         </el-tooltip>
@@ -47,23 +45,18 @@
         批量删除
       </el-button>
       <div style="float: right;margin-left: 10px;">
-        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="名称或URL筛选" clearable style="width:180px" class="filter-item" @input="inameFilter(iname)" />
+        <el-input v-model="iname" prefix-icon="el-icon-search" placeholder="名称或URL筛选" clearable style="width:180px"
+          class="filter-item" @input="inameFilter(iname)" />
       </div>
     </div>
 
-    <el-table
-      v-loading="listLoading"
+    <el-table v-loading="listLoading"
       :data="all_list.filter(data => !iname || (data.name.toLowerCase().includes(iname.toLowerCase()) || data.instance.toLowerCase().includes(iname.toLowerCase())))"
-      border
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @selection-change="handleSelectionChange"
-    >
+      border fit highlight-current-row style="width: 100%;" @selection-change="handleSelectionChange">
       <el-table-column type="selection" align="center" width="35" />
       <el-table-column label="ID" align="center" width="40px">
         <template slot-scope="scope">
-          <span>{{ scope.$index+1 }}</span>
+          <span>{{ scope.$index + 1 }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="module" label="监控类型" sortable width="130px" align="center">
@@ -108,38 +101,47 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="handleFilter" />
+    <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
+      @pagination="handleFilter" />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="37%">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="right" label-width="auto"
+        style="width: 90%; margin-left: 20px;">
         <el-form-item prop="module">
           <span slot="label">
             <span class="span-box">
               <span>监控类型</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="该字段必须和Blackbox配置中的module名称保持一致，如：http_2xx，http_post_2xx，tcp_connect 等。" placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark"
+                content="该字段必须和Blackbox配置中的module名称保持一致，如：http_2xx，http_post_2xx，tcp_connect 等。" placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
           </span>
-          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择，填写可新增" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.module" :fetch-suggestions="Sugg_module" placeholder="优先选择，填写可新增" clearable
+            class="filter-item" />
         </el-form-item>
         <el-form-item label="公司部门" prop="company">
-          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择，填写可新增" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.company" :fetch-suggestions="Sugg_company" placeholder="优先选择，填写可新增" clearable
+            class="filter-item" />
         </el-form-item>
         <el-form-item label="项目" prop="project">
-          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择，填写可新增" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.project" :fetch-suggestions="Sugg_project" placeholder="优先选择，填写可新增" clearable
+            class="filter-item" />
         </el-form-item>
         <el-form-item label="环境" prop="env">
-          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择，填写可新增" clearable class="filter-item" />
+          <el-autocomplete v-model="temp.env" :fetch-suggestions="Sugg_env" placeholder="优先选择，填写可新增" clearable
+            class="filter-item" />
         </el-form-item>
         <el-form-item label="名称" prop="name">
-          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" /><br><font size="3px" color="#ff0000">以上5个字段组合后需唯一，重复会覆盖已有监控项!</font>
+          <el-input v-model="temp.name" placeholder="请输入" clearable class="filter-item" /><br>
+          <font size="3px" color="#ff0000">以上5个字段组合后需唯一，重复会覆盖已有监控项!</font>
         </el-form-item>
         <el-form-item prop="instance">
           <span slot="label">
             <span class="span-box">
               <span>URL</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="TCP类检查格式为：IP:端口 ，HTTP类检查格式为完整的URL，必须以http(s)://开头，ICMP检查仅填IP或域名。" placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark"
+                content="TCP类检查格式为：IP:端口 ，HTTP类检查格式为完整的URL，必须以http(s)://开头，ICMP检查仅填IP或域名。" placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
@@ -148,13 +150,13 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-if="dialogStatus==='create'" type="primary" @click="createAndNew">
+        <el-button v-if="dialogStatus === 'create'" type="primary" @click="createAndNew">
           确认并新增
         </el-button>
         <el-button @click="dialogFormVisible = false">
           取消
         </el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+        <el-button type="primary" @click="dialogStatus === 'create' ? createData() : updateData()">
           确认
         </el-button>
       </div>
@@ -232,15 +234,15 @@ export default {
       },
       rules: {
         module: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         company: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         project: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         env: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         name: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         instance: [{ required: true, message: '此为必填项', trigger: 'change' }]
       },
       downloadLoading: false

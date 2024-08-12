@@ -1,22 +1,32 @@
 <template>
   <div class="app-container">
     <el-alert type="success" center close-text="朕知道了">
-      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md" target="_blank">应用场景：1.使用ConsulManager管理ECS主机监控</el-link>&nbsp;&nbsp;
-      <el-link icon="el-icon-warning" type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md" target="_blank">2.使用1个mysqld_exporter监控所有的MySQL实例</el-link>&nbsp;&nbsp;
-      <el-link icon="el-icon-warning" type="warning" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAredis_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84Redis%E5%AE%9E%E4%BE%8B.md" target="_blank">3.使用一个redis_exporter监控所有的Redis实例</el-link>
+      <el-link icon="el-icon-warning" type="success"
+        href="https://github.com/starsliao/TenSunS/blob/main/docs/ECS%E4%B8%BB%E6%9C%BA%E7%9B%91%E6%8E%A7.md"
+        target="_blank">应用场景：1.使用TenSunS管理ECS主机监控</el-link>&nbsp;&nbsp;
+      <el-link icon="el-icon-warning" type="primary"
+        href="https://github.com/starsliao/TenSunS/blob/main/docs/%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E7%9A%84%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAmysqld_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84MySQL%E5%AE%9E%E4%BE%8B.md"
+        target="_blank">2.使用1个mysqld_exporter监控所有的MySQL实例</el-link>&nbsp;&nbsp;
+      <el-link icon="el-icon-warning" type="warning"
+        href="https://github.com/starsliao/TenSunS/blob/main/docs/%E4%BD%BF%E7%94%A8%E4%B8%80%E4%B8%AAredis_exporter%E7%9B%91%E6%8E%A7%E6%89%80%E6%9C%89%E7%9A%84Redis%E5%AE%9E%E4%BE%8B.md"
+        target="_blank">3.使用一个redis_exporter监控所有的Redis实例</el-link>
     </el-alert>
-    <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
+    <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item"
+      @change="fetchData(query)">
       <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-select v-model="query.account" placeholder="账户" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
+    <el-select v-model="query.account" placeholder="账户" clearable style="width: 150px" class="filter-item"
+      @change="fetchData(query)">
       <el-option v-for="item in account_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-select v-model="query.itype" placeholder="类型" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
+    <el-select v-model="query.itype" placeholder="类型" clearable style="width: 150px" class="filter-item"
+      @change="fetchData(query)">
       <el-option v-for="item in itype_list" :key="item" :label="item" :value="item" />
     </el-select>
 
     <el-tooltip effect="light" content="清空查询条件" placement="top">
-      <el-button class="filter-item" style="margin-left: 10px;" type="info" icon="el-icon-delete" circle @click="resetData" />
+      <el-button class="filter-item" style="margin-left: 10px;" type="info" icon="el-icon-delete" circle
+        @click="resetData" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-s-promotion" @click="handleCreate">
       新增云资源
@@ -26,11 +36,13 @@
     </el-button>
     <div style="float: right;">
       <el-tooltip effect="light" content="刷新当前页面" placement="top">
-        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle @click="fetchData" />
+        <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-refresh" circle
+          @click="fetchData" />
       </el-tooltip>
     </div>
 
-    <el-table v-loading="listLoading" :data="joblist" :row-class-name="tableRowClassName" border fit highlight-current-row style="width: 100%;">
+    <el-table v-loading="listLoading" :data="joblist" :row-class-name="tableRowClassName" border fit
+      highlight-current-row style="width: 100%;">
       <el-table-column type="index" align="center" />
       <el-table-column prop="vendor" label="云厂商" sortable align="center" />
       <el-table-column prop="account" label="账户" sortable align="center" />
@@ -63,7 +75,8 @@
       <el-table-column prop="nextime" label="下次同步" sortable align="center" />
       <el-table-column label="操作" align="center" width="280" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-button type="success" size="mini" @click="row.itype==='group'?handleEnt(row.jobid):handleRes(row.itype,row.jobid)">
+          <el-button type="success" size="mini"
+            @click="row.itype === 'group' ? handleEnt(row.jobid) : handleRes(row.itype, row.jobid)">
             查看
           </el-button>
           <el-button type="warning" size="mini" @click="handleRun(row.jobid)">
@@ -80,7 +93,8 @@
     </el-table>
 
     <el-dialog title="查看组信息" :visible.sync="entFormVisible" width="60%">
-      <el-table v-loading="listLoading" :data="entlist" height="540" border fit highlight-current-row style="width: 100%;">
+      <el-table v-loading="listLoading" :data="entlist" height="540" border fit highlight-current-row
+        style="width: 100%;">
         <el-table-column type="index" align="center" />
         <el-table-column prop="gid" label="组ID" sortable align="center" />
         <el-table-column prop="gname" label="名称" sortable align="center" />
@@ -88,19 +102,23 @@
     </el-dialog>
 
     <el-dialog title="新增云资源" :visible.sync="newFormVisible" width="45%">
-      <el-form ref="dataForm" :rules="rules" :model="ecsJob" label-position="right" label-width="auto" style="width: 90%; margin-left: 1px;">
+      <el-form ref="dataForm" :rules="rules" :model="ecsJob" label-position="right" label-width="auto"
+        style="width: 90%; margin-left: 1px;">
         <el-form-item label="云厂商" prop="vendor">
-          <el-select v-model="ecsJob.vendor" placeholder="请选择" @change="ecsJob.region=[]">
+          <el-select v-model="ecsJob.vendor" placeholder="请选择" @change="ecsJob.region = []">
             <el-option v-for="item in vendors" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
-          <span v-if="ecsJob.vendor === 'huaweicloud'"><br><font size="3px" color="#ff0000">需要开通企业项目(更多-企业-项目管理)</font></span>
+          <span v-if="ecsJob.vendor === 'huaweicloud'"><br>
+            <font size="3px" color="#ff0000">需要开通企业项目(更多-企业-项目管理)</font>
+          </span>
           <span v-if="ecsJob.vendor === 'alicloud'">已支持采集ECS标签</span>
         </el-form-item>
         <el-form-item prop="account">
           <span slot="label">
             <span class="span-box">
               <span>账户</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="用来区分云厂商不同云账户的标识，支持中文，例如用主账户的名称。" placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark" content="用来区分云厂商不同云账户的标识，支持中文，例如用主账户的名称。"
+                placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
@@ -115,7 +133,8 @@
         </el-form-item>
         <el-form-item label="区域" prop="region">
           <el-select v-model="ecsJob.region" filterable multiple collapse-tags placeholder="请选择">
-            <el-option v-for="item in regions[ecsJob.vendor]" :key="item.value" :label="item.label" :value="item.value" />
+            <el-option v-for="item in regions[ecsJob.vendor]" :key="item.value" :label="item.label"
+              :value="item.value" />
           </el-select>
         </el-form-item>
 
@@ -134,7 +153,8 @@
           <span slot="label">
             <span class="span-box">
               <span>分组同步间隔(分钟)</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="分组是采集云厂商用于资源分组的字段，阿里云：资源组，华为云：企业项目，腾讯云：所属项目。请在创建云主机时设置好属组。" placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark"
+                content="分组是采集云厂商用于资源分组的字段，阿里云：资源组，华为云：企业项目，腾讯云：所属项目。请在创建云主机时设置好属组。" placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
@@ -166,15 +186,16 @@
     </el-dialog>
 
     <el-dialog title="编辑云资源" :visible.sync="editFormVisible" width="45%">
-      <el-form ref="dataForm" :rules="rules" :model="editJob" label-position="right" label-width="auto" style="width: 90%; margin-left: 1px;">
+      <el-form ref="dataForm" :rules="rules" :model="editJob" label-position="right" label-width="auto"
+        style="width: 90%; margin-left: 1px;">
         <el-form-item label="云厂商" prop="vendor">
-          <el-select v-model="editJob.vendor" placeholder="请选择" @change="editJob.region=[];editJob.account=''">
+          <el-select v-model="editJob.vendor" placeholder="请选择" @change="editJob.region = []; editJob.account = ''">
             <el-option v-for="item in vendors" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
         </el-form-item>
 
         <el-form-item label="账户" prop="account">
-          <el-select v-model="editJob.account" placeholder="请选择" @change="editJob.akskswitch=false;editJob.region=''">
+          <el-select v-model="editJob.account" placeholder="请选择" @change="editJob.akskswitch = false; editJob.region = ''">
             <el-option v-for="item in cloud_dict[editJob.vendor]" :key="item" :label="item" :value="item" />
           </el-select>
         </el-form-item>
@@ -189,8 +210,10 @@
         </el-form-item>
 
         <el-form-item label="区域" prop="region">
-          <el-select v-model="editJob.region" filterable placeholder="请选择" @change="fetchGroup(editJob.vendor, editJob.account, editJob.region)">
-            <el-option v-for="item in regions[editJob.vendor]" :key="item.value" :label="item.label" :value="item.value" />
+          <el-select v-model="editJob.region" filterable placeholder="请选择"
+            @change="fetchGroup(editJob.vendor, editJob.account, editJob.region)">
+            <el-option v-for="item in regions[editJob.vendor]" :key="item.value" :label="item.label"
+              :value="item.value" />
           </el-select>
         </el-form-item>
 
@@ -209,7 +232,8 @@
           <span slot="label">
             <span class="span-box">
               <span>分组同步间隔(分钟)</span>
-              <el-tooltip style="diaplay:inline" effect="dark" content="分组是采集云厂商用于资源分组的字段，阿里云：资源组，华为云：企业项目，腾讯云：所属项目。请在创建云主机时设置好属组。" placement="top">
+              <el-tooltip style="diaplay:inline" effect="dark"
+                content="分组是采集云厂商用于资源分组的字段，阿里云：资源组，华为云：企业项目，腾讯云：所属项目。请在创建云主机时设置好属组。" placement="top">
                 <i class="el-icon-info" />
               </el-tooltip>
             </span>
@@ -238,7 +262,8 @@
     </el-dialog>
 
     <el-dialog title="更新同步间隔" :visible.sync="upFormVisible" width="30%">
-      <el-form ref="dataForm" :rules="rules" :model="upjob" label-position="right" label-width="130px" style="margin-left: 20px;">
+      <el-form ref="dataForm" :rules="rules" :model="upjob" label-position="right" label-width="130px"
+        style="margin-left: 20px;">
         <el-form-item label="同步间隔(分钟)" prop="interval">
           <el-input v-model="upjob.interval" placeholder="请输入" clearable style="width: 150px" class="filter-item" />
         </el-form-item>
@@ -281,36 +306,36 @@ export default {
       query: { vendor: '', account: '', itype: '' },
       rules: {
         vendor: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         account: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         ak: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         sk: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         region: [{ required: true, message: '此为必填项', trigger: 'blur' }],
         proj_interval: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }],
+        { validator: validateInput, trigger: ['blur', 'change'] }],
         ecs_interval: [{ required: true, message: '此为必填项', trigger: 'change' },
-          { validator: validateInput, trigger: ['blur', 'change'] }]
+        { validator: validateInput, trigger: ['blur', 'change'] }]
       },
       vendors: [{ value: 'alicloud', label: '阿里云' },
-        { value: 'tencent_cloud', label: '腾讯云' },
-        { value: 'huaweicloud', label: '华为云' },
-        { value: 'awscloud', label: 'AWS云'}],
+      { value: 'tencent_cloud', label: '腾讯云' },
+      { value: 'huaweicloud', label: '华为云' },
+      { value: 'awscloud', label: 'AWS云' }],
 
       regions: {
-        awscloud:[
-          { value: 'us-east-1', label: '美国东部（弗吉尼亚州北部）'},
-          { value: 'us-west-1', label: '美国西部（北加利福尼亚）'},
-          { value: 'ap-east-1', label: '亚太地区（香港）'},
-          { value: 'ap-south-1', label: '亚太地区（孟买）'},
-          { value: 'ap-northeast-2', label: '亚太地区（首尔）'},
-          { value: 'ap-southeast-1', label: '亚太地区（新加坡）'},
-          { value: 'ap-northeast-1', label: '亚太地区（东京）'},
-          { value: 'eu-central-1', label: '欧洲（法兰克福）'},
-          { value: 'eu-west-2', label: '欧洲（伦敦）'},
-          { value: 'eu-west-3', label: '欧洲（巴黎）'}
+        awscloud: [
+          { value: 'us-east-1', label: '美国东部（弗吉尼亚州北部）' },
+          { value: 'us-west-1', label: '美国西部（北加利福尼亚）' },
+          { value: 'ap-east-1', label: '亚太地区（香港）' },
+          { value: 'ap-south-1', label: '亚太地区（孟买）' },
+          { value: 'ap-northeast-2', label: '亚太地区（首尔）' },
+          { value: 'ap-southeast-1', label: '亚太地区（新加坡）' },
+          { value: 'ap-northeast-1', label: '亚太地区（东京）' },
+          { value: 'eu-central-1', label: '欧洲（法兰克福）' },
+          { value: 'eu-west-2', label: '欧洲（伦敦）' },
+          { value: 'eu-west-3', label: '欧洲（巴黎）' }
         ],
         huaweicloud: [
           { value: 'cn-east-3', label: '华东-上海一' },
@@ -553,13 +578,15 @@ export default {
 </script>
 
 <style>
-  .el-table .success-row {
-    background: #f0f9eb;
-  }
-  .el-table .warning-row {
-    background: oldlace;
-  }
-  .el-table .info-row {
-    background: #f0f8ff;
-  }
+.el-table .success-row {
+  background: #f0f9eb;
+}
+
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.el-table .info-row {
+  background: #f0f8ff;
+}
 </style>

@@ -1,24 +1,32 @@
 <template>
   <div class="app-container">
     <el-alert type="success" center close-text="朕知道了">
-      <el-link icon="el-icon-warning" type="success" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank">应用场景：如何优雅的把主机信息自动同步到JumpServer</el-link>
+      <el-link icon="el-icon-warning" type="success"
+        href="https://github.com/starsliao/TenSunS/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md"
+        target="_blank">应用场景：如何优雅的把主机信息自动同步到JumpServer</el-link>
     </el-alert>
-    <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
+    <el-select v-model="query.vendor" placeholder="云厂商" clearable style="width: 150px" class="filter-item"
+      @change="fetchData(query)">
       <el-option v-for="item in vendor_list" :key="item" :label="item" :value="item" />
     </el-select>
-    <el-select v-model="query.account" placeholder="账户" clearable style="width: 150px" class="filter-item" @change="fetchData(query)">
+    <el-select v-model="query.account" placeholder="账户" clearable style="width: 150px" class="filter-item"
+      @change="fetchData(query)">
       <el-option v-for="item in account_list" :key="item" :label="item" :value="item" />
     </el-select>
     <el-tooltip effect="light" content="查询所有" placement="top">
-      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-magic-stick" circle @click="resetData" />
+      <el-button class="filter-item" style="margin-left: 10px;" type="success" icon="el-icon-magic-stick" circle
+        @click="resetData" />
     </el-tooltip>
     <el-button class="filter-item" type="primary" icon="el-icon-edit" @click="handleCreate">接入JumpServer</el-button>
     <el-dialog :visible.sync="dialogFormVisible" width="44%">
       <div slot="title" class="header-title">
         <span style="font-size:16px;font-weight:bold;">接入JumpServer</span>&nbsp;&nbsp;
-        <el-link type="primary" href="https://github.com/starsliao/ConsulManager/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md" target="_blank" icon="el-icon-question">如何填写</el-link>
+        <el-link type="primary"
+          href="https://github.com/starsliao/TenSunS/blob/main/docs/%E5%A6%82%E4%BD%95%E6%8A%8A%E4%B8%BB%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%90%8C%E6%AD%A5%E5%88%B0JumpServer.md"
+          target="_blank" icon="el-icon-question">如何填写</el-link>
       </div>
-      <el-form ref="dataForm" :model="jms_config" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
+      <el-form ref="dataForm" :model="jms_config" label-position="right" label-width="auto"
+        style="width: 90%; margin-left: 20px;">
         <el-form-item label="JumpServer URL">
           <el-input v-model="jms_config.url" placeholder="http开头" style="width: 390px;" />
         </el-form-item>
@@ -27,14 +35,18 @@
             <el-option key="V2" label="V2" value="V2" />
             <el-option key="V3" label="V3" value="V3" />
           </el-select>
-          <span v-if="jms_config.ver === 'V3'"><font size="3px" color="#ff0000">请更新JumpServer到3.5及以上版本</font></span>
+          <span v-if="jms_config.ver === 'V3'">
+            <font size="3px" color="#ff0000">请更新JumpServer到3.5及以上版本</font>
+          </span>
         </el-form-item>
         <el-form-item label="JumpServer Token">
           <el-input v-model="jms_config.token" type="password" placeholder="请输入Admin Token" style="width: 390px;" />
         </el-form-item>
         <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
         <h3>全局通用主机【管理用户】信息：</h3>
-        <span v-if="jms_config.ver === 'V3'"><font size="3px" color="#ff0000">JumpServer3.x请使用账号模板的ID：登录JumpServer-账号管理-账号模板-选择账号-基本信息-ID</font></span>
+        <span v-if="jms_config.ver === 'V3'">
+          <font size="3px" color="#ff0000">JumpServer3.x请使用账号模板的ID：登录JumpServer-账号管理-账号模板-选择账号-基本信息-ID</font>
+        </span>
         <div class="demo-input-suffix">
           <h4>Linux：</h4>
           ssh端口：<el-input v-model="jms_config.linuxport" style="width: 72px;" />
@@ -47,7 +59,8 @@
         </div>
         <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
         <h3>全局特殊主机【管理用户】信息：</h3>
-        <el-input v-model="jms_config.custom_ecs_info" :autosize="{ minRows: 5, maxRows: 18}" type="textarea" placeholder="请输入标准Json格式，无特殊主机请留空。" class="filter-item" style="width: 530px;" />
+        <el-input v-model="jms_config.custom_ecs_info" :autosize="{ minRows: 5, maxRows: 18 }" type="textarea"
+          placeholder="请输入标准Json格式，无特殊主机请留空。" class="filter-item" style="width: 530px;" />
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
@@ -81,12 +94,14 @@
       <el-table-column prop="nextime" label="下次同步" sortable align="center" />
       <el-table-column label="同步" align="center" width="60" class-name="small-padding fixed-width">
         <template slot-scope="{row}">
-          <el-switch v-model="row.sync" active-color="#13ce66" @change="fetchSwitch(row.vendor, row.account, row.sync)" />
+          <el-switch v-model="row.sync" active-color="#13ce66"
+            @change="fetchSwitch(row.vendor, row.account, row.sync)" />
         </template>
       </el-table-column>
     </el-table>
     <el-dialog title="开启同步JumpServer" :visible.sync="swFormVisible" :before-close="fetchData" width="33%">
-      <el-form ref="dataForm" :model="jms_sync" label-position="right" label-width="auto" style="width: 90%; margin-left: 20px;">
+      <el-form ref="dataForm" :model="jms_sync" label-position="right" label-width="auto"
+        style="width: 90%; margin-left: 20px;">
         <el-form-item label="同步间隔">
           <el-input v-model="jms_sync.interval" style="width: 180px;" type="number">
             <template slot="append">分钟</template>

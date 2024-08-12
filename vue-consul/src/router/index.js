@@ -305,7 +305,7 @@ export const constantRoutes = [
     meta: { title: '快速链接', icon: 'link' },
     children: [
       {
-        path: 'https://github.com/starsliao/ConsulManager#%E7%89%B9%E5%88%AB%E9%B8%A3%E8%B0%A2',
+        path: 'https://github.com/starsliao/TenSunS#%E7%89%B9%E5%88%AB%E9%B8%A3%E8%B0%A2',
         meta: { title: '赞赏与鸣谢', icon: 'el-icon-cold-drink' }
       },
       {
