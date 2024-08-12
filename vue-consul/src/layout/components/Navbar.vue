@@ -16,7 +16,7 @@
               首页
             </el-dropdown-item>
           </router-link>
-          <a target="_blank" href="https://github.com/starsliao/ConsulManager">
+          <a target="_blank" href="https://github.com/starsliao/TenSunS">
             <el-dropdown-item>GitHub</el-dropdown-item>
           </a>
           <el-dropdown-item divided @click.native="logout">
