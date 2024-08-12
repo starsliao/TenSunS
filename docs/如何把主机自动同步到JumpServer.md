@@ -39,7 +39,7 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 ## 注意:JumpServer3.x不再用`管理账号`，请在`管理用户ID`填写`账号模版`的ID即可。
 
 >JumpServer3.x请使用账号模板的ID：登录JumpServer-账号管理-账号模板-选择账号-基本信息-ID
-<img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://github.com/starsliao/ConsulManager/assets/3349611/895e08f1-8a0d-4f8e-b8f5-81ee2ee6b11b">
+<img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://github.com/starsliao/TenSunS/assets/3349611/895e08f1-8a0d-4f8e-b8f5-81ee2ee6b11b">
 
 ## 接入JumpServer时，`全局通用主机【管理用户】信息`该如何填写？
 <img width="584" alt="72b7ccbc370982566fece2325191d0d" src="https://user-images.githubusercontent.com/3349611/180858510-b2b4ac0f-bc01-4c8e-a948-f3f26338037e.png">
@@ -99,7 +99,7 @@ u = User.objects.get(username='admin')   #admin换成你的JumpServer管理员�
 
 ## 高级设置：不同云账号有不同的jumpserver管理账户的场景能否支持？
 ### 目前web界面上不支持这样的场景，不过后端是已经支持的，所以可以直接修改consul KV的方式来实现。
-- 访问consul的webUI `http://x.x.x.x:8500/ui/dc1/kv/ConsulManager/jms/`
+- 访问consul的webUI `http://x.x.x.x:8500/ui/dc1/kv/TenSunS/jms/`
 - 该目录下可以看到2个键：全局管理用户(v3版叫账号模版 或 特权用户)信息：`ecs_info`，全局特殊管理用户(v3版叫账号模版 或 特权用户)信息：`custom_ecs_info`
 - 进入改目录下对应的云厂商以及云账户的目录
 - 把上面提到了两个键复制到云账户的目录下即可，并修改为需要的内容即可，注意内容的格式保持不变。
