@@ -107,8 +107,8 @@
             <template slot="append">分钟</template>
           </el-input>
         </el-form-item>
-        <el-form-item required label="新节点ID">
-          <el-input v-model="jms_sync.nodeid" />
+        <el-form-item label="新节点ID">
+          <el-input v-model="jms_sync.nodeid" :required="true" />
         </el-form-item>
         <font size="3px" color="#ff0000">注意：每个云账号必须在JumpServer创建一个新节点！<br><br>JumpServer中已有的同名主机不会同步，日志可查看同名信息。</font>
       </el-form>
