@@ -13,7 +13,7 @@
         <el-card>
           <h4>v1.1.0</h4>
           <p>🚩增加接入AWS云的EC2、RDS、ElastiCache支持（🙇Thank you <el-link :underline="true" type="primary"
-              href="https://github.com/406226161" target="_blank">@406226161</el-link>）</p>
+              href="https://github.com/406226161" target="_blank">@Yvan</el-link>）</p>
           <p>支持在jumpserver修改ssh端口号后同步不失效</p>
           <p>修复华为云企业项目禁用后更新资源失败的问题</p>
         </el-card>
