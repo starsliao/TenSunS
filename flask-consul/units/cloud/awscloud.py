@@ -11,7 +11,7 @@ def exp(account,collect_days,notify_days,notify_amount):
 
 def group(account):
     try:
-        现在 = datetime.datetime.now().strftime('%m.%d/%H:%M')
+        now = datetime.datetime.now().strftime('%m.%d/%H:%M')
         group_dict = {"1": "1"} # AWS没有资产组概念
         consul_kv.put_kv(f'ConsulManager/assets/awscloud/group/{account}',group_dict)
         count = len(group_dict)
