@@ -11,7 +11,7 @@ def exp(account,collect_days,notify_days,notify_amount):
 
 def group(account):
     try:
-        now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+        现在 = datetime.datetime.now().strftime('%m.%d/%H:%M')
         group_dict = {"1": "1"} # AWS没有资产组概念
         consul_kv.put_kv(f'ConsulManager/assets/awscloud/group/{account}',group_dict)
         count = len(group_dict)
@@ -60,7 +60,7 @@ def ecs(account,region,isextip=False):
                 ecs_dict_temp[InstanceId]["status"] = instances["State"]["Name"]
                 ecs_dict_temp[InstanceId]["region"] = region
                 ecs_dict_temp[InstanceId]["ip"] = instances["PrivateIpAddress"]
-                ecs_dict_temp[InstanceId]["cpu"] = f'{instances["CpuOptions"]["CoreCount"]}核'
+                ecs_dict_temp[InstanceId]["cpu"] = f'{instances["CpuOptions"]["CoreCount"]*instances["CpuOptions"]["ThreadsPerCore"]}核'
                 ecs_dict_temp[InstanceId]["mem"] = "无"
                 ecs_dict_temp[InstanceId]["exp"] = "按量" # AWS仅按量 
                 if isextip:
