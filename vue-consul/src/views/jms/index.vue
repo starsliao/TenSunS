@@ -100,14 +100,14 @@
       </el-table-column>
     </el-table>
     <el-dialog title="开启同步JumpServer" :visible.sync="swFormVisible" :before-close="fetchData" width="33%">
-      <el-form ref="dataForm" :rules="rules" :model="jms_sync" label-position="right" label-width="auto"
+      <el-form ref="dataForm" :model="jms_sync" label-position="right" label-width="auto"
         style="width: 90%; margin-left: 20px;">
         <el-form-item label="同步间隔">
           <el-input v-model="jms_sync.interval" style="width: 180px;" type="number">
             <template slot="append">分钟</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="新节点ID" prop="newid">
+        <el-form-item required label="新节点ID">
           <el-input v-model="jms_sync.nodeid" />
         </el-form-item>
         <font size="3px" color="#ff0000">注意：每个云账号必须在JumpServer创建一个新节点！<br><br>JumpServer中已有的同名主机不会同步，日志可查看同名信息。</font>
@@ -139,11 +139,7 @@ export default {
       account_list: [],
       jms_sync: { vendor: '', account: '', interval: '3', nodeid: '' },
       switch_dict: {},
-      swFormVisible: false,
-      rules: {
-        newid: [{ required: true, message: '此为必填项', trigger: 'change' },
-        { validator: validateInput, trigger: ['blur', 'change'] }]
-      }
+      swFormVisible: false
     }
   },
   created() {
