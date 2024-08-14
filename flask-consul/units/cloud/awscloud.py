@@ -61,7 +61,7 @@ def ecs(account,region,isextip=False):
                 ecs_dict_temp[InstanceId]["region"] = region
                 ecs_dict_temp[InstanceId]["ip"] = instances["PrivateIpAddress"]
                 ecs_dict_temp[InstanceId]["cpu"] = f'{instances["CpuOptions"]["CoreCount"]*instances["CpuOptions"]["ThreadsPerCore"]}核'
-                ecs_dict_temp[InstanceId]["mem"] = "无"
+                ecs_dict_temp[InstanceId]["mem"] = "0"
                 ecs_dict_temp[InstanceId]["exp"] = "按量" # AWS仅按量 
                 if isextip:
                     ecs_dict_temp[InstanceId]["ip"] = instances["PublicIpAddress"]
@@ -114,7 +114,7 @@ def redis(account,region):
             redis_dict_temp[CacheClusterId]["status"] = rdb["CacheClusterStatus"]
             redis_dict_temp[CacheClusterId]["itype"] = rdb["Engine"]
             redis_dict_temp[CacheClusterId]["ver"] = rdb["EngineVersion"]
-            redis_dict_temp[CacheClusterId]["mem"] = "无"
+            redis_dict_temp[CacheClusterId]["mem"] = "0"
             redis_dict_temp[CacheClusterId]["exp"] = "按量"
             redis_dict.update(redis_dict_temp)
 
@@ -166,9 +166,9 @@ def rds(account,region):
             rds_dict_temp[DBInstanceId]["itype"] = db["Engine"]
             rds_dict_temp[DBInstanceId]["ver"] = db["EngineVersion"]
             rds_dict_temp[DBInstanceId]["exp"] = "按量"
-            rds_dict_temp[DBInstanceId]["cpu"] = "无"
-            rds_dict_temp[DBInstanceId]["mem"] = "无"
-            rds_dict_temp[DBInstanceId]["disk"] = "无"
+            rds_dict_temp[DBInstanceId]["cpu"] = "0"
+            rds_dict_temp[DBInstanceId]["mem"] = "0"
+            rds_dict_temp[DBInstanceId]["disk"] = "0"
             rds_dict.update(rds_dict_temp)
  
         count = len(rds_dict)
