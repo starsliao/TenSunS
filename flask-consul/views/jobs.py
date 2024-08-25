@@ -27,7 +27,7 @@ def modjob_args(jobid,args):
     Scheduler.modify_job(jobid,args=args)
 
 def addjob(job_id,job_func,job_args,job_interval):
-    Scheduler.add_job(id=job_id, func=job_func, args=job_args, trigger='interval',
+    Scheduler.add_job(id=job_id, func=job_func, misfire_grace_time=100, args=job_args, trigger='interval',
                       minutes=job_interval, replace_existing=True)
 def runjob(jobid):
     Scheduler.run_job(jobid)
