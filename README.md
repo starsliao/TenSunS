@@ -70,7 +70,7 @@
   3. 执行完成后注意检查输出是否有**异常信息**,如果有**iptables**相关的异常可能是docker引起的,可以重启docker(`systemctl restart docker`)后重试。
   4. 运行该脚本后会使用docker-compose启动TenSunS和Consul,安装路径是:/opt/tensuns
   5. 脚本运行完成后会有使用提示及自动生成登录密码,**打开浏览器立刻登录TenSunS,开始体验吧!**
-  6. 编辑`docker-compose.yaml`的变量`admin_passwd`的值可以修改登录的密码。
+  6. 编辑`docker-compose.yaml`的变量`admin_passwd`的值可以修改登录的密码,修改完成后必须执行`docker-compose up -d`使修改密码生效。
 
 - [`install/docker-compose/consul_install_only.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/consul_install_only.sh) 独立的Consul安装脚本
 - [`install/docker-compose/tensuns_install_only.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/tensuns_install_only.sh) 独立的TenSunS安装脚本（已经有Consul的用户可以使用这个脚本）
