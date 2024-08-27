@@ -65,9 +65,9 @@
 #### 💥新增基于docker/K8S的一键部署脚本,Consul独立部署脚本,安装脚本统一放置install目录
 ##### 基于docker-compose安装
 - [`install/docker-compose/all_install.sh`](https://github.com/starsliao/TenSunS/blob/main/install/docker-compose/all_install.sh)（**推荐**）:
-  1. **前提**服务器需要先安装好**docker和docker-compose** (新版docker compose命令可以提供docker-compose的功能.)
+  1. **前提**服务器需要先安装好**docker和docker-compose** (新版docker自带compose指令可以提供docker-compose的功能)
   2. **一键安装**：`curl -s https://starsl.cn/static/img/all_install.sh|sudo bash`
-  3. 执行完成后注意检查输出是否有**异常信息**,如果有iptables相关的异常可能是docker引起的,可以重启docker(`systemctl restart docker`)后重试.
+  3. 执行完成后注意检查输出是否有**异常信息**,如果有**iptables**相关的异常可能是docker引起的,可以重启docker(`systemctl restart docker`)后重试。
   4. 运行该脚本后会使用docker-compose启动TenSunS和Consul,安装路径是:/opt/tensuns
   5. 脚本运行完成后会有使用提示及自动生成登录密码,**打开浏览器立刻登录TenSunS,开始体验吧!**
   6. 编辑`docker-compose.yaml`的变量`admin_passwd`的值可以修改登录的密码。
