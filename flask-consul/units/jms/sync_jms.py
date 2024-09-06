@@ -71,7 +71,7 @@ def update_jms_ecs(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,e
             payload = {
             "address": ip,
             "name": iname,
-            "protocols": [{"name": proto,"port": port}],
+            "protocols": [{"name": proto,"port": port}, {"name": "sftp", "port": port}],
             "platform": '5' if platform == 'Windows' else '1',
             "is_active": True,
             "domain": "",
