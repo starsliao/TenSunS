@@ -9,6 +9,13 @@
         class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2024/10/19" placement="top">
+        <el-card>
+          <h4>v1.1.1</h4>
+          <p>JumpServer V3版本同步时，默认增加sftp服务，与ssh端口一致</p>
+          <p>余额与到期通知配置，增加可自定义采集与通知间隔</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2024/08/10" placement="top">
         <el-card>
           <h4>v1.1.0</h4>
