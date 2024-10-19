@@ -16,6 +16,7 @@ regions = {
         "ap-south-1": "亚太地区（孟买）",
         "ap-northeast-2": "亚太地区（首尔）",
         "ap-southeast-1": "亚太地区（新加坡）",
+        "ap-southeast-3": "亚太地区（雅加达）",
         "ap-northeast-1": "亚太地区（东京）",
         "eu-central-1": "欧洲（法兰克福）",
         "eu-west-2": "欧洲（伦敦）",
