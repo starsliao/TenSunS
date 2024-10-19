@@ -162,6 +162,7 @@ export default {
           if (valid) {
             this.dialogFormVisible = false
             this.listLoading = true
+            this.exp_config.notify_interval = this.exp_config.notify_interval * 1
             this.exp_config.collect_days = this.exp_config.collect_days * 1
             this.exp_config.notify_days = this.exp_config.notify_days * 1
             this.exp_config.notify_amount = this.exp_config.notify_amount * 1
