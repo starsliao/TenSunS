@@ -74,13 +74,14 @@ class Exp(Resource):
             collect_days = exp_config_dict['collect_days']
             notify_days = exp_config_dict['notify_days']
             notify_amount = exp_config_dict['notify_amount']
+            notify_interval = exp_config_dict.get('notify_interval',1) * 60
             if exp_config_dict['switch']:
                 for i in cloud_list:
                     vendor,account = i.split('/')[2:4]
                     exp_job_id = f'{vendor}/{account}/exp'
                     exp_job_func = f'__main__:{vendor}.exp'
                     exp_job_args = [account,collect_days,notify_days,notify_amount]
-                    exp_job_interval = 60
+                    exp_job_interval = notify_interval
                     addjob(exp_job_id,exp_job_func,exp_job_args,exp_job_interval)
                     exp_job_dict = {'id':exp_job_id,'func':exp_job_func,'args':exp_job_args,'minutes':exp_job_interval,'trigger': 'interval','replace_existing': True}
                     consul_kv.put_kv(f'ConsulManager/exp/jobs/{vendor}/{account}',exp_job_dict)
