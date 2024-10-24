@@ -32,7 +32,7 @@
         导出
       </el-button>
       <el-upload style="margin-right: 10px;" class="upload-demo" action="/api/blackbox/upload" :headers="myHeaders"
-        :on-success="success" :on-error="error" accept=".xlsx" :before-upload="handleBeforeUpload"
+        :on-success="success" :on-error="error" accept=".xlsx, .csv" :before-upload="handleBeforeUpload"
         :show-file-list="false" :multiple="false">
         <el-tooltip effect="light" content="点击【导出】可获取导入模板" placement="top">
           <el-button v-waves style="margin-left: 10px;margin-top: 0px;" :loading="downloadLoading" class="filter-item"
