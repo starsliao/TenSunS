@@ -29,7 +29,7 @@
         :headers="myHeaders"
         :on-success="success"
         :on-error="error"
-        accept=".xlsx"
+        accept=".xlsx, .csv"
         :before-upload="handleBeforeUpload"
         :show-file-list="false"
         :multiple="false"
