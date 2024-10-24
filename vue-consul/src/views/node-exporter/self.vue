@@ -290,7 +290,7 @@ export default {
   methods: {
     handleBeforeUpload(file) {
       const uploadLimit = 5
-      const uploadTypes = ['xlsx']
+      const uploadTypes = ['xlsx','csv']
       const filetype = file.name.replace(/.+\./, '')
       const isRightSize = (file.size || 0) / 1024 / 1024 < uploadLimit
       if (!isRightSize) {
@@ -299,7 +299,7 @@ export default {
       }
       if (uploadTypes.indexOf(filetype.toLowerCase()) === -1) {
         this.$message.warning({
-          message: '仅支持上传xlsx格式的文件！'
+          message: '仅支持上传xlsx和csv格式的文件！'
         })
         return false
       }

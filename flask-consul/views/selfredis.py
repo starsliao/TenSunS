@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint
 from flask_restful import reqparse, Resource, Api
 import sys,traceback
@@ -27,7 +28,17 @@ class Upload(Resource):
     def post(self):
         file = parser.parse_args().get("file")
         try:
-            return upload.read_execl(file.read(),'selfredis')
+            filename = file.filename
+            file_extension = os.path.splitext(filename)[1].lower()
+            try:
+                file_data = file.read()
+                if file_extension == '.xlsx':
+                    return upload.read_execl(file_data,'selfredis')
+                elif file_extension == '.csv':
+                    return upload.read_csv(file_data,'selfredis')
+            except Exception as e:
+                logger.error(f"【selfredis】文件后缀名错误，请导入xlsx或csv格式,{e}\n{traceback.format_exc()}")
+                return {"code": 50000, "data": f"文件后缀名错误，请导入xlsx或csv格式！"}
         except Exception as e:
             logger.error(f"【selfredis】导入失败,{e}\n{traceback.format_exc()}")
             return {"code": 50000, "data": f"导入失败！"}
