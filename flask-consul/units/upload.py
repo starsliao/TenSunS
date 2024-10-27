@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+import csv,re
+from io import StringIO
 import requests, json, traceback
 import xlrd,re,sys
 sys.path.append("..")
@@ -102,3 +104,52 @@ def read_execl(file_contents,imptype):
         if imp['code'] == 50000:
             return imp
     return {"code": 20000, "data": f"导入成功！共导入 {rownum} 条数据。"}
+
+import csv
+import re
+
+def read_csv(file_content, imptype):
+    file_content_str = file_content.decode('utf-8')
+    # 使用StringIO创建一个模拟的文件对象
+    csvfile = StringIO(file_content_str)
+    # 初始化一个空列表来存储处理后的数据
+    processed_rows = []
+
+    # 使用csv模块读取CSV文件
+    reader = csv.reader(csvfile)
+    next(reader) # 跳过表头行，如果有
+
+    # 遍历CSV文件的每一行
+    for row in reader:
+        nrow = []  # 初始化一个空列表来存储当前行的处理结果
+
+        # 遍历当前行的每个单元格
+        for cell in row:
+            cell = cell.strip()  # 去除字符串两端的空白字符
+
+            # 尝试将单元格内容转换为数字
+            try:
+                # 尝试转换为浮点数，然后检查是否为整数
+                num = float(cell)
+                if num.is_integer():
+                    num = int(num)
+                nrow.append(str(num))  # 将数字转换为字符串并添加到列表中
+            except ValueError:
+                # 如果转换失败，则执行字符串清洗操作
+                if cell:  # 如果字符串非空
+                    # 替换特殊字符为下划线，除了第6个单元格（索引为5）外
+                    if row.index(cell) != 5:
+                        cell = re.sub(r'[[\]`~!\\\#$^/&*=|"{}\':;?\t\n]', '_', cell)
+                else:
+                    cell = '_'  # 空字符串替换为下划线
+                nrow.append(cell)  # 将清洗后的字符串添加到列表中
+
+        # 处理完当前行后，将其添加到processed_rows列表中
+        processed_rows.append(nrow)
+
+        imp = importconsul(nrow, imptype)
+        if imp['code'] == 50000:
+            return imp
+
+    # 返回处理后的数据或其他信息，例如成功消息和处理的行数
+    return {"code": 20000, "data": f"处理成功！共处理 {len(processed_rows)} 条数据。", "rows": processed_rows}
