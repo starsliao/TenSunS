@@ -294,18 +294,18 @@ def rds(account,region):
             next_token = rdsbaseinfo.body.next_token
 
         try:
-            describe_dbinstances_as_csv_request = rds_20140815_models.DescribeDBInstancesAsCsvRequest(region_id=region)
-            rdsplusinfo = client.describe_dbinstances_as_csv_with_options(describe_dbinstances_as_csv_request, runtime)
-            rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
-
-            rds_plus = {i['DBInstanceId']:{'port':int(i['Port']),
-                                       'cpu':f"{i['DBInstanceCPU']}核",
-                                       'mem':f"{round(i['DBInstanceMemory']/1024)}GB",
-                                       'disk':f"{i['DBInstanceStorage']}GB"
-                                      } for i in rdsplus_list}
-            for k,v in rds_plus.items():
-                if k in rds_dict:
-                    rds_dict[k].update(v)
+            for iid in rds_dict.keys():
+                describe_dbinstance_attribute_request = rds_20140815_models.DescribeDBInstanceAttributeRequest(dbinstance_id=iid)
+                rdsplusinfo = client.describe_dbinstance_attribute_with_options(describe_dbinstance_attribute_request, runtime)
+                rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
+                rds_plus = {i['DBInstanceId']:{'port':int(i['Port']),
+                                        'cpu':f"{i['DBInstanceCPU']}核",
+                                        'mem':f"{round(i['DBInstanceMemory']/1024)}GB",
+                                        'disk':f"{i['DBInstanceStorage']}GB"
+                                        } for i in rdsplus_list}
+                for k,v in rds_plus.items():
+                    if k in rds_dict:
+                        rds_dict[k].update(v)
         except Exception as e:
             logger.error('DescribeDBInstancesAsCsvRequest ERROR' + f'{e}\n{traceback.format_exc()}')
             
