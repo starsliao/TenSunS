@@ -24,6 +24,7 @@ regions = {
     },
     "huaweicloud": {
         "none": "无",
+        "cn-north-219": "华北-北京金融二",
         "cn-east-3": "华东-上海一",
         "cn-east-2": "华东-上海二",
         "cn-south-1": "华南-广州",
@@ -51,6 +52,7 @@ regions = {
         "us-east-1": "美国东部1(弗吉尼亚)",
         "us-west-1": "美国(硅谷)",
         "eu-west-1": "英国(伦敦)",
+        "eu-central-1": "德国(法兰克福)",
         "ap-southeast-1": "新加坡",
         "ap-northeast-1": "日本(东京)",
         "ap-south-1": "印度(孟买)",

@@ -339,6 +339,7 @@ export default {
           { value: 'eu-west-3', label: '欧洲（巴黎）' }
         ],
         huaweicloud: [
+          { value: 'cn-north-219', label: '华北-北京金融二' },
           { value: 'cn-east-3', label: '华东-上海一' },
           { value: 'cn-east-2', label: '华东-上海二' },
           { value: 'cn-south-1', label: '华南-广州' },
@@ -365,6 +366,7 @@ export default {
           { value: 'us-east-1', label: '美国东部1(弗吉尼亚)' },
           { value: 'us-west-1', label: '美国(硅谷)' },
           { value: 'eu-west-1', label: '英国(伦敦)' },
+          { value: 'eu-central-1', label: '德国(法兰克福)' },
           { value: 'ap-southeast-1', label: '新加坡' },
           { value: 'ap-northeast-1', label: '日本(东京)' },
           { value: 'ap-south-1', label: '印度(孟买)' },

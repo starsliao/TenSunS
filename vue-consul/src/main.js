@@ -46,7 +46,7 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.config.productionTip = false
-Vue.prototype.VER = 'v1.1.1'
+Vue.prototype.VER = 'v1.1.2'
 
 new Vue({
   el: '#app',

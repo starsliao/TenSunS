@@ -6,7 +6,7 @@ from units.config_log import *
 
 def get_avd():
     avd_url = 'https://avd.aliyun.com'
-    res = requests.get(avd_url + '/high-risk/list')
+    res = requests.get(avd_url) # + '/high-risk/list')
     res.encoding = 'utf-8'
     soup = BeautifulSoup(res.text, 'html.parser')
     bugs = soup.select('tr')
