@@ -295,6 +295,7 @@ def rds(account,region):
 
         try:
             for iid in rds_dict.keys():
+                logger.info(f'【ali_DRS】===> {iid}')
                 describe_dbinstance_attribute_request = rds_20140815_models.DescribeDBInstanceAttributeRequest(dbinstance_id=iid)
                 rdsplusinfo = client.describe_dbinstance_attribute_with_options(describe_dbinstance_attribute_request, runtime)
                 rdsplus_list = rdsplusinfo.body.to_map()['Items']["DBInstanceAttribute"]
