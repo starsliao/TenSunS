@@ -12,7 +12,7 @@
       <el-timeline-item timestamp="2025/01/13" placement="top">
         <el-card>
           <h4>v1.2.0</h4>
-          <p>🚩DescribeDBInstancesAsCsv接口下线，使用新方式获取RDS基础信息(无限速)。🙇Thank you <el-link :underline="true" type="primary"
+          <p>🚩DescribeDBInstancesAsCsv接口下线，使用新方式获取RDS基础信息(无限速)（🙇Thank you <el-link :underline="true" type="primary"
               href="https://github.com/ZZYhho" target="_blank">@ZZYhho</el-link>）</p>
           <p>修复腾讯云部分版本redis同步失败的问题。</p>
           <p>修复采集阿里云漏洞库失败的问题。</p>
