@@ -255,7 +255,7 @@ def redis(account,region):
                              'region':region,
                              'group':group_dict.get(str(i.ProjectId),'无'),
                              'status': '运行中' if i.Status == 2 else '非运行中',
-                             'itype':{2:'主从',3:'主从',4:'集群',5:'单机'，6:'主从',7:'集群',8:'主从',9:'集群',15:'主从',16:'集群',17:'主从',18:'集群'}.get(i.Type,i.Type),
+                             'itype':{2:'主从', 3:'主从', 4:'集群', 5:'单机', 6:'主从', 7:'集群', 8:'主从', 9:'集群', 15:'主从', 16:'集群', 17:'主从', 18:'集群'}.get(i.Type,i.Type),
                              'ver':i.CurrentRedisVersion,
                              'exp': '按量' if i.DeadlineTime == "0000-00-00 00:00:00" else i.DeadlineTime.split(' ')[0],
                              'mem':f"{i.Size}MB",
