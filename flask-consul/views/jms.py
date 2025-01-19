@@ -45,19 +45,30 @@ class Jms(Resource):
                 services_meta = consul_kv.get_services_meta(f'{vendor}_{account}_ecs').get('ecs_list', [])
                 count_ecs = len(services_meta)
                 count_off, count_on, count_cpu, count_mem, count_win, count_linux = 0, 0, 0, 0, 0, 0
+                count_redis, count_mongodb, count_mysql = 0, 0, 0
                 for i in services_meta:
                     if i['os'] == 'linux':
                         count_linux = count_linux + 1
+                        cpu = int(i['cpu'].replace('核', ''))
+                        count_cpu = count_cpu + cpu
+                        mem = float(i['mem'].replace('GB', ''))
+                        count_mem = count_mem + mem
                     elif i['os'] == 'windows':
                         count_win = count_win + 1
+                        cpu = int(i['cpu'].replace('核', ''))
+                        count_cpu = count_cpu + cpu
+                        mem = float(i['mem'].replace('GB', ''))
+                        count_mem = count_mem + mem
+                    elif i['os'] in ['redis', 'redis6+']:
+                        count_redis = count_redis + 1
+                    elif i['os'] == 'mysql':
+                        count_mysql = count_mysql + 1
+                    elif i['os'] == 'mongodb':
+                        count_mongodb = count_mongodb + 1
                     if i.get('stat') == 'off':
                         count_off = count_off + 1
                     else:
                         count_on = count_on + 1
-                    cpu = int(i['cpu'].replace('核', ''))
-                    count_cpu = count_cpu + cpu
-                    mem = float(i['mem'].replace('GB', ''))
-                    count_mem = count_mem + mem
 
                 jms_job = consul_kv.get_value(f"ConsulManager/jms/jobs/{vendor}/{account}")
                 if jms_job == {}:
@@ -75,6 +86,9 @@ class Jms(Resource):
                         'account': account,
                         'count_linux': count_linux,
                         'count_win': count_win,
+                        'count_redis': count_redis,
+                        'count_mysql': count_mysql,
+                        'count_mongodb': count_mongodb,
                         'count_mem': f'{count_mem}GB',
                         'count_cpu': f'{count_cpu}核',
                         'count_ecs': count_ecs,
@@ -99,6 +113,13 @@ class Jms(Resource):
                 linuxuid = ecs_info['linux'][-1]
                 winport = ecs_info['windows'][0][0].split('/')[-1]
                 winuid = ecs_info['windows'][-1]
+                redisport = ecs_info['redis'][0][0].split('/')[-1]
+                redisuid = ecs_info['redis'][-1]
+                mysqlport = ecs_info['mysql'][0][0].split('/')[-1]
+                mysqluid = ecs_info['mysql'][-1]
+                mongodbport = ecs_info['mongodb'][0][0].split('/')[-1]
+                mongodbuid = ecs_info['mongodb'][-1]
+
                 token = myaes.decrypt(jms_info['token'])
                 custom_ecs_json = json.dumps(custom_ecs_info, indent=8) if custom_ecs_info != {} else ''
                 jms_config = {
@@ -109,6 +130,12 @@ class Jms(Resource):
                     'linuxuid': linuxuid,
                     'winport': winport,
                     'winuid': winuid,
+                    'redisport': redisport,
+                    'redisuid': redisuid,
+                    'mysqlport': mysqlport,
+                    'mysqluid': mysqluid,
+                    'mongodbport': mongodbport,
+                    'mongodbuid': mongodbuid,
                     'custom_ecs_info': custom_ecs_json,
                 }
             else:
@@ -125,6 +152,9 @@ class Jms(Resource):
             ecs_info = {
                 "linux": [[f"ssh/{jms_config['linuxport']}"], jms_config['linuxuid']],
                 "windows": [[f"rdp/{jms_config['winport']}"], jms_config['winuid']],
+                "redis": [[f"redis/{jms_config['redisport']}"], jms_config['redisuid']],
+                "mysql": [[f"mysql/{jms_config['mysqlport']}"], jms_config['mysqluid']],
+                "mongodb": [[f"mongodb/{jms_config['mongodbport']}"], jms_config['mongodbuid']],
             }
             consul_kv.put_kv('ConsulManager/jms/ecs_info', ecs_info)
             custom_ecs_info = jms_config['custom_ecs_info']
