@@ -2,7 +2,7 @@ import datetime,requests,json,traceback
 from units import consul_kv,consul_manager,myaes
 from units.config_log import *
 
-resource_type = ["ecs", "redis", "mysql", "mongodb"]
+resource_type = ["ecs", "redis", "rds", "mongodb", "polardb"]
 
 
 def exist_ssh_port(port,protocols):
@@ -60,7 +60,7 @@ def update_jms(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_i
 
     ecs_list = consul_manager.get_instances(f'{cloud}_{account}_{resource_type}')['instances']
     ecs_ip_dict = {i['address']:i['meta'][0]['name'] for i in ecs_list}
-    ecs_dict = {i['ID']:{'name':i['meta'][0]['name'],'ip':i['address'],'ent':i['meta'][0]['group'],'ostype':i['meta'][0]['os'],'region':i['meta'][0]['region'],'vendor':i['meta'][0]['vendor']} for i in ecs_list}
+    ecs_dict = {i['ID']:{'name':i['meta'][0]['name'],'ip':i['address'],'ent':i['meta'][0]['group'],'ostype':i['meta'][0]['os'],'region':i['meta'][0]['region'],'vendor':i['meta'][0]['vendor'],'ver':i['meta'][0].get('ver')} for i in ecs_list}
     del_ecs_list = [v['id'] for k,v in jms_ecs_dict.items() if k not in [i['ip'] for i in ecs_dict.values()]]
     for del_ecs in del_ecs_list:
         response = requests.request("DELETE", f'{ecs_url}{del_ecs}/', headers=headers)
@@ -113,21 +113,23 @@ def update_jms(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_i
         elif platform == 'Windows':
             payload["platform"] = "5"
             payload["protocols"] = [{"name": proto, "port": port}]
-        elif platform == 'Redis6+':
-            payload["platform"] = "25"
-            payload["protocols"] = [{"name": proto, "port": port}]
-            payload["spec_info"] = {"db_name": "0"}
         elif platform == 'Redis':
-            payload["platform"] = '24'
+            ecs_url = f"{jms_url}/api/v1/assets/databases/"
             payload["protocols"] = [{"name": proto, "port": port}]
-            payload["spec_info"] = {"db_name": "0"}
+            payload.update({"db_name": "0", "use_ssl": False, "allow_invalid_cert": False})
+            if float(v['ver']) < 6:
+                payload["platform"] = '24'
+            else:
+                payload["platform"] = "25"
         elif platform == 'Mysql':
+            ecs_url = f"{jms_url}/api/v1/assets/databases/"
             payload["platform"] = '17'
             payload["protocols"] = [{"name": proto, "port": port}]
         elif platform == 'Mongodb':
+            ecs_url = f"{jms_url}/api/v1/assets/databases/"
             payload["platform"] = '23'
             payload["protocols"] = [{"name": proto, "port": port}]
-            payload["spec_info"] = {"db_name": "admin"}
+            payload.update({"db_name": "admin"})
         else:
             logger.error(f"未匹配到{platform}！")
             continue

@@ -60,6 +60,7 @@ def w2consul(vendor,account,region,rds_dict):
                 'account': account,
                 'itype': v['itype'],
                 'vendor': vendors.get(vendor,'未找到'),
+                'os': "mysql",
                 'disk': v['disk'],
                 'cpu': v['cpu'],
                 'mem': v['mem'],

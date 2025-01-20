@@ -34,7 +34,8 @@ class Edit(Resource):
             account = args['account']
             region = args['region']
             restype = ['group']
-            interval = {'proj_interval': 60, 'ecs_interval': 10, 'rds_interval': 20, 'redis_interval': 20}
+            interval = {'proj_interval': 60, 'ecs_interval': 10, 'rds_interval': 20, 'redis_interval': 20,
+                        'polardb_interval': 20, 'mongodb_interval': 20}
             isextip = False
             for i in job_list:
                 if f'{vendor}/{account}/group' == i['id']:
@@ -49,6 +50,12 @@ class Edit(Resource):
                 elif f'{vendor}/{account}/redis/{region}' == i['id']:
                     restype.append('redis')
                     interval['redis_interval'] = i['minutes']
+                elif f'{vendor}/{account}/polardb/{region}' == i['id']:
+                    restype.append('polardb')
+                    interval['polardb_interval'] = i['minutes']
+                elif f'{vendor}/{account}/mongodb/{region}' == i['id']:
+                    restype.append('mongodb')
+                    interval['mongodb_interval'] = i['minutes']
             return {'code': 20000, 'restype': restype, 'interval': interval, 'isextip': isextip}
     def post(self,stype):
         job_list = list(consul_kv.get_kv_dict(f'ConsulManager/jobs').values())
@@ -63,6 +70,8 @@ class Edit(Resource):
             proj_interval = int(editjob_dict['proj_interval'])
             ecs_interval = int(editjob_dict['ecs_interval'])
             rds_interval = int(editjob_dict['rds_interval'])
+            polardb_interval = int(editjob_dict['polardb_interval'])
+            mongodb_interval = int(editjob_dict['mongodb_interval'])
             redis_interval = int(editjob_dict['redis_interval'])
             logger.info(f'{editjob_dict}')
             if editjob_dict['akskswitch']:
@@ -79,6 +88,8 @@ class Edit(Resource):
 
             ecs_jobid = f'{vendor}/{account}/ecs/{region}'
             rds_jobid = f'{vendor}/{account}/rds/{region}'
+            polardb_jobid = f'{vendor}/{account}/polardb/{region}'
+            mongodb_jobid = f'{vendor}/{account}/mongodb/{region}'
             redis_jobid = f'{vendor}/{account}/redis/{region}'
             if 'ecs' in restype:
                 isecs = [x for x in job_list if x['id'] == f'{vendor}/{account}/ecs/{region}']
@@ -132,6 +143,28 @@ class Edit(Resource):
                 except:
                     pass
 
+            if 'polardb' in restype:
+                ispolardb = [x for x in job_list if x['id'] == f'{vendor}/{account}/polardb/{region}']
+                if len(ispolardb) == 1:
+                    if polardb_interval != ispolardb[0]['minutes']:
+                        ispolardb[0]['minutes'] = polardb_interval
+                        consul_kv.put_kv(f'ConsulManager/jobs/{polardb_jobid}',ispolardb[0])
+                        modjob_interval(polardb_jobid,polardb_interval)
+                else:
+                    job_func = f"__main__:{vendor}.polardb"
+                    job_args = [account,region]
+                    job_interval = polardb_interval
+                    addjob(polardb_jobid, job_func, job_args, job_interval)
+                    job_dict = {'id':polardb_jobid,'func':job_func,'args':job_args,'minutes':job_interval,
+                                "trigger": "interval","replace_existing": True}
+                    consul_kv.put_kv(f'ConsulManager/jobs/{polardb_jobid}',job_dict)
+            else:
+                try:
+                    consul_kv.del_key(f'ConsulManager/jobs/{polardb_jobid}')
+                    deljob(polardb_jobid)
+                except:
+                    pass
+
             if 'redis' in restype:
                 isredis = [x for x in job_list if x['id'] == f'{vendor}/{account}/redis/{region}']
                 if len(isredis) == 1:
@@ -151,6 +184,28 @@ class Edit(Resource):
                 try:
                     consul_kv.del_key(f'ConsulManager/jobs/{redis_jobid}')
                     deljob(redis_jobid)
+                except:
+                    pass
+
+            if 'mongodb' in restype:
+                ismongodb = [x for x in job_list if x['id'] == f'{vendor}/{account}/mongodb/{region}']
+                if len(ismongodb) == 1:
+                    if mongodb_interval != ismongodb[0]['minutes']:
+                        ismongodb[0]['minutes'] = mongodb_interval
+                        consul_kv.put_kv(f'ConsulManager/jobs/{mongodb_jobid}',ismongodb[0])
+                        modjob_interval(mongodb_jobid,mongodb_interval)
+                else:
+                    job_func = f"__main__:{vendor}.mongodb"
+                    job_args = [account,region]
+                    job_interval = mongodb_interval
+                    addjob(mongodb_jobid, job_func, job_args, job_interval)
+                    job_dict = {'id':mongodb_jobid,'func':job_func,'args':job_args,'minutes':job_interval,
+                                "trigger": "interval","replace_existing": True}
+                    consul_kv.put_kv(f'ConsulManager/jobs/{mongodb_jobid}',job_dict)
+            else:
+                try:
+                    consul_kv.del_key(f'ConsulManager/jobs/{mongodb_jobid}')
+                    deljob(mongodb_jobid)
                 except:
                     pass
 

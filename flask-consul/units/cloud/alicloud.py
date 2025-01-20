@@ -13,10 +13,14 @@ from alibabacloud_rds20140815.client import Client as Rds20140815Client
 from alibabacloud_rds20140815 import models as rds_20140815_models
 from alibabacloud_r_kvstore20150101 import models as r_kvstore_20150101_models
 from alibabacloud_r_kvstore20150101.client import Client as R_kvstore20150101Client
+from alibabacloud_polardb20170801.client import Client as polardb20170801Client
+from alibabacloud_polardb20170801 import models as polardb_20170801_models
+from alibabacloud_dds20151201.client import Client as Dds20151201Client
+from alibabacloud_dds20151201 import models as dds_20151201_models
 
 import sys,datetime,hashlib,math,traceback
 from units import consul_kv,consul_svc
-from units.cloud import sync_ecs,sync_rds,sync_redis,notify
+from units.cloud import sync_ecs,sync_rds,sync_redis,notify,sync_polardb,sync_mongodb
 from units.config_log import *
 
 def exp(account,collect_days,notify_days,notify_amount):
@@ -329,3 +333,183 @@ def rds(account,region):
         logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count':'无','update':f'失败','status':50000,'msg':str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/rds/{region}', data)
+
+
+def polardb(account, region):
+    ak, sk = consul_kv.get_aksk('alicloud', account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
+
+    config = open_api_models.Config(access_key_id=ak, access_key_secret=sk)
+    config.endpoint = 'polardb.aliyuncs.com'
+    client = polardb20170801Client(config)  # 使用PolarDB客户端
+
+    page_number = 1
+    polardb_dict = {}
+    runtime = util_models.RuntimeOptions()
+    try:
+        while True:
+            describe_dbclusters_request = polardb_20170801_models.DescribeDBClustersRequest(
+                page_size=100,
+                dbtype="MySQL",
+                region_id=region,
+                page_number=page_number,
+
+            )
+            print("------------------------------------------")
+
+            cluster_info = client.describe_dbclusters_with_options(describe_dbclusters_request, runtime)
+            cluster_list = cluster_info.body.to_map()['Items']['DBCluster']
+
+            polardb_dict_temp = {i['DBClusterId']: {
+                'name': i.get('DBClusterDescription', f"未命名{i['DBClusterId']}"),
+                'domain': '无', # todo
+                'ip': '无', # todo
+                'port': 3306, # todo
+                'region': region,
+                'group': group_dict.get(i['ResourceGroupId'], '无'),
+                'status': i['DBClusterStatus'],
+                'itype': '无', # todo
+                'ver': i['DBVersion'],
+                'exp': '-' if i.get('ExpireTime', None) == None else i.get('ExpireTime', '-T').split('T')[0],
+                'cpu': '无', 'mem': '无', 'disk': '无'
+            } for i in cluster_list}
+            polardb_dict.update(polardb_dict_temp)
+            if len(cluster_list) < 100:
+                break
+            else:
+                page_number += 1
+        try:
+            for iid in polardb_dict.keys():
+                logger.info(f'【ali_PolarDB】===> {iid}')
+                describe_dbcluster_attribute_request = polardb_20170801_models.DescribeDBClusterEndpointsRequest(
+                    dbcluster_id=iid)
+                cluster_plus_info = client.describe_dbcluster_endpoints_with_options(
+                    describe_dbcluster_attribute_request, runtime)
+                cluster_plus_list = cluster_plus_info.body.to_map()['Items']
+                polardb_plus = {}
+                for i in cluster_plus_list:
+                    if i['EndpointType'] == 'Cluster':
+                        for address_item in i['AddressItems']:
+                            if address_item['NetType'] == 'Private':
+                                # 获取 DBClusterId 作为键
+                                db_cluster_id = iid
+                                # 构建子字典并将其赋值给 polardb_plus
+                                polardb_plus[db_cluster_id] = {
+                                    'port': int(address_item['Port']),
+                                    'domain': address_item['ConnectionString'],
+                                    'ip': address_item['IPAddress'],
+                                    'itype': i['EndpointType'],
+                                }
+                                break
+                for k, v in polardb_plus.items():
+                    if k in polardb_dict:
+                        polardb_dict[k].update(v)
+        except Exception as e:
+            logger.error('DescribeDBClustersAsCsvRequest ERROR' + f'{e}\n{traceback.format_exc()}')
+
+        count = len(polardb_dict)
+        off, on = sync_polardb.w2consul('alicloud', account, region, polardb_dict)
+        data = {'count': count, 'update': now, 'status': 20000, 'on': on, 'off': off,
+                'msg': f'polardb同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/polardb/{region}', data)
+        logger.info(f'【JOB】===>alicloud_polardb {account} {region} {data}')
+    except TeaException as e:
+        emsg = e.message.split('. ', 1)[0]
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}\n{traceback.format_exc()}")
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/polardb/{region}')
+        if data == {}:
+            data = {'count': '无', 'update': f'失败{e.code}', 'status': 50000, 'msg': emsg}
+        else:
+            data['update'] = f'失败{e.code}'
+            data['msg'] = emsg
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/polardb/{region}', data)
+    except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
+        data = {'count': '无', 'update': f'失败', 'status': 50000, 'msg': str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/polardb/{region}', data)
+
+
+def mongodb(account, region):
+    ak, sk = consul_kv.get_aksk('alicloud', account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
+
+    config = open_api_models.Config(access_key_id=ak, access_key_secret=sk)
+    config.endpoint = 'mongodb.aliyuncs.com'
+    client = Dds20151201Client(config)  # 使用MongoDB客户端
+
+    page_number = 1
+    mongodb_dict = {}
+    runtime = util_models.RuntimeOptions()
+    try:
+        while True:
+            describe_dbinstances_request = dds_20151201_models.DescribeDBInstancesRequest(
+                page_size=100,
+                page_number=page_number,
+                region_id=region
+            )
+            mongodb_info = client.describe_dbinstances_with_options(describe_dbinstances_request, runtime)
+            mongodb_list = mongodb_info.body.to_map()['DBInstances']["DBInstance"]
+
+            mongodb_dict_temp = {i['DBInstanceId']: {
+                'name': i.get('DBInstanceDescription', f"未命名{i['DBInstanceId']}"),
+                'domain': '无',  # todo
+                'ip': '无', # todo
+                'port': '无',  # todo
+                'region': region,
+                'group': group_dict.get(i['ResourceGroupId'], '无'),
+                'status': i['DBInstanceStatus'],  # 假设MongoDB的实例有类似的status字段
+                'itype': i['DBInstanceType'],  # 替换为MongoDB的实例类型
+                'ver': i['EngineVersion'],
+                'exp': '-' if i.get('ExpireTime', None) is None else i.get('ExpireTime', '-T').split('T')[0],
+                'cpu': '无', 'mem': '无', 'disk': '无'
+            } for i in mongodb_list}
+            mongodb_dict.update(mongodb_dict_temp)
+            if len(mongodb_list) < 100:
+                break
+            else:
+                page_number += 1
+        try:
+            for iid in mongodb_dict.keys():
+                logger.info(f'【ali_MongoDB】===> {iid}')
+                describe_dbinstance_attribute_request = dds_20151201_models.DescribeDBInstanceAttributeRequest(dbinstance_id=iid)
+                mongodb_plus_info = client.describe_dbinstance_attribute_with_options(describe_dbinstance_attribute_request, runtime)
+                mongodb_plus_list = mongodb_plus_info.body.to_map()['DBInstances']["DBInstance"]
+                mongodb_plus= {}
+                for i in mongodb_plus_list:
+                    for replica_set in i['ReplicaSets']['ReplicaSet']:
+                        if replica_set['ReplicaSetRole'] == 'Primary':
+                            iid = i['DBInstanceId']
+                            mongodb_plus[iid] = {
+                                'port': int(replica_set['ConnectionPort']),
+                                'domain': replica_set['ConnectionDomain'],
+                                'ip': replica_set['ConnectionDomain'],
+                                'itype': i['DBInstanceType'],
+                            }
+                            break
+                for k, v in mongodb_plus.items():
+                    if k in mongodb_dict:
+                        mongodb_dict[k].update(v)
+        except Exception as e:
+            logger.error('DescribeDBInstancesAsCsvRequest ERROR' + f'{e}\n{traceback.format_exc()}')
+        count = len(mongodb_dict)
+        off, on = sync_mongodb.w2consul('alicloud', account, region, mongodb_dict)
+        data = {'count': count, 'update': now, 'status': 20000, 'on': on, 'off': off,
+                'msg': f'mongodb同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/mongodb/{region}', data)
+        logger.info(f'【JOB】===>alicloud_mongodb {account} {region} {data}')
+    except TeaException as e:
+        emsg = e.message.split('. ', 1)[0]
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}\n{traceback.format_exc()}")
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/mongodb/{region}')
+        if data == {}:
+            data = {'count': '无', 'update': f'失败{e.code}', 'status': 50000, 'msg': emsg}
+        else:
+            data['update'] = f'失败{e.code}'
+            data['msg'] = emsg
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/mongodb/{region}', data)
+    except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
+        data = {'count': '无', 'update': '失败', 'status': 50000, 'msg': str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/mongodb/{region}', data)
