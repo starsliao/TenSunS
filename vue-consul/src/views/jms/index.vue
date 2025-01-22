@@ -149,7 +149,7 @@ export default {
   data() {
     return {
       jms_config: { ver: 'V2', url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '',
-        redisport: '6379', redisuid: '', mysqlport: '3306', mysqluid: '', mongodbport: '3317', mongodbuid: '', custom_ecs_info: '' },
+        redisport: '6379', redisuid: '', mysqlport: '3306', mysqluid: '', mongodbport: '3717', mongodbuid: '', custom_ecs_info: '' },
       listLoading: false,
       dialogFormVisible: false,
       query: { vendor: '', account: '' },

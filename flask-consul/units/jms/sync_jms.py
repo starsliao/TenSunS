@@ -5,13 +5,6 @@ from units.config_log import *
 resource_type = ["ecs", "redis", "rds", "mongodb", "polardb"]
 
 
-def exist_ssh_port(port,protocols):
-    for protocol in protocols:
-        if protocol.get('name') == 'ssh':
-            return protocol.get('port', port) if protocol.get('port') != port else port
-    return port
-
-
 # 创建节点
 def create_node(jms_url,headers, node_id, account):
     node_url = f"{jms_url}/api/v1/assets/nodes/{node_id}/children/"
@@ -86,7 +79,7 @@ def update_jms(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_i
         if jms_ver == 'V3':
             ecs_url = f"{jms_url}/api/v1/assets/hosts/"
             proto,proto_port = protocols[0].split('/')
-            port = exist_ssh_port(proto_port, jms_ecs_dict.get(ip, {}).get("protocols", []))
+            port = proto_port
             payload = {
             "address": ip,
             "name": iname,
@@ -136,7 +129,12 @@ def update_jms(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_i
         try:
             if ip in jms_ecs_dict.keys():
                 jms_group = '无' if jms_ecs_dict[ip]['node'].split('/')[-1] == '未分组' else jms_ecs_dict[ip]['node'].split('/')[-1]
-                if jms_ecs_dict[ip]['name'] != iname or jms_group != v['ent']:
+                is_update = False
+                for p in jms_ecs_dict.get(ip, {}).get("protocols", []):
+                    if p['name'] == proto and int(p['port']) != int(port):
+                        is_update = True
+                        break
+                if jms_ecs_dict[ip]['name'] != iname or jms_group != v['ent'] or is_update:
                     response = requests.request("PUT", f"{ecs_url}{jms_ecs_dict[ip]['id']}/", headers=headers, data = json.dumps(payload))
                     logger.info(f"  【JMS】update：主机名:{response.json().get('hostname',response.json())}，{response.status_code}")
             else:

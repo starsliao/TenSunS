@@ -42,9 +42,6 @@ def w2consul(vendor,account,region,mongodb_dict):
         if ip == None:
             ip = v['ip']
         instance = f'{ip}:{port}'
-        if vendor == 'alicloud' and iid in consul_mongodb_iid_list and v['cpu'] == '无':
-            continue
-
         data = {
             'id': iid,
             'name': service_name,
@@ -60,7 +57,7 @@ def w2consul(vendor,account,region,mongodb_dict):
                 'account': account,
                 'itype': v['itype'],
                 'vendor': vendors.get(vendor,'未找到'),
-                'os': "mysql",
+                'os': "mongodb",
                 'ver': v['ver'],
                 'domain':v['domain'],
                 'exp': v['exp'],

@@ -42,9 +42,6 @@ def w2consul(vendor,account,region,rds_dict):
         if ip == None:
             ip = v['ip']
         instance = f'{ip}:{port}'
-        if vendor == 'alicloud' and iid in consul_rds_iid_list and v['cpu'] == '无':
-            continue
-
         data = {
             'id': iid,
             'name': service_name,

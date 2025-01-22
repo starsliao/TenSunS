@@ -197,6 +197,12 @@ def redis(account,region):
 
     config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
     config.endpoint = 'r-kvstore.aliyuncs.com'
+    if region == "ap-southeast-1":
+        config.endpoint = f'r-kvstore.{region}.aliyuncs.com'
+    elif region == "eu-central-1":
+        config.endpoint = f'r-kvstore.{region}.aliyuncs.com'
+    elif region == "us-west-1":
+        config.endpoint = f'r-kvstore.{region}.aliyuncs.com'
     client = R_kvstore20150101Client(config)
     PageNumber = 1
     nextpage = True
@@ -259,6 +265,12 @@ def rds(account,region):
 
     config = open_api_models.Config(access_key_id=ak,access_key_secret=sk)
     config.endpoint = 'rds.aliyuncs.com'
+    if region == "ap-southeast-1":
+        config.endpoint = f'rds.{region}.aliyuncs.com'
+    elif region == "eu-central-1":
+        config.endpoint = f'rds.{region}.aliyuncs.com'
+    elif region == "us-west-1":
+        config.endpoint = f'rds.{region}.aliyuncs.com'
     client = Rds20140815Client(config)
 
     next_token = '0'
@@ -342,6 +354,12 @@ def polardb(account, region):
 
     config = open_api_models.Config(access_key_id=ak, access_key_secret=sk)
     config.endpoint = 'polardb.aliyuncs.com'
+    if region == "ap-southeast-1":
+        config.endpoint = f'polardb.{region}.aliyuncs.com'
+    elif region == "eu-central-1":
+        config.endpoint = f'polardb.{region}.aliyuncs.com'
+    elif region == "us-west-1":
+        config.endpoint = f'polardb.{region}.aliyuncs.com'
     client = polardb20170801Client(config)  # 使用PolarDB客户端
 
     page_number = 1
@@ -354,9 +372,7 @@ def polardb(account, region):
                 dbtype="MySQL",
                 region_id=region,
                 page_number=page_number,
-
             )
-            print("------------------------------------------")
 
             cluster_info = client.describe_dbclusters_with_options(describe_dbclusters_request, runtime)
             cluster_list = cluster_info.body.to_map()['Items']['DBCluster']
@@ -380,6 +396,7 @@ def polardb(account, region):
             else:
                 page_number += 1
         try:
+            print("-------------1", polardb_dict)
             for iid in polardb_dict.keys():
                 logger.info(f'【ali_PolarDB】===> {iid}')
                 describe_dbcluster_attribute_request = polardb_20170801_models.DescribeDBClusterEndpointsRequest(
@@ -437,6 +454,12 @@ def mongodb(account, region):
 
     config = open_api_models.Config(access_key_id=ak, access_key_secret=sk)
     config.endpoint = 'mongodb.aliyuncs.com'
+    if region == "ap-southeast-1":
+        config.endpoint = f'mongodb.{region}.aliyuncs.com'
+    elif region == "eu-central-1":
+        config.endpoint = f'mongodb.{region}.aliyuncs.com'
+    elif region == "us-west-1":
+        config.endpoint = f'mongodb.{region}.aliyuncs.com'
     client = Dds20151201Client(config)  # 使用MongoDB客户端
 
     page_number = 1
