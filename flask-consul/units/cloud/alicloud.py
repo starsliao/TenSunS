@@ -17,10 +17,14 @@ from alibabacloud_polardb20170801.client import Client as polardb20170801Client
 from alibabacloud_polardb20170801 import models as polardb_20170801_models
 from alibabacloud_dds20151201.client import Client as Dds20151201Client
 from alibabacloud_dds20151201 import models as dds_20151201_models
+from alibabacloud_clickhouse20191111.client import Client as clickhouse20191111Client
+from alibabacloud_clickhouse20191111 import models as clickhouse_20191111_models
+from alibabacloud_clickhouse20230522.client import Client as clickhouse20230522Client
+from alibabacloud_clickhouse20230522 import models as clickhouse_20230522_models
 
 import sys,datetime,hashlib,math,traceback
 from units import consul_kv,consul_svc
-from units.cloud import sync_ecs,sync_rds,sync_redis,notify,sync_polardb,sync_mongodb
+from units.cloud import sync_ecs,sync_rds,sync_redis,notify,sync_polardb,sync_mongodb,sync_clickhouse
 from units.config_log import *
 
 def exp(account,collect_days,notify_days,notify_amount):
@@ -396,7 +400,6 @@ def polardb(account, region):
             else:
                 page_number += 1
         try:
-            print("-------------1", polardb_dict)
             for iid in polardb_dict.keys():
                 logger.info(f'【ali_PolarDB】===> {iid}')
                 describe_dbcluster_attribute_request = polardb_20170801_models.DescribeDBClusterEndpointsRequest(
@@ -536,3 +539,120 @@ def mongodb(account, region):
         logger.error(f'{e}\n{traceback.format_exc()}')
         data = {'count': '无', 'update': '失败', 'status': 50000, 'msg': str(e)}
         consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/mongodb/{region}', data)
+
+
+def clickhouse(account, region):
+    ak, sk = consul_kv.get_aksk('alicloud', account)
+    now = datetime.datetime.now().strftime('%m.%d/%H:%M')
+    group_dict = consul_kv.get_value(f'ConsulManager/assets/alicloud/group/{account}')
+
+    config = open_api_models.Config(access_key_id=ak, access_key_secret=sk)
+    config.endpoint = 'clickhouse.aliyuncs.com'
+    if region == "ap-southeast-1":
+        config.endpoint = f'clickhouse.{region}.aliyuncs.com'
+    elif region == "eu-central-1":
+        config.endpoint = f'clickhouse.{region}.aliyuncs.com'
+    elif region == "us-west-1":
+        config.endpoint = f'clickhouse.{region}.aliyuncs.com'
+    client = clickhouse20191111Client(config)
+    page_number = 1
+    clickhouse_dict = {}
+    runtime = util_models.RuntimeOptions()
+    try:
+        while True:
+            describe_dbinstances_request = clickhouse_20191111_models.DescribeDBClustersRequest(
+                page_size=100,
+                page_number=page_number,
+                region_id=region
+            )
+            clickhouse_info = client.describe_dbclusters_with_options(describe_dbinstances_request, runtime)
+            clickhouse_list = clickhouse_info.body.to_map()['DBClusters']["DBCluster"]
+
+            clickhouse_dict_temp = {i['DBClusterId']: {
+                'name': i.get('DBClusterDescription', f"未命名{i['DBClusterId']}"),
+                'domain': i['ConnectionString'],
+                'ip': '无',
+                'port': '9000',
+                'region': region,
+                'group': group_dict.get(i['ResourceGroupId'], '无'),
+                'status': i['DBClusterStatus'],
+                'itype': '社区版',
+                'ver': i['DbVersion'],
+                'exp': '-' if i.get('ExpireTime', None) is None else i.get('ExpireTime', '-T').split('T')[0],
+                'cpu': '无', 'mem': '无', 'disk': '无'
+            } for i in clickhouse_list}
+            clickhouse_dict.update(clickhouse_dict_temp)
+            if len(clickhouse_list) < 100:
+                break
+            else:
+                page_number += 1
+
+        client = clickhouse20230522Client(config)
+        page_number = 1
+        while True:
+            describe_dbinstances_request = clickhouse_20230522_models.DescribeDBInstancesRequest(
+                page_size=100,
+                page_number=page_number,
+                region_id=region
+            )
+            clickhouse_info = client.describe_dbinstances_with_options(describe_dbinstances_request, runtime)
+            clickhouse_list = clickhouse_info.body.to_map()['Data']["DBInstances"]
+
+            clickhouse_dict_temp = {i['DBInstanceId']: {
+                'name': i.get('Description', f"未命名{i['DBInstanceId']}"),
+                'domain': '无',
+                'ip': '无',
+                'port': '9000',
+                'region': region,
+                'group': group_dict.get(i['ResourceGroupId'], '无'),
+                'status': i['Status'],
+                'itype': '企业版',
+                'ver': i['EngineVersion'],
+                'exp': '-' if i.get('ExpireTime', None) is None else i.get('ExpireTime', '-T').split('T')[0],
+                'cpu': '无', 'mem': '无', 'disk': '无'
+            } for i in clickhouse_list}
+            clickhouse_dict.update(clickhouse_dict_temp)
+            if len(clickhouse_list) < 100:
+                break
+            else:
+                page_number += 1
+        try:
+            for iid in clickhouse_dict.keys():
+                logger.info(f'【ali_Clickhouse】===> {iid}')
+                if clickhouse_dict[iid].get('domain') == '无':
+                    describe_dbinstance_attribute_request = clickhouse_20230522_models.DescribeEndpointsRequest(region_id=region, dbinstance_id=iid)
+                    clickhouse_plus_info = client.describe_endpoints_with_options(describe_dbinstance_attribute_request, runtime)
+                    clickhouse_plus_list = clickhouse_plus_info.body.to_map()['Data']["Endpoints"]
+                    clickhouse_plus= {}
+                    for i in clickhouse_plus_list:
+                        if i['NetType'] == 'VPC':
+                            clickhouse_plus[iid] = {
+                                'domain': i['VpcInstanceId'],
+                                'ip': i['IPAddress'],
+                            }
+                            break
+                    for k, v in clickhouse_plus.items():
+                        if k in clickhouse_dict:
+                            clickhouse_dict[k].update(v)
+        except Exception as e:
+            logger.error('DescribeDBInstancesAsCsvRequest ERROR' + f'{e}\n{traceback.format_exc()}')
+        count = len(clickhouse_dict)
+        off, on = sync_clickhouse.w2consul('alicloud', account, region, clickhouse_dict)
+        data = {'count': count, 'update': now, 'status': 20000, 'on': on, 'off': off,
+                'msg': f'clickhouse同步成功！总数：{count}，开机：{on}，关机：{off}'}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/clickhouse/{region}', data)
+        logger.info(f'【JOB】===>alicloud_clickhouse {account} {region} {data}')
+    except TeaException as e:
+        emsg = e.message.split('. ', 1)[0]
+        logger.error(f"【code:】{e.code}\n【message:】{e.message}\n{traceback.format_exc()}")
+        data = consul_kv.get_value(f'ConsulManager/record/jobs/alicloud/{account}/clickhouse/{region}')
+        if data == {}:
+            data = {'count': '无', 'update': f'失败{e.code}', 'status': 50000, 'msg': emsg}
+        else:
+            data['update'] = f'失败{e.code}'
+            data['msg'] = emsg
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/clickhouse/{region}', data)
+    except Exception as e:
+        logger.error(f'{e}\n{traceback.format_exc()}')
+        data = {'count': '无', 'update': '失败', 'status': 50000, 'msg': str(e)}
+        consul_kv.put_kv(f'ConsulManager/record/jobs/alicloud/{account}/clickhouse/{region}', data)

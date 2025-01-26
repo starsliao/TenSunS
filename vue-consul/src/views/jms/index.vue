@@ -68,6 +68,11 @@
           &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.mongodbuid" style="width: 300px;" />
         </div>
         <div class="demo-input-suffix">
+          <h4>Clickhouse：</h4>
+          clickhouse端口：<el-input v-model="jms_config.clickhouseport" style="width: 72px;" />
+          &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.clickhouseuid" style="width: 300px;" />
+        </div>
+        <div class="demo-input-suffix">
           <h4>Mysql：</h4>
           mysql端口：<el-input v-model="jms_config.mysqlport" style="width: 72px;" />
           &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.mysqluid" style="width: 300px;" />
@@ -95,6 +100,7 @@
       <el-table-column prop="count_redis" label="Redis" sortable align="center" width="80" />
       <el-table-column prop="count_mysql" label="Mysql" sortable align="center" width="80" />
       <el-table-column prop="count_mongodb" label="Mongodb" sortable align="center" width="80" />
+      <el-table-column prop="count_clickhouse" label="Clickhouse" sortable align="center" width="80" />
       <el-table-column prop="count_mem" label="总内存" sortable align="center" width="120" />
       <el-table-column prop="count_cpu" label="总CPU" sortable align="center" width="110" />
       <el-table-column prop="count_ecs" label="资源数" sortable align="center" width="100">
@@ -149,7 +155,8 @@ export default {
   data() {
     return {
       jms_config: { ver: 'V2', url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '',
-        redisport: '6379', redisuid: '', mysqlport: '3306', mysqluid: '', mongodbport: '3717', mongodbuid: '', custom_ecs_info: '' },
+        redisport: '6379', redisuid: '', mysqlport: '3306', mysqluid: '', mongodbport: '3717', mongodbuid: '',
+        clickhouseport: '9000', clickhouseuid: '', custom_ecs_info: '' },
       listLoading: false,
       dialogFormVisible: false,
       query: { vendor: '', account: '' },

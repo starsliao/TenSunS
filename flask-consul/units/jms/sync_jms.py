@@ -2,7 +2,7 @@ import datetime,requests,json,traceback
 from units import consul_kv,consul_manager,myaes
 from units.config_log import *
 
-resource_type = ["ecs", "redis", "rds", "mongodb", "polardb"]
+resource_type = ["ecs", "redis", "rds", "mongodb", "polardb", "clickhouse"]
 
 
 # 创建节点
@@ -110,19 +110,24 @@ def update_jms(jms_ver,jms_url,headers,new_node_dict,node_id,cloud,account,ecs_i
             ecs_url = f"{jms_url}/api/v1/assets/databases/"
             payload["protocols"] = [{"name": proto, "port": port}]
             payload.update({"db_name": "0", "use_ssl": False, "allow_invalid_cert": False})
-            if float(v['ver']) < 6:
-                payload["platform"] = '24'
-            else:
-                payload["platform"] = "25"
+            # if float(v['ver']) < 6:
+            #     payload["platform"] = '24'
+            # else:
+            payload["platform"] = "25"
         elif platform == 'Mysql':
             ecs_url = f"{jms_url}/api/v1/assets/databases/"
             payload["platform"] = '17'
             payload["protocols"] = [{"name": proto, "port": port}]
         elif platform == 'Mongodb':
             ecs_url = f"{jms_url}/api/v1/assets/databases/"
-            payload["platform"] = '23'
+            payload["platform"] = '33'
             payload["protocols"] = [{"name": proto, "port": port}]
             payload.update({"db_name": "admin"})
+        elif platform == 'Clickhouse':
+            ecs_url = f"{jms_url}/api/v1/assets/databases/"
+            payload["platform"] = '22'
+            payload["protocols"] = [{"name": proto, "port": port}]
+            payload.update({"db_name": "default"})
         else:
             logger.error(f"未匹配到{platform}！")
             continue

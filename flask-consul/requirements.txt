@@ -27,6 +27,8 @@ alibabacloud_bssopenapi20171214==2.0.6
 aliyun-python-sdk-cms==7.0.32
 alibabacloud_dds20151201==8.1.1
 alibabacloud_polardb20170801==5.4.0
+alibabacloud_clickhouse20191111==3.1.12
+alibabacloud_clickhouse20230522==1.0.2
 tencentcloud-sdk-python-common==3.0.779
 tencentcloud-sdk-python-cvm==3.0.779
 tencentcloud-sdk-python-cdb==3.0.779

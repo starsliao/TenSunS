@@ -35,7 +35,7 @@ class Edit(Resource):
             region = args['region']
             restype = ['group']
             interval = {'proj_interval': 60, 'ecs_interval': 10, 'rds_interval': 20, 'redis_interval': 20,
-                        'polardb_interval': 20, 'mongodb_interval': 20}
+                        'polardb_interval': 20, 'mongodb_interval': 20, 'clickhouse_interval': 20}
             isextip = False
             for i in job_list:
                 if f'{vendor}/{account}/group' == i['id']:
@@ -56,6 +56,9 @@ class Edit(Resource):
                 elif f'{vendor}/{account}/mongodb/{region}' == i['id']:
                     restype.append('mongodb')
                     interval['mongodb_interval'] = i['minutes']
+                elif f'{vendor}/{account}/clickhouse/{region}' == i['id']:
+                    restype.append('clickhouse')
+                    interval['clickhouse_interval'] = i['minutes']
             return {'code': 20000, 'restype': restype, 'interval': interval, 'isextip': isextip}
     def post(self,stype):
         job_list = list(consul_kv.get_kv_dict(f'ConsulManager/jobs').values())
@@ -73,6 +76,7 @@ class Edit(Resource):
             polardb_interval = int(editjob_dict['polardb_interval'])
             mongodb_interval = int(editjob_dict['mongodb_interval'])
             redis_interval = int(editjob_dict['redis_interval'])
+            clickhouse_interval = int(editjob_dict['clickhouse_interval'])
             logger.info(f'{editjob_dict}')
             if editjob_dict['akskswitch']:
                 ak = editjob_dict['ak']
@@ -91,6 +95,7 @@ class Edit(Resource):
             polardb_jobid = f'{vendor}/{account}/polardb/{region}'
             mongodb_jobid = f'{vendor}/{account}/mongodb/{region}'
             redis_jobid = f'{vendor}/{account}/redis/{region}'
+            clickhouse_jobid = f'{vendor}/{account}/clickhouse/{region}'
             if 'ecs' in restype:
                 isecs = [x for x in job_list if x['id'] == f'{vendor}/{account}/ecs/{region}']
                 if len(isecs) == 1:
@@ -206,6 +211,28 @@ class Edit(Resource):
                 try:
                     consul_kv.del_key(f'ConsulManager/jobs/{mongodb_jobid}')
                     deljob(mongodb_jobid)
+                except:
+                    pass
+
+            if 'clickhouse' in restype:
+                isclickhouse = [x for x in job_list if x['id'] == f'{vendor}/{account}/clickhouse/{region}']
+                if len(isclickhouse) == 1:
+                    if clickhouse_interval != isclickhouse[0]['minutes']:
+                        isclickhouse[0]['minutes'] = clickhouse_interval
+                        consul_kv.put_kv(f'ConsulManager/jobs/{clickhouse_jobid}',isclickhouse[0])
+                        modjob_interval(clickhouse_jobid,clickhouse_interval)
+                else:
+                    job_func = f"__main__:{vendor}.clickhouse"
+                    job_args = [account,region]
+                    job_interval = clickhouse_interval
+                    addjob(clickhouse_jobid, job_func, job_args, job_interval)
+                    job_dict = {'id':clickhouse_jobid,'func':job_func,'args':job_args,'minutes':job_interval,
+                                "trigger": "interval","replace_existing": True}
+                    consul_kv.put_kv(f'ConsulManager/jobs/{clickhouse_jobid}',job_dict)
+            else:
+                try:
+                    consul_kv.del_key(f'ConsulManager/jobs/{clickhouse_jobid}')
+                    deljob(clickhouse_jobid)
                 except:
                     pass
 
