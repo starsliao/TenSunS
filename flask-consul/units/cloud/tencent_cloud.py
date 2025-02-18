@@ -143,7 +143,7 @@ def ecs(account,region,isextip=False):
                 'ostype': 'windows' if 'win' in i.OsName.lower() else 'linux',
                 'status': i.InstanceState, 'region': region, 'ip':i.PrivateIpAddresses[0],
                 'cpu': f'{i.CPU}核','mem': f'{i.Memory}GB',
-                'exp': '按量' if i.ExpiredTime is None else i.ExpiredTime.split('T')[0],'ecstag': i.get('Tags',[])
+                'exp': '按量' if i.ExpiredTime is None else i.ExpiredTime.split('T')[0],'ecstag': [] if i.Tags is None else i.Tags)
                 } for i in ecs_list}
             offset = offset + 100
             ecs_dict.update(ecs_dict_temp)
