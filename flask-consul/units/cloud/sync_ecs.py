@@ -77,7 +77,7 @@ def w2consul(vendor,account,region,ecs_dict):
         if vendor == 'tencent_cloud' and v['ecstag'] != []:
             ecstag_dict = {}
             for ecstag in v['ecstag']:
-                ecstag_dict[ecstag['Key']] = ecstag['Value']
+                ecstag_dict[ecstag.Key] = ecstag.Value
             data['Meta'].update(ecstag_dict)
         
         reg = requests.put(puturl, headers=headers, data=json.dumps(data))
