@@ -73,6 +73,13 @@ def w2consul(vendor,account,region,ecs_dict):
                 if ecstag['TagKey'].encode().isalnum():
                     ecstag_dict[ecstag['TagKey']] = ecstag['TagValue']
             data['Meta'].update(ecstag_dict)
+
+        if vendor == 'tencent_cloud' and v['ecstag'] != []:
+            ecstag_dict = {}
+            for ecstag in v['ecstag']:
+                ecstag_dict[ecstag['Key']] = ecstag['Value']
+            data['Meta'].update(ecstag_dict)
+        
         reg = requests.put(puturl, headers=headers, data=json.dumps(data))
         if reg.status_code == 200:
             pass
