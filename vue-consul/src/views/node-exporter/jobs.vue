@@ -111,7 +111,7 @@
           <span v-if="ecsJob.vendor === 'huaweicloud'"><br>
             <font size="3px" color="#ff0000">需要开通企业项目(更多-企业-项目管理)</font>
           </span>
-          <span v-if="ecsJob.vendor === 'alicloud' || ecsJob.vendor === 'tencent_cloud'">已支持采集ECS标签</span>
+          <span v-if="ecsJob.vendor === 'alicloud' || ecsJob.vendor === 'tencent_cloud'">已支持采集ECS标签(key不能是中文)</span>
         </el-form-item>
         <el-form-item prop="account">
           <span slot="label">
