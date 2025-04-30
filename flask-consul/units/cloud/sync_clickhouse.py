@@ -7,25 +7,25 @@ headers = {'X-Consul-Token': consul_token}
 geturl = f'{consul_url}/agent/services'
 delurl = f'{consul_url}/agent/service/deregister'
 puturl = f'{consul_url}/agent/service/register'
-def w2consul(vendor,account,region,rds_dict):
-    service_name = f'{vendor}_{account}_rds'
+def w2consul(vendor,account,region,clickhouse_dict):
+    service_name = f'{vendor}_{account}_clickhouse'
     params = {'filter': f'Service == "{service_name}" and "{region}" in Tags and Meta.account == "{account}"'}
     try:
-        consul_rds_iid_list = requests.get(geturl, headers=headers, params=params).json().keys()
+        consul_clickhouse_iid_list = requests.get(geturl, headers=headers, params=params).json().keys()
     except:
-        consul_rds_iid_list = []
+        consul_clickhouse_iid_list = []
         
-    #在consul中删除云厂商不存在的rds
-    for del_rds in [x for x in consul_rds_iid_list if x not in rds_dict.keys()]:
-        dereg = requests.put(f'{delurl}/{del_rds}', headers=headers)
+    #在consul中删除云厂商不存在的clickhouse
+    for del_clickhouse in [x for x in consul_clickhouse_iid_list if x not in clickhouse_dict.keys()]:
+        dereg = requests.put(f'{delurl}/{del_clickhouse}', headers=headers)
         if dereg.status_code == 200:
             logger.info(f"code: 20000, data: {account}-删除成功！")
         else:
             logger.info(f"code: 50000, data: {dereg.status_code}:{dereg.text}")
     off,on = 0,0
-    for k,v in rds_dict.items():
+    for k,v in clickhouse_dict.items():
         iid = k
-        #对consul中关机的rds做标记。
+        #对consul中关机的clickhouse做标记。
         if v['status'] in ['SHUTDOWN','非运行中']:
             off = off + 1
             tags = ['OFF',v['itype'],v['ver'], region]
@@ -34,9 +34,9 @@ def w2consul(vendor,account,region,rds_dict):
             on = on + 1
             tags = ['ON',v['itype'],v['ver'],region]
             stat = 'on'
-        custom_rds = consul_kv.get_value(f'ConsulManager/assets/sync_rds_custom/{iid}')
-        port = custom_rds.get('port')
-        ip = custom_rds.get('ip')
+        custom_clickhouse = consul_kv.get_value(f'ConsulManager/assets/sync_clickhouse_custom/{iid}')
+        port = custom_clickhouse.get('port')
+        ip = custom_clickhouse.get('ip')
         if port == None:
             port = v['port']
         if ip == None:
@@ -57,10 +57,7 @@ def w2consul(vendor,account,region,rds_dict):
                 'account': account,
                 'itype': v['itype'],
                 'vendor': vendors.get(vendor,'未找到'),
-                'os': "mysql",
-                'disk': v['disk'],
-                'cpu': v['cpu'],
-                'mem': v['mem'],
+                'os': "clickhouse",
                 'ver': v['ver'],
                 'domain':v['domain'],
                 'exp': v['exp'],

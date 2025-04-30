@@ -8,7 +8,7 @@ geturl = f'{consul_url}/agent/services'
 delurl = f'{consul_url}/agent/service/deregister'
 puturl = f'{consul_url}/agent/service/register'
 def w2consul(vendor,account,region,rds_dict):
-    service_name = f'{vendor}_{account}_rds'
+    service_name = f'{vendor}_{account}_polardb'
     params = {'filter': f'Service == "{service_name}" and "{region}" in Tags and Meta.account == "{account}"'}
     try:
         consul_rds_iid_list = requests.get(geturl, headers=headers, params=params).json().keys()
@@ -58,9 +58,6 @@ def w2consul(vendor,account,region,rds_dict):
                 'itype': v['itype'],
                 'vendor': vendors.get(vendor,'未找到'),
                 'os': "mysql",
-                'disk': v['disk'],
-                'cpu': v['cpu'],
-                'mem': v['mem'],
                 'ver': v['ver'],
                 'domain':v['domain'],
                 'exp': v['exp'],

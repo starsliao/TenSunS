@@ -57,6 +57,7 @@ def w2consul(vendor,account,region,redis_dict):
                 'account': account,
                 'itype': v['itype'],
                 'vendor': vendors.get(vendor,'未找到'),
+                'os': "redis",
                 'mem': v['mem'],
                 'ver': v['ver'],
                 'ip':v['ip'],
