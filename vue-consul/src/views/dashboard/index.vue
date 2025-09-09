@@ -9,6 +9,13 @@
         class="dashboard-text">🚀StarsL.cn</el-link>
     </el-badge>
     <el-timeline>
+      <el-timeline-item timestamp="2025/09/09" placement="top">
+        <el-card>
+          <h4>v1.2.1</h4>
+          <p>支持腾讯云采集ECS标签</p>
+          <p>增加阿里云部分区域。</p>
+        </el-card>
+      </el-timeline-item>
       <el-timeline-item timestamp="2025/01/13" placement="top">
         <el-card>
           <h4>v1.2.0</h4>
