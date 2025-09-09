@@ -144,9 +144,6 @@
             <el-checkbox label="ecs">ECS</el-checkbox>
             <el-checkbox label="rds">MySQL</el-checkbox>
             <el-checkbox label="redis">REDIS</el-checkbox>
-            <el-checkbox label="polardb">POLARDB</el-checkbox>
-            <el-checkbox label="mongodb">MONGODB</el-checkbox>
-            <el-checkbox label="clickhouse">CLICKHOUSE</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="restype.includes('ecs')" label="优先获取外网IP" prop="isextip">
@@ -172,15 +169,6 @@
         </el-form-item>
         <el-form-item v-if="restype.includes('redis')" label="REDIS同步间隔(分钟)" prop="redis_interval">
           <el-input v-model="ecsJob.redis_interval" />
-        </el-form-item>
-        <el-form-item v-if="restype.includes('polardb')" label="POLARDB同步间隔(分钟)" prop="polardb_interval">
-          <el-input v-model="ecsJob.polardb_interval" />
-        </el-form-item>
-        <el-form-item v-if="restype.includes('mongodb')" label="MONGODB同步间隔(分钟)" prop="mongodb_interval">
-          <el-input v-model="ecsJob.mongodb_interval" />
-        </el-form-item>
-        <el-form-item v-if="restype.includes('clickhouse')" label="CLICKHOUSE同步间隔(分钟)" prop="clickhouse_interval">
-          <el-input v-model="ecsJob.clickhouse_interval" />
         </el-form-item>
       </el-form>
 
@@ -235,9 +223,6 @@
             <el-checkbox label="ecs">ECS</el-checkbox>
             <el-checkbox label="rds">MySQL</el-checkbox>
             <el-checkbox label="redis">REDIS</el-checkbox>
-            <el-checkbox label="polardb">POLARDB</el-checkbox>
-            <el-checkbox label="mongodb">MONGODB</el-checkbox>
-            <el-checkbox label="clickhouse">CLICKHOUSE</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="editJob.restype.includes('ecs')" label="优先获取外网IP" prop="isextip">
@@ -263,15 +248,6 @@
         </el-form-item>
         <el-form-item v-if="editJob.restype.includes('redis')" label="REDIS同步间隔(分钟)" prop="redis_interval">
           <el-input v-model="editJob.redis_interval" />
-        </el-form-item>
-        <el-form-item v-if="editJob.restype.includes('polardb')" label="POLARDB同步间隔(分钟)" prop="polardb_interval">
-          <el-input v-model="editJob.polardb_interval" />
-        </el-form-item>
-        <el-form-item v-if="editJob.restype.includes('mongodb')" label="MONGODB同步间隔(分钟)" prop="mongodb_interval">
-          <el-input v-model="editJob.mongodb_interval" />
-        </el-form-item>
-        <el-form-item v-if="editJob.restype.includes('clickhouse')" label="CLICKHOUSE同步间隔(分钟)" prop="clickhouse_interval">
-          <el-input v-model="editJob.clickhouse_interval" />
         </el-form-item>
       </el-form>
 
@@ -417,8 +393,7 @@ export default {
         ]
       },
 
-      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10,
-        rds_interval: 20, polardb_interval: 20, redis_interval: 20, mongodb_interval: 20, clickhouse_interval: 20 },
+      ecsJob: { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20 },
       editJob: { restype: ['group'] },
       cloud_dict: {},
       upjob: { jobid: '', interval: '' },
@@ -448,12 +423,6 @@ export default {
         return 'warning-row'
       } else if (row.itype === 'redis') {
         return 'info-row'
-      } else if (row.itype === 'polardb') {
-        return 'warning-row'
-      } else if (row.itype === 'mongodb') {
-        return 'warning-row'
-      } else if (row.itype === 'clickhouse') {
-        return 'warning-row'
       }
       return ''
     },
@@ -481,21 +450,18 @@ export default {
         this.editJob.ecs_interval = response.interval.ecs_interval
         this.editJob.rds_interval = response.interval.rds_interval
         this.editJob.redis_interval = response.interval.redis_interval
-        this.editJob.polardb_interval = response.interval.polardb_interval
-        this.editJob.mongodb_interval = response.interval.mongodb_interval
-        this.editJob.clickhouse_interval = response.interval.clickhouse_interval
         this.listLoading = false
       })
     },
     handleEdit() {
-      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20, polardb_interval: 20, mongodb_interval: 20, clickhouse_interval: 20, isextip: false }
+      this.editJob = { vendor: '', akskswitch: false, ak: '', sk: '', region: '', account: '', restype: ['group'], proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20, isextip: false }
       getCloud().then(response => {
         this.cloud_dict = response.cloud_dict
       })
       this.editFormVisible = true
     },
     handleCreate() {
-      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20, polardb_interval: 20, mongodb_interval: 20, clickhouse_interval: 20, isextip: false }
+      this.ecsJob = { vendor: '', ak: '', sk: '', region: [], account: '', proj_interval: 60, ecs_interval: 10, rds_interval: 20, redis_interval: 20, isextip: false }
       this.ecsJob.account = this.query.account
       this.newFormVisible = true
     },

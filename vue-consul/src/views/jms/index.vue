@@ -57,26 +57,6 @@
           rdp端口：<el-input v-model="jms_config.winport" style="width: 72px;" />
           &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.winuid" style="width: 300px;" />
         </div>
-        <div class="demo-input-suffix">
-          <h4>Redis：</h4>
-          redis端口：<el-input v-model="jms_config.redisport" style="width: 72px;" />
-          &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.redisuid" style="width: 300px;" />
-        </div>
-        <div class="demo-input-suffix">
-          <h4>Mongodb：</h4>
-          mongodb端口：<el-input v-model="jms_config.mongodbport" style="width: 72px;" />
-          &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.mongodbuid" style="width: 300px;" />
-        </div>
-        <div class="demo-input-suffix">
-          <h4>Clickhouse：</h4>
-          clickhouse端口：<el-input v-model="jms_config.clickhouseport" style="width: 72px;" />
-          &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.clickhouseuid" style="width: 300px;" />
-        </div>
-        <div class="demo-input-suffix">
-          <h4>Mysql：</h4>
-          mysql端口：<el-input v-model="jms_config.mysqlport" style="width: 72px;" />
-          &nbsp;&nbsp;管理用户ID：<el-input v-model="jms_config.mysqluid" style="width: 300px;" />
-        </div>
         <hr style="FILTER: alpha(opacity=100,finishopacity=0,style=2)" align=left width="96%" SIZE=1>
         <h3>全局特殊主机【管理用户】信息：</h3>
         <el-input v-model="jms_config.custom_ecs_info" :autosize="{ minRows: 5, maxRows: 18 }" type="textarea"
@@ -97,10 +77,6 @@
       <el-table-column prop="account" label="账号" sortable align="center" width="100" show-overflow-tooltip />
       <el-table-column prop="count_linux" label="Linux" sortable align="center" width="90" />
       <el-table-column prop="count_win" label="Win" sortable align="center" width="80" />
-      <el-table-column prop="count_redis" label="Redis" sortable align="center" width="80" />
-      <el-table-column prop="count_mysql" label="Mysql" sortable align="center" width="80" />
-      <el-table-column prop="count_mongodb" label="Mongodb" sortable align="center" width="80" />
-      <el-table-column prop="count_clickhouse" label="Clickhouse" sortable align="center" width="80" />
       <el-table-column prop="count_mem" label="总内存" sortable align="center" width="120" />
       <el-table-column prop="count_cpu" label="总CPU" sortable align="center" width="110" />
       <el-table-column prop="count_ecs" label="资源数" sortable align="center" width="100">
@@ -154,9 +130,7 @@ import { getJmsList, getJmsConfig, postJmsConfig, postJmsSwitch, postJmsSync } f
 export default {
   data() {
     return {
-      jms_config: { ver: 'V2', url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '',
-        redisport: '6379', redisuid: '', mysqlport: '3306', mysqluid: '', mongodbport: '3717', mongodbuid: '',
-        clickhouseport: '9000', clickhouseuid: '', custom_ecs_info: '' },
+      jms_config: { ver: 'V2', url: '', token: '', linuxport: '22', linuxuid: '', winport: '3389', winuid: '', custom_ecs_info: '' },
       listLoading: false,
       dialogFormVisible: false,
       query: { vendor: '', account: '' },
