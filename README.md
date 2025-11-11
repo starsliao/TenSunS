@@ -80,6 +80,13 @@
   2. 脚本执行完成后**只会生成TenSunS的安装yaml文件和Consul的安装yaml文件**，不会做其它操作，需要执行`kubectl apply`命令来完成安装。
      >TenSunS是无状态的，有一个初始化容器检查consul连接是否成功，所以建议先安装Consul。Consul是StatefulSet，需要先配置好存储（volumeClaimTemplates），默认是华为云自动创建存储的配置例子，请自行参考修改。
   3. 完成安装后即可使用任意K8S节点IP+31026端口访问，调用的service是tensuns。
+#####
+- ARM镜像
+```
+swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:1.12-arm  
+swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:1.2.1-arm 
+swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:1.2.1-arm
+```
 ##### 注意
 - 所有安装方式Consul的管理token会自动生成，可以在Consul的配置文件或TenSunS的docker-compose.yaml中查看。
 - 已经部署Consul的用户可以在TenSunS的docker-compose.yaml或者K8S yaml文件的环境变量部分找到:`consul_token`,`consul_url`,并配置上你的Consul信息;环境变量`admin_passwd`是TenSunS登录admin账号的密码。
@@ -155,3 +162,4 @@
 ---
 
 ## 💖感谢伟大的[Flask](https://github.com/pallets/flask)、[VUE](https://github.com/vuejs/vue)、[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+
