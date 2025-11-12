@@ -82,7 +82,7 @@
   3. 完成安装后即可使用任意K8S节点IP+31026端口访问，调用的service是tensuns。
 ##### ARM镜像
   ```
-  swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:1.12-arm  
+  swr.cn-south-1.myhuaweicloud.com/starsl.cn/consul:1.16.0-arm64
   swr.cn-south-1.myhuaweicloud.com/starsl.cn/flask-consul:1.2.1-arm 
   swr.cn-south-1.myhuaweicloud.com/starsl.cn/nginx-consul:1.2.1-arm
   ```
@@ -161,5 +161,6 @@
 ---
 
 ## 💖感谢伟大的[Flask](https://github.com/pallets/flask)、[VUE](https://github.com/vuejs/vue)、[vue-admin-template](https://github.com/PanJiaChen/vue-admin-template)
+
 
 
